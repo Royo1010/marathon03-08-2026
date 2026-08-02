@@ -1,0 +1,20 @@
+{
+  "name": "Marathon 3:30 — Loopbandschema",
+  "short_name": "Marathon 3:30",
+  "description": "Persoonlijk zestienweeks loopband-marathonschema richting 22 november 2026.",
+  "id": "/marathon-330/",
+  "start_url": "/marathon-330/",
+  "scope": "/marathon-330/",
+  "display": "standalone",
+  "background_color": "#0F141A",
+  "theme_color": "#0F141A",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
