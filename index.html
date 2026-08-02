@@ -3,75 +3,46 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#0F141A" />
+    <meta name="theme-color" content="#10151c" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Marathon" />
+    <meta name="apple-mobile-web-app-title" content="Marathon 3:30" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="format-detection" content="telephone=no" />
-    <link rel="manifest" href="./manifest.json?v=marathon-plan-2026-v1" />
+    <link rel="manifest" href="./manifest.json?v=simple-week-v2" />
     <link rel="icon" href="./icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="./icon.svg" />
-    <link rel="stylesheet" href="./style.css?v=marathon-plan-2026-v1" />
+    <link rel="stylesheet" href="./style.css?v=simple-week-v2" />
     <title>Marathon 3:30</title>
   </head>
   <body>
     <div class="app-shell">
       <header class="topbar">
-        <button id="menu-toggle" class="icon-button" type="button" aria-label="Menu openen" aria-expanded="false">
-          <span></span>
-          <span></span>
-          <span></span>
+        <button id="brand-home" class="header-brand" type="button" aria-label="Ga naar de huidige trainingsweek">
+          <span>Persoonlijk loopbandschema</span>
+          <strong>Marathon 3:30</strong>
         </button>
-        <div class="header-center-nav" aria-label="Dagnavigatie">
-          <button id="header-day-prev" class="header-day-button" type="button" aria-label="Vorige geplande sessie">‹</button>
-          <button id="brand-home" class="brand home-button" type="button" aria-label="Ga naar vandaag">
-            <span class="eyebrow">Marathonschema</span>
-            <span class="brand-title">Marathon 3:30</span>
-          </button>
-          <button id="header-day-next" class="header-day-button" type="button" aria-label="Volgende geplande sessie">›</button>
-        </div>
-        <button id="today-pill" class="date-pill" type="button" aria-label="Countdown tot marathon openen"></button>
       </header>
 
-      <div id="menu-overlay" class="menu-overlay" hidden>
-        <nav class="menu-panel" aria-label="Hoofdnavigatie">
-          <div class="menu-head">
-            <button class="menu-title-button" type="button" data-menu-close>Menu</button>
-            <button id="menu-close" class="close-button" type="button" aria-label="Menu sluiten">×</button>
-          </div>
-          <button class="menu-item is-active" type="button" data-view="today">Vandaag</button>
-          <button class="menu-item" type="button" data-view="week">Week</button>
-          <button class="menu-item" type="button" data-view="plan">Schema</button>
-          <button class="menu-item" type="button" data-view="progress">Voortgang</button>
-          <button class="menu-item" type="button" data-view="data">Data</button>
-        </nav>
-      </div>
-
-      <div id="countdown-overlay" class="countdown-overlay" hidden>
-        <section class="countdown-sheet" role="dialog" aria-modal="true" aria-labelledby="countdown-title">
-          <div class="menu-head">
-            <span id="countdown-title">Countdown tot marathon</span>
-            <button class="close-button" type="button" data-countdown-close aria-label="Countdown sluiten">×</button>
-          </div>
-          <div id="countdown-content" class="countdown-content"></div>
-        </section>
-      </div>
-
-      <div id="milestone-overlay" class="countdown-overlay milestone-overlay" hidden>
-        <section class="countdown-sheet milestone-sheet" role="dialog" aria-modal="true" aria-labelledby="milestone-title">
-          <div class="menu-head">
-            <span id="milestone-title">Fase-update</span>
-            <button class="close-button" type="button" data-milestone-close aria-label="Mijlpaal sluiten">×</button>
-          </div>
-          <div id="milestone-content" class="countdown-content milestone-content"></div>
-        </section>
-      </div>
-
       <main id="app" class="content" aria-live="polite"></main>
+
+      <nav class="bottom-nav" aria-label="Hoofdnavigatie">
+        <button class="is-active" type="button" data-view="week" aria-current="page">
+          <span class="nav-icon" aria-hidden="true">▤</span>
+          <span>Week</span>
+        </button>
+        <button type="button" data-view="plan">
+          <span class="nav-icon" aria-hidden="true">≡</span>
+          <span>Schema</span>
+        </button>
+        <button type="button" data-view="info">
+          <span class="nav-icon" aria-hidden="true">i</span>
+          <span>Informatie</span>
+        </button>
+      </nav>
     </div>
 
     <script src="./training-data.js?v=marathon-plan-2026-v1"></script>
-    <script src="./app.js?v=marathon-plan-2026-v1"></script>
+    <script src="./app.js?v=simple-week-v2"></script>
   </body>
 </html>
