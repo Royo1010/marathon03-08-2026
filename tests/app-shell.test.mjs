@@ -160,7 +160,7 @@ test("Schema, Informatie en Marathonoverzicht zijn bereikbaar", () => {
   harness.click({ "[data-view]": { dataset: { view: "info" } } });
   assert.match(harness.app.innerHTML, /Tempo en afkortingen/);
   assert.match(harness.app.innerHTML, /Inspanningsniveaus/);
-  assert.match(harness.app.innerHTML, /Versie 2026\.08\.30-2/);
+  assert.match(harness.app.innerHTML, /Versie 2026\.08\.30-3/);
 
   harness.brandHome.click();
   assert.equal(harness.context.window.MarathonApp.state.view, "marathon");
@@ -168,10 +168,28 @@ test("Schema, Informatie en Marathonoverzicht zijn bereikbaar", () => {
   assert.match(harness.app.innerHTML, /83[\s\S]*Dagen te gaan/);
   assert.match(harness.app.innerHTML, /47[\s\S]*Trainingen te gaan/);
   assert.match(harness.app.innerHTML, /0 van 47 trainingen voltooid/);
+  assert.match(harness.app.innerHTML, /Gepland[\s\S]*km vóór de marathon/);
+  assert.match(harness.app.innerHTML, /Weekvolume/);
+  assert.match(harness.app.innerHTML, /Cumulatieve opbouw/);
+  assert.match(harness.app.innerHTML, /Confidence runs/);
+  assert.match(harness.app.innerHTML, /Officiële tests/);
 
   harness.click({ "[data-back-week]": { dataset: {} } });
   assert.equal(harness.context.window.MarathonApp.state.view, "week");
   assert.match(harness.app.innerHTML, /Week 36/);
+});
+
+test("Marathonoverzicht rekent voltooide trainingen en kilometers uit actuele voortgang", () => {
+  const harness = createHarness();
+  const workout = harness.context.window.MARATHON_PLAN.weeks[0].workouts[0];
+
+  harness.click({ "[data-toggle-complete]": { dataset: { toggleComplete: workout.workoutId } } });
+  harness.brandHome.click();
+
+  assert.match(harness.app.innerHTML, /1 van 47 trainingen voltooid/);
+  assert.match(harness.app.innerHTML, /Voltooid[\s\S]*7,3[\s\S]*km gelogd/);
+  assert.match(harness.app.innerHTML, /Week 36/);
+  assert.match(harness.app.innerHTML, /Laatste voltooid[\s\S]*Week 36 · Training 1/);
 });
 
 test("Loopbandmodus gebruikt dezelfde blokken en berekent cumulatieve wisseltijden", () => {
@@ -194,6 +212,8 @@ test("Loopbandmodus gebruikt dezelfde blokken en berekent cumulatieve wisseltijd
   assert.match(harness.app.innerHTML, /Loopbandblokken/);
   assert.match(harness.app.innerHTML, /15:00 – 23:00/);
   assert.match(harness.app.innerHTML, /12 km\/u/);
+  assert.match(harness.app.innerHTML, /1%/);
+  assert.doesNotMatch(harness.app.innerHTML, /<strong>—<\/strong>/);
   assert.match(harness.app.innerHTML, /Start training/);
 
   harness.click({ "[data-close-treadmill]": { dataset: {} } });

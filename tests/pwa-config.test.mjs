@@ -15,11 +15,11 @@ test("manifest en assets gebruiken GitHub Pages-veilige relatieve paden", () => 
   assert.equal(manifest.display, "standalone");
   assert.ok(manifest.icons.every((icon) => icon.src.startsWith("./")));
   assert.match(html, /apple-mobile-web-app-capable/);
-  assert.match(html, /apple-touch-icon\.png\?v=2026\.08\.30-2/);
-  assert.match(html, /manifest\.json\?v=2026\.08\.30-2/);
-  assert.match(html, /training-data\.js\?v=2026\.08\.30-2/);
-  assert.match(read("app.js"), /APP_VERSION = "2026\.08\.30-2"/);
-  assert.match(read("service-worker.js"), /APP_VERSION = "2026\.08\.30-2"/);
+  assert.match(html, /apple-touch-icon\.png\?v=2026\.08\.30-3/);
+  assert.match(html, /manifest\.json\?v=2026\.08\.30-3/);
+  assert.match(html, /training-data\.js\?v=2026\.08\.30-3/);
+  assert.match(read("app.js"), /APP_VERSION = "2026\.08\.30-3"/);
+  assert.match(read("service-worker.js"), /APP_VERSION = "2026\.08\.30-3"/);
   assert.doesNotMatch(html, /(?:href|src)="\//);
 });
 
@@ -73,12 +73,13 @@ test("Release B verwijdert een Release A-appcache maar geen andere cache", async
 });
 
 test("meegeleverde markdownbron is exact de bron van de gegenereerde dataset", () => {
-  const markdown = read("marathon-schema-3u30.md");
+  const markdown = read("marathon-schema-3u30-expliciete-helling.md");
   const data = read("training-data.js");
 
   assert.match(markdown, /MARATHONSCHEMA 3:30 — DEFINITIEVE VERSIE/);
   assert.match(markdown, /# WEEK 36/);
   assert.match(markdown, /# WEEK 47 — MARATHONWEEK/);
-  assert.match(data, /"sourceFile": "marathon-schema-3u30\.md"/);
-  assert.match(data, /"schemaVersion": "marathon-schema-3u30-2026\.08\.30-1"/);
+  assert.match(markdown, /Ieder loopbandblok heeft altijd een expliciet hellingspercentage/);
+  assert.match(data, /"sourceFile": "marathon-schema-3u30-expliciete-helling\.md"/);
+  assert.match(data, /"schemaVersion": "marathon-schema-3u30-expliciete-helling-2026\.08\.30-1"/);
 });

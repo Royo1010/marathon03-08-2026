@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "2026.08.30-2";
+  const APP_VERSION = "2026.08.30-3";
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
   const APP_DATA_VERSION = 3;
   const plan = window.MARATHON_PLAN;
@@ -504,7 +504,7 @@
             <span class="segment-kind">${escapeHtml(capitalize(String(segment.type || "onderdeel").replace(/-/g, " ")))}</span>
             <strong>${escapeHtml(segment.display)}</strong>
             <span>${Number.isFinite(Number(segment.speedKmh)) && Number(segment.speedKmh) > 0 ? `${formatNumber(segment.speedKmh)} km/u` : "zelf sturen"}</span>
-            <span>${segment.inclinePercent == null ? "—" : `${formatNumber(segment.inclinePercent)}%`}</span>
+            <span>${segment.inclinePercent == null ? "Buiten" : `${formatNumber(segment.inclinePercent)}%`}</span>
           </div>`).join("")}
         ${group.omitRecoveryAfterLast ? `<p class="segment-footnote">Na de laatste herhaling vervalt het herstelstuk, zoals in het schema beschreven.</p>` : ""}
         ${(group.segments || []).some((segment) => segment.instruction) ? `<p class="segment-footnote">${escapeHtml(group.segments.map((segment) => segment.instruction).filter(Boolean).join(" "))}</p>` : ""}
@@ -550,7 +550,7 @@
   }
 
   function treadmillInclineLabel(block) {
-    return block?.inclinePercent == null ? "—" : `${formatNumber(block.inclinePercent)}%`;
+    return block?.inclinePercent == null ? "Buiten" : `${formatNumber(block.inclinePercent)}%`;
   }
 
   function renderTreadmillBlock(block, currentIndex) {
@@ -610,7 +610,7 @@
       <section class="treadmill-timeline" aria-label="Loopbandblokken">
         ${timeline.blocks.map((block) => renderTreadmillBlock(block, snapshot.currentIndex)).join("")}
       </section>
-      <p class="treadmill-note">Een streep bij helling betekent dat de bron voor dat blok geen vast percentage voorschrijft. Afstandstijden met ± zijn berekend uit afstand en snelheid.</p>
+      <p class="treadmill-note">Afstandstijden met ± zijn berekend uit afstand en snelheid. De marathon is een buitenwedstrijd en toont daarom “Buiten” in plaats van een hellingspercentage.</p>
     </section>`;
   }
 
@@ -695,38 +695,194 @@
     }) || milestones[0] || null;
   }
 
-  function renderMarathonOverview() {
+  function plannedDistanceKm(workout) {
+    const explicit = Number(workout?.estimatedDistanceKm);
+    if (Number.isFinite(explicit) && explicit >= 0) return explicit;
+    const calculated = Number(model.calculateWorkoutDistanceKm(workout));
+    return Number.isFinite(calculated) && calculated >= 0 ? calculated : 0;
+  }
+
+  function completedDistanceKm(workout) {
+    if (!isCompleted(workout.workoutId)) return 0;
+    const log = workoutLog(workout.workoutId) || {};
+    const actual = [log.actualDistanceKm, log.distanceKm, log.completedDistanceKm]
+      .map(Number)
+      .find((value) => Number.isFinite(value) && value >= 0);
+    return actual ?? plannedDistanceKm(workout);
+  }
+
+  function latestCompletedWorkout() {
+    return regularProgramWorkouts()
+      .filter((workout) => isCompleted(workout.workoutId))
+      .sort((a, b) => {
+        const aLog = workoutLog(a.workoutId) || {};
+        const bLog = workoutLog(b.workoutId) || {};
+        return String(bLog.updatedAt || bLog.completedDate || "").localeCompare(String(aLog.updatedAt || aLog.completedDate || ""));
+      })[0] || null;
+  }
+
+  function dashboardMetrics() {
     const programWorkouts = regularProgramWorkouts();
-    const completed = programWorkouts.filter((workout) => isCompleted(workout.workoutId)).length;
-    const remaining = programWorkouts.length - completed;
-    const progress = programWorkouts.length ? Math.round((completed / programWorkouts.length) * 100) : 0;
+    const completedWorkouts = programWorkouts.filter((workout) => isCompleted(workout.workoutId));
+    const totalPlannedKm = programWorkouts.reduce((total, workout) => total + plannedDistanceKm(workout), 0);
+    const totalCompletedKm = completedWorkouts.reduce((total, workout) => total + completedDistanceKm(workout), 0);
+    const currentWeek = weeks[currentPlanWeekIndex()] || weeks[0];
+    const weekly = weeks.map((week) => {
+      const weekWorkouts = (week.workouts || []).filter((workout) => workout.category !== "wedstrijd");
+      const plannedKm = weekWorkouts.reduce((total, workout) => total + plannedDistanceKm(workout), 0);
+      const completedKm = weekWorkouts.reduce((total, workout) => total + completedDistanceKm(workout), 0);
+      return { weekNumber: week.weekNumber, plannedKm, completedKm, current: week.weekId === currentWeek?.weekId };
+    });
+    const current = weekly.find((week) => week.current) || { plannedKm: 0, completedKm: 0 };
+    const confidence = workouts.filter((workout) => (workout.labels || []).includes("CONFIDENCE RUN"));
+    const tests = workouts.filter((workout) => workout.isTest);
+    const completedTests = tests.filter((workout) => isCompleted(workout.workoutId) || Object.keys(testResult(workout.workoutId)).some((key) => key !== "updatedAt"));
+    const nextTest = tests.find((workout) => !completedTests.includes(workout)) || null;
+    const latestTest = completedTests
+      .slice()
+      .sort((a, b) => String(testResult(b.workoutId).updatedAt || "").localeCompare(String(testResult(a.workoutId).updatedAt || "")))[0] || null;
+    const longRuns = programWorkouts.filter((workout) => workout.category === "lange-duur");
+    const longestPlanned = longRuns.slice().sort((a, b) => plannedDistanceKm(b) - plannedDistanceKm(a))[0] || null;
+    const longestCompleted = longRuns.filter((workout) => isCompleted(workout.workoutId)).sort((a, b) => completedDistanceKm(b) - completedDistanceKm(a))[0] || null;
+    return {
+      programWorkouts,
+      completedWorkouts,
+      completedCount: completedWorkouts.length,
+      remainingCount: programWorkouts.length - completedWorkouts.length,
+      trainingProgress: programWorkouts.length ? Math.round((completedWorkouts.length / programWorkouts.length) * 100) : 0,
+      totalPlannedKm,
+      totalCompletedKm,
+      totalRemainingKm: Math.max(0, totalPlannedKm - totalCompletedKm),
+      distanceProgress: totalPlannedKm ? Math.min(100, Math.round((totalCompletedKm / totalPlannedKm) * 100)) : 0,
+      averageCompletedKm: completedWorkouts.length ? totalCompletedKm / completedWorkouts.length : 0,
+      activeCompletedWeeks: weekly.filter((week) => week.completedKm > 0).length,
+      weekly,
+      currentWeek,
+      currentPlannedKm: current.plannedKm,
+      currentCompletedKm: current.completedKm,
+      confidence,
+      completedConfidence: confidence.filter((workout) => isCompleted(workout.workoutId)),
+      tests,
+      completedTests,
+      nextTest,
+      latestTest,
+      longestPlanned,
+      longestCompleted,
+      latestCompleted: latestCompletedWorkout(),
+    };
+  }
+
+  function renderWeeklyDistanceChart(metrics) {
+    const maxKm = Math.max(1, ...metrics.weekly.map((week) => week.plannedKm));
+    return `<section class="dashboard-card chart-card">
+      <div class="dashboard-title"><div><span>Weekvolume</span><h2>Gepland en voltooid</h2></div><div class="chart-legend"><span><i class="is-planned"></i>Gepland</span><span><i class="is-completed"></i>Voltooid</span></div></div>
+      <div class="weekly-bars" aria-label="Geplande en voltooide kilometers per week">
+        ${metrics.weekly.map((week) => {
+          const plannedHeight = Math.max(5, Math.round((week.plannedKm / maxKm) * 100));
+          const completedHeight = Math.max(0, Math.round((week.completedKm / maxKm) * 100));
+          return `<div class="week-bar-column${week.current ? " is-current" : ""}" title="Week ${week.weekNumber}: ${formatNumber(week.completedKm)} van ${formatNumber(week.plannedKm)} km">
+            <div class="week-bar-stack"><i class="bar-planned" style="height:${plannedHeight}%"></i><i class="bar-completed" style="height:${completedHeight}%"></i></div>
+            <strong>${week.weekNumber}</strong>
+          </div>`;
+        }).join("")}
+      </div>
+      <p>Per week telt blauw de werkelijk gelogde afstand, of de geplande afstand zodra een training als voltooid staat.</p>
+    </section>`;
+  }
+
+  function renderCumulativeDistanceChart(metrics) {
+    const width = 360;
+    const height = 154;
+    const plotLeft = 18;
+    const plotRight = 350;
+    const plotTop = 12;
+    const plotBottom = 124;
+    let plannedTotal = 0;
+    let completedTotal = 0;
+    const plannedTotals = metrics.weekly.map((week) => (plannedTotal += week.plannedKm));
+    const completedTotals = metrics.weekly.map((week) => (completedTotal += week.completedKm));
+    const maxKm = Math.max(1, ...plannedTotals);
+    const point = (value, index) => {
+      const x = plotLeft + ((plotRight - plotLeft) * index) / Math.max(1, metrics.weekly.length - 1);
+      const y = plotBottom - ((plotBottom - plotTop) * value) / maxKm;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    };
+    const labels = new Set([36, 39, 42, 45, 47]);
+    return `<section class="dashboard-card chart-card">
+      <div class="dashboard-title"><div><span>Programma-afstand</span><h2>Cumulatieve opbouw</h2></div><div class="chart-legend"><span><i class="is-line-planned"></i>Gepland</span><span><i class="is-line-completed"></i>Voltooid</span></div></div>
+      <svg class="cumulative-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Cumulatieve geplande en voltooide kilometers">
+        <line x1="${plotLeft}" y1="${plotTop}" x2="${plotRight}" y2="${plotTop}" class="chart-grid-line"></line>
+        <line x1="${plotLeft}" y1="${(plotTop + plotBottom) / 2}" x2="${plotRight}" y2="${(plotTop + plotBottom) / 2}" class="chart-grid-line"></line>
+        <line x1="${plotLeft}" y1="${plotBottom}" x2="${plotRight}" y2="${plotBottom}" class="chart-grid-line"></line>
+        <polyline points="${plannedTotals.map(point).join(" ")}" class="chart-line-planned"></polyline>
+        <polyline points="${completedTotals.map(point).join(" ")}" class="chart-line-completed"></polyline>
+        ${metrics.weekly.map((week, index) => labels.has(week.weekNumber) ? `<text x="${point(0, index).split(",")[0]}" y="144" text-anchor="middle">${week.weekNumber}</text>` : "").join("")}
+      </svg>
+      <p>${formatNumber(metrics.totalCompletedKm)} van ${formatNumber(metrics.totalPlannedKm)} geplande trainingskilometers voltooid.</p>
+    </section>`;
+  }
+
+  function renderMarathonOverview() {
+    const metrics = dashboardMetrics();
     const days = daysUntilMarathon();
     const fullWeeks = Math.floor(days / 7);
     const looseDays = days % 7;
     const next = nextIncompleteWorkout();
     const milestone = nextMilestoneWorkout();
-    const remainingConfidenceRuns = workouts.filter((workout) => (workout.labels || []).includes("CONFIDENCE RUN") && !isCompleted(workout.workoutId)).length;
+    const currentRemainingKm = Math.max(0, metrics.currentPlannedKm - metrics.currentCompletedKm);
+    const latestTestResult = metrics.latestTest ? testResult(metrics.latestTest.workoutId) : null;
     app.innerHTML = `<section class="marathon-overview">
       <header class="overview-header">
         <button type="button" data-back-week>← Terug naar week</button>
         <span>Marathon 3:30</span>
         <h1>${escapeHtml(formatDate(plan.config.marathonDate, { weekday: "long", day: "numeric", month: "long", year: "numeric" }))}</h1>
       </header>
-      <section class="countdown-primary"><strong>${days}</strong><span>Dagen te gaan</span><small>${fullWeeks} weken en ${looseDays} dagen</small></section>
+      <section class="countdown-grid">
+        <div class="countdown-primary"><strong>${days}</strong><span>Dagen te gaan</span></div>
+        <div class="countdown-secondary"><strong>${fullWeeks}</strong><span>Weken</span><strong>${looseDays}</strong><span>Dagen</span></div>
+      </section>
       <section class="overview-stat-grid">
-        <div><strong>${remaining}</strong><span>Trainingen te gaan</span><small>+ marathon</small></div>
-        <div><strong>${completed}</strong><span>Trainingen voltooid</span><small>van ${programWorkouts.length}</small></div>
+        <div><strong>${metrics.remainingCount}</strong><span>Trainingen te gaan</span><small>+ marathon</small></div>
+        <div><strong>${metrics.completedCount}</strong><span>Trainingen voltooid</span><small>van ${metrics.programWorkouts.length}</small></div>
       </section>
       <section class="program-progress">
-        <div><span>Programmavoortgang</span><strong>${progress}%</strong></div>
-        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progress}"><span style="width:${progress}%"></span></div>
-        <p>${completed} van ${programWorkouts.length} trainingen voltooid</p>
+        <div><span>Trainingsvoortgang</span><strong>${metrics.trainingProgress}%</strong></div>
+        <div class="progress-track" role="progressbar" aria-label="Trainingsvoortgang" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${metrics.trainingProgress}"><span style="width:${metrics.trainingProgress}%"></span></div>
+        <p>${metrics.completedCount} van ${metrics.programWorkouts.length} trainingen voltooid</p>
       </section>
+      <section class="km-stat-grid">
+        <div><span>Gepland</span><strong>${formatNumber(metrics.totalPlannedKm)}</strong><small>km vóór de marathon</small></div>
+        <div><span>Voltooid</span><strong>${formatNumber(metrics.totalCompletedKm)}</strong><small>km gelogd</small></div>
+        <div><span>Resterend</span><strong>${formatNumber(metrics.totalRemainingKm)}</strong><small>km gepland</small></div>
+      </section>
+      <section class="program-progress">
+        <div><span>Kilometervoortgang</span><strong>${metrics.distanceProgress}%</strong></div>
+        <div class="progress-track" role="progressbar" aria-label="Kilometervoortgang" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${metrics.distanceProgress}"><span style="width:${metrics.distanceProgress}%"></span></div>
+        <p>${formatNumber(metrics.totalCompletedKm)} van ${formatNumber(metrics.totalPlannedKm)} km voltooid</p>
+      </section>
+      <section class="dashboard-card week-km-card">
+        <div class="dashboard-title"><div><span>Huidige schemaweek</span><h2>Week ${metrics.currentWeek?.weekNumber || "-"}</h2></div><strong>${formatNumber(metrics.currentCompletedKm)} / ${formatNumber(metrics.currentPlannedKm)} km</strong></div>
+        <div class="week-km-values"><span>${formatNumber(currentRemainingKm)} km resterend</span><span>${metrics.currentWeek ? escapeHtml(metrics.currentWeek.periodLabel) : ""}</span></div>
+      </section>
+      ${renderWeeklyDistanceChart(metrics)}
+      ${renderCumulativeDistanceChart(metrics)}
       <section class="overview-next-grid">
         <article><span>Volgende training</span>${next ? `<strong>Week ${next.weekNumber} · Training ${next.trainingNumber}</strong><h2>${escapeHtml(capitalize(next.title))}</h2><p>${escapeHtml(workoutPrimarySummary(next))}</p>` : `<strong>Programma voltooid</strong><h2>De marathon wacht</h2>`}</article>
         <article><span>Volgende mijlpaal</span>${milestone ? `<strong>Week ${milestone.weekNumber} · Training ${milestone.trainingNumber}</strong><h2>${escapeHtml(capitalize(milestone.title))}</h2><p>${escapeHtml(milestone.category === "wedstrijd" ? "Marathon · 42,195 km" : workoutPrimarySummary(milestone))}</p>` : `<strong>Geen mijlpaal meer</strong><h2>Race ready</h2>`}</article>
       </section>
-      <p class="confidence-remaining">${remainingConfidenceRuns} confidence run${remainingConfidenceRuns === 1 ? "" : "s"} te gaan</p>
+      <section class="dashboard-summary-grid">
+        <article class="dashboard-card"><span>Confidence runs</span><strong>${metrics.completedConfidence.length} / ${metrics.confidence.length}</strong><p>${metrics.confidence.length - metrics.completedConfidence.length} te gaan</p></article>
+        <article class="dashboard-card"><span>Officiële tests</span><strong>${metrics.completedTests.length} / ${metrics.tests.length}</strong><p>${metrics.nextTest ? `Volgende: week ${metrics.nextTest.weekNumber}` : "Alle tests afgerond"}</p></article>
+        <article class="dashboard-card"><span>Langste gepland</span><strong>${metrics.longestPlanned ? `${formatNumber(plannedDistanceKm(metrics.longestPlanned))} km` : "-"}</strong><p>${metrics.longestPlanned ? `Week ${metrics.longestPlanned.weekNumber}` : "Geen lange duurloop"}</p></article>
+        <article class="dashboard-card"><span>Langste voltooid</span><strong>${metrics.longestCompleted ? `${formatNumber(completedDistanceKm(metrics.longestCompleted))} km` : "0 km"}</strong><p>${metrics.longestCompleted ? escapeHtml(capitalize(metrics.longestCompleted.title)) : "Nog geen lange duurloop"}</p></article>
+      </section>
+      <section class="dashboard-card detail-status-card">
+        <div><span>Gemiddelde voltooide training</span><strong>${formatNumber(metrics.averageCompletedKm)} km</strong></div>
+        <div><span>Gemiddeld per actieve week</span><strong>${formatNumber(metrics.activeCompletedWeeks ? metrics.totalCompletedKm / metrics.activeCompletedWeeks : 0)} km</strong></div>
+        <div><span>Laatste voltooid</span><strong>${metrics.latestCompleted ? `Week ${metrics.latestCompleted.weekNumber} · Training ${metrics.latestCompleted.trainingNumber}` : "Nog geen training"}</strong><small>${metrics.latestCompleted ? escapeHtml(capitalize(metrics.latestCompleted.title)) : ""}</small></div>
+        <div><span>Laatste testresultaat</span><strong>${metrics.latestTest ? escapeHtml(latestTestResult?.result || `Week ${metrics.latestTest.weekNumber}`) : "Nog geen test"}</strong><small>${metrics.latestTest ? escapeHtml(capitalize(metrics.latestTest.title)) : ""}</small></div>
+      </section>
+      <p class="dashboard-method">Werkelijk gelogde afstand wordt gebruikt wanneer die beschikbaar is. Anders telt een voltooide training voor de geplande afstand mee. De marathon zelf staat apart van de 47 reguliere trainingen.</p>
     </section>`;
   }
 

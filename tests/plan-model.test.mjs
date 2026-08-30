@@ -18,7 +18,8 @@ assert.equal(plan.config.targetTime, "3:30:00");
 assert.equal(plan.config.targetPace, "4:58,6/km");
 assert.equal(plan.config.targetSpeedKmh, 12);
 assert.equal(plan.config.trainingFrequency, 4);
-assert.equal(plan.config.sourceFile, "marathon-schema-3u30.md");
+assert.equal(plan.config.sourceFile, "marathon-schema-3u30-expliciete-helling.md");
+assert.equal(plan.config.schemaVersion, "marathon-schema-3u30-expliciete-helling-2026.08.30-1");
 
 assert.deepEqual(Array.from(plan.weeks, (week) => week.weekNumber), Array.from({ length: 12 }, (_, index) => 36 + index));
 assert.equal(plan.weeks.length, 12, "Het definitieve schema bevat week 36 t/m 47");
@@ -87,11 +88,23 @@ assert.ok(plan.weeks.filter((week) => [45, 46].includes(week.weekNumber)).flatMa
 
 const marathon = workout(47, 4);
 assert.equal(marathon.category, "wedstrijd");
+assert.equal(marathon.surface, "buiten");
 assert.equal(marathon.estimatedDistanceKm, 42.195);
 assert.equal(model.flattenWorkoutSegments(marathon).length, 1);
+assert.equal(model.flattenWorkoutSegments(marathon)[0].inclinePercent, null, "De buitenmarathon heeft volgens de bron geen loopbandhelling");
 assert.ok(marathon.labels.includes("RACE"));
+
+const treadmillSegments = allWorkouts
+  .filter((item) => item.surface === "loopband")
+  .flatMap((item) => Array.from(model.flattenWorkoutSegments(item)));
+assert.equal(treadmillSegments.length, 254);
+assert.ok(treadmillSegments.every((segment) => Number.isFinite(segment.inclinePercent)), "Ieder loopbandblok heeft een numerieke helling");
+assert.deepEqual(Array.from(new Set(treadmillSegments.map((segment) => segment.inclinePercent))).sort((a, b) => a - b), [0, 0.5, 1]);
+assert.deepEqual(Array.from(model.flattenWorkoutSegments(workout(36, 2)), (segment) => segment.inclinePercent), [0.5, 0.5, 1, 0.5, 1, 0.5, 1, 0.5]);
+assert.ok(model.flattenWorkoutSegments(workout(39, 4)).every((segment) => segment.inclinePercent === 0.5));
+assert.ok(treadmillSegments.filter((segment) => segment.type === "wandelen").every((segment) => segment.inclinePercent === 0));
 
 assert.deepEqual(Array.from(plan.guidance.officialTests, (item) => item.week), [40, 43, 44]);
 assert.equal(plan.guidance.raceStrategy.length, 6);
 
-console.log("Planmodeltests geslaagd: week 36–47, 48 trainingen, confidence runs, tests, taper en marathon gecontroleerd.");
+console.log("Planmodeltests geslaagd: week 36–47, 48 trainingen en 254 expliciete loopbandhellingen gecontroleerd.");

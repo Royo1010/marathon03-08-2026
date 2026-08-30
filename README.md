@@ -5,9 +5,9 @@ Mobiele weekplanner voor het definitieve Marathon 3:30-loopbandschema van
 
 ## Actieve versie
 
-- App-versie: `2026.08.30-2`
-- Schemaversie: `marathon-schema-3u30-2026.08.30-1`
-- Bronbestand: `marathon-schema-3u30.md`
+- App-versie: `2026.08.30-3`
+- Schemaversie: `marathon-schema-3u30-expliciete-helling-2026.08.30-1`
+- Bronbestand: `marathon-schema-3u30-expliciete-helling.md`
 - Opslagkey: `marathon330TrainingAppData_v1`
 
 ## Schema
@@ -18,7 +18,7 @@ de interface. Het markdownbestand is de enige inhoudelijke bron; de appdata word
 er mechanisch uit gegenereerd:
 
 ```sh
-node scripts/generate-marathon-plan.mjs marathon-schema-3u30.md training-data.js
+node scripts/generate-marathon-plan.mjs marathon-schema-3u30-expliciete-helling.md training-data.js
 ```
 
 Wijzig `training-data.js` daarom niet handmatig wanneer het schema verandert.
@@ -36,8 +36,12 @@ wordt de Screen Wake Lock API gebruikt wanneer de browser dit ondersteunt.
 Zonder Wake Lock blijft de rest van de Loopbandmodus normaal functioneren.
 
 Via de titel **Marathon 3:30** opent een overzicht met kalendercountdown,
-resterende en voltooide trainingen, programmavoortgang, volgende training en
-volgende confidence run/test.
+trainings- en kilometervoortgang, week- en cumulatieve grafieken, confidence
+runs, tests, lange duurlopen, de volgende training en de volgende mijlpaal.
+
+Alle 254 uitvoerbare loopbandblokken hebben vanuit de bron een expliciete
+numerieke helling van `0%`, `0,5%` of `1%`. Alleen de marathon zelf staat als
+buitenwedstrijd zonder loopbandhelling in de data.
 
 ## Testresultaten
 
@@ -78,7 +82,7 @@ Na deze eerste release is daarom de betrouwbaarste eenmalige stap:
 
 1. verwijder het oude homescreen-icoon;
 2. open de actuele GitHub Pages-URL in Safari;
-3. controleer onder **Informatie** dat versie `2026.08.30-2` zichtbaar is;
+3. controleer onder **Informatie** dat versie `2026.08.30-3` zichtbaar is;
 4. kies opnieuw **Zet op beginscherm**.
 
 Daarna worden toekomstige bestanden rechtstreeks vanaf GitHub Pages geladen.

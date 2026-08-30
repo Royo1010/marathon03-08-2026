@@ -5,12 +5,12 @@ const inputPath = process.argv[2];
 const outputPath = process.argv[3] || path.resolve("training-data.js");
 
 if (!inputPath) {
-  throw new Error("Gebruik: node scripts/generate-marathon-plan.mjs <marathon-schema-3u30.md> [training-data.js]");
+  throw new Error("Gebruik: node scripts/generate-marathon-plan.mjs <marathon-schema-3u30-expliciete-helling.md> [training-data.js]");
 }
 
 const source = fs.readFileSync(inputPath, "utf8").replace(/\r/g, "");
 const lines = source.split("\n");
-const schemaVersion = "marathon-schema-3u30-2026.08.30-1";
+const schemaVersion = "marathon-schema-3u30-expliciete-helling-2026.08.30-1";
 const scheduleStart = "2026-08-31";
 
 function localIso(date) {
@@ -338,7 +338,7 @@ function parseWorkout(weekNumber, trainingNumber, headingTitle, bodyLines, menta
     trainingNumber,
     category,
     title,
-    surface: "loopband",
+    surface: category === "wedstrijd" ? "buiten" : "loopband",
     groups: cleanGroups,
     ...summary,
     goal: explicitGoal || defaultGoal(category, title, weekNumber),
@@ -434,6 +434,14 @@ for (const phase of phaseDefinitions) {
   phase.endDate = phaseWeeks.at(-1)?.endDate || "";
 }
 
+const treadmillSegments = weeks.flatMap((week) => week.workouts)
+  .filter((workout) => workout.surface === "loopband")
+  .flatMap((workout) => flattenGroups(workout.groups).map((segment) => ({ workoutId: workout.workoutId, segment })));
+const missingInclines = treadmillSegments.filter(({ segment }) => !Number.isFinite(Number(segment.inclinePercent)));
+if (missingInclines.length) {
+  throw new Error(`Helling ontbreekt in ${missingInclines.length} loopbandblokken: ${missingInclines.map(({ workoutId, segment }) => `${workoutId}/${segment.segmentId}`).join(", ")}`);
+}
+
 function linesBetween(startPattern, endPattern) {
   const start = lines.findIndex((line) => startPattern.test(line));
   const end = lines.findIndex((line, index) => index > start && endPattern.test(line));
@@ -457,7 +465,7 @@ const raceStrategy = [
 const plan = {
   config: {
     planId: "marathon-3u30-definitief-2026",
-    planVersion: 2,
+    planVersion: 3,
     schemaVersion,
     sourceFile: path.basename(inputPath),
     planName: "Marathonschema 3:30 — definitieve versie",

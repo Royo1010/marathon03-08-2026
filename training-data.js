@@ -4,9 +4,9 @@
   const MARATHON_PLAN = {
   "config": {
     "planId": "marathon-3u30-definitief-2026",
-    "planVersion": 2,
-    "schemaVersion": "marathon-schema-3u30-2026.08.30-1",
-    "sourceFile": "marathon-schema-3u30.md",
+    "planVersion": 3,
+    "schemaVersion": "marathon-schema-3u30-expliciete-helling-2026.08.30-1",
+    "sourceFile": "marathon-schema-3u30-expliciete-helling.md",
     "planName": "Marathonschema 3:30 — definitieve versie",
     "planSubtitle": "12 weken met confidence runs, drie officiële tests en taper",
     "startDate": "2026-08-31",
@@ -189,7 +189,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -200,7 +200,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 10.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "steady",
                   "isRecovery": false
@@ -222,7 +222,7 @@
                   "durationSeconds": 180,
                   "display": "3 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -244,7 +244,7 @@
                   "durationSeconds": 180,
                   "display": "3 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -266,7 +266,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -324,7 +324,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -335,7 +335,7 @@
                   "durationSeconds": 1800,
                   "display": "30 min",
                   "speedKmh": 9.8,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -346,7 +346,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -395,7 +395,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -406,7 +406,7 @@
                   "durationSeconds": 4800,
                   "display": "80 min",
                   "speedKmh": 10,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -417,7 +417,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -489,7 +489,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -500,7 +500,7 @@
                   "durationSeconds": 2400,
                   "display": "40 min",
                   "speedKmh": 10.1,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -511,7 +511,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -560,7 +560,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -571,7 +571,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 10.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "steady",
                   "isRecovery": false
@@ -601,7 +601,7 @@
                   "durationSeconds": 150,
                   "display": "2:30",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "Na blok 1–3.",
                   "type": "herstel",
                   "isRecovery": true
@@ -621,7 +621,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -670,7 +670,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -681,7 +681,7 @@
                   "durationSeconds": 2100,
                   "display": "35 min",
                   "speedKmh": 10,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -692,7 +692,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -741,7 +741,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -752,7 +752,7 @@
                   "durationSeconds": 5700,
                   "display": "95 min",
                   "speedKmh": 10,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -763,7 +763,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -835,7 +835,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -846,7 +846,7 @@
                   "durationSeconds": 2700,
                   "display": "45 min",
                   "speedKmh": 10.1,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -857,7 +857,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -906,7 +906,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -917,7 +917,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 10.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "steady",
                   "isRecovery": false
@@ -947,7 +947,7 @@
                   "durationSeconds": 120,
                   "display": "2 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "Na blok 1–5.",
                   "type": "herstel",
                   "isRecovery": true
@@ -967,7 +967,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -1016,7 +1016,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -1027,7 +1027,7 @@
                   "durationSeconds": 1800,
                   "display": "30 min",
                   "speedKmh": 10.1,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -1038,7 +1038,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 10.8,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "steady",
                   "isRecovery": false
@@ -1049,7 +1049,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -1098,7 +1098,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -1109,7 +1109,7 @@
                   "durationSeconds": 6000,
                   "display": "100 min",
                   "speedKmh": 10,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -1120,7 +1120,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 10.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "steady",
                   "isRecovery": false
@@ -1131,7 +1131,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -1211,7 +1211,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -1222,7 +1222,7 @@
                   "durationSeconds": 2700,
                   "display": "45 min",
                   "speedKmh": 10.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -1233,7 +1233,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -1282,7 +1282,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -1293,7 +1293,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 10.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "steady",
                   "isRecovery": false
@@ -1323,7 +1323,7 @@
                   "durationSeconds": 180,
                   "display": "3 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -1345,7 +1345,7 @@
                   "durationSeconds": 180,
                   "display": "3 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -1375,7 +1375,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -1425,7 +1425,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -1436,7 +1436,7 @@
                   "durationSeconds": 2100,
                   "display": "35 min",
                   "speedKmh": 10.1,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -1447,7 +1447,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 10.8,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "steady",
                   "isRecovery": false
@@ -1458,7 +1458,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -1507,7 +1507,7 @@
                   "distanceKm": 3,
                   "display": "3,0 km",
                   "speedKmh": 10,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -1518,7 +1518,7 @@
                   "distanceKm": 8,
                   "display": "8,0 km",
                   "speedKmh": 10.3,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -1529,7 +1529,7 @@
                   "distanceKm": 6,
                   "display": "6,0 km",
                   "speedKmh": 10.8,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "steady",
                   "isRecovery": false
@@ -1540,7 +1540,7 @@
                   "distanceKm": 4.1,
                   "display": "4,1 km",
                   "speedKmh": 11.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "sub-marathon",
                   "isRecovery": false
@@ -1559,7 +1559,7 @@
                   "distanceKm": 2.7,
                   "display": "2,7 km",
                   "speedKmh": 10,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -1652,7 +1652,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -1663,7 +1663,7 @@
                   "durationSeconds": 2100,
                   "display": "35 min",
                   "speedKmh": 9.8,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -1674,7 +1674,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -1723,7 +1723,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "warming-up",
                   "isRecovery": false
@@ -1734,7 +1734,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 10.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "warming-up",
                   "isRecovery": false
@@ -1745,7 +1745,7 @@
                   "durationSeconds": 180,
                   "display": "3 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "warming-up",
                   "isRecovery": false
@@ -1764,7 +1764,7 @@
                   "durationSeconds": 20,
                   "display": "20 sec",
                   "speedKmh": 13,
-                  "inclinePercent": null,
+                  "inclinePercent": 1,
                   "instruction": "",
                   "type": "interval",
                   "isRecovery": false
@@ -1775,7 +1775,7 @@
                   "durationSeconds": 100,
                   "display": "1:40",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -1795,7 +1795,7 @@
                   "durationSeconds": 180,
                   "display": "3 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -1832,7 +1832,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -1930,7 +1930,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -1941,7 +1941,7 @@
                   "durationSeconds": 1800,
                   "display": "30 min",
                   "speedKmh": 9.6,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -1952,7 +1952,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -2001,7 +2001,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -2012,7 +2012,7 @@
                   "durationSeconds": 5700,
                   "display": "95 min",
                   "speedKmh": 9.9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -2023,7 +2023,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -2095,7 +2095,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -2106,7 +2106,7 @@
                   "durationSeconds": 3000,
                   "display": "50 min",
                   "speedKmh": 10.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -2117,7 +2117,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -2166,7 +2166,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -2177,7 +2177,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 10.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "steady",
                   "isRecovery": false
@@ -2207,7 +2207,7 @@
                   "durationSeconds": 180,
                   "display": "3 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "Na blok 1–2.",
                   "type": "herstel",
                   "isRecovery": true
@@ -2227,7 +2227,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -2276,7 +2276,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -2287,7 +2287,7 @@
                   "durationSeconds": 3000,
                   "display": "50 min",
                   "speedKmh": 10,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -2298,7 +2298,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -2354,7 +2354,7 @@
                   "distanceKm": 1.5,
                   "display": "1,5 km",
                   "speedKmh": 9.8,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "warming-up",
                   "isRecovery": false
@@ -2392,7 +2392,7 @@
                   "distanceKm": 3.2,
                   "display": "3,2 km",
                   "speedKmh": 9.8,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -2413,8 +2413,9 @@
               "title": "Aanwijzingen",
               "items": [
                 "HALF MARATHON STEADY",
+                "Helling hoofdblok: 0,5%.",
                 "Als de eerste 16 km zeer gecontroleerd gaan, mag de laatste 5 km naar:",
-                "10,8 km/u",
+                "10,8 km/u — 0,5%",
                 "Maar niet harder."
               ]
             },
@@ -2497,7 +2498,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -2508,7 +2509,7 @@
                   "durationSeconds": 3000,
                   "display": "50 min",
                   "speedKmh": 10.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -2519,7 +2520,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -2568,7 +2569,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -2579,7 +2580,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 10.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "steady",
                   "isRecovery": false
@@ -2598,7 +2599,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 13,
-                  "inclinePercent": null,
+                  "inclinePercent": 1,
                   "instruction": "",
                   "type": "interval",
                   "isRecovery": false
@@ -2609,7 +2610,7 @@
                   "durationSeconds": 150,
                   "display": "2:30",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -2629,7 +2630,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 13.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 1,
                   "instruction": "",
                   "type": "interval",
                   "isRecovery": false
@@ -2640,7 +2641,7 @@
                   "durationSeconds": 150,
                   "display": "2:30",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -2660,7 +2661,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 13.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 1,
                   "instruction": "",
                   "type": "interval",
                   "isRecovery": false
@@ -2680,7 +2681,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -2729,7 +2730,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -2740,7 +2741,7 @@
                   "durationSeconds": 3000,
                   "display": "50 min",
                   "speedKmh": 10.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -2751,7 +2752,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 10.8,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "steady",
                   "isRecovery": false
@@ -2762,7 +2763,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -2811,7 +2812,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -2822,7 +2823,7 @@
                   "durationSeconds": 8400,
                   "display": "140 min",
                   "speedKmh": 10.1,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -2833,7 +2834,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 10.8,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "steady",
                   "isRecovery": false
@@ -2844,7 +2845,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -2935,7 +2936,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -2946,7 +2947,7 @@
                   "durationSeconds": 3000,
                   "display": "50 min",
                   "speedKmh": 10.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -2957,7 +2958,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -3006,7 +3007,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -3017,7 +3018,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 10.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "steady",
                   "isRecovery": false
@@ -3047,7 +3048,7 @@
                   "durationSeconds": 240,
                   "display": "4 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -3069,7 +3070,7 @@
                   "durationSeconds": 240,
                   "display": "4 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -3099,7 +3100,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -3214,7 +3215,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -3225,7 +3226,7 @@
                   "durationSeconds": 3000,
                   "display": "50 min",
                   "speedKmh": 10,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -3236,7 +3237,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -3285,7 +3286,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -3296,7 +3297,7 @@
                   "durationSeconds": 8400,
                   "display": "140 min",
                   "speedKmh": 10.1,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -3307,7 +3308,7 @@
                   "durationSeconds": 1500,
                   "display": "25 min",
                   "speedKmh": 10.8,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "steady",
                   "isRecovery": false
@@ -3318,7 +3319,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -3425,7 +3426,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -3436,7 +3437,7 @@
                   "durationSeconds": 2700,
                   "display": "45 min",
                   "speedKmh": 10,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -3447,7 +3448,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -3496,7 +3497,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -3507,7 +3508,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 10.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "steady",
                   "isRecovery": false
@@ -3526,7 +3527,7 @@
                   "durationSeconds": 240,
                   "display": "4 min",
                   "speedKmh": 13.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 1,
                   "instruction": "",
                   "type": "interval",
                   "isRecovery": false
@@ -3537,7 +3538,7 @@
                   "durationSeconds": 120,
                   "display": "2 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "Na blok 1–4.",
                   "type": "herstel",
                   "isRecovery": true
@@ -3557,7 +3558,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -3614,7 +3615,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -3625,7 +3626,7 @@
                   "durationSeconds": 2100,
                   "display": "35 min",
                   "speedKmh": 9.6,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -3636,7 +3637,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -3685,7 +3686,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -3696,7 +3697,7 @@
                   "durationSeconds": 4500,
                   "display": "75 min",
                   "speedKmh": 10,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -3726,7 +3727,7 @@
                   "durationSeconds": 480,
                   "display": "8 min",
                   "speedKmh": 9.8,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -3748,7 +3749,7 @@
                   "durationSeconds": 480,
                   "display": "8 min",
                   "speedKmh": 9.8,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -3778,7 +3779,7 @@
                   "durationSeconds": 840,
                   "display": "14 min",
                   "speedKmh": 10,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -3789,7 +3790,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -3921,7 +3922,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -3932,7 +3933,7 @@
                   "durationSeconds": 2400,
                   "display": "40 min",
                   "speedKmh": 9.9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -3943,7 +3944,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -3993,7 +3994,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4004,7 +4005,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 10.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "steady",
                   "isRecovery": false
@@ -4023,7 +4024,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 12.4,
-                  "inclinePercent": null,
+                  "inclinePercent": 1,
                   "instruction": "",
                   "type": "drempel",
                   "isRecovery": false
@@ -4034,7 +4035,7 @@
                   "durationSeconds": 180,
                   "display": "3 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "Na blok 1–2.",
                   "type": "herstel",
                   "isRecovery": true
@@ -4054,7 +4055,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -4104,7 +4105,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4115,7 +4116,7 @@
                   "durationSeconds": 2100,
                   "display": "35 min",
                   "speedKmh": 9.6,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4126,7 +4127,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -4176,7 +4177,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4187,7 +4188,7 @@
                   "durationSeconds": 4200,
                   "display": "70 min",
                   "speedKmh": 10,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -4209,7 +4210,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 10,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -4220,7 +4221,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -4295,7 +4296,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4306,7 +4307,7 @@
                   "durationSeconds": 2100,
                   "display": "35 min",
                   "speedKmh": 9.8,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4317,7 +4318,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -4367,7 +4368,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4378,7 +4379,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 10.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "steady",
                   "isRecovery": false
@@ -4397,7 +4398,7 @@
                   "durationSeconds": 480,
                   "display": "8 min",
                   "speedKmh": 12.1,
-                  "inclinePercent": null,
+                  "inclinePercent": 1,
                   "instruction": "",
                   "type": "marathontempo",
                   "isRecovery": false
@@ -4408,7 +4409,7 @@
                   "durationSeconds": 180,
                   "display": "3 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "Na blok 1–2.",
                   "type": "herstel",
                   "isRecovery": true
@@ -4428,7 +4429,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -4485,7 +4486,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4496,7 +4497,7 @@
                   "durationSeconds": 900,
                   "display": "15 min",
                   "speedKmh": 9.6,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4515,7 +4516,7 @@
                   "durationSeconds": 20,
                   "display": "20 sec",
                   "speedKmh": 13.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 1,
                   "instruction": "",
                   "type": "interval",
                   "isRecovery": false
@@ -4526,7 +4527,7 @@
                   "durationSeconds": 100,
                   "display": "1:40",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4546,7 +4547,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -4557,7 +4558,7 @@
                   "durationSeconds": 120,
                   "display": "2 min wandelen",
                   "speedKmh": 5.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0,
                   "instruction": "",
                   "type": "wandelen",
                   "isRecovery": false
@@ -4607,7 +4608,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4618,7 +4619,7 @@
                   "durationSeconds": 3300,
                   "display": "55 min",
                   "speedKmh": 10,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "easy",
                   "isRecovery": false
@@ -4640,7 +4641,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -4713,7 +4714,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4724,7 +4725,7 @@
                   "durationSeconds": 1500,
                   "display": "25 min",
                   "speedKmh": 9.6,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4735,7 +4736,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -4784,7 +4785,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4795,7 +4796,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 10.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "steady",
                   "isRecovery": false
@@ -4806,7 +4807,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 12,
-                  "inclinePercent": null,
+                  "inclinePercent": 1,
                   "instruction": "",
                   "type": "marathontempo",
                   "isRecovery": false
@@ -4817,7 +4818,7 @@
                   "durationSeconds": 180,
                   "display": "3 min",
                   "speedKmh": 9.2,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4828,7 +4829,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 12,
-                  "inclinePercent": null,
+                  "inclinePercent": 1,
                   "instruction": "",
                   "type": "marathontempo",
                   "isRecovery": false
@@ -4839,7 +4840,7 @@
                   "durationSeconds": 480,
                   "display": "8 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4850,7 +4851,7 @@
                   "durationSeconds": 240,
                   "display": "4 min wandelen",
                   "speedKmh": 5.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0,
                   "instruction": "",
                   "type": "wandelen",
                   "isRecovery": false
@@ -4907,7 +4908,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4918,7 +4919,7 @@
                   "durationSeconds": 600,
                   "display": "10 min",
                   "speedKmh": 9.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4937,7 +4938,7 @@
                   "durationSeconds": 20,
                   "display": "20 sec",
                   "speedKmh": 13,
-                  "inclinePercent": null,
+                  "inclinePercent": 1,
                   "instruction": "",
                   "type": "interval",
                   "isRecovery": false
@@ -4948,7 +4949,7 @@
                   "durationSeconds": 100,
                   "display": "1:40",
                   "speedKmh": 9,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "herstel",
                   "isRecovery": false
@@ -4968,7 +4969,7 @@
                   "durationSeconds": 300,
                   "display": "5 min",
                   "speedKmh": 8.5,
-                  "inclinePercent": null,
+                  "inclinePercent": 0.5,
                   "instruction": "",
                   "type": "cooling-down",
                   "isRecovery": false
@@ -5010,7 +5011,7 @@
           "trainingNumber": 4,
           "category": "wedstrijd",
           "title": "Marathon — 22 NOVEMBER 2026",
-          "surface": "loopband",
+          "surface": "buiten",
           "groups": [
             {
               "groupId": "marathon-3u30-w47-t4-g1",
@@ -5040,6 +5041,12 @@
           "mentalGoal": "Je hoeft niets meer te bewijzen. Je hebt het werk gedaan.",
           "orderWarning": "Kom niet direct uit Training 2; houd liefst minimaal één rustdag tussen beide trainingen.",
           "detailsSections": [
+            {
+              "title": "MARATHON — 22 NOVEMBER 2026",
+              "items": [
+                "Helling: niet van toepassing — dit is de buitenwedstrijd, geen loopbandtraining."
+              ]
+            },
             {
               "title": "Als de ontwikkeling en tests groen licht geven",
               "items": [
@@ -5124,7 +5131,7 @@
       {
         "type": "Herstel",
         "speed": "9,4–9,7 km/u",
-        "incline": "0–0,5%"
+        "incline": "0,5%"
       },
       {
         "type": "Easy",
@@ -5134,7 +5141,7 @@
       {
         "type": "Lange rustige duur",
         "speed": "10,0–10,2 km/u",
-        "incline": "0–0,5%"
+        "incline": "0,5%"
       },
       {
         "type": "Steady",
@@ -5189,9 +5196,9 @@
       }
     ],
     "incline": [
-      "Herstel: 0–0,5%.",
+      "Herstel: 0,5%.",
       "Easy: 0,5%.",
-      "Lange rustige duur: 0–0,5%.",
+      "Lange rustige duur: 0,5%.",
       "Steady: 0,5%.",
       "Sub-marathon: 1%.",
       "Marathonpace: 1%.",
@@ -5246,7 +5253,7 @@
       "25+ km kan gecontroleerd worden gelopen",
       "30 km wordt succesvol voltooid",
       "5 km benchmark laat duidelijke verbetering zien",
-      "3 × 15 min @ 12,0 lukt beheerst",
+      "3 × 15 min @ 12,0 lukt beheerst — 1%",
       "de 28,7 km sleuteltraining lukt",
       "12 km/u voelt niet langer als bijna-drempeltempo",
       "herstel tussen trainingen blijft goed",
