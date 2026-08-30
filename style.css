@@ -39,12 +39,16 @@ body {
 }
 
 button,
-select {
+select,
+input,
+textarea {
   font: inherit;
 }
 
 button,
 select,
+input,
+textarea,
 summary {
   -webkit-tap-highlight-color: transparent;
 }
@@ -426,6 +430,24 @@ button:disabled {
   line-height: 1.18;
 }
 
+.training-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 9px;
+}
+
+.training-labels span {
+  padding: 4px 6px;
+  border: 1px solid rgba(77, 145, 229, 0.38);
+  border-radius: 999px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
 .training-primary {
   display: block;
   margin-top: 6px;
@@ -477,6 +499,13 @@ button:disabled {
   border-top: 1px solid var(--border);
 }
 
+.detail-context {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
 .detail-section {
   padding: 13px 0;
   border-bottom: 1px solid rgba(43, 53, 66, 0.72);
@@ -505,6 +534,10 @@ button:disabled {
   color: var(--muted);
   font-size: 13px;
   line-height: 1.55;
+}
+
+.detail-section p strong {
+  color: var(--text);
 }
 
 .detail-section p {
@@ -600,6 +633,58 @@ button:disabled {
   color: var(--muted-soft);
   font-size: 11px;
   line-height: 1.4;
+}
+
+.test-registration > p {
+  margin-bottom: 12px;
+}
+
+.test-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.test-fields label {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.test-fields label.wide {
+  grid-column: 1 / -1;
+}
+
+.test-fields label > span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.test-fields input,
+.test-fields select,
+.test-fields textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--text);
+  background: var(--panel-soft);
+  font-size: 16px;
+}
+
+.test-fields textarea {
+  min-height: 86px;
+  resize: vertical;
+}
+
+.test-fields input::placeholder,
+.test-fields textarea::placeholder {
+  color: var(--muted-soft);
+  opacity: 0.78;
 }
 
 .completion-row {
@@ -813,6 +898,15 @@ button:disabled {
   margin-top: 7px;
 }
 
+.app-version {
+  margin-top: 18px;
+  padding: 10px 4px 0;
+  color: var(--muted-soft);
+  font-size: 10px;
+  line-height: 1.4;
+  text-align: center;
+}
+
 @media (max-width: 430px) {
   .content {
     padding-right: 11px;
@@ -895,6 +989,14 @@ button:disabled {
 
   .completion-row > span {
     text-align: left;
+  }
+
+  .test-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .test-fields label.wide {
+    grid-column: auto;
   }
 
   .segment-row {

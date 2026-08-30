@@ -44,7 +44,7 @@ function createHarness(storageValues = new Map()) {
   const window = {
     document,
     localStorage,
-    location: { search: "?date=2026-08-03" },
+    location: { search: "?date=2026-08-31", href: "https://example.test/marathon-330/?date=2026-08-31" },
     navigator: {},
     scrollTo() {},
     addEventListener(type, handler) { windowListeners[type] = handler; },
@@ -55,6 +55,7 @@ function createHarness(storageValues = new Map()) {
     console,
     Date,
     Intl,
+    URL,
     URLSearchParams,
     window,
     document,
@@ -80,7 +81,11 @@ function createHarness(storageValues = new Map()) {
     listeners.change({ target: targetFor(matchers) });
   }
 
-  return { app, brandHome, click, change, context, localStorage, listeners, navButtons };
+  function input(matchers) {
+    listeners.input({ target: targetFor(matchers) });
+  }
+
+  return { app, brandHome, click, change, input, context, localStorage, listeners, navButtons };
 }
 
 test("vereenvoudigde weekplanner navigeert, klapt uit en bewaart voltooiing", () => {
@@ -88,7 +93,7 @@ test("vereenvoudigde weekplanner navigeert, klapt uit en bewaart voltooiing", ()
   const first = createHarness(storageValues);
   const workoutId = first.context.window.MARATHON_PLAN.weeks[0].workouts[0].workoutId;
 
-  assert.match(first.app.innerHTML, /Week 1/);
+  assert.match(first.app.innerHTML, /Week 36/);
   assert.equal((first.app.innerHTML.match(/<article class="training-card/g) || []).length, 4);
   assert.doesNotMatch(first.app.innerHTML, /Training starten|timer|aftellen/i);
 
@@ -107,15 +112,15 @@ test("vereenvoudigde weekplanner navigeert, klapt uit en bewaart voltooiing", ()
 
   first.click({ "[data-week-next]": { dataset: {} } });
   assert.equal(first.context.window.MarathonApp.state.viewedWeekIndex, 1);
-  assert.match(first.app.innerHTML, /Week 2/);
+  assert.match(first.app.innerHTML, /Week 37/);
 
   first.click({ "[data-week-prev]": { dataset: {} } });
   assert.equal(first.context.window.MarathonApp.state.viewedWeekIndex, 0);
-  assert.match(first.app.innerHTML, /Week 1/);
+  assert.match(first.app.innerHTML, /Week 36/);
 
   first.change({ "[data-week-select]": true, value: "5" });
   assert.equal(first.context.window.MarathonApp.state.viewedWeekIndex, 5);
-  assert.match(first.app.innerHTML, /Week 6/);
+  assert.match(first.app.innerHTML, /Week 41/);
 
   first.click({ "[data-week-current]": { dataset: {} } });
   assert.equal(first.context.window.MarathonApp.state.viewedWeekIndex, 0);
@@ -146,15 +151,16 @@ test("Schema en Informatie zijn bereikbaar via de drieknopsnavigatie", () => {
 
   harness.click({ "[data-view]": { dataset: { view: "plan" } } });
   assert.match(harness.app.innerHTML, /Volledig programma/);
-  assert.equal((harness.app.innerHTML.match(/class="plan-row"/g) || []).length, 16);
+  assert.equal((harness.app.innerHTML.match(/class="plan-row"/g) || []).length, 12);
 
   harness.click({ "[data-view]": { dataset: { view: "info" } } });
   assert.match(harness.app.innerHTML, /Tempo en afkortingen/);
   assert.match(harness.app.innerHTML, /Inspanningsniveaus/);
+  assert.match(harness.app.innerHTML, /Versie 2026\.08\.30-1/);
 
   harness.brandHome.click();
   assert.equal(harness.context.window.MarathonApp.state.view, "week");
-  assert.match(harness.app.innerHTML, /Week 1/);
+  assert.match(harness.app.innerHTML, /Week 36/);
 });
 
 test("oude of beschadigde opslag kan de weekplanner niet laten vastlopen", () => {
@@ -164,7 +170,7 @@ test("oude of beschadigde opslag kan de weekplanner niet laten vastlopen", () =>
   const recovered = createHarness(corruptStorage);
   console.warn = originalWarn;
 
-  assert.match(recovered.app.innerHTML, /Week 1/);
+  assert.match(recovered.app.innerHTML, /Week 36/);
   const repaired = JSON.parse(corruptStorage.get("marathon330TrainingAppData_v1"));
   assert.equal(repaired.meta.storageInitialized, true);
   assert.deepEqual(Object.keys(repaired.workoutLogs), []);
@@ -175,6 +181,29 @@ test("oude of beschadigde opslag kan de weekplanner niet laten vastlopen", () =>
     completedSessions: { oud: true },
   })]]);
   const migrated = createHarness(legacyStorage);
-  assert.match(migrated.app.innerHTML, /Week 1/);
+  assert.match(migrated.app.innerHTML, /Week 36/);
   assert.ok(JSON.parse(legacyStorage.get("marathon330TrainingAppData_v1")).legacyData.previousPlan);
+});
+
+test("testresultaten worden direct opgeslagen en blijven na herladen bestaan", () => {
+  const storageValues = new Map();
+  const harness = createHarness(storageValues);
+  const testWorkout = harness.context.window.MARATHON_PLAN.weeks.find((week) => week.weekNumber === 40).workouts.find((item) => item.testNumber === 1);
+
+  harness.context.window.MarathonApp.saveTestField(testWorkout.workoutId, "result", "22:35");
+  harness.context.window.MarathonApp.saveTestField(testWorkout.workoutId, "averageSpeed", "13.2");
+  harness.context.window.MarathonApp.saveTestField(testWorkout.workoutId, "rpe", "8");
+  harness.context.window.MarathonApp.saveTestField(testWorkout.workoutId, "note", "Gecontroleerd begonnen");
+
+  const saved = JSON.parse(storageValues.get("marathon330TrainingAppData_v1"));
+  assert.equal(saved.testResults[testWorkout.workoutId].result, "22:35");
+  assert.equal(saved.testResults[testWorkout.workoutId].averageSpeed, "13.2");
+
+  const reloaded = createHarness(storageValues);
+  reloaded.context.window.MarathonApp.state.viewedWeekIndex = 4;
+  reloaded.context.window.MarathonApp.state.expandedWorkoutIds.add(testWorkout.workoutId);
+  reloaded.context.window.MarathonApp.render();
+  assert.match(reloaded.app.innerHTML, /value="22:35"/);
+  assert.match(reloaded.app.innerHTML, /Gecontroleerd begonnen/);
+  assert.match(reloaded.app.innerHTML, /niet automatisch aangepast/);
 });

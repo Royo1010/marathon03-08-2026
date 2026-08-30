@@ -1,60 +1,23 @@
-const CACHE_NAME = "marathon-330-simple-week-v2";
-const ASSETS = [
-  "./",
-  "./index.html",
-  "./style.css",
-  "./app.js",
-  "./training-data.js",
-  "./manifest.json",
-  "./icon.svg",
-];
+const APP_VERSION = "2026.08.30-1";
+const APP_CACHE_PREFIXES = ["marathon-330-", "marathon-app-"];
 
-self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
-  );
-  self.skipWaiting();
-});
+// Eenmalige migratieworker: verwijder alleen caches van deze marathonapp.
+self.addEventListener("install", () => self.skipWaiting());
 
 self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)))
-    )
-  );
-  self.clients.claim();
+  event.waitUntil((async () => {
+    const cacheNames = await caches.keys();
+    await Promise.all(
+      cacheNames
+        .filter((name) => APP_CACHE_PREFIXES.some((prefix) => name.startsWith(prefix)))
+        .map((name) => caches.delete(name))
+    );
+    await self.registration.unregister();
+    await self.clients.claim();
+  })());
 });
 
+// Zolang een oud geopend venster nog door deze worker wordt bestuurd, altijd netwerk gebruiken.
 self.addEventListener("fetch", (event) => {
-  if (event.request.method !== "GET") return;
-  const url = new URL(event.request.url);
-  if (url.origin !== self.location.origin) return;
-
-  const networkFirst =
-    event.request.mode === "navigate" ||
-    event.request.destination === "document" ||
-    ["index.html", "app.js", "training-data.js", "style.css", "service-worker.js"].some((asset) => url.pathname.endsWith(asset));
-
-  if (networkFirst) {
-    event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-          return response;
-        })
-        .catch(() => caches.match(event.request).then((cached) => cached || caches.match("./index.html")))
-    );
-    return;
-  }
-
-  event.respondWith(
-    caches.match(event.request).then((cached) =>
-      cached || fetch(event.request).then((response) => {
-        const copy = response.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-        return response;
-      })
-    )
-  );
+  if (event.request.method === "GET") event.respondWith(fetch(event.request));
 });

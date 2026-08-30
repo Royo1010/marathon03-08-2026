@@ -1,15 +1,21 @@
 {
   "name": "Marathon 3:30 — Loopbandschema",
   "short_name": "Marathon 3:30",
-  "description": "Eenvoudige mobiele weekplanner voor een persoonlijk zestienweeks loopband-marathonschema.",
-  "id": "/marathon-330/",
-  "start_url": "/marathon-330/",
-  "scope": "/marathon-330/",
+  "description": "Mobiele weekplanner voor het definitieve Marathon 3:30-loopbandschema van week 36 tot en met marathonweek.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#0F141A",
-  "theme_color": "#0F141A",
+  "background_color": "#0d1117",
+  "theme_color": "#0d1117",
   "orientation": "portrait",
   "icons": [
+    {
+      "src": "./apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
       "src": "./icon.svg",
       "sizes": "any",

@@ -1,45 +1,73 @@
 # Marathon 3:30
 
-Eenvoudige, mobiele weekplanner voor het persoonlijke zestienweekse
-loopband-marathonschema van 3 augustus tot en met 22 november 2026.
+Mobiele weekplanner voor het definitieve Marathon 3:30-loopbandschema van
+31 augustus tot en met 22 november 2026.
 
-## Gebruik
+## Actieve versie
 
-- **Week:** opent standaard en toont alle trainingen van de gekozen week.
-- **Schema:** compact overzicht van alle zestien trainingsweken.
-- **Informatie:** uitleg over planning, RPE, helling, pijnregels, voeding en wedstrijdstrategie.
+- App-versie: `2026.08.30-1`
+- Schemaversie: `marathon-schema-3u30-2026.08.30-1`
+- Bronbestand: `marathon-schema-3u30.md`
+- Opslagkey: `marathon330TrainingAppData_v1`
 
-Trainingen zijn bewust genummerd en niet aan vaste weekdagen gekoppeld. Tik op
-een trainingskaart voor de volledige opbouw. De aparte voltooidknop bewaart de
-status direct lokaal en bepaalt automatisch welke training als volgende wordt
-getoond.
+## Schema
 
-## Trainingsdata
+Het schema bevat week 36 tot en met week 47, steeds vier trainingen per week.
+Confidence runs, de drie officiële tests, taper en marathon zijn gemarkeerd in
+de interface. Het markdownbestand is de enige inhoudelijke bron; de appdata wordt
+er mechanisch uit gegenereerd:
 
-De voorgeschreven inhoud staat centraal in `training-data.js`:
+```sh
+node scripts/generate-marathon-plan.mjs marathon-schema-3u30.md training-data.js
+```
 
-- Plan-ID: `marathon-330-treadmill-2026`
-- Schemaversie: `marathon-plan-2026-v1`
-- Zestien trainingsweken
-- Drie of vier genummerde trainingen per week
-- Tijd-, afstands- en herhaalblokken
-- Marathon op 22 november 2026
+Wijzig `training-data.js` daarom niet handmatig wanneer het schema verandert.
 
-De interface rendert deze data dynamisch en dupliceert het schema niet in HTML
-of JavaScript.
+## Testresultaten
 
-## Lokale voortgang
+Bij TEST 1, TEST 2 en TEST 3 kan lokaal worden vastgelegd:
 
-Voltooiingsstatus wordt lokaal opgeslagen onder:
+- resultaat/tijd;
+- gemiddelde snelheid;
+- RPE en RPE van het laatste blok;
+- ademhaling, benen en pijn/klachten;
+- algemene ervaring en vrije notitie.
 
-`marathon330TrainingAppData_v1`
+Deze gegevens worden direct opgeslagen. Ze veranderen nooit automatisch de
+voorgeschreven trainingssnelheden.
 
-Iedere training gebruikt een stabiel `workoutId`. Ongeldige of oude gegevens
-kunnen de planner daardoor niet laten vastlopen; relevante bestaande status voor
-het actieve plan blijft behouden.
+## PWA en iPhone
+
+De vorige versie gebruikte de cache `marathon-330-simple-week-v2` en daarvoor
+`marathon-330-marathon-plan-2026-v1`. Het manifest verwees bovendien absoluut
+naar `/marathon-330/`. Dat kon bij een GitHub Pages-projectsite of een bestaand
+iOS-homescreen-icoon een andere installatie-URL of oude appcache opleveren.
+
+De huidige versie gebruikt:
+
+- manifest `start_url: "./"`;
+- manifest `scope: "./"`;
+- uitsluitend relatieve assetpaden;
+- versienummers op CSS, JavaScript, manifest, trainingsdata en touch-icon;
+- geen permanente offline-cache.
+
+`service-worker.js` is nu alleen een eenmalige migratieworker. Hij verwijdert
+uitsluitend caches met de oude marathon-app-prefixen, schrijft zichzelf uit en
+gebruikt ondertussen altijd het netwerk. `app.js` ruimt dezelfde oude registratie
+en caches op wanneer de nieuwe app al is geladen. `localStorage` en persoonlijke
+trainingsgegevens worden hierbij niet verwijderd.
+
+Een al bestaand iPhone-homescreen-icoon kan zijn oude start-URL in iOS bewaren.
+Na deze eerste release is daarom de betrouwbaarste eenmalige stap:
+
+1. verwijder het oude homescreen-icoon;
+2. open de actuele GitHub Pages-URL in Safari;
+3. controleer onder **Informatie** dat versie `2026.08.30-1` zichtbaar is;
+4. kies opnieuw **Zet op beginscherm**.
+
+Daarna worden toekomstige bestanden rechtstreeks vanaf GitHub Pages geladen.
 
 ## Publiceren
 
-Zet alle bestanden samen in de GitHub Pages-map `/marathon-330/`. De app gebruikt
-relatieve paden, heeft geen buildstap of backend nodig en blijft via de bestaande
-service worker offline beschikbaar.
+Publiceer alle bestanden samen in dezelfde GitHub Pages-projectmap. De app heeft
+geen buildstap, framework, backend of externe database nodig.

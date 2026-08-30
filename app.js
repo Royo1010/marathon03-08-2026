@@ -1,9 +1,9 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "simple-week-v2";
+  const APP_VERSION = "2026.08.30-1";
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
-  const APP_DATA_VERSION = 2;
+  const APP_DATA_VERSION = 3;
   const plan = window.MARATHON_PLAN;
   const model = window.MARATHON_MODEL;
 
@@ -96,6 +96,7 @@
       activePlanId: plan.config.planId,
       workoutLogs: {},
       completedSessions: {},
+      testResults: {},
       userSettings: {},
       uiState: {},
       legacyData: {},
@@ -125,15 +126,18 @@
       activePlanId: plan.config.planId,
       userSettings: isObject(raw.userSettings) ? raw.userSettings : {},
       uiState: isObject(raw.uiState) ? raw.uiState : {},
+      testResults: isObject(raw.testResults) ? raw.testResults : {},
       legacyData: isObject(raw.legacyData) ? raw.legacyData : {},
       meta: { ...empty.meta, ...(isObject(raw.meta) ? raw.meta : {}), schemaVersion: plan.config.schemaVersion },
     };
 
     const validIds = new Set(workouts.map((workout) => workout.workoutId));
     const currentLogs = {};
+    const archivedLogs = {};
     if (isObject(raw.workoutLogs) && !Array.isArray(raw.workoutLogs.strength) && !Array.isArray(raw.workoutLogs.cardio)) {
       for (const [workoutId, log] of Object.entries(raw.workoutLogs)) {
         if (validIds.has(workoutId)) currentLogs[workoutId] = normalizeWorkoutLog(log, workoutId);
+        else archivedLogs[workoutId] = log;
       }
     } else if (raw.workoutLogs || raw.runLogs || raw.completedSessions) {
       data.legacyData.previousPlan ||= {
@@ -143,10 +147,18 @@
         completedSessions: raw.completedSessions || {},
       };
     }
+    if (Object.keys(archivedLogs).length) {
+      data.legacyData.previousPlan ||= { archivedAt: nowIso(), workoutLogs: {}, completedSessions: {} };
+      data.legacyData.previousPlan.workoutLogs = { ...(data.legacyData.previousPlan.workoutLogs || {}), ...archivedLogs };
+    }
     data.workoutLogs = currentLogs;
-    data.completedSessions = isObject(raw.completedSessions)
-      ? Object.fromEntries(Object.entries(raw.completedSessions).filter(([workoutId]) => validIds.has(workoutId)))
-      : {};
+    const completedEntries = isObject(raw.completedSessions) ? Object.entries(raw.completedSessions) : [];
+    data.completedSessions = Object.fromEntries(completedEntries.filter(([workoutId]) => validIds.has(workoutId)));
+    const archivedCompleted = Object.fromEntries(completedEntries.filter(([workoutId]) => !validIds.has(workoutId)));
+    if (Object.keys(archivedCompleted).length) {
+      data.legacyData.previousPlan ||= { archivedAt: nowIso(), workoutLogs: {}, completedSessions: {} };
+      data.legacyData.previousPlan.completedSessions = { ...(data.legacyData.previousPlan.completedSessions || {}), ...archivedCompleted };
+    }
     return data;
   }
 
@@ -200,6 +212,12 @@
     return (week.workouts || []).find((workout) => !isCompleted(workout.workoutId)) || null;
   }
 
+  function daysUntilMarathon() {
+    const today = parseLocalDate(appDateIso());
+    const marathon = parseLocalDate(plan.config.marathonDate);
+    return Math.max(0, Math.ceil((marathon - today) / 86400000));
+  }
+
   function trainingType(workout) {
     const labels = {
       "rustige-duur": "Rustige duur",
@@ -218,7 +236,7 @@
   }
 
   function speedSummary(workout) {
-    const values = relevantSegments(workout).map((segment) => Number(segment.speedKmh)).filter(Number.isFinite);
+    const values = relevantSegments(workout).map((segment) => Number(segment.speedKmh)).filter((value) => Number.isFinite(value) && value > 0);
     if (!values.length) return workout.surface === "buiten" ? "Buiten" : "Tempo op gevoel";
     const min = Math.min(...values);
     const max = Math.max(...values);
@@ -277,7 +295,7 @@
             </select>
           </label>
         </div>
-        <div class="week-meta">${formatDate(week.startDate, { day: "numeric", month: "long" })} – ${formatDate(week.endDate, { day: "numeric", month: "long", year: "numeric" })} · ${formatNumber(week.plannedDistanceKm)} km gepland</div>
+        <div class="week-meta">${escapeHtml(week.periodLabel || `${formatDate(week.startDate, { day: "numeric", month: "long" })} – ${formatDate(week.endDate, { day: "numeric", month: "long", year: "numeric" })}`)} · ${escapeHtml(week.plannedDistanceLabel || "Afstand volgens trainingen")} · nog ${daysUntilMarathon()} dagen</div>
         <p class="week-focus">${escapeHtml(week.focus)}</p>
       </section>
 
@@ -306,6 +324,7 @@
       <article class="training-card ${open ? "is-open" : ""} ${completed ? "is-completed" : ""}" data-workout-card="${workout.workoutId}">
         <button class="training-card-toggle" type="button" data-toggle-workout="${workout.workoutId}" aria-expanded="${open}" aria-controls="${detailsId}">
           <span class="card-topline"><span>Training ${workout.trainingNumber}</span>${completed ? `<span class="completed-mark">✓ Voltooid</span>` : `<span class="training-type">${escapeHtml(trainingType(workout))}</span>`}<span class="expand-icon" aria-hidden="true">${open ? "−" : "+"}</span></span>
+          ${(workout.labels || []).length ? `<span class="training-labels">${workout.labels.map((label) => `<span>${escapeHtml(label)}</span>`).join("")}</span>` : ""}
           <span class="training-name">${escapeHtml(capitalize(workout.title))}</span>
           <span class="training-primary">${escapeHtml(workoutPrimarySummary(workout))}</span>
           <span class="training-speed">${escapeHtml(joinText([speedSummary(workout), workout.targetRpe ? `RPE ${workout.targetRpe}` : ""]))}</span>
@@ -324,12 +343,12 @@
 
   function renderTrainingDetails(workout) {
     return `
+      <p class="detail-context">Week ${workout.weekNumber} · ${escapeHtml(workout.dateLabel)} · Training ${workout.trainingNumber} · ${escapeHtml(workout.phaseName)}</p>
       <div class="detail-section"><h3>Exacte opbouw</h3><div class="segment-groups">${(workout.groups || []).map(renderSegmentGroup).join("")}</div></div>
-      <div class="detail-section"><h3>Doel en uitvoering</h3><p>${escapeHtml(workout.goal)}</p>${renderTechnique(workout)}</div>
+      <div class="detail-section"><h3>Doel en belasting</h3><p><strong>Trainingsdoel:</strong> ${escapeHtml(workout.goal)}</p><p><strong>Gewenste RPE:</strong> ${escapeHtml(workout.targetRpe)}</p><p><strong>Mentale doelstelling:</strong> ${escapeHtml(workout.mentalGoal || "De training gecontroleerd uitvoeren zoals beschreven.")}</p></div>
       ${workout.orderWarning ? `<div class="detail-section"><h3>Planning en herstel</h3><p>${escapeHtml(workout.orderWarning)}</p></div>` : ""}
-      ${fuelingAdvice(workout) ? `<div class="detail-section"><h3>Voeding</h3><p>${escapeHtml(fuelingAdvice(workout))}</p></div>` : ""}
-      ${(workout.notes || []).length ? `<div class="detail-section"><h3>Belangrijke opmerkingen</h3><ul>${workout.notes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul></div>` : ""}
-      ${workout.evaluation ? `<div class="detail-section evaluation"><h3>${escapeHtml(workout.evaluation.title)}</h3><h4>Goede signalen</h4><ul>${workout.evaluation.criteria.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul><h4>Aanpassen als dit niet lukt</h4><ul>${workout.evaluation.adjustmentRules.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div>` : ""}
+      ${(workout.detailsSections || []).map((section) => `<div class="detail-section source-detail"><h3>${escapeHtml(section.title)}</h3><ul>${section.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div>`).join("")}
+      ${workout.isTest ? renderTestForm(workout) : ""}
     `;
   }
 
@@ -341,22 +360,46 @@
           <div class="segment-row">
             <span class="segment-kind">${escapeHtml(capitalize(String(segment.type || "onderdeel").replace(/-/g, " ")))}</span>
             <strong>${escapeHtml(segment.display)}</strong>
-            <span>${formatNumber(segment.speedKmh)} km/u</span>
-            <span>${segment.inclinePercent == null ? "buiten" : `${formatNumber(segment.inclinePercent)}%`}</span>
+            <span>${Number.isFinite(Number(segment.speedKmh)) && Number(segment.speedKmh) > 0 ? `${formatNumber(segment.speedKmh)} km/u` : "zelf sturen"}</span>
+            <span>${segment.inclinePercent == null ? "—" : `${formatNumber(segment.inclinePercent)}%`}</span>
           </div>`).join("")}
-        ${group.omitRecoveryAfterLast ? `<p class="segment-footnote">Na de laatste herhaling vervalt het herstelstuk.</p>` : ""}
+        ${group.omitRecoveryAfterLast ? `<p class="segment-footnote">Na de laatste herhaling vervalt het herstelstuk, zoals in het schema beschreven.</p>` : ""}
+        ${(group.segments || []).some((segment) => segment.instruction) ? `<p class="segment-footnote">${escapeHtml(group.segments.map((segment) => segment.instruction).filter(Boolean).join(" "))}</p>` : ""}
       </section>`;
   }
 
-  function renderTechnique(workout) {
-    const quality = ["kwaliteit", "interval", "testtraining"].includes(workout.category);
-    const longRun = workout.category === "lange-duur";
-    const instruction = quality
-      ? "Houd de snelle stukken constant en technisch rustig. Trek jezelf niet aan de handgrepen omhoog en maak er geen sprint van."
-      : longRun
-        ? "Start bewust rustig. De duur is de hoofdprikkel; versnel alleen waar dit expliciet in de opbouw staat."
-        : "Loop ontspannen genoeg om volledige zinnen te kunnen spreken. Verlaag 0,3–0,5 km/u wanneer de rustige delen boven RPE 4 komen.";
-    return `<p>${escapeHtml(instruction)}</p><ul><li>Kijk vooruit en blijf lang, zonder vanuit je middel te knikken.</li><li>Laat je voet ongeveer onder je lichaam landen en vermijd een geforceerd lange pas.</li><li>Houd schouders, handen en gezicht ontspannen.</li><li>Bij 3/10 pijn: helling naar 0% en snelheid 0,5 km/u lager. Stop wanneer dit niet binnen vijf minuten vermindert.</li></ul>`;
+  function testResult(workoutId) {
+    return isObject(appData.testResults?.[workoutId]) ? appData.testResults[workoutId] : {};
+  }
+
+  function renderRpeOptions(value) {
+    return `<option value="">Kies RPE</option>${Array.from({ length: 10 }, (_, index) => index + 1).map((number) => `<option value="${number}" ${String(value) === String(number) ? "selected" : ""}>${number}/10</option>`).join("")}`;
+  }
+
+  function renderTestForm(workout) {
+    const result = testResult(workout.workoutId);
+    return `<div class="detail-section test-registration">
+      <h3>Testresultaat registreren</h3>
+      <p>De waarden worden direct lokaal opgeslagen. Het schema en de voorgeschreven snelheden worden hierdoor niet automatisch aangepast.</p>
+      <div class="test-fields">
+        <label><span>Resultaat / tijd</span><input type="text" inputmode="text" value="${escapeAttr(result.result || "")}" placeholder="bijv. 22:35" data-test-workout="${workout.workoutId}" data-test-field="result"></label>
+        <label><span>Gemiddelde snelheid</span><input type="number" inputmode="decimal" min="0" step="0.1" value="${escapeAttr(result.averageSpeed || "")}" placeholder="km/u" data-test-workout="${workout.workoutId}" data-test-field="averageSpeed"></label>
+        <label><span>RPE</span><select data-test-workout="${workout.workoutId}" data-test-field="rpe">${renderRpeOptions(result.rpe)}</select></label>
+        <label><span>RPE laatste blok</span><select data-test-workout="${workout.workoutId}" data-test-field="lastBlockRpe">${renderRpeOptions(result.lastBlockRpe)}</select></label>
+        <label class="wide"><span>Ademhaling</span><input type="text" value="${escapeAttr(result.breathing || "")}" placeholder="bijv. stevig maar beheersbaar" data-test-workout="${workout.workoutId}" data-test-field="breathing"></label>
+        <label class="wide"><span>Benen</span><input type="text" value="${escapeAttr(result.legs || "")}" placeholder="Hoe voelden je benen?" data-test-workout="${workout.workoutId}" data-test-field="legs"></label>
+        <label class="wide"><span>Pijn / klachten</span><input type="text" value="${escapeAttr(result.pain || "")}" placeholder="Geen, of beschrijf waar en wanneer" data-test-workout="${workout.workoutId}" data-test-field="pain"></label>
+        <label class="wide"><span>Algemene ervaring</span><textarea rows="3" data-test-workout="${workout.workoutId}" data-test-field="experience" placeholder="Hoe verliep de test?">${escapeHtml(result.experience || "")}</textarea></label>
+        <label class="wide"><span>Vrije notitie</span><textarea rows="3" data-test-workout="${workout.workoutId}" data-test-field="note" placeholder="Aanvullende notitie">${escapeHtml(result.note || "")}</textarea></label>
+      </div>
+    </div>`;
+  }
+
+  function saveTestField(workoutId, field, value) {
+    if (!workoutId || !field) return;
+    appData.testResults ||= {};
+    appData.testResults[workoutId] = { ...testResult(workoutId), [field]: value, updatedAt: nowIso() };
+    saveAppData();
   }
 
   function renderPlan() {
@@ -367,7 +410,7 @@
           const phase = plan.phases.find((item) => item.phaseId === week.phaseId);
           const longRun = week.workouts.find((workout) => workout.trainingNumber === 4);
           const completed = week.workouts.filter((workout) => isCompleted(workout.workoutId)).length;
-          return `<button class="plan-row" type="button" data-open-week="${index}"><span class="plan-week">Week ${week.weekNumber}</span><span class="plan-main"><strong>${escapeHtml(phase?.shortName || week.phaseName)}</strong><small>${week.workouts.length} trainingen · lange duur: ${escapeHtml(longRun?.estimatedDistanceLabel || "-")}</small></span><span class="plan-status">${completed}/${week.workouts.length}<i aria-hidden="true">›</i></span></button>`;
+          return `<button class="plan-row" type="button" data-open-week="${index}"><span class="plan-week">Week ${week.weekNumber}</span><span class="plan-main"><strong>${escapeHtml(phase?.shortName || week.phaseName)}</strong><small>${week.workouts.length} trainingen · Training 4: ${escapeHtml(longRun?.estimatedDistanceLabel || "-")}</small></span><span class="plan-status">${completed}/${week.workouts.length}<i aria-hidden="true">›</i></span></button>`;
         }).join("")}
       </section>`;
   }
@@ -381,6 +424,8 @@
         "Herstel: het rustige stuk tussen twee snellere delen.",
         "Helling: stijgingspercentage van de loopband.",
       ]],
+      ["Trainingsfilosofie", plan.guidance.philosophy],
+      ["Trainingssnelheden", plan.guidance.paces.map((item) => `${item.type}: ${item.speed}, helling ${item.incline}.`)],
       ["Trainingen plannen", plan.guidance.scheduling],
       ["Mogelijke trainingsvolgorde", plan.guidance.suggestedSequences],
       ["Inspanningsniveaus", plan.guidance.rpeScale.map((item) => `${item.type}: ${item.rpe}. ${item.feeling}`)],
@@ -388,12 +433,14 @@
       ["Pijn en aanpassen", plan.guidance.painRules],
       ["Voeding tijdens trainingen", plan.guidance.fueling.map((item) => `${item.duration}: ${item.carbs}`)],
       ["Wanneer is 3:30 geloofwaardig?", plan.guidance.targetConfirmation],
+      ["De drie officiële tests", plan.guidance.officialTests.map((item) => `Week ${item.week}, Training ${item.training}: ${item.title}. Vraag: ${item.question}`)],
       ["Wedstrijdstrategie", plan.guidance.raceStrategy.map((item) => `${item.distance}: ${item.pace}. ${item.instruction}`)],
     ];
     app.innerHTML = `
       <header class="page-header"><span>Naslag</span><h1>Informatie</h1><p>Korte uitleg over tempo, belasting en het gebruik van het schema.</p></header>
       <section class="target-summary"><div><span>Doel</span><strong>${escapeHtml(plan.config.targetTime)}</strong></div><div><span>Doeltempo</span><strong>${escapeHtml(plan.config.targetPace)}</strong></div><div><span>Praktisch MP</span><strong>${formatNumber(plan.config.practicalMarathonSpeedKmh)} km/u</strong></div></section>
-      <section class="info-accordions">${sections.map(([title, items]) => `<details class="info-accordion"><summary><span>${escapeHtml(title)}</span><span aria-hidden="true">+</span></summary><div><ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div></details>`).join("")}</section>`;
+      <section class="info-accordions">${sections.map(([title, items]) => `<details class="info-accordion"><summary><span>${escapeHtml(title)}</span><span aria-hidden="true">+</span></summary><div><ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div></details>`).join("")}</section>
+      <footer class="app-version">Versie ${APP_VERSION} · schema ${escapeHtml(plan.config.schemaVersion)}</footer>`;
   }
 
   function setView(view) {
@@ -468,10 +515,20 @@
   });
 
   document.addEventListener("change", (event) => {
+    if (event.target.matches("[data-test-workout][data-test-field]")) {
+      saveTestField(event.target.dataset.testWorkout, event.target.dataset.testField, event.target.value);
+      return;
+    }
     if (event.target.matches("[data-week-select]")) {
       state.viewedWeekIndex = Number(event.target.value);
       state.expandedWorkoutIds.clear();
       renderWeek();
+    }
+  });
+
+  document.addEventListener("input", (event) => {
+    if (event.target.matches("[data-test-workout][data-test-field]")) {
+      saveTestField(event.target.dataset.testWorkout, event.target.dataset.testField, event.target.value);
     }
   });
 
@@ -485,8 +542,33 @@
   });
   window.addEventListener("pagehide", saveAppData);
 
-  render();
-  if ("serviceWorker" in navigator) navigator.serviceWorker.register("./service-worker.js").then((registration) => registration.update()).catch(() => {});
+  async function retireLegacyPwaCache() {
+    try {
+      const appBasePath = new URL("./", window.location.href).pathname;
+      if ("serviceWorker" in navigator && navigator.serviceWorker.getRegistrations) {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        const appRegistrations = registrations.filter((registration) => new URL(registration.scope).pathname === appBasePath);
+        await Promise.all(appRegistrations.map((registration) => registration.unregister()));
+      }
+      if ("caches" in window) {
+        const cacheNames = await window.caches.keys();
+        const appCachePrefixes = ["marathon-330-", "marathon-app-"];
+        await Promise.all(cacheNames.filter((name) => appCachePrefixes.some((prefix) => name.startsWith(prefix))).map((name) => window.caches.delete(name)));
+      }
+      if (navigator.serviceWorker?.controller && window.sessionStorage && window.location.reload) {
+        const reloadKey = `marathon-pwa-cleanup-${APP_VERSION}`;
+        if (!window.sessionStorage.getItem(reloadKey)) {
+          window.sessionStorage.setItem(reloadKey, "done");
+          window.location.reload();
+        }
+      }
+    } catch (error) {
+      console.warn("Oude app-cache kon niet volledig worden opgeruimd.", error);
+    }
+  }
 
-  window.MarathonApp = { APP_VERSION, STORAGE_KEY, plan, state, isCompleted, loadAppData, saveAppData, currentPlanWeekIndex, render };
+  render();
+  retireLegacyPwaCache();
+
+  window.MarathonApp = { APP_VERSION, STORAGE_KEY, plan, state, isCompleted, loadAppData, saveAppData, currentPlanWeekIndex, render, saveTestField };
 })();
