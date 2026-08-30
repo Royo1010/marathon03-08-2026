@@ -1,4 +1,4 @@
-const APP_VERSION = "2026.08.30-3";
+const APP_VERSION = "2026.08.30-4";
 const APP_CACHE_PREFIXES = ["marathon-330-", "marathon-app-"];
 
 // Eenmalige migratieworker: verwijder alleen caches van deze marathonapp.

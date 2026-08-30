@@ -20,6 +20,7 @@ assert.equal(plan.config.targetSpeedKmh, 12);
 assert.equal(plan.config.trainingFrequency, 4);
 assert.equal(plan.config.sourceFile, "marathon-schema-3u30-expliciete-helling.md");
 assert.equal(plan.config.schemaVersion, "marathon-schema-3u30-expliciete-helling-2026.08.30-1");
+assert.equal(plan.config.planVersion, 4);
 
 assert.deepEqual(Array.from(plan.weeks, (week) => week.weekNumber), Array.from({ length: 12 }, (_, index) => 36 + index));
 assert.equal(plan.weeks.length, 12, "Het definitieve schema bevat week 36 t/m 47");
@@ -34,6 +35,9 @@ assert.deepEqual(Array.from(plan.weeks, (week) => week.plannedDistanceLabel), [
   "±39 km", "±43,7 km", "±48,8 km", "±54,2 km", "±42–43 km", "±56–57 km",
   "±59,5 km", "±64,4 km", "±54,4 km", "±47 km", "±37,7 km", "Marathonweek",
 ]);
+assert.deepEqual(Array.from(plan.weeks, (week) => week.plannedDistanceKm), [39, 43.7, 48.8, 54.2, 42.5, 56.5, 59.5, 64.4, 54.4, 47, 37.7, 58.195]);
+assert.deepEqual(Array.from(plan.weeks, (week) => week.plannedDistanceMinKm), [39, 43.7, 48.8, 54.2, 42, 56, 59.5, 64.4, 54.4, 47, 37.7, 58.195]);
+assert.deepEqual(Array.from(plan.weeks, (week) => week.plannedDistanceMaxKm), [39, 43.7, 48.8, 54.2, 43, 57, 59.5, 64.4, 54.4, 47, 37.7, 58.195]);
 
 const week36Easy = workout(36, 1);
 assert.equal(week36Easy.totalPlannedSeconds, 45 * 60);

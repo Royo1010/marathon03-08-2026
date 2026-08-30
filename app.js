@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "2026.08.30-3";
+  const APP_VERSION = "2026.08.30-4";
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
   const APP_DATA_VERSION = 3;
   const plan = window.MARATHON_PLAN;
@@ -16,6 +16,20 @@
   const navButtons = Array.from(document.querySelectorAll("[data-view]"));
 
   const VIEWS = { WEEK: "week", PLAN: "plan", INFO: "info", MARATHON: "marathon", TREADMILL: "treadmill" };
+  const WEEK_OVERVIEW = {
+    36: { theme: "Opbouw", goal: "Basisvolume verhogen + eerste marathonpaceblokken" },
+    37: { theme: "Duur + drempel", goal: "Drempelblokken verlengen + duur verder opbouwen" },
+    38: { theme: "Confidence-opbouw", goal: "Eerste 20K confidence run + snelheid ontwikkelen" },
+    39: { theme: "Confidence + MP", goal: "Halve-marathonconfidence + marathonpace" },
+    40: { theme: "Herstel + test", goal: "Herstellen + 5 km benchmark" },
+    41: { theme: "Marathonspecifiek", goal: "Steady halve marathon + drempelontwikkeling" },
+    42: { theme: "Duuropbouw", goal: "Duurvermogen richting 28 km" },
+    43: { theme: "Piekweek", goal: "Piekvolume + 30K confidence + marathonpace-test" },
+    44: { theme: "Sleutelweek", goal: "Belangrijkste marathonspecifieke sleutelweek" },
+    45: { theme: "Taperstart", goal: "Taper starten, kwaliteit behouden" },
+    46: { theme: "Taper", goal: "Volume verder verlagen, marathonpace scherp houden" },
+    47: { theme: "Marathonweek", goal: "Herstellen, losmaken en racen" },
+  };
   const state = {
     view: VIEWS.WEEK,
     viewedWeekIndex: currentPlanWeekIndex(),
@@ -702,13 +716,70 @@
     return Number.isFinite(calculated) && calculated >= 0 ? calculated : 0;
   }
 
-  function completedDistanceKm(workout) {
-    if (!isCompleted(workout.workoutId)) return 0;
+  function actualDistanceKm(workout) {
     const log = workoutLog(workout.workoutId) || {};
     const actual = [log.actualDistanceKm, log.distanceKm, log.completedDistanceKm]
       .map(Number)
       .find((value) => Number.isFinite(value) && value >= 0);
-    return actual ?? plannedDistanceKm(workout);
+    return actual ?? null;
+  }
+
+  function completedDistanceKm(workout) {
+    if (!isCompleted(workout.workoutId)) return 0;
+    return actualDistanceKm(workout) ?? plannedDistanceKm(workout);
+  }
+
+  function weekWorkouts(week, includeMarathon = true) {
+    return (week?.workouts || []).filter((workout) => includeMarathon || workout.category !== "wedstrijd");
+  }
+
+  function getWeekPlannedKm(week, includeMarathon = true) {
+    const containsMarathon = weekWorkouts(week, true).some((workout) => workout.category === "wedstrijd");
+    const authoritative = Number(week?.plannedDistanceKm);
+    if (Number.isFinite(authoritative) && (includeMarathon || !containsMarathon)) return authoritative;
+    return weekWorkouts(week, includeMarathon).reduce((total, workout) => total + plannedDistanceKm(workout), 0);
+  }
+
+  function getWeekCompletedKm(week, includeMarathon = true) {
+    const eligible = weekWorkouts(week, includeMarathon);
+    const completed = eligible.filter((workout) => isCompleted(workout.workoutId));
+    if (!completed.length) return 0;
+    const allCompleted = completed.length === eligible.length;
+    const hasActualDistance = completed.some((workout) => actualDistanceKm(workout) != null);
+    if (allCompleted && !hasActualDistance) return getWeekPlannedKm(week, includeMarathon);
+    return completed.reduce((total, workout) => total + completedDistanceKm(workout), 0);
+  }
+
+  function getWeekPlannedLabel(week) {
+    if (week?.includesMarathon || weekWorkouts(week, true).some((workout) => workout.category === "wedstrijd")) {
+      return `±${formatNumber(getWeekPlannedKm(week, true))} km totaal incl. marathon`;
+    }
+    const sourceLabel = String(week?.plannedDistanceLabel || "").trim();
+    return sourceLabel ? `${sourceLabel} totaal` : `±${formatNumber(getWeekPlannedKm(week, true))} km totaal`;
+  }
+
+  function workoutDurationSeconds(workout) {
+    const explicit = Number(workout?.totalPlannedSeconds);
+    if (Number.isFinite(explicit) && explicit > 0) return explicit;
+    const segments = model.flattenWorkoutSegments(workout);
+    if (!segments.length) return null;
+    const durations = segments.map((segment) => Number(model.segmentDurationSeconds(segment)));
+    return durations.every((duration) => Number.isFinite(duration) && duration > 0)
+      ? durations.reduce((total, duration) => total + duration, 0)
+      : null;
+  }
+
+  function completedDurationSeconds(workout) {
+    if (!isCompleted(workout.workoutId)) return 0;
+    const log = workoutLog(workout.workoutId) || {};
+    const actual = [log.actualDurationSeconds, log.durationSeconds, log.completedDurationSeconds]
+      .map(Number)
+      .find((value) => Number.isFinite(value) && value >= 0);
+    return actual ?? workoutDurationSeconds(workout) ?? 0;
+  }
+
+  function formatHours(seconds) {
+    return `${formatNumber(Number(seconds || 0) / 3600)} uur`;
   }
 
   function latestCompletedWorkout() {
@@ -724,26 +795,30 @@
   function dashboardMetrics() {
     const programWorkouts = regularProgramWorkouts();
     const completedWorkouts = programWorkouts.filter((workout) => isCompleted(workout.workoutId));
-    const totalPlannedKm = programWorkouts.reduce((total, workout) => total + plannedDistanceKm(workout), 0);
-    const totalCompletedKm = completedWorkouts.reduce((total, workout) => total + completedDistanceKm(workout), 0);
+    const totalPlannedKm = weeks.reduce((total, week) => total + getWeekPlannedKm(week, false), 0);
+    const totalCompletedKm = weeks.reduce((total, week) => total + getWeekCompletedKm(week, false), 0);
     const currentWeek = weeks[currentPlanWeekIndex()] || weeks[0];
     const weekly = weeks.map((week) => {
-      const weekWorkouts = (week.workouts || []).filter((workout) => workout.category !== "wedstrijd");
-      const plannedKm = weekWorkouts.reduce((total, workout) => total + plannedDistanceKm(workout), 0);
-      const completedKm = weekWorkouts.reduce((total, workout) => total + completedDistanceKm(workout), 0);
-      return { weekNumber: week.weekNumber, plannedKm, completedKm, current: week.weekId === currentWeek?.weekId };
+      const plannedKm = getWeekPlannedKm(week, true);
+      const completedKm = getWeekCompletedKm(week, true);
+      return { weekNumber: week.weekNumber, plannedKm, completedKm, includesMarathon: Boolean(week.includesMarathon), current: week.weekId === currentWeek?.weekId };
     });
     const current = weekly.find((week) => week.current) || { plannedKm: 0, completedKm: 0 };
     const confidence = workouts.filter((workout) => (workout.labels || []).includes("CONFIDENCE RUN"));
     const tests = workouts.filter((workout) => workout.isTest);
-    const completedTests = tests.filter((workout) => isCompleted(workout.workoutId) || Object.keys(testResult(workout.workoutId)).some((key) => key !== "updatedAt"));
+    const completedTests = tests.filter((workout) => isCompleted(workout.workoutId));
+    const testsWithResults = tests.filter((workout) => Object.keys(testResult(workout.workoutId)).some((key) => key !== "updatedAt"));
     const nextTest = tests.find((workout) => !completedTests.includes(workout)) || null;
-    const latestTest = completedTests
+    const latestTest = testsWithResults
       .slice()
       .sort((a, b) => String(testResult(b.workoutId).updatedAt || "").localeCompare(String(testResult(a.workoutId).updatedAt || "")))[0] || null;
     const longRuns = programWorkouts.filter((workout) => workout.category === "lange-duur");
     const longestPlanned = longRuns.slice().sort((a, b) => plannedDistanceKm(b) - plannedDistanceKm(a))[0] || null;
     const longestCompleted = longRuns.filter((workout) => isCompleted(workout.workoutId)).sort((a, b) => completedDistanceKm(b) - completedDistanceKm(a))[0] || null;
+    const knownDurationWorkouts = programWorkouts.filter((workout) => workoutDurationSeconds(workout) != null);
+    const plannedDurationSeconds = knownDurationWorkouts.reduce((total, workout) => total + workoutDurationSeconds(workout), 0);
+    const completedDurationTotal = completedWorkouts.reduce((total, workout) => total + completedDurationSeconds(workout), 0);
+    const remainingDurationSeconds = programWorkouts.filter((workout) => !isCompleted(workout.workoutId)).reduce((total, workout) => total + (workoutDurationSeconds(workout) || 0), 0);
     return {
       programWorkouts,
       completedWorkouts,
@@ -756,6 +831,8 @@
       distanceProgress: totalPlannedKm ? Math.min(100, Math.round((totalCompletedKm / totalPlannedKm) * 100)) : 0,
       averageCompletedKm: completedWorkouts.length ? totalCompletedKm / completedWorkouts.length : 0,
       activeCompletedWeeks: weekly.filter((week) => week.completedKm > 0).length,
+      scheduledPlannedKm: weekly.reduce((total, week) => total + week.plannedKm, 0),
+      scheduledCompletedKm: weekly.reduce((total, week) => total + week.completedKm, 0),
       weekly,
       currentWeek,
       currentPlannedKm: current.plannedKm,
@@ -769,6 +846,10 @@
       longestPlanned,
       longestCompleted,
       latestCompleted: latestCompletedWorkout(),
+      plannedDurationSeconds,
+      completedDurationSeconds: completedDurationTotal,
+      remainingDurationSeconds,
+      unknownDurationCount: programWorkouts.length - knownDurationWorkouts.length,
     };
   }
 
@@ -786,7 +867,7 @@
           </div>`;
         }).join("")}
       </div>
-      <p>Per week telt blauw de werkelijk gelogde afstand, of de geplande afstand zodra een training als voltooid staat.</p>
+      <p>Week 47 bevat de marathon. Blauw gebruikt een werkelijk gelogde afstand, of anders de geplande afstand van een voltooide sessie.</p>
     </section>`;
   }
 
@@ -818,7 +899,7 @@
         <polyline points="${completedTotals.map(point).join(" ")}" class="chart-line-completed"></polyline>
         ${metrics.weekly.map((week, index) => labels.has(week.weekNumber) ? `<text x="${point(0, index).split(",")[0]}" y="144" text-anchor="middle">${week.weekNumber}</text>` : "").join("")}
       </svg>
-      <p>${formatNumber(metrics.totalCompletedKm)} van ${formatNumber(metrics.totalPlannedKm)} geplande trainingskilometers voltooid.</p>
+      <p>${formatNumber(metrics.scheduledCompletedKm)} van ${formatNumber(metrics.scheduledPlannedKm)} km in het volledige weekschema, inclusief de marathon.</p>
     </section>`;
   }
 
@@ -875,6 +956,8 @@
         <article class="dashboard-card"><span>Officiële tests</span><strong>${metrics.completedTests.length} / ${metrics.tests.length}</strong><p>${metrics.nextTest ? `Volgende: week ${metrics.nextTest.weekNumber}` : "Alle tests afgerond"}</p></article>
         <article class="dashboard-card"><span>Langste gepland</span><strong>${metrics.longestPlanned ? `${formatNumber(plannedDistanceKm(metrics.longestPlanned))} km` : "-"}</strong><p>${metrics.longestPlanned ? `Week ${metrics.longestPlanned.weekNumber}` : "Geen lange duurloop"}</p></article>
         <article class="dashboard-card"><span>Langste voltooid</span><strong>${metrics.longestCompleted ? `${formatNumber(completedDistanceKm(metrics.longestCompleted))} km` : "0 km"}</strong><p>${metrics.longestCompleted ? escapeHtml(capitalize(metrics.longestCompleted.title)) : "Nog geen lange duurloop"}</p></article>
+        <article class="dashboard-card"><span>Bekende trainingsuren</span><strong>${formatHours(metrics.completedDurationSeconds)}</strong><p>van ${formatHours(metrics.plannedDurationSeconds)}</p></article>
+        <article class="dashboard-card"><span>Resterende uren</span><strong>${formatHours(metrics.remainingDurationSeconds)}</strong><p>${metrics.unknownDurationCount ? `${metrics.unknownDurationCount} open testduur niet meegerekend` : "Alle trainingsduren bekend"}</p></article>
       </section>
       <section class="dashboard-card detail-status-card">
         <div><span>Gemiddelde voltooide training</span><strong>${formatNumber(metrics.averageCompletedKm)} km</strong></div>
@@ -882,7 +965,7 @@
         <div><span>Laatste voltooid</span><strong>${metrics.latestCompleted ? `Week ${metrics.latestCompleted.weekNumber} · Training ${metrics.latestCompleted.trainingNumber}` : "Nog geen training"}</strong><small>${metrics.latestCompleted ? escapeHtml(capitalize(metrics.latestCompleted.title)) : ""}</small></div>
         <div><span>Laatste testresultaat</span><strong>${metrics.latestTest ? escapeHtml(latestTestResult?.result || `Week ${metrics.latestTest.weekNumber}`) : "Nog geen test"}</strong><small>${metrics.latestTest ? escapeHtml(capitalize(metrics.latestTest.title)) : ""}</small></div>
       </section>
-      <p class="dashboard-method">Werkelijk gelogde afstand wordt gebruikt wanneer die beschikbaar is. Anders telt een voltooide training voor de geplande afstand mee. De marathon zelf staat apart van de 47 reguliere trainingen.</p>
+      <p class="dashboard-method">Werkelijk gelogde afstand wordt gebruikt wanneer die beschikbaar is. Anders telt een voltooide training voor de geplande afstand mee. De kilometerkaarten tellen 47 trainingen vóór de race; de weekgrafieken en het Schema tonen week 47 inclusief marathon.</p>
     </section>`;
   }
 
@@ -894,7 +977,18 @@
           const phase = plan.phases.find((item) => item.phaseId === week.phaseId);
           const longRun = week.workouts.find((workout) => workout.trainingNumber === 4);
           const completed = week.workouts.filter((workout) => isCompleted(workout.workoutId)).length;
-          return `<button class="plan-row" type="button" data-open-week="${index}"><span class="plan-week">Week ${week.weekNumber}</span><span class="plan-main"><strong>${escapeHtml(phase?.shortName || week.phaseName)}</strong><small>${week.workouts.length} trainingen · Training 4: ${escapeHtml(longRun?.estimatedDistanceLabel || "-")}</small></span><span class="plan-status">${completed}/${week.workouts.length}<i aria-hidden="true">›</i></span></button>`;
+          const overview = WEEK_OVERVIEW[week.weekNumber] || { theme: phase?.shortName || week.phaseName, goal: week.focus };
+          const marathonWeek = Boolean(week.includesMarathon || longRun?.category === "wedstrijd");
+          return `<button class="plan-row${completed === week.workouts.length ? " is-completed" : ""}" type="button" data-open-week="${index}" aria-label="Open week ${week.weekNumber}">
+            <span class="plan-row-top"><span class="plan-week">Week ${week.weekNumber}</span><span class="plan-status">${completed}/${week.workouts.length}<i aria-hidden="true">›</i></span></span>
+            <span class="plan-main">
+              <strong>${escapeHtml(overview.theme)}</strong>
+              <span class="plan-volume">${escapeHtml(getWeekPlannedLabel(week))}</span>
+              <small>${marathonWeek ? `${week.workouts.length} sessies incl. marathon` : `${week.workouts.length} trainingen`}</small>
+              <span class="plan-goal"><b>Doel</b>${escapeHtml(overview.goal)}</span>
+              <small class="plan-longest">${marathonWeek ? "Marathon" : "Langste training"}: ${escapeHtml(longRun?.estimatedDistanceLabel || `${formatNumber(plannedDistanceKm(longRun))} km`)}</small>
+            </span>
+          </button>`;
         }).join("")}
       </section>`;
   }
@@ -1111,5 +1205,9 @@
     daysUntilMarathon,
     nextIncompleteWorkout,
     nextMilestoneWorkout,
+    getWeekPlannedKm,
+    getWeekCompletedKm,
+    getWeekPlannedLabel,
+    dashboardMetrics,
   };
 })();

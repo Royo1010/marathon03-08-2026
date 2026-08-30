@@ -15,12 +15,14 @@ test("manifest en assets gebruiken GitHub Pages-veilige relatieve paden", () => 
   assert.equal(manifest.display, "standalone");
   assert.ok(manifest.icons.every((icon) => icon.src.startsWith("./")));
   assert.match(html, /apple-mobile-web-app-capable/);
-  assert.match(html, /apple-touch-icon\.png\?v=2026\.08\.30-3/);
-  assert.match(html, /manifest\.json\?v=2026\.08\.30-3/);
-  assert.match(html, /training-data\.js\?v=2026\.08\.30-3/);
-  assert.match(read("app.js"), /APP_VERSION = "2026\.08\.30-3"/);
-  assert.match(read("service-worker.js"), /APP_VERSION = "2026\.08\.30-3"/);
+  assert.match(html, /apple-touch-icon\.png\?v=2026\.08\.30-4/);
+  assert.match(html, /manifest\.json\?v=2026\.08\.30-4/);
+  assert.match(html, /training-data\.js\?v=2026\.08\.30-4/);
+  assert.match(read("app.js"), /APP_VERSION = "2026\.08\.30-4"/);
+  assert.match(read("service-worker.js"), /APP_VERSION = "2026\.08\.30-4"/);
   assert.doesNotMatch(html, /(?:href|src)="\//);
+  assert.match(html, /<strong>Marathon 3:30<\/strong>/);
+  assert.doesNotMatch(html, /header-brand[\s\S]*?<strong>Marathon 3:30\s*<i/);
 });
 
 test("service worker is alleen een netwerkgestuurde cleanupmigratie", () => {

@@ -5,7 +5,7 @@ Mobiele weekplanner voor het definitieve Marathon 3:30-loopbandschema van
 
 ## Actieve versie
 
-- App-versie: `2026.08.30-3`
+- App-versie: `2026.08.30-4`
 - Schemaversie: `marathon-schema-3u30-expliciete-helling-2026.08.30-1`
 - Bronbestand: `marathon-schema-3u30-expliciete-helling.md`
 - Opslagkey: `marathon330TrainingAppData_v1`
@@ -22,6 +22,12 @@ node scripts/generate-marathon-plan.mjs marathon-schema-3u30-expliciete-helling.
 ```
 
 Wijzig `training-data.js` daarom niet handmatig wanneer het schema verandert.
+
+Het tabblad **Schema**, de kilometerkaarten en de twee dashboardgrafieken lezen
+dezelfde centrale weektotalen uit deze gegenereerde data. Bij bronranges wordt
+de originele range getoond en gebruikt de grafiek het midden van die range.
+Week 47 wordt berekend uit drie trainingen plus de marathon en wordt zichtbaar
+als totaal inclusief marathon gemarkeerd.
 
 ## Loopbandmodus
 
@@ -82,7 +88,7 @@ Na deze eerste release is daarom de betrouwbaarste eenmalige stap:
 
 1. verwijder het oude homescreen-icoon;
 2. open de actuele GitHub Pages-URL in Safari;
-3. controleer onder **Informatie** dat versie `2026.08.30-3` zichtbaar is;
+3. controleer onder **Informatie** dat versie `2026.08.30-4` zichtbaar is;
 4. kies opnieuw **Zet op beginscherm**.
 
 Daarna worden toekomstige bestanden rechtstreeks vanaf GitHub Pages geladen.

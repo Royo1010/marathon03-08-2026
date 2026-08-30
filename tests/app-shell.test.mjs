@@ -155,12 +155,17 @@ test("Schema, Informatie en Marathonoverzicht zijn bereikbaar", () => {
 
   harness.click({ "[data-view]": { dataset: { view: "plan" } } });
   assert.match(harness.app.innerHTML, /Volledig programma/);
-  assert.equal((harness.app.innerHTML.match(/class="plan-row"/g) || []).length, 12);
+  assert.equal((harness.app.innerHTML.match(/<button class="plan-row/g) || []).length, 12);
+  assert.match(harness.app.innerHTML, /±39 km totaal/);
+  assert.match(harness.app.innerHTML, /Basisvolume verhogen \+ eerste marathonpaceblokken/);
+  assert.match(harness.app.innerHTML, /±58,2 km totaal incl\. marathon/);
+  assert.match(harness.app.innerHTML, /4 sessies incl\. marathon/);
+  assert.doesNotMatch(harness.app.innerHTML, /4 trainingen · Training 4/);
 
   harness.click({ "[data-view]": { dataset: { view: "info" } } });
   assert.match(harness.app.innerHTML, /Tempo en afkortingen/);
   assert.match(harness.app.innerHTML, /Inspanningsniveaus/);
-  assert.match(harness.app.innerHTML, /Versie 2026\.08\.30-3/);
+  assert.match(harness.app.innerHTML, /Versie 2026\.08\.30-4/);
 
   harness.brandHome.click();
   assert.equal(harness.context.window.MarathonApp.state.view, "marathon");
@@ -190,6 +195,21 @@ test("Marathonoverzicht rekent voltooide trainingen en kilometers uit actuele vo
   assert.match(harness.app.innerHTML, /Voltooid[\s\S]*7,3[\s\S]*km gelogd/);
   assert.match(harness.app.innerHTML, /Week 36/);
   assert.match(harness.app.innerHTML, /Laatste voltooid[\s\S]*Week 36 · Training 1/);
+});
+
+test("Schema en dashboard delen dezelfde centrale weekvolumes", () => {
+  const harness = createHarness();
+  const appApi = harness.context.window.MarathonApp;
+  const plan = harness.context.window.MARATHON_PLAN;
+  const expected = [39, 43.7, 48.8, 54.2, 42.5, 56.5, 59.5, 64.4, 54.4, 47, 37.7, 58.195];
+
+  assert.deepEqual(Array.from(plan.weeks, (week) => appApi.getWeekPlannedKm(week)), expected);
+  assert.deepEqual(Array.from(appApi.dashboardMetrics().weekly, (week) => week.plannedKm), expected);
+
+  const firstWorkout = plan.weeks[0].workouts[0];
+  harness.click({ "[data-toggle-complete]": { dataset: { toggleComplete: firstWorkout.workoutId } } });
+  harness.click({ "[data-view]": { dataset: { view: "plan" } } });
+  assert.match(harness.app.innerHTML, /Week 36[\s\S]*1\/4/);
 });
 
 test("Loopbandmodus gebruikt dezelfde blokken en berekent cumulatieve wisseltijden", () => {
@@ -283,4 +303,8 @@ test("testresultaten worden direct opgeslagen en blijven na herladen bestaan", (
   assert.match(reloaded.app.innerHTML, /value="22:35"/);
   assert.match(reloaded.app.innerHTML, /Gecontroleerd begonnen/);
   assert.match(reloaded.app.innerHTML, /niet automatisch aangepast/);
+
+  reloaded.brandHome.click();
+  assert.match(reloaded.app.innerHTML, /Officiële tests[\s\S]*0 \/ 3/);
+  assert.match(reloaded.app.innerHTML, /Laatste testresultaat[\s\S]*22:35/);
 });

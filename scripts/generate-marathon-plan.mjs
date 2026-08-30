@@ -29,6 +29,14 @@ function parseDecimal(value) {
   return match ? Number(match[0]) : null;
 }
 
+function parseDistanceRange(value) {
+  const values = String(value || "").replace(/,/g, ".").match(/\d+(?:\.\d+)?/g)?.map(Number) || [];
+  if (!values.length) return null;
+  const min = values[0];
+  const max = values[1] ?? values[0];
+  return { min, max, midpoint: (min + max) / 2 };
+}
+
 function parseClockSeconds(value) {
   const text = String(value || "").trim().toLowerCase().replace(/^±/, "");
   const minuteSecond = text.match(/^(\d+):(\d{2})(?:\s*min)?$/);
@@ -404,6 +412,11 @@ weekHeaderIndices.forEach((startIndex, weekPosition) => {
   const weekId = `marathon-3u30-week-${weekNumber}`;
   const phaseId = phaseForWeek(weekNumber);
   const phaseName = phaseDefinitions.find((phase) => phase.phaseId === phaseId).name;
+  const sourceDistanceRange = parseDistanceRange(plannedDistanceLabel);
+  const calculatedDistanceKm = workouts.reduce((total, workout) => total + (workout.estimatedDistanceKm || flattenGroups(workout.groups).reduce((distance, segment) => {
+    if (segment.distanceKm) return distance + segment.distanceKm;
+    return distance + ((segment.durationSeconds || 0) / 3600) * (segment.speedKmh || 0);
+  }, 0)), 0);
   workouts.forEach((workout) => {
     workout.weekId = weekId;
     workout.weekNumber = weekNumber;
@@ -421,7 +434,11 @@ weekHeaderIndices.forEach((startIndex, weekPosition) => {
     endDate: addDays(startDate, 6),
     periodLabel,
     plannedDistanceLabel: plannedDistanceLabel || (weekNumber === 47 ? "Marathonweek" : ""),
-    plannedDistanceKm: plannedDistanceLabel ? parseDecimal(plannedDistanceLabel) : null,
+    plannedDistanceKm: sourceDistanceRange ? sourceDistanceRange.midpoint : calculatedDistanceKm,
+    plannedDistanceMinKm: sourceDistanceRange?.min ?? calculatedDistanceKm,
+    plannedDistanceMaxKm: sourceDistanceRange?.max ?? calculatedDistanceKm,
+    calculatedWorkoutDistanceKm: calculatedDistanceKm,
+    includesMarathon: workouts.some((workout) => workout.category === "wedstrijd"),
     focus: [...intro, psychologicalGoals[weekNumber]].filter(Boolean).join(" "),
     mentalGoal: psychologicalGoals[weekNumber] || "",
     workouts,
@@ -465,7 +482,7 @@ const raceStrategy = [
 const plan = {
   config: {
     planId: "marathon-3u30-definitief-2026",
-    planVersion: 3,
+    planVersion: 4,
     schemaVersion,
     sourceFile: path.basename(inputPath),
     planName: "Marathonschema 3:30 — definitieve versie",
