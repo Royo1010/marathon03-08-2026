@@ -1,13 +1,15 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "2026.08.30-4";
+  const APP_VERSION = "2026.08.30-5";
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
   const APP_DATA_VERSION = 3;
   const plan = window.MARATHON_PLAN;
   const model = window.MARATHON_MODEL;
+  const notifications = window.MARATHON_NOTIFICATIONS;
+  const pushConfig = window.MARATHON_PUSH_CONFIG || {};
 
-  if (!plan || !model) throw new Error("De trainingsdata kon niet worden geladen.");
+  if (!plan || !model || !notifications) throw new Error("De trainingsdata kon niet volledig worden geladen.");
 
   const weeks = plan.weeks || [];
   const workouts = weeks.flatMap((week) => week.workouts || []);
@@ -30,18 +32,21 @@
     46: { theme: "Taper", goal: "Volume verder verlagen, marathonpace scherp houden" },
     47: { theme: "Marathonweek", goal: "Herstellen, losmaken en racen" },
   };
+  const initialTreadmillWorkoutId = new URLSearchParams(window.location.search).get("treadmill");
   const state = {
-    view: VIEWS.WEEK,
+    view: workouts.some((workout) => workout.workoutId === initialTreadmillWorkoutId) ? VIEWS.TREADMILL : VIEWS.WEEK,
     viewedWeekIndex: currentPlanWeekIndex(),
     expandedWorkoutIds: new Set(),
-    treadmillWorkoutId: null,
+    treadmillWorkoutId: workouts.some((workout) => workout.workoutId === initialTreadmillWorkoutId) ? initialTreadmillWorkoutId : null,
     treadmillReturnView: VIEWS.WEEK,
+    pushStatus: { code: "checking", label: "Pushstatus controleren…", detail: "" },
   };
 
   let appData = loadAppData();
   let treadmillTimer = createIdleTimer();
   let treadmillTimerInterval = null;
   let screenWakeLock = null;
+  let pushServiceWorkerRegistration = null;
 
   function isObject(value) {
     return Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -125,7 +130,11 @@
       workoutLogs: {},
       completedSessions: {},
       testResults: {},
-      userSettings: {},
+      userSettings: {
+        notificationDefaults: { ...notifications.DEFAULT_SETTINGS },
+        notificationSettings: {},
+        pushClient: {},
+      },
       uiState: {},
       legacyData: {},
       meta: { storageInitialized: true, schemaVersion: plan.config.schemaVersion },
@@ -180,6 +189,9 @@
       data.legacyData.previousPlan.workoutLogs = { ...(data.legacyData.previousPlan.workoutLogs || {}), ...archivedLogs };
     }
     data.workoutLogs = currentLogs;
+    data.userSettings.notificationDefaults = notifications.normalizeSettings(data.userSettings.notificationDefaults);
+    data.userSettings.notificationSettings = isObject(data.userSettings.notificationSettings) ? data.userSettings.notificationSettings : {};
+    data.userSettings.pushClient = isObject(data.userSettings.pushClient) ? data.userSettings.pushClient : {};
     const completedEntries = isObject(raw.completedSessions) ? Object.entries(raw.completedSessions) : [];
     data.completedSessions = Object.fromEntries(completedEntries.filter(([workoutId]) => validIds.has(workoutId)));
     const archivedCompleted = Object.fromEntries(completedEntries.filter(([workoutId]) => !validIds.has(workoutId)));
@@ -213,6 +225,184 @@
     appData.updatedAt = nowIso();
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); }
     catch (error) { console.warn("Voortgang opslaan is niet gelukt.", error); }
+  }
+
+  function notificationSettings(workoutId) {
+    const defaults = notifications.normalizeSettings(appData.userSettings?.notificationDefaults);
+    const specific = isObject(appData.userSettings?.notificationSettings?.[workoutId])
+      ? appData.userSettings.notificationSettings[workoutId]
+      : {};
+    return notifications.normalizeSettings({ ...defaults, ...specific });
+  }
+
+  function saveNotificationSetting(workoutId, field, value) {
+    if (!workoutId || !["enabled", "soundEnabled", "warningSeconds", "extendedEnabled"].includes(field)) return;
+    appData.userSettings.notificationSettings ||= {};
+    const current = notificationSettings(workoutId);
+    appData.userSettings.notificationSettings[workoutId] = notifications.normalizeSettings({ ...current, [field]: value });
+    saveAppData();
+  }
+
+  function isStandaloneMode() {
+    return Boolean(window.matchMedia?.("(display-mode: standalone)")?.matches || window.navigator?.standalone === true);
+  }
+
+  function isIosDevice() {
+    return /iPad|iPhone|iPod/i.test(window.navigator?.userAgent || "");
+  }
+
+  function hasPushSupport() {
+    return "Notification" in window && "serviceWorker" in navigator && "PushManager" in window;
+  }
+
+  function hasPushConfiguration() {
+    return /^https:\/\//.test(String(pushConfig.backendUrl || "")) && String(pushConfig.vapidPublicKey || "").length > 20;
+  }
+
+  function setPushStatus(code, label, detail = "", rerender = true) {
+    state.pushStatus = { code, label, detail };
+    if (rerender && state.view === VIEWS.TREADMILL) renderTreadmillMode();
+  }
+
+  function backendUrl(path) {
+    return `${String(pushConfig.backendUrl || "").replace(/\/$/, "")}${path}`;
+  }
+
+  async function backendRequest(path, options = {}) {
+    if (!hasPushConfiguration()) throw new Error("PUSH_BACKEND_NOT_CONFIGURED");
+    const client = appData.userSettings?.pushClient || {};
+    const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
+    if (client.installId) headers["X-Install-Id"] = client.installId;
+    if (client.authToken) headers.Authorization = `Bearer ${client.authToken}`;
+    const response = await window.fetch(backendUrl(path), { ...options, headers });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(payload.error || `PUSH_BACKEND_${response.status}`);
+    return payload;
+  }
+
+  function urlBase64ToUint8Array(value) {
+    const padding = "=".repeat((4 - (value.length % 4)) % 4);
+    const base64 = (value + padding).replace(/-/g, "+").replace(/_/g, "/");
+    const raw = window.atob(base64);
+    return Uint8Array.from(Array.from(raw, (character) => character.charCodeAt(0)));
+  }
+
+  async function registerPushServiceWorker() {
+    if (!("serviceWorker" in navigator)) return null;
+    if (pushServiceWorkerRegistration) return pushServiceWorkerRegistration;
+    pushServiceWorkerRegistration = await navigator.serviceWorker.register(`./service-worker.js?v=${APP_VERSION}`, {
+      scope: "./",
+      updateViaCache: "none",
+    });
+    pushServiceWorkerRegistration.update?.().catch(() => {});
+    return pushServiceWorkerRegistration;
+  }
+
+  async function registerPushSubscription(subscription) {
+    const client = appData.userSettings?.pushClient || {};
+    const result = await backendRequest("/api/register", {
+      method: "POST",
+      body: JSON.stringify({
+        subscription: subscription.toJSON ? subscription.toJSON() : subscription,
+        installId: client.installId || null,
+        authToken: client.authToken || null,
+        appVersion: APP_VERSION,
+      }),
+    });
+    appData.userSettings.pushClient = {
+      installId: result.installId,
+      authToken: result.authToken,
+      registeredAt: nowIso(),
+    };
+    saveAppData();
+    return result;
+  }
+
+  async function refreshPushStatus({ rerender = true } = {}) {
+    if (!hasPushSupport()) {
+      setPushStatus("unsupported", "Niet ondersteund", "Deze browser ondersteunt geen Web Push.", rerender);
+      return state.pushStatus;
+    }
+    if (isIosDevice() && !isStandaloneMode()) {
+      setPushStatus("home-required", "Beginscherm-app nodig", "Installeer deze site eerst via Zet op beginscherm.", rerender);
+      return state.pushStatus;
+    }
+    if (window.Notification.permission === "denied") {
+      setPushStatus("denied", "Toestemming geweigerd", "Sta meldingen toe via de iPhone-instellingen.", rerender);
+      return state.pushStatus;
+    }
+    if (window.Notification.permission !== "granted") {
+      setPushStatus("permission-needed", "Toestemming nodig", "Gebruik Notificaties toestaan wanneer je klaar bent.", rerender);
+      return state.pushStatus;
+    }
+    if (!hasPushConfiguration()) {
+      setPushStatus("backend-unconfigured", "Pushserver niet ingesteld", "De timer en schermwaarschuwingen blijven wel werken.", rerender);
+      return state.pushStatus;
+    }
+    try {
+      const registration = await registerPushServiceWorker();
+      const subscription = await registration?.pushManager?.getSubscription();
+      if (!subscription) {
+        setPushStatus("no-subscription", "Geen pushabonnement", "Sta meldingen opnieuw toe om dit apparaat te registreren.", rerender);
+        return state.pushStatus;
+      }
+      const client = appData.userSettings?.pushClient || {};
+      if (!client.installId || !client.authToken) {
+        setPushStatus("no-subscription", "Registratie onvolledig", "Registreer dit apparaat opnieuw.", rerender);
+        return state.pushStatus;
+      }
+      const status = await backendRequest("/api/status", { method: "GET" });
+      setPushStatus(status.active ? "active" : "no-subscription", status.active ? "Push actief" : "Geen actieve registratie", status.active ? "Lock Screen-meldingen zijn gereed." : "Registreer dit apparaat opnieuw.", rerender);
+    } catch (error) {
+      console.warn("Pushstatus kon niet worden gecontroleerd.", error);
+      setPushStatus("backend-offline", "Pushserver niet bereikbaar", "De trainingstimer blijft normaal werken.", rerender);
+    }
+    return state.pushStatus;
+  }
+
+  async function requestNotificationAccess() {
+    if (!hasPushSupport()) return refreshPushStatus();
+    if (isIosDevice() && !isStandaloneMode()) return refreshPushStatus();
+    try {
+      const permission = await window.Notification.requestPermission();
+      if (permission !== "granted") return refreshPushStatus();
+      if (!hasPushConfiguration()) return refreshPushStatus();
+      setPushStatus("checking", "Apparaat registreren…", "", true);
+      const registration = await registerPushServiceWorker();
+      let subscription = await registration.pushManager.getSubscription();
+      if (!subscription) {
+        subscription = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(pushConfig.vapidPublicKey),
+        });
+      }
+      await registerPushSubscription(subscription);
+      await refreshPushStatus();
+    } catch (error) {
+      console.warn("Pushregistratie is niet gelukt.", error);
+      setPushStatus("registration-failed", "Registratie mislukt", "Controleer de verbinding en probeer opnieuw.");
+    }
+  }
+
+  async function sendTestPush(workoutId) {
+    const settings = notificationSettings(workoutId);
+    try {
+      await refreshPushStatus({ rerender: false });
+      if (state.pushStatus.code !== "active") throw new Error("PUSH_NOT_ACTIVE");
+      await backendRequest("/api/test", {
+        method: "POST",
+        body: JSON.stringify({
+          soundEnabled: settings.soundEnabled,
+          extendedEnabled: settings.extendedEnabled,
+          workoutId,
+        }),
+      });
+      setPushStatus("active", "Testmelding verzonden", "Controleer je vergrendelscherm of meldingencentrum.");
+    } catch (error) {
+      console.warn("Testmelding is niet verzonden.", error);
+      if (state.pushStatus.code === "active") setPushStatus("backend-offline", "Testmelding mislukt", "Controleer de pushserver en probeer opnieuw.");
+      else renderTreadmillMode();
+    }
   }
 
   function workoutLog(workoutId) {
@@ -567,6 +757,48 @@
     return block?.inclinePercent == null ? "Buiten" : `${formatNumber(block.inclinePercent)}%`;
   }
 
+  function switchPlanFor(workout, timeline) {
+    if (!workout || !timeline?.hasCompleteTiming) return [];
+    return notifications.buildSwitchPlan(timeline.blocks, notificationSettings(workout.workoutId));
+  }
+
+  function renderSwitchWarning(workout, timeline, elapsedSeconds) {
+    const warning = notifications.activeWarning(switchPlanFor(workout, timeline), elapsedSeconds);
+    return `<div class="timer-switch-warning${warning ? " is-visible" : ""}" data-switch-warning ${warning ? "" : "hidden"}>
+      <span>Volgende switch</span>
+      <strong data-warning-title>${escapeHtml(warning?.title || "")}</strong>
+      <small data-warning-body>${escapeHtml(warning?.body || "")}</small>
+    </div>`;
+  }
+
+  function renderNotificationSettings(workout, timeline) {
+    const settings = notificationSettings(workout.workoutId);
+    const activeTimer = treadmillTimer.workoutId === workout.workoutId && ["running", "paused"].includes(treadmillTimer.status);
+    const numericTimeline = timeline.hasCompleteTiming && timeline.blocks.every((block) => Number(block.speedKmh) > 0 && Number.isFinite(Number(block.inclinePercent)));
+    const switchCount = numericTimeline ? switchPlanFor(workout, timeline).length : 0;
+    const status = state.pushStatus || { code: "checking", label: "Controleren…", detail: "" };
+    const canRequest = ["permission-needed", "no-subscription", "registration-failed"].includes(status.code);
+    return `<section class="notification-card" aria-labelledby="notification-title">
+      <div class="notification-heading">
+        <div><span>Trainingshulp</span><h2 id="notification-title">Meldingen</h2></div>
+        <span class="push-status is-${escapeAttr(status.code)}">${escapeHtml(status.label)}</span>
+      </div>
+      <p class="notification-intro">${numericTimeline ? `${switchCount} echte wisselmomenten · instellingen gelden alleen voor deze training.` : "Lock Screen-planning is niet beschikbaar voor een training zonder volledig berekenbare loopbandtijdlijn."}</p>
+      <div class="notification-options">
+        <label><span>Notificaties</span><input type="checkbox" data-notification-setting="enabled" data-workout-id="${escapeAttr(workout.workoutId)}" ${settings.enabled ? "checked" : ""} ${activeTimer ? "disabled" : ""}></label>
+        <label><span>Geluid</span><input type="checkbox" data-notification-setting="soundEnabled" data-workout-id="${escapeAttr(workout.workoutId)}" ${settings.soundEnabled ? "checked" : ""} ${!settings.enabled || activeTimer ? "disabled" : ""}></label>
+        <label><span>Voorwaarschuwing</span><select data-notification-setting="warningSeconds" data-workout-id="${escapeAttr(workout.workoutId)}" ${!settings.enabled || activeTimer ? "disabled" : ""}><option value="30" ${settings.warningSeconds === 30 ? "selected" : ""}>30 sec</option><option value="45" ${settings.warningSeconds === 45 ? "selected" : ""}>45 sec</option></select></label>
+        <label><span>Uitgebreid</span><input type="checkbox" data-notification-setting="extendedEnabled" data-workout-id="${escapeAttr(workout.workoutId)}" ${settings.extendedEnabled ? "checked" : ""} ${!settings.enabled || activeTimer ? "disabled" : ""}></label>
+      </div>
+      ${status.detail ? `<p class="push-status-detail">${escapeHtml(status.detail)}</p>` : ""}
+      <div class="notification-actions">
+        ${canRequest ? `<button type="button" data-request-notifications>Notificaties toestaan</button>` : ""}
+        <button type="button" class="is-secondary" data-test-notification="${escapeAttr(workout.workoutId)}" ${status.code !== "active" || !settings.enabled ? "disabled" : ""}>Test melding</button>
+      </div>
+      ${activeTimer ? `<p class="settings-locked">Tijdens een actieve timer blijven deze instellingen vaststaan.</p>` : ""}
+    </section>`;
+  }
+
   function renderTreadmillBlock(block, currentIndex) {
     const active = block.index === currentIndex;
     const distance = Number(block.distanceKm) > 0 ? `${formatNumber(block.distanceKm)} km` : "";
@@ -600,6 +832,7 @@
         <div><span>Nog</span><strong data-block-remaining>${finished ? "00:00" : formatStopwatch(snapshot.remainingSeconds)}</strong><small data-current-block>${escapeHtml(current?.blockName || "Training voltooid")}</small></div>
       </div>
       <div class="timer-next"><span>Daarna</span><strong data-next-block>${next ? `${escapeHtml(treadmillSpeedLabel(next))} · ${escapeHtml(treadmillInclineLabel(next))}` : "Finish"}</strong></div>
+      ${renderSwitchWarning(workout, timeline, snapshot.elapsedSeconds)}
       <div class="timer-controls">
         ${finished ? `<button type="button" data-timer-reset>Timer opnieuw instellen</button>` : treadmillTimer.status === "paused" ? `<button type="button" data-timer-resume>Hervat</button>` : `<button type="button" data-timer-pause>Pauze</button>`}
         ${finished ? "" : `<button class="is-secondary" type="button" data-timer-stop>Stop timer</button>`}
@@ -621,6 +854,7 @@
         <div><span>Week ${workout.weekNumber} · Training ${workout.trainingNumber}</span><h1>${escapeHtml(capitalize(workout.title))}</h1><p>${escapeHtml(timeline.totalLabel)} totaal · ${timeline.blocks.length} blokken</p></div>
       </header>
       ${renderTreadmillTimer(workout, timeline)}
+      ${renderNotificationSettings(workout, timeline)}
       <section class="treadmill-timeline" aria-label="Loopbandblokken">
         ${timeline.blocks.map((block) => renderTreadmillBlock(block, snapshot.currentIndex)).join("")}
       </section>
@@ -628,38 +862,118 @@
     </section>`;
   }
 
+  function createTrainingSessionId(workoutId) {
+    const random = window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    return `${workoutId}-${random}`;
+  }
+
+  async function cancelPushSession(timer = treadmillTimer) {
+    if (!timer?.sessionId || !hasPushConfiguration()) return;
+    try {
+      await backendRequest("/api/sessions/cancel", {
+        method: "POST",
+        body: JSON.stringify({ sessionId: timer.sessionId, generation: timer.generation || 1 }),
+      });
+    } catch (error) {
+      console.warn("De oude pushplanning kon niet direct worden geannuleerd.", error);
+      if (state.view === VIEWS.TREADMILL) setPushStatus("backend-offline", "Annuleren niet bevestigd", "Controleer je verbinding voordat je opnieuw start.");
+    }
+  }
+
+  async function schedulePushSession(workout, timeline) {
+    const settings = notificationSettings(workout.workoutId);
+    const timerSession = { ...treadmillTimer };
+    if (!settings.enabled || !timerSession.sessionId) return;
+    const elapsed = timerSession.status === "running"
+      ? Math.max(0, Math.floor((Date.now() - timerSession.startedAt) / 1000))
+      : timerSession.elapsedSeconds || 0;
+    const switches = switchPlanFor(workout, timeline).filter((item) => item.switchAtSeconds > elapsed);
+    if (!switches.length) return;
+    await refreshPushStatus({ rerender: false });
+    if (state.pushStatus.code !== "active") {
+      renderTreadmillMode();
+      return;
+    }
+    try {
+      const result = await backendRequest("/api/sessions/schedule", {
+        method: "POST",
+        body: JSON.stringify({
+          sessionId: timerSession.sessionId,
+          generation: timerSession.generation || 1,
+          workoutId: workout.workoutId,
+          startedAt: new Date(timerSession.startedAt).toISOString(),
+          warningSeconds: settings.warningSeconds,
+          soundEnabled: settings.soundEnabled,
+          extendedEnabled: settings.extendedEnabled,
+          switches,
+        }),
+      });
+      if (treadmillTimer.sessionId !== timerSession.sessionId) return;
+      treadmillTimer.pushScheduled = true;
+      treadmillTimer.pushJobCount = result.scheduledCount || 0;
+      setPushStatus("active", "Push actief", `${treadmillTimer.pushJobCount} wisselmeldingen gepland.`);
+    } catch (error) {
+      console.warn("Switchmeldingen konden niet worden gepland.", error);
+      if (treadmillTimer.sessionId !== timerSession.sessionId) return;
+      treadmillTimer.pushScheduled = false;
+      setPushStatus("backend-offline", "Planning mislukt", "De schermtimer en in-app waarschuwingen blijven werken.");
+    }
+  }
+
   function startTreadmillTimer(workoutId) {
     const workout = workoutById(workoutId);
     if (!workout) return;
     const timeline = buildTreadmillTimeline(workout);
     if (!timeline.hasCompleteTiming) return;
-    treadmillTimer = { workoutId, status: "running", startedAt: Date.now(), elapsedSeconds: 0 };
+    treadmillTimer = {
+      workoutId,
+      status: "running",
+      startedAt: Date.now(),
+      elapsedSeconds: 0,
+      sessionId: createTrainingSessionId(workoutId),
+      generation: 1,
+      pushScheduled: false,
+      pushJobCount: 0,
+    };
     requestScreenWakeLock();
     renderTreadmillMode();
     startTreadmillInterval();
+    schedulePushSession(workout, timeline);
   }
 
   function pauseTreadmillTimer() {
+    const sessionToCancel = { ...treadmillTimer };
     treadmillTimer.elapsedSeconds = timerElapsedSeconds();
     treadmillTimer.status = "paused";
+    treadmillTimer.pushScheduled = false;
     clearTreadmillInterval();
     releaseScreenWakeLock();
     renderTreadmillMode();
+    cancelPushSession(sessionToCancel);
   }
 
   function resumeTreadmillTimer() {
+    const workout = workoutById(treadmillTimer.workoutId);
+    if (!workout) return;
     treadmillTimer.startedAt = Date.now() - (treadmillTimer.elapsedSeconds || 0) * 1000;
     treadmillTimer.status = "running";
+    treadmillTimer.generation = (treadmillTimer.generation || 1) + 1;
+    treadmillTimer.sessionId = createTrainingSessionId(treadmillTimer.workoutId);
+    treadmillTimer.pushScheduled = false;
+    treadmillTimer.pushJobCount = 0;
     requestScreenWakeLock();
     renderTreadmillMode();
     startTreadmillInterval();
+    schedulePushSession(workout, buildTreadmillTimeline(workout));
   }
 
   function resetTreadmillTimer() {
+    const sessionToCancel = { ...treadmillTimer };
     clearTreadmillInterval();
     releaseScreenWakeLock();
     treadmillTimer = createIdleTimer();
     renderTreadmillMode();
+    cancelPushSession(sessionToCancel);
   }
 
   function updateTreadmillTimerUi() {
@@ -669,11 +983,14 @@
     const timeline = buildTreadmillTimeline(workout);
     const snapshot = timerSnapshot(timeline);
     if (snapshot.finished) {
+      const finishedSession = { ...treadmillTimer };
       treadmillTimer.elapsedSeconds = timeline.totalSeconds;
       treadmillTimer.status = "finished";
       clearTreadmillInterval();
       releaseScreenWakeLock();
-      return renderTreadmillMode();
+      renderTreadmillMode();
+      cancelPushSession(finishedSession);
+      return;
     }
     const setText = (selector, value) => {
       const element = app.querySelector?.(selector);
@@ -685,6 +1002,16 @@
     setText("[data-block-remaining]", formatStopwatch(snapshot.remainingSeconds));
     setText("[data-current-block]", snapshot.current?.blockName || "Training voltooid");
     setText("[data-next-block]", snapshot.next ? `${treadmillSpeedLabel(snapshot.next)} · ${treadmillInclineLabel(snapshot.next)}` : "Finish");
+    const warning = notifications.activeWarning(switchPlanFor(workout, timeline), snapshot.elapsedSeconds);
+    const warningElement = app.querySelector?.("[data-switch-warning]");
+    if (warningElement) {
+      warningElement.hidden = !warning;
+      warningElement.classList?.toggle("is-visible", Boolean(warning));
+      const title = warningElement.querySelector?.("[data-warning-title]");
+      const body = warningElement.querySelector?.("[data-warning-body]");
+      if (title) title.textContent = warning?.title || "";
+      if (body) body.textContent = warning?.body || "";
+    }
     app.querySelectorAll?.("[data-timeline-index]").forEach((row) => row.classList.toggle("is-current", Number(row.dataset.timelineIndex) === snapshot.currentIndex));
   }
 
@@ -1023,10 +1350,12 @@
 
   function setView(view) {
     if (state.view === VIEWS.TREADMILL && view !== VIEWS.TREADMILL) {
+      const sessionToCancel = { ...treadmillTimer };
       clearTreadmillInterval();
       releaseScreenWakeLock();
       treadmillTimer = createIdleTimer();
       state.treadmillWorkoutId = null;
+      cancelPushSession(sessionToCancel);
     }
     state.view = view;
     state.expandedWorkoutIds.clear();
@@ -1092,6 +1421,17 @@
       return;
     }
 
+    if (event.target.closest("[data-request-notifications]")) {
+      requestNotificationAccess();
+      return;
+    }
+
+    const testNotification = event.target.closest("[data-test-notification]");
+    if (testNotification) {
+      sendTestPush(testNotification.dataset.testNotification);
+      return;
+    }
+
     const toggle = event.target.closest("[data-toggle-workout]");
     if (toggle) {
       toggleWorkoutDetails(toggle.dataset.toggleWorkout);
@@ -1128,6 +1468,13 @@
   });
 
   document.addEventListener("change", (event) => {
+    if (event.target.matches("[data-notification-setting][data-workout-id]")) {
+      const field = event.target.dataset.notificationSetting;
+      const value = field === "warningSeconds" ? Number(event.target.value) : Boolean(event.target.checked);
+      saveNotificationSetting(event.target.dataset.workoutId, field, value);
+      renderTreadmillMode();
+      return;
+    }
     if (event.target.matches("[data-test-workout][data-test-field]")) {
       saveTestField(event.target.dataset.testWorkout, event.target.dataset.testField, event.target.value);
       return;
@@ -1162,33 +1509,30 @@
     releaseScreenWakeLock();
   });
 
-  async function retireLegacyPwaCache() {
+  async function initializePwaServices() {
     try {
-      const appBasePath = new URL("./", window.location.href).pathname;
-      if ("serviceWorker" in navigator && navigator.serviceWorker.getRegistrations) {
-        const registrations = await navigator.serviceWorker.getRegistrations();
-        const appRegistrations = registrations.filter((registration) => new URL(registration.scope).pathname === appBasePath);
-        await Promise.all(appRegistrations.map((registration) => registration.unregister()));
-      }
       if ("caches" in window) {
         const cacheNames = await window.caches.keys();
         const appCachePrefixes = ["marathon-330-", "marathon-app-"];
         await Promise.all(cacheNames.filter((name) => appCachePrefixes.some((prefix) => name.startsWith(prefix))).map((name) => window.caches.delete(name)));
       }
-      if (navigator.serviceWorker?.controller && window.sessionStorage && window.location.reload) {
-        const reloadKey = `marathon-pwa-cleanup-${APP_VERSION}`;
-        if (!window.sessionStorage.getItem(reloadKey)) {
-          window.sessionStorage.setItem(reloadKey, "done");
-          window.location.reload();
-        }
-      }
+      await registerPushServiceWorker();
+      await refreshPushStatus();
     } catch (error) {
-      console.warn("Oude app-cache kon niet volledig worden opgeruimd.", error);
+      console.warn("PWA-diensten konden niet volledig worden gestart.", error);
+      if (state.view === VIEWS.TREADMILL) setPushStatus("service-worker-error", "Service worker niet actief", "Herlaad de app en probeer opnieuw.");
     }
   }
 
+  navigator.serviceWorker?.addEventListener?.("message", (event) => {
+    if (event.data?.type !== "OPEN_TREADMILL" || !workoutById(event.data.workoutId)) return;
+    state.treadmillWorkoutId = event.data.workoutId;
+    state.treadmillReturnView = VIEWS.WEEK;
+    setView(VIEWS.TREADMILL);
+  });
+
   render();
-  retireLegacyPwaCache();
+  initializePwaServices();
 
   window.MarathonApp = {
     APP_VERSION,
@@ -1201,7 +1545,11 @@
     currentPlanWeekIndex,
     render,
     saveTestField,
+    notificationSettings,
+    saveNotificationSetting,
+    getTreadmillTimer: () => ({ ...treadmillTimer }),
     buildTreadmillTimeline,
+    switchPlanFor,
     daysUntilMarathon,
     nextIncompleteWorkout,
     nextMilestoneWorkout,

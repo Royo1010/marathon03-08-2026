@@ -5,7 +5,7 @@ Mobiele weekplanner voor het definitieve Marathon 3:30-loopbandschema van
 
 ## Actieve versie
 
-- App-versie: `2026.08.30-4`
+- App-versie: `2026.08.30-5`
 - Schemaversie: `marathon-schema-3u30-expliciete-helling-2026.08.30-1`
 - Bronbestand: `marathon-schema-3u30-expliciete-helling.md`
 - Opslagkey: `marathon330TrainingAppData_v1`
@@ -77,23 +77,37 @@ De huidige versie gebruikt:
 - versienummers op CSS, JavaScript, manifest, trainingsdata en touch-icon;
 - geen permanente offline-cache.
 
-`service-worker.js` is nu alleen een eenmalige migratieworker. Hij verwijdert
-uitsluitend caches met de oude marathon-app-prefixen, schrijft zichzelf uit en
-gebruikt ondertussen altijd het netwerk. `app.js` ruimt dezelfde oude registratie
-en caches op wanneer de nieuwe app al is geladen. `localStorage` en persoonlijke
-trainingsgegevens worden hierbij niet verwijderd.
+`service-worker.js` blijft nu geregistreerd voor Web Push, maar gebruikt voor
+appbestanden nog steeds altijd het netwerk. Tijdens activatie verwijdert hij
+uitsluitend caches met de oude marathon-app-prefixen. Zo blijft de eerdere
+cache-updatefix intact zonder de pushregistratie weer te verwijderen.
+`localStorage` en persoonlijke trainingsgegevens worden hierbij niet verwijderd.
 
 Een al bestaand iPhone-homescreen-icoon kan zijn oude start-URL in iOS bewaren.
 Na deze eerste release is daarom de betrouwbaarste eenmalige stap:
 
 1. verwijder het oude homescreen-icoon;
 2. open de actuele GitHub Pages-URL in Safari;
-3. controleer onder **Informatie** dat versie `2026.08.30-4` zichtbaar is;
+3. controleer onder **Informatie** dat versie `2026.08.30-5` zichtbaar is;
 4. kies opnieuw **Zet op beginscherm**.
 
 Daarna worden toekomstige bestanden rechtstreeks vanaf GitHub Pages geladen.
 
+## Trainingsmeldingen
+
+Loopbandmodus bevat per training onafhankelijke instellingen voor meldingen,
+geluid, 30/45 seconden voorwaarschuwing en compacte/uitgebreide tekst. De
+in-app waarschuwing werkt zonder server. Echte Lock Screen-meldingen gebruiken
+Web Push en vereisen de meegeleverde kleine serverless app in `push-server/`.
+
+Starten maakt één unieke meldingssessie. Pauzeren of stoppen maakt de oude
+sessie server-side ongeldig; hervatten plant de resterende switches opnieuw.
+Alle switchmomenten worden uit dezelfde cumulatieve tijdlijn afgeleid als de
+zichtbare Loopbandmodus. Zie `PUSH-DEPLOYMENT.md` voor installatie en fysieke
+iPhone-tests.
+
 ## Publiceren
 
-Publiceer alle bestanden samen in dezelfde GitHub Pages-projectmap. De app heeft
-geen buildstap, framework, backend of externe database nodig.
+Publiceer de appbestanden samen in dezelfde GitHub Pages-projectmap. De planner,
+timer en in-app waarschuwingen hebben geen buildstap of backend nodig. Alleen
+Lock Screen-push gebruikt het afzonderlijke `push-server/`-project.

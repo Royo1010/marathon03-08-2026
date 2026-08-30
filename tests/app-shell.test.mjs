@@ -4,6 +4,8 @@ import test from "node:test";
 import vm from "node:vm";
 
 const trainingDataCode = fs.readFileSync(new URL("../training-data.js", import.meta.url), "utf8");
+const notificationModelCode = fs.readFileSync(new URL("../notification-model.js", import.meta.url), "utf8");
+const pushConfigCode = fs.readFileSync(new URL("../push-config.js", import.meta.url), "utf8");
 const appCode = fs.readFileSync(new URL("../app.js", import.meta.url), "utf8");
 
 function createClassList() {
@@ -67,6 +69,8 @@ function createHarness(storageValues = new Map()) {
     navigator: window.navigator,
   });
   vm.runInContext(trainingDataCode, context, { filename: "training-data.js" });
+  vm.runInContext(notificationModelCode, context, { filename: "notification-model.js" });
+  vm.runInContext(pushConfigCode, context, { filename: "push-config.js" });
   vm.runInContext(appCode, context, { filename: "app.js" });
 
   function targetFor(matchers) {
@@ -165,7 +169,7 @@ test("Schema, Informatie en Marathonoverzicht zijn bereikbaar", () => {
   harness.click({ "[data-view]": { dataset: { view: "info" } } });
   assert.match(harness.app.innerHTML, /Tempo en afkortingen/);
   assert.match(harness.app.innerHTML, /Inspanningsniveaus/);
-  assert.match(harness.app.innerHTML, /Versie 2026\.08\.30-4/);
+  assert.match(harness.app.innerHTML, /Versie 2026\.08\.30-5/);
 
   harness.brandHome.click();
   assert.equal(harness.context.window.MarathonApp.state.view, "marathon");
@@ -307,4 +311,68 @@ test("testresultaten worden direct opgeslagen en blijven na herladen bestaan", (
   reloaded.brandHome.click();
   assert.match(reloaded.app.innerHTML, /Officiële tests[\s\S]*0 \/ 3/);
   assert.match(reloaded.app.innerHTML, /Laatste testresultaat[\s\S]*22:35/);
+});
+
+test("meldingsinstellingen zijn per training opgeslagen", () => {
+  const storageValues = new Map();
+  const harness = createHarness(storageValues);
+  const [first, second] = harness.context.window.MARATHON_PLAN.weeks[0].workouts;
+  const api = harness.context.window.MarathonApp;
+
+  api.saveNotificationSetting(first.workoutId, "warningSeconds", 45);
+  api.saveNotificationSetting(first.workoutId, "soundEnabled", false);
+  assert.equal(api.notificationSettings(first.workoutId).warningSeconds, 45);
+  assert.equal(api.notificationSettings(first.workoutId).soundEnabled, false);
+  assert.equal(api.notificationSettings(second.workoutId).warningSeconds, 30);
+  assert.equal(api.notificationSettings(second.workoutId).soundEnabled, true);
+
+  const reloaded = createHarness(storageValues);
+  assert.equal(reloaded.context.window.MarathonApp.notificationSettings(first.workoutId).warningSeconds, 45);
+  assert.equal(reloaded.context.window.MarathonApp.notificationSettings(first.workoutId).soundEnabled, false);
+});
+
+test("start, pauze, hervatten en stop gebruiken unieke timersessies", () => {
+  const harness = createHarness();
+  const workout = harness.context.window.MARATHON_PLAN.weeks[0].workouts[1];
+  harness.click({ "[data-open-treadmill]": { dataset: { openTreadmill: workout.workoutId } } });
+  assert.match(harness.app.innerHTML, /Meldingen/);
+  assert.match(harness.app.innerHTML, /30 sec/);
+
+  harness.click({ "[data-timer-start]": { dataset: { timerStart: workout.workoutId } } });
+  const firstSession = harness.context.window.MarathonApp.getTreadmillTimer();
+  assert.equal(firstSession.status, "running");
+  assert.ok(firstSession.sessionId);
+
+  harness.click({ "[data-timer-pause]": { dataset: {} } });
+  assert.equal(harness.context.window.MarathonApp.getTreadmillTimer().status, "paused");
+  harness.click({ "[data-timer-resume]": { dataset: {} } });
+  const resumed = harness.context.window.MarathonApp.getTreadmillTimer();
+  assert.equal(resumed.status, "running");
+  assert.notEqual(resumed.sessionId, firstSession.sessionId);
+  assert.equal(resumed.generation, 2);
+
+  harness.click({ "[data-timer-stop]": { dataset: {} } });
+  assert.equal(harness.context.window.MarathonApp.getTreadmillTimer().status, "idle");
+  harness.click({ "[data-timer-start]": { dataset: { timerStart: workout.workoutId } } });
+  assert.notEqual(harness.context.window.MarathonApp.getTreadmillTimer().sessionId, resumed.sessionId);
+});
+
+test("alle gegenereerde switchmeldingen gebruiken complete numerieke loopbandwaarden", () => {
+  const harness = createHarness();
+  const api = harness.context.window.MarathonApp;
+  let switchCount = 0;
+  for (const week of harness.context.window.MARATHON_PLAN.weeks) {
+    for (const workout of week.workouts) {
+      const timeline = api.buildTreadmillTimeline(workout);
+      const switches = api.switchPlanFor(workout, timeline);
+      switchCount += switches.length;
+      for (const item of switches) {
+        assert.ok(item.switchAtSeconds > 0);
+        assert.ok(Number.isFinite(item.nextSpeedKmh));
+        assert.ok(Number.isFinite(item.nextInclinePercent));
+        assert.doesNotMatch(`${item.title}\n${item.body}`, /—|null|undefined/);
+      }
+    }
+  }
+  assert.ok(switchCount > 100);
 });
