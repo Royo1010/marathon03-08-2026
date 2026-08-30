@@ -36,6 +36,7 @@ function createHarness(storageValues = new Map()) {
   }));
   const document = {
     visibilityState: "visible",
+    body: { classList: createClassList() },
     getElementById(id) { return id === "app" ? app : id === "brand-home" ? brandHome : null; },
     querySelectorAll(selector) { return selector === "[data-view]" ? navButtons : []; },
     addEventListener(type, handler) { listeners[type] = handler; },
@@ -46,7 +47,10 @@ function createHarness(storageValues = new Map()) {
     localStorage,
     location: { search: "?date=2026-08-31", href: "https://example.test/marathon-330/?date=2026-08-31" },
     navigator: {},
+    confirm() { return true; },
     scrollTo() {},
+    setInterval() { return 1; },
+    clearInterval() {},
     addEventListener(type, handler) { windowListeners[type] = handler; },
   };
   window.window = window;
@@ -95,7 +99,7 @@ test("vereenvoudigde weekplanner navigeert, klapt uit en bewaart voltooiing", ()
 
   assert.match(first.app.innerHTML, /Week 36/);
   assert.equal((first.app.innerHTML.match(/<article class="training-card/g) || []).length, 4);
-  assert.doesNotMatch(first.app.innerHTML, /Training starten|timer|aftellen/i);
+  assert.equal((first.app.innerHTML.match(/data-open-treadmill=/g) || []).length, 4);
 
   first.click({ "[data-toggle-workout]": { dataset: { toggleWorkout: workoutId } } });
   assert.equal(first.context.window.MarathonApp.state.expandedWorkoutIds.has(workoutId), true);
@@ -146,7 +150,7 @@ test("vereenvoudigde weekplanner navigeert, klapt uit en bewaart voltooiing", ()
   assert.equal(reloadedAfterUndo.context.window.MarathonApp.isCompleted(workoutId), false);
 });
 
-test("Schema en Informatie zijn bereikbaar via de drieknopsnavigatie", () => {
+test("Schema, Informatie en Marathonoverzicht zijn bereikbaar", () => {
   const harness = createHarness();
 
   harness.click({ "[data-view]": { dataset: { view: "plan" } } });
@@ -156,11 +160,64 @@ test("Schema en Informatie zijn bereikbaar via de drieknopsnavigatie", () => {
   harness.click({ "[data-view]": { dataset: { view: "info" } } });
   assert.match(harness.app.innerHTML, /Tempo en afkortingen/);
   assert.match(harness.app.innerHTML, /Inspanningsniveaus/);
-  assert.match(harness.app.innerHTML, /Versie 2026\.08\.30-1/);
+  assert.match(harness.app.innerHTML, /Versie 2026\.08\.30-2/);
 
   harness.brandHome.click();
+  assert.equal(harness.context.window.MarathonApp.state.view, "marathon");
+  assert.match(harness.app.innerHTML, /Marathon 3:30/);
+  assert.match(harness.app.innerHTML, /83[\s\S]*Dagen te gaan/);
+  assert.match(harness.app.innerHTML, /47[\s\S]*Trainingen te gaan/);
+  assert.match(harness.app.innerHTML, /0 van 47 trainingen voltooid/);
+
+  harness.click({ "[data-back-week]": { dataset: {} } });
   assert.equal(harness.context.window.MarathonApp.state.view, "week");
   assert.match(harness.app.innerHTML, /Week 36/);
+});
+
+test("Loopbandmodus gebruikt dezelfde blokken en berekent cumulatieve wisseltijden", () => {
+  const harness = createHarness();
+  const plan = harness.context.window.MARATHON_PLAN;
+  const workout = plan.weeks[0].workouts.find((item) => item.trainingNumber === 2);
+  const timeline = harness.context.window.MarathonApp.buildTreadmillTimeline(workout);
+
+  assert.equal(timeline.totalSeconds, 55 * 60);
+  assert.deepEqual(Array.from(timeline.blocks, (block) => [block.startSeconds, block.endSeconds]), [
+    [0, 600], [600, 900], [900, 1380], [1380, 1560], [1560, 2040], [2040, 2220], [2220, 2700], [2700, 3300],
+  ]);
+  assert.deepEqual(Array.from(timeline.blocks, (block) => block.timeRangeLabel), [
+    "00:00 – 10:00", "10:00 – 15:00", "15:00 – 23:00", "23:00 – 26:00",
+    "26:00 – 34:00", "34:00 – 37:00", "37:00 – 45:00", "45:00 – 55:00",
+  ]);
+
+  harness.click({ "[data-open-treadmill]": { dataset: { openTreadmill: workout.workoutId } } });
+  assert.equal(harness.context.window.MarathonApp.state.view, "treadmill");
+  assert.match(harness.app.innerHTML, /Loopbandblokken/);
+  assert.match(harness.app.innerHTML, /15:00 – 23:00/);
+  assert.match(harness.app.innerHTML, /12 km\/u/);
+  assert.match(harness.app.innerHTML, /Start training/);
+
+  harness.click({ "[data-close-treadmill]": { dataset: {} } });
+  assert.equal(harness.context.window.MarathonApp.state.view, "week");
+});
+
+test("afstandsblokken krijgen gemarkeerde schatting en onbekende testduur blokkeert alleen de timer", () => {
+  const harness = createHarness();
+  const plan = harness.context.window.MARATHON_PLAN;
+  const confidence = plan.weeks.find((week) => week.weekNumber === 39).workouts.find((item) => item.trainingNumber === 4);
+  const confidenceTimeline = harness.context.window.MarathonApp.buildTreadmillTimeline(confidence);
+  assert.equal(confidenceTimeline.hasCompleteTiming, true);
+  assert.ok(confidenceTimeline.blocks.every((block) => block.estimated));
+  assert.match(confidenceTimeline.blocks[0].timeRangeLabel, /^±00:00/);
+  assert.equal(confidenceTimeline.blocks[0].distanceKm, 3);
+
+  const benchmark = plan.weeks.find((week) => week.weekNumber === 40).workouts.find((item) => item.testNumber === 1);
+  const benchmarkTimeline = harness.context.window.MarathonApp.buildTreadmillTimeline(benchmark);
+  assert.equal(benchmarkTimeline.hasCompleteTiming, false);
+  assert.equal(benchmarkTimeline.blocks.find((block) => block.type === "test").durationSeconds, null);
+
+  harness.click({ "[data-open-treadmill]": { dataset: { openTreadmill: benchmark.workoutId } } });
+  assert.match(harness.app.innerHTML, /Timer niet beschikbaar/);
+  assert.match(harness.app.innerHTML, /Zelf sturen/);
 });
 
 test("oude of beschadigde opslag kan de weekplanner niet laten vastlopen", () => {

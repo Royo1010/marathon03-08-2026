@@ -5,7 +5,7 @@ Mobiele weekplanner voor het definitieve Marathon 3:30-loopbandschema van
 
 ## Actieve versie
 
-- App-versie: `2026.08.30-1`
+- App-versie: `2026.08.30-2`
 - Schemaversie: `marathon-schema-3u30-2026.08.30-1`
 - Bronbestand: `marathon-schema-3u30.md`
 - Opslagkey: `marathon330TrainingAppData_v1`
@@ -22,6 +22,22 @@ node scripts/generate-marathon-plan.mjs marathon-schema-3u30.md training-data.js
 ```
 
 Wijzig `training-data.js` daarom niet handmatig wanneer het schema verandert.
+
+## Loopbandmodus
+
+Iedere training heeft een aparte Loopbandmodus. Deze gebruikt rechtstreeks de
+uitgewerkte segmenten uit `training-data.js` en berekent cumulatieve start- en
+eindtijden. Afstandsblokken krijgen een geschatte duur wanneer afstand en
+snelheid bekend zijn. Een blok zonder berekenbare duur blijft zichtbaar, maar
+schakelt de optionele trainingstimer uit om onjuiste wisselmomenten te voorkomen.
+
+De timer ondersteunt pauzeren, hervatten en stoppen. Tijdens een actieve timer
+wordt de Screen Wake Lock API gebruikt wanneer de browser dit ondersteunt.
+Zonder Wake Lock blijft de rest van de Loopbandmodus normaal functioneren.
+
+Via de titel **Marathon 3:30** opent een overzicht met kalendercountdown,
+resterende en voltooide trainingen, programmavoortgang, volgende training en
+volgende confidence run/test.
 
 ## Testresultaten
 
@@ -62,7 +78,7 @@ Na deze eerste release is daarom de betrouwbaarste eenmalige stap:
 
 1. verwijder het oude homescreen-icoon;
 2. open de actuele GitHub Pages-URL in Safari;
-3. controleer onder **Informatie** dat versie `2026.08.30-1` zichtbaar is;
+3. controleer onder **Informatie** dat versie `2026.08.30-2` zichtbaar is;
 4. kies opnieuw **Zet op beginscherm**.
 
 Daarna worden toekomstige bestanden rechtstreeks vanaf GitHub Pages geladen.

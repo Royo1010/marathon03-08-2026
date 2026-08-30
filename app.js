@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "2026.08.30-1";
+  const APP_VERSION = "2026.08.30-2";
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
   const APP_DATA_VERSION = 3;
   const plan = window.MARATHON_PLAN;
@@ -15,14 +15,19 @@
   const brandHome = document.getElementById("brand-home");
   const navButtons = Array.from(document.querySelectorAll("[data-view]"));
 
-  const VIEWS = { WEEK: "week", PLAN: "plan", INFO: "info" };
+  const VIEWS = { WEEK: "week", PLAN: "plan", INFO: "info", MARATHON: "marathon", TREADMILL: "treadmill" };
   const state = {
     view: VIEWS.WEEK,
     viewedWeekIndex: currentPlanWeekIndex(),
     expandedWorkoutIds: new Set(),
+    treadmillWorkoutId: null,
+    treadmillReturnView: VIEWS.WEEK,
   };
 
   let appData = loadAppData();
+  let treadmillTimer = createIdleTimer();
+  let treadmillTimerInterval = null;
+  let screenWakeLock = null;
 
   function isObject(value) {
     return Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -44,6 +49,15 @@
   function parseLocalDate(iso) {
     const [year, month, day] = String(iso).split("-").map(Number);
     return new Date(year, month - 1, day);
+  }
+
+  function calendarDayNumber(iso) {
+    const [year, month, day] = String(iso).split("-").map(Number);
+    return Math.floor(Date.UTC(year, month - 1, day) / 86400000);
+  }
+
+  function calendarDaysBetween(fromIso, toIso) {
+    return calendarDayNumber(toIso) - calendarDayNumber(fromIso);
   }
 
   function formatDate(iso, options = { day: "numeric", month: "short" }) {
@@ -213,9 +227,7 @@
   }
 
   function daysUntilMarathon() {
-    const today = parseLocalDate(appDateIso());
-    const marathon = parseLocalDate(plan.config.marathonDate);
-    return Math.max(0, Math.ceil((marathon - today) / 86400000));
+    return Math.max(0, calendarDaysBetween(appDateIso(), plan.config.marathonDate));
   }
 
   function trainingType(workout) {
@@ -273,6 +285,135 @@
 
   function workoutPrimarySummary(workout) {
     return joinText([workout.totalPlannedLabel, workout.estimatedDistanceLabel], "Bekijk de exacte opbouw");
+  }
+
+  function workoutById(workoutId) {
+    return workouts.find((workout) => workout.workoutId === workoutId) || null;
+  }
+
+  function formatTimelineClock(seconds) {
+    if (!Number.isFinite(Number(seconds)) || Number(seconds) < 0) return "—";
+    const rounded = Math.round(Number(seconds));
+    const minutes = Math.floor(rounded / 60);
+    const remainder = rounded % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(remainder).padStart(2, "0")}`;
+  }
+
+  function formatStopwatch(seconds) {
+    if (!Number.isFinite(Number(seconds)) || Number(seconds) < 0) return "00:00";
+    const rounded = Math.floor(Number(seconds));
+    const hours = Math.floor(rounded / 3600);
+    const minutes = Math.floor((rounded % 3600) / 60);
+    const remainder = rounded % 60;
+    return hours > 0
+      ? `${hours}:${String(minutes).padStart(2, "0")}:${String(remainder).padStart(2, "0")}`
+      : `${String(minutes).padStart(2, "0")}:${String(remainder).padStart(2, "0")}`;
+  }
+
+  function treadmillBlockName(segment) {
+    const labels = {
+      easy: "Easy",
+      herstel: "Herstel",
+      recovery: "Herstel",
+      "warming-up": "Warming-up",
+      "cooling-down": "Cooling-down",
+      marathonpace: "Marathonpace",
+      steady: "Steady",
+      interval: "Interval",
+      wandelen: "Wandelen",
+      test: "Test",
+      wedstrijd: "Marathon",
+    };
+    const base = labels[segment.type] || capitalize(String(segment.type || "Blok").replace(/-/g, " "));
+    return segment.repeats > 1 ? `${base} ${segment.repeat}/${segment.repeats}` : base;
+  }
+
+  function buildTreadmillTimeline(workout) {
+    let elapsedSeconds = 0;
+    let cumulativeTimeKnown = true;
+    const blocks = model.flattenWorkoutSegments(workout).map((segment, index) => {
+      const explicitDuration = Number(segment.durationSeconds);
+      const calculatedDuration = Number(model.segmentDurationSeconds(segment));
+      const durationSeconds = calculatedDuration > 0 ? calculatedDuration : null;
+      const estimated = !(explicitDuration > 0) && Number(segment.distanceKm) > 0 && Number(segment.speedKmh) > 0;
+      const startSeconds = cumulativeTimeKnown ? elapsedSeconds : null;
+      const endSeconds = cumulativeTimeKnown && durationSeconds ? elapsedSeconds + durationSeconds : null;
+      if (endSeconds != null) elapsedSeconds = endSeconds;
+      else cumulativeTimeKnown = false;
+      return {
+        ...segment,
+        index,
+        blockName: treadmillBlockName(segment),
+        durationSeconds,
+        startSeconds,
+        endSeconds,
+        estimated,
+        timeRangeLabel: startSeconds != null && endSeconds != null
+          ? `${estimated ? "±" : ""}${formatTimelineClock(startSeconds)} – ${formatTimelineClock(endSeconds)}`
+          : startSeconds != null
+            ? `${formatTimelineClock(startSeconds)} – op gevoel`
+            : "Tijd afhankelijk van vorig blok",
+      };
+    });
+    const hasCompleteTiming = blocks.length > 0 && blocks.every((block) => block.durationSeconds && block.startSeconds != null && block.endSeconds != null);
+    return {
+      blocks,
+      hasCompleteTiming,
+      totalSeconds: hasCompleteTiming ? elapsedSeconds : null,
+      totalLabel: hasCompleteTiming ? formatTimelineClock(elapsedSeconds) : workout.totalPlannedLabel || "Variabele duur",
+    };
+  }
+
+  function createIdleTimer() {
+    return { workoutId: null, status: "idle", startedAt: 0, elapsedSeconds: 0 };
+  }
+
+  function timerElapsedSeconds() {
+    if (treadmillTimer.status !== "running") return treadmillTimer.elapsedSeconds || 0;
+    return Math.max(0, Math.floor((Date.now() - treadmillTimer.startedAt) / 1000));
+  }
+
+  function timerSnapshot(timeline) {
+    const elapsedSeconds = timerElapsedSeconds();
+    let currentIndex = timeline.blocks.findIndex((block) => block.endSeconds != null && elapsedSeconds < block.endSeconds);
+    if (currentIndex === -1 && timeline.totalSeconds != null && elapsedSeconds < timeline.totalSeconds) currentIndex = 0;
+    const current = currentIndex >= 0 ? timeline.blocks[currentIndex] : null;
+    const next = currentIndex >= 0 ? timeline.blocks[currentIndex + 1] || null : null;
+    return {
+      elapsedSeconds,
+      currentIndex,
+      current,
+      next,
+      remainingSeconds: current?.endSeconds != null ? Math.max(0, current.endSeconds - elapsedSeconds) : 0,
+      finished: timeline.totalSeconds != null && elapsedSeconds >= timeline.totalSeconds,
+    };
+  }
+
+  async function requestScreenWakeLock() {
+    if (!navigator.wakeLock?.request || document.visibilityState !== "visible") return;
+    try {
+      screenWakeLock = await navigator.wakeLock.request("screen");
+      screenWakeLock.addEventListener?.("release", () => { screenWakeLock = null; });
+    } catch (error) {
+      console.debug("Screen Wake Lock is op dit apparaat niet beschikbaar.", error);
+    }
+  }
+
+  async function releaseScreenWakeLock() {
+    if (!screenWakeLock) return;
+    try { await screenWakeLock.release(); }
+    catch (_) {}
+    screenWakeLock = null;
+  }
+
+  function clearTreadmillInterval() {
+    if (treadmillTimerInterval) window.clearInterval(treadmillTimerInterval);
+    treadmillTimerInterval = null;
+  }
+
+  function startTreadmillInterval() {
+    clearTreadmillInterval();
+    treadmillTimerInterval = window.setInterval(updateTreadmillTimerUi, 500);
   }
 
   function renderWeek() {
@@ -333,10 +474,12 @@
         </button>
         ${open ? `<div class="training-details" id="${detailsId}">${renderTrainingDetails(workout)}</div>` : ""}
         <div class="completion-row">
+          <button class="treadmill-button" type="button" data-open-treadmill="${workout.workoutId}">
+            <span aria-hidden="true">▶</span>Loopbandmodus
+          </button>
           <button class="completion-button ${completed ? "is-completed" : ""}" type="button" data-toggle-complete="${workout.workoutId}" aria-pressed="${completed}">
             <span aria-hidden="true">${completed ? "✓" : "○"}</span>${completed ? "Voltooid" : "Markeer als voltooid"}
           </button>
-          <span>${open ? "Tik op − om details te sluiten" : "Tik op de kaart voor details"}</span>
         </div>
       </article>`;
   }
@@ -402,9 +545,194 @@
     saveAppData();
   }
 
+  function treadmillSpeedLabel(block) {
+    return Number(block?.speedKmh) > 0 ? `${formatNumber(block.speedKmh)} km/u` : "Zelf sturen";
+  }
+
+  function treadmillInclineLabel(block) {
+    return block?.inclinePercent == null ? "—" : `${formatNumber(block.inclinePercent)}%`;
+  }
+
+  function renderTreadmillBlock(block, currentIndex) {
+    const active = block.index === currentIndex;
+    const distance = Number(block.distanceKm) > 0 ? `${formatNumber(block.distanceKm)} km` : "";
+    const duration = block.durationSeconds ? `${block.estimated ? "±" : ""}${formatTimelineClock(block.durationSeconds)}` : "duur op gevoel";
+    return `<article class="treadmill-block ${active ? "is-current" : ""}" data-timeline-index="${block.index}">
+      <div class="treadmill-block-time">
+        <span>${escapeHtml(block.blockName)}</span>
+        <strong>${escapeHtml(block.timeRangeLabel)}</strong>
+        <small>${escapeHtml(joinText([distance, duration]))}</small>
+      </div>
+      <div class="treadmill-block-speed"><span>Snelheid</span><strong>${escapeHtml(treadmillSpeedLabel(block))}</strong></div>
+      <div class="treadmill-block-incline"><span>Helling</span><strong>${escapeHtml(treadmillInclineLabel(block))}</strong></div>
+    </article>`;
+  }
+
+  function renderTreadmillTimer(workout, timeline) {
+    if (!timeline.hasCompleteTiming) {
+      return `<section class="timer-start-card"><div><span>Statisch overzicht</span><strong>Timer niet beschikbaar</strong><p>Minstens één blok heeft geen berekenbare duur. De tijdlijn blijft wel volledig bruikbaar.</p></div></section>`;
+    }
+    if (treadmillTimer.workoutId !== workout.workoutId || treadmillTimer.status === "idle") {
+      return `<section class="timer-start-card"><div><span>Optionele begeleiding</span><strong>Start de trainingstimer</strong><p>De timer toont het huidige en volgende blok. Wake Lock wordt gebruikt als je iPhone dit ondersteunt.</p></div><button type="button" data-timer-start="${workout.workoutId}">Start training</button></section>`;
+    }
+    const snapshot = timerSnapshot(timeline);
+    const current = snapshot.current || timeline.blocks.at(-1);
+    const next = snapshot.next;
+    const finished = treadmillTimer.status === "finished";
+    return `<section class="timer-live-card ${finished ? "is-finished" : ""}" aria-label="Live trainingstimer">
+      <div class="timer-live-top"><div><span>Verstreken</span><strong data-timer-elapsed>${formatStopwatch(snapshot.elapsedSeconds)}</strong></div><span class="timer-status" data-timer-status>${finished ? "Klaar" : treadmillTimer.status === "paused" ? "Gepauzeerd" : "Actief"}</span></div>
+      <div class="timer-now-grid">
+        <div><span>Nu</span><strong data-current-speed>${escapeHtml(treadmillSpeedLabel(current))}</strong><small data-current-incline>${escapeHtml(treadmillInclineLabel(current))} helling</small></div>
+        <div><span>Nog</span><strong data-block-remaining>${finished ? "00:00" : formatStopwatch(snapshot.remainingSeconds)}</strong><small data-current-block>${escapeHtml(current?.blockName || "Training voltooid")}</small></div>
+      </div>
+      <div class="timer-next"><span>Daarna</span><strong data-next-block>${next ? `${escapeHtml(treadmillSpeedLabel(next))} · ${escapeHtml(treadmillInclineLabel(next))}` : "Finish"}</strong></div>
+      <div class="timer-controls">
+        ${finished ? `<button type="button" data-timer-reset>Timer opnieuw instellen</button>` : treadmillTimer.status === "paused" ? `<button type="button" data-timer-resume>Hervat</button>` : `<button type="button" data-timer-pause>Pauze</button>`}
+        ${finished ? "" : `<button class="is-secondary" type="button" data-timer-stop>Stop timer</button>`}
+      </div>
+    </section>`;
+  }
+
+  function renderTreadmillMode() {
+    const workout = workoutById(state.treadmillWorkoutId);
+    if (!workout) {
+      state.view = VIEWS.WEEK;
+      return renderWeek();
+    }
+    const timeline = buildTreadmillTimeline(workout);
+    const snapshot = treadmillTimer.workoutId === workout.workoutId && treadmillTimer.status !== "idle" ? timerSnapshot(timeline) : { currentIndex: -1 };
+    app.innerHTML = `<section class="treadmill-view" data-treadmill-view="${workout.workoutId}">
+      <header class="treadmill-header">
+        <button class="treadmill-back" type="button" data-close-treadmill>← Terug</button>
+        <div><span>Week ${workout.weekNumber} · Training ${workout.trainingNumber}</span><h1>${escapeHtml(capitalize(workout.title))}</h1><p>${escapeHtml(timeline.totalLabel)} totaal · ${timeline.blocks.length} blokken</p></div>
+      </header>
+      ${renderTreadmillTimer(workout, timeline)}
+      <section class="treadmill-timeline" aria-label="Loopbandblokken">
+        ${timeline.blocks.map((block) => renderTreadmillBlock(block, snapshot.currentIndex)).join("")}
+      </section>
+      <p class="treadmill-note">Een streep bij helling betekent dat de bron voor dat blok geen vast percentage voorschrijft. Afstandstijden met ± zijn berekend uit afstand en snelheid.</p>
+    </section>`;
+  }
+
+  function startTreadmillTimer(workoutId) {
+    const workout = workoutById(workoutId);
+    if (!workout) return;
+    const timeline = buildTreadmillTimeline(workout);
+    if (!timeline.hasCompleteTiming) return;
+    treadmillTimer = { workoutId, status: "running", startedAt: Date.now(), elapsedSeconds: 0 };
+    requestScreenWakeLock();
+    renderTreadmillMode();
+    startTreadmillInterval();
+  }
+
+  function pauseTreadmillTimer() {
+    treadmillTimer.elapsedSeconds = timerElapsedSeconds();
+    treadmillTimer.status = "paused";
+    clearTreadmillInterval();
+    releaseScreenWakeLock();
+    renderTreadmillMode();
+  }
+
+  function resumeTreadmillTimer() {
+    treadmillTimer.startedAt = Date.now() - (treadmillTimer.elapsedSeconds || 0) * 1000;
+    treadmillTimer.status = "running";
+    requestScreenWakeLock();
+    renderTreadmillMode();
+    startTreadmillInterval();
+  }
+
+  function resetTreadmillTimer() {
+    clearTreadmillInterval();
+    releaseScreenWakeLock();
+    treadmillTimer = createIdleTimer();
+    renderTreadmillMode();
+  }
+
+  function updateTreadmillTimerUi() {
+    if (state.view !== VIEWS.TREADMILL || treadmillTimer.status !== "running") return;
+    const workout = workoutById(treadmillTimer.workoutId);
+    if (!workout) return;
+    const timeline = buildTreadmillTimeline(workout);
+    const snapshot = timerSnapshot(timeline);
+    if (snapshot.finished) {
+      treadmillTimer.elapsedSeconds = timeline.totalSeconds;
+      treadmillTimer.status = "finished";
+      clearTreadmillInterval();
+      releaseScreenWakeLock();
+      return renderTreadmillMode();
+    }
+    const setText = (selector, value) => {
+      const element = app.querySelector?.(selector);
+      if (element) element.textContent = value;
+    };
+    setText("[data-timer-elapsed]", formatStopwatch(snapshot.elapsedSeconds));
+    setText("[data-current-speed]", treadmillSpeedLabel(snapshot.current));
+    setText("[data-current-incline]", `${treadmillInclineLabel(snapshot.current)} helling`);
+    setText("[data-block-remaining]", formatStopwatch(snapshot.remainingSeconds));
+    setText("[data-current-block]", snapshot.current?.blockName || "Training voltooid");
+    setText("[data-next-block]", snapshot.next ? `${treadmillSpeedLabel(snapshot.next)} · ${treadmillInclineLabel(snapshot.next)}` : "Finish");
+    app.querySelectorAll?.("[data-timeline-index]").forEach((row) => row.classList.toggle("is-current", Number(row.dataset.timelineIndex) === snapshot.currentIndex));
+  }
+
+  function regularProgramWorkouts() {
+    return workouts.filter((workout) => workout.category !== "wedstrijd");
+  }
+
+  function nextIncompleteWorkout() {
+    return regularProgramWorkouts().find((workout) => !isCompleted(workout.workoutId)) || null;
+  }
+
+  function isMilestoneWorkout(workout) {
+    return workout.category === "wedstrijd" || (workout.labels || []).some((label) => ["CONFIDENCE RUN", "TEST", "RACE"].includes(label));
+  }
+
+  function nextMilestoneWorkout() {
+    const today = appDateIso();
+    const milestones = workouts.filter(isMilestoneWorkout).filter((workout) => workout.category === "wedstrijd" || !isCompleted(workout.workoutId));
+    return milestones.find((workout) => {
+      const week = weeks.find((item) => item.weekNumber === workout.weekNumber);
+      return week && week.endDate >= today;
+    }) || milestones[0] || null;
+  }
+
+  function renderMarathonOverview() {
+    const programWorkouts = regularProgramWorkouts();
+    const completed = programWorkouts.filter((workout) => isCompleted(workout.workoutId)).length;
+    const remaining = programWorkouts.length - completed;
+    const progress = programWorkouts.length ? Math.round((completed / programWorkouts.length) * 100) : 0;
+    const days = daysUntilMarathon();
+    const fullWeeks = Math.floor(days / 7);
+    const looseDays = days % 7;
+    const next = nextIncompleteWorkout();
+    const milestone = nextMilestoneWorkout();
+    const remainingConfidenceRuns = workouts.filter((workout) => (workout.labels || []).includes("CONFIDENCE RUN") && !isCompleted(workout.workoutId)).length;
+    app.innerHTML = `<section class="marathon-overview">
+      <header class="overview-header">
+        <button type="button" data-back-week>← Terug naar week</button>
+        <span>Marathon 3:30</span>
+        <h1>${escapeHtml(formatDate(plan.config.marathonDate, { weekday: "long", day: "numeric", month: "long", year: "numeric" }))}</h1>
+      </header>
+      <section class="countdown-primary"><strong>${days}</strong><span>Dagen te gaan</span><small>${fullWeeks} weken en ${looseDays} dagen</small></section>
+      <section class="overview-stat-grid">
+        <div><strong>${remaining}</strong><span>Trainingen te gaan</span><small>+ marathon</small></div>
+        <div><strong>${completed}</strong><span>Trainingen voltooid</span><small>van ${programWorkouts.length}</small></div>
+      </section>
+      <section class="program-progress">
+        <div><span>Programmavoortgang</span><strong>${progress}%</strong></div>
+        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progress}"><span style="width:${progress}%"></span></div>
+        <p>${completed} van ${programWorkouts.length} trainingen voltooid</p>
+      </section>
+      <section class="overview-next-grid">
+        <article><span>Volgende training</span>${next ? `<strong>Week ${next.weekNumber} · Training ${next.trainingNumber}</strong><h2>${escapeHtml(capitalize(next.title))}</h2><p>${escapeHtml(workoutPrimarySummary(next))}</p>` : `<strong>Programma voltooid</strong><h2>De marathon wacht</h2>`}</article>
+        <article><span>Volgende mijlpaal</span>${milestone ? `<strong>Week ${milestone.weekNumber} · Training ${milestone.trainingNumber}</strong><h2>${escapeHtml(capitalize(milestone.title))}</h2><p>${escapeHtml(milestone.category === "wedstrijd" ? "Marathon · 42,195 km" : workoutPrimarySummary(milestone))}</p>` : `<strong>Geen mijlpaal meer</strong><h2>Race ready</h2>`}</article>
+      </section>
+      <p class="confidence-remaining">${remainingConfidenceRuns} confidence run${remainingConfidenceRuns === 1 ? "" : "s"} te gaan</p>
+    </section>`;
+  }
+
   function renderPlan() {
     app.innerHTML = `
-      <header class="page-header"><span>Volledig programma</span><h1>Schema</h1><p>Alle zestien trainingsweken in één compact overzicht.</p></header>
+      <header class="page-header"><span>Volledig programma</span><h1>Schema</h1><p>Alle twaalf trainingsweken in één compact overzicht.</p></header>
       <section class="plan-list">
         ${weeks.map((week, index) => {
           const phase = plan.phases.find((item) => item.phaseId === week.phaseId);
@@ -444,6 +772,12 @@
   }
 
   function setView(view) {
+    if (state.view === VIEWS.TREADMILL && view !== VIEWS.TREADMILL) {
+      clearTreadmillInterval();
+      releaseScreenWakeLock();
+      treadmillTimer = createIdleTimer();
+      state.treadmillWorkoutId = null;
+    }
     state.view = view;
     state.expandedWorkoutIds.clear();
     navButtons.forEach((button) => {
@@ -457,7 +791,10 @@
   }
 
   function render() {
-    if (state.view === VIEWS.PLAN) renderPlan();
+    document.body?.classList?.toggle("treadmill-active", state.view === VIEWS.TREADMILL);
+    if (state.view === VIEWS.TREADMILL) renderTreadmillMode();
+    else if (state.view === VIEWS.MARATHON) renderMarathonOverview();
+    else if (state.view === VIEWS.PLAN) renderPlan();
     else if (state.view === VIEWS.INFO) renderInfo();
     else renderWeek();
   }
@@ -476,6 +813,32 @@
     if (complete) {
       event.stopPropagation();
       toggleCompleted(complete.dataset.toggleComplete);
+      return;
+    }
+
+    const treadmill = event.target.closest("[data-open-treadmill]");
+    if (treadmill) {
+      event.stopPropagation();
+      state.treadmillWorkoutId = treadmill.dataset.openTreadmill;
+      state.treadmillReturnView = state.view;
+      return setView(VIEWS.TREADMILL);
+    }
+
+    if (event.target.closest("[data-close-treadmill]")) {
+      return setView(state.treadmillReturnView || VIEWS.WEEK);
+    }
+
+    if (event.target.closest("[data-back-week]")) {
+      return setView(VIEWS.WEEK);
+    }
+
+    const timerStart = event.target.closest("[data-timer-start]");
+    if (timerStart) return startTreadmillTimer(timerStart.dataset.timerStart);
+    if (event.target.closest("[data-timer-pause]")) return pauseTreadmillTimer();
+    if (event.target.closest("[data-timer-resume]")) return resumeTreadmillTimer();
+    if (event.target.closest("[data-timer-reset]")) return resetTreadmillTimer();
+    if (event.target.closest("[data-timer-stop]")) {
+      if (!window.confirm || window.confirm("Timer stoppen en terugzetten naar 00:00?")) resetTreadmillTimer();
       return;
     }
 
@@ -532,15 +895,22 @@
     }
   });
 
-  brandHome.addEventListener("click", () => {
-    state.viewedWeekIndex = currentPlanWeekIndex();
-    setView(VIEWS.WEEK);
-  });
+  brandHome.addEventListener("click", () => setView(VIEWS.MARATHON));
 
   document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "hidden") saveAppData();
+    if (document.visibilityState === "hidden") {
+      saveAppData();
+      releaseScreenWakeLock();
+    } else if (state.view === VIEWS.TREADMILL && treadmillTimer.status === "running") {
+      requestScreenWakeLock();
+      updateTreadmillTimerUi();
+    }
   });
-  window.addEventListener("pagehide", saveAppData);
+  window.addEventListener("pagehide", () => {
+    saveAppData();
+    clearTreadmillInterval();
+    releaseScreenWakeLock();
+  });
 
   async function retireLegacyPwaCache() {
     try {
@@ -570,5 +940,20 @@
   render();
   retireLegacyPwaCache();
 
-  window.MarathonApp = { APP_VERSION, STORAGE_KEY, plan, state, isCompleted, loadAppData, saveAppData, currentPlanWeekIndex, render, saveTestField };
+  window.MarathonApp = {
+    APP_VERSION,
+    STORAGE_KEY,
+    plan,
+    state,
+    isCompleted,
+    loadAppData,
+    saveAppData,
+    currentPlanWeekIndex,
+    render,
+    saveTestField,
+    buildTreadmillTimeline,
+    daysUntilMarathon,
+    nextIncompleteWorkout,
+    nextMilestoneWorkout,
+  };
 })();
