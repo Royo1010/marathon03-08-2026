@@ -169,7 +169,7 @@ test("Schema, Informatie en Marathonoverzicht zijn bereikbaar", () => {
   harness.click({ "[data-view]": { dataset: { view: "info" } } });
   assert.match(harness.app.innerHTML, /Tempo en afkortingen/);
   assert.match(harness.app.innerHTML, /Inspanningsniveaus/);
-  assert.match(harness.app.innerHTML, /Versie 2026\.08\.30-5/);
+  assert.match(harness.app.innerHTML, /Versie 2026\.08\.31-6/);
 
   harness.brandHome.click();
   assert.equal(harness.context.window.MarathonApp.state.view, "marathon");
@@ -329,6 +329,45 @@ test("meldingsinstellingen zijn per training opgeslagen", () => {
   const reloaded = createHarness(storageValues);
   assert.equal(reloaded.context.window.MarathonApp.notificationSettings(first.workoutId).warningSeconds, 45);
   assert.equal(reloaded.context.window.MarathonApp.notificationSettings(first.workoutId).soundEnabled, false);
+});
+
+test("meldingen staan standaard compact en de 30/45-keuze gebruikt een volledige segmented rij", () => {
+  const storageValues = new Map();
+  const harness = createHarness(storageValues);
+  const workout = harness.context.window.MARATHON_PLAN.weeks[0].workouts[0];
+
+  harness.click({ "[data-open-treadmill]": { dataset: { openTreadmill: workout.workoutId } } });
+  assert.match(harness.app.innerHTML, /data-toggle-notifications/);
+  assert.doesNotMatch(harness.app.innerHTML, /class="notification-card"/);
+
+  harness.click({ "[data-toggle-notifications]": { dataset: {} } });
+  assert.match(harness.app.innerHTML, /class="notification-card"/);
+  assert.match(harness.app.innerHTML, /class="warning-segments"/);
+  assert.match(harness.app.innerHTML, /data-warning-seconds="30"/);
+  assert.match(harness.app.innerHTML, /data-warning-seconds="45"/);
+  assert.doesNotMatch(harness.app.innerHTML, /<select[^>]+warningSeconds/);
+
+  harness.click({ "[data-warning-seconds][data-workout-id]": { dataset: { warningSeconds: "45", workoutId: workout.workoutId } } });
+  assert.equal(harness.context.window.MarathonApp.notificationSettings(workout.workoutId).warningSeconds, 45);
+  assert.match(harness.app.innerHTML, /data-warning-seconds="45"[^>]+aria-checked="true"|aria-checked="true"[^>]+data-warning-seconds="45"/);
+
+  harness.click({ "[data-toggle-notifications]": { dataset: {} } });
+  assert.doesNotMatch(harness.app.innerHTML, /class="notification-card"/);
+  assert.equal(harness.context.window.MarathonApp.notificationSettings(workout.workoutId).warningSeconds, 45);
+});
+
+test("week 36 training 1 heeft exact twee switches op 05:00 en 40:00", () => {
+  const harness = createHarness();
+  const workout = harness.context.window.MARATHON_PLAN.weeks[0].workouts[0];
+  const timeline = harness.context.window.MarathonApp.buildTreadmillTimeline(workout);
+  const switches = harness.context.window.MarathonApp.switchPlanFor(workout, timeline);
+
+  assert.deepEqual(Array.from(switches, (item) => item.switchAtSeconds), [300, 2400]);
+  assert.deepEqual(Array.from(switches, (item) => item.warningAtSeconds), [270, 2370]);
+  assert.deepEqual(Array.from(switches, (item) => item.title), ["SWITCH BIJ 05:00", "SWITCH BIJ 40:00"]);
+  assert.match(switches[0].body, /Snelheid 9 → 10 km\/u/);
+  assert.match(switches[0].body, /Helling blijft 0,5%/);
+  assert.match(switches[0].body, /Tot 40:00/);
 });
 
 test("start, pauze, hervatten en stop gebruiken unieke timersessies", () => {

@@ -5,7 +5,7 @@ Mobiele weekplanner voor het definitieve Marathon 3:30-loopbandschema van
 
 ## Actieve versie
 
-- App-versie: `2026.08.30-5`
+- App-versie: `2026.08.31-6`
 - Schemaversie: `marathon-schema-3u30-expliciete-helling-2026.08.30-1`
 - Bronbestand: `marathon-schema-3u30-expliciete-helling.md`
 - Opslagkey: `marathon330TrainingAppData_v1`
@@ -88,7 +88,7 @@ Na deze eerste release is daarom de betrouwbaarste eenmalige stap:
 
 1. verwijder het oude homescreen-icoon;
 2. open de actuele GitHub Pages-URL in Safari;
-3. controleer onder **Informatie** dat versie `2026.08.30-5` zichtbaar is;
+3. controleer onder **Informatie** dat versie `2026.08.31-6` zichtbaar is;
 4. kies opnieuw **Zet op beginscherm**.
 
 Daarna worden toekomstige bestanden rechtstreeks vanaf GitHub Pages geladen.

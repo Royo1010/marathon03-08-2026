@@ -21,7 +21,7 @@ export function handleOptions(req, res) {
 export function assertOrigin(req) {
   const configured = allowedOrigin();
   const origin = String(req.headers.origin || "").replace(/\/$/, "");
-  if (configured && origin !== configured) {
+  if (configured && origin && origin !== configured) {
     const error = new Error("ORIGIN_NOT_ALLOWED");
     error.statusCode = 403;
     throw error;

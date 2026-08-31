@@ -1,13 +1,15 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "2026.08.30-5";
+  const APP_VERSION = "2026.08.31-6";
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
   const APP_DATA_VERSION = 3;
   const plan = window.MARATHON_PLAN;
   const model = window.MARATHON_MODEL;
   const notifications = window.MARATHON_NOTIFICATIONS;
   const pushConfig = window.MARATHON_PUSH_CONFIG || {};
+  const PUSH_API_BASE_URL = String(pushConfig.backendUrl || "").replace(/\/$/, "");
+  const PUSH_VAPID_PUBLIC_KEY = String(pushConfig.vapidPublicKey || "");
 
   if (!plan || !model || !notifications) throw new Error("De trainingsdata kon niet volledig worden geladen.");
 
@@ -40,6 +42,8 @@
     treadmillWorkoutId: workouts.some((workout) => workout.workoutId === initialTreadmillWorkoutId) ? initialTreadmillWorkoutId : null,
     treadmillReturnView: VIEWS.WEEK,
     pushStatus: { code: "checking", label: "Pushstatus controleren…", detail: "" },
+    showPushSetup: false,
+    notificationsPanelOpen: false,
   };
 
   let appData = loadAppData();
@@ -256,7 +260,11 @@
   }
 
   function hasPushConfiguration() {
-    return /^https:\/\//.test(String(pushConfig.backendUrl || "")) && String(pushConfig.vapidPublicKey || "").length > 20;
+    return /^https:\/\//.test(PUSH_API_BASE_URL) && PUSH_VAPID_PUBLIC_KEY.length > 20;
+  }
+
+  function pushDebug(message, details = {}) {
+    console.debug(`[push] ${message}`, details);
   }
 
   function setPushStatus(code, label, detail = "", rerender = true) {
@@ -265,19 +273,32 @@
   }
 
   function backendUrl(path) {
-    return `${String(pushConfig.backendUrl || "").replace(/\/$/, "")}${path}`;
+    return `${PUSH_API_BASE_URL}${path}`;
   }
 
   async function backendRequest(path, options = {}) {
     if (!hasPushConfiguration()) throw new Error("PUSH_BACKEND_NOT_CONFIGURED");
     const client = appData.userSettings?.pushClient || {};
-    const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
-    if (client.installId) headers["X-Install-Id"] = client.installId;
-    if (client.authToken) headers.Authorization = `Bearer ${client.authToken}`;
-    const response = await window.fetch(backendUrl(path), { ...options, headers });
+    const { auth = true, ...requestOptions } = options;
+    const headers = { "Content-Type": "application/json", ...(requestOptions.headers || {}) };
+    if (auth && client.installId) headers["X-Install-Id"] = client.installId;
+    if (auth && client.authToken) headers.Authorization = `Bearer ${client.authToken}`;
+    const response = await window.fetch(backendUrl(path), { ...requestOptions, headers });
     const payload = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(payload.error || `PUSH_BACKEND_${response.status}`);
+    if (!response.ok) {
+      const error = new Error(payload.error || `PUSH_BACKEND_${response.status}`);
+      error.statusCode = response.status;
+      error.payload = payload;
+      throw error;
+    }
     return payload;
+  }
+
+  async function checkPushBackendHealth() {
+    const health = await backendRequest("/api/health", { method: "GET", auth: false });
+    if (!health?.ok) throw new Error("PUSH_BACKEND_UNHEALTHY");
+    pushDebug("backend health ok", { service: health.service, version: health.version });
+    return health;
   }
 
   function urlBase64ToUint8Array(value) {
@@ -295,6 +316,7 @@
       updateViaCache: "none",
     });
     pushServiceWorkerRegistration.update?.().catch(() => {});
+    pushDebug("service worker geregistreerd", { scope: pushServiceWorkerRegistration.scope });
     return pushServiceWorkerRegistration;
   }
 
@@ -315,6 +337,7 @@
       registeredAt: nowIso(),
     };
     saveAppData();
+    pushDebug("pushabonnement geregistreerd", { installId: result.installId });
     return result;
   }
 
@@ -327,16 +350,29 @@
       setPushStatus("home-required", "Beginscherm-app nodig", "Installeer deze site eerst via Zet op beginscherm.", rerender);
       return state.pushStatus;
     }
+    if (!hasPushConfiguration()) {
+      setPushStatus("backend-unconfigured", "Pushserver instellen", "Vul de publieke server-URL en VAPID-sleutel in om Lock Screen-meldingen te activeren.", rerender);
+      return state.pushStatus;
+    }
+    try {
+      await checkPushBackendHealth();
+    } catch (error) {
+      console.warn("Pushserver-healthcheck is niet geslaagd.", error);
+      const misconfigured = error.statusCode === 503 || error.message === "PUSH_BACKEND_NOT_READY";
+      setPushStatus(
+        misconfigured ? "backend-misconfigured" : "backend-offline",
+        misconfigured ? "Pushserver onvolledig" : "Pushserver niet bereikbaar",
+        misconfigured ? "De server is online, maar mist nog verplichte instellingen." : "Controleer de server-URL, deployment en internetverbinding.",
+        rerender,
+      );
+      return state.pushStatus;
+    }
     if (window.Notification.permission === "denied") {
       setPushStatus("denied", "Toestemming geweigerd", "Sta meldingen toe via de iPhone-instellingen.", rerender);
       return state.pushStatus;
     }
     if (window.Notification.permission !== "granted") {
       setPushStatus("permission-needed", "Toestemming nodig", "Gebruik Notificaties toestaan wanneer je klaar bent.", rerender);
-      return state.pushStatus;
-    }
-    if (!hasPushConfiguration()) {
-      setPushStatus("backend-unconfigured", "Pushserver niet ingesteld", "De timer en schermwaarschuwingen blijven wel werken.", rerender);
       return state.pushStatus;
     }
     try {
@@ -352,6 +388,7 @@
         return state.pushStatus;
       }
       const status = await backendRequest("/api/status", { method: "GET" });
+      pushDebug("pushstatus gecontroleerd", { active: Boolean(status.active) });
       setPushStatus(status.active ? "active" : "no-subscription", status.active ? "Push actief" : "Geen actieve registratie", status.active ? "Lock Screen-meldingen zijn gereed." : "Registreer dit apparaat opnieuw.", rerender);
     } catch (error) {
       console.warn("Pushstatus kon niet worden gecontroleerd.", error);
@@ -365,15 +402,17 @@
     if (isIosDevice() && !isStandaloneMode()) return refreshPushStatus();
     try {
       const permission = await window.Notification.requestPermission();
+      pushDebug("notificatietoestemming afgehandeld", { permission });
       if (permission !== "granted") return refreshPushStatus();
       if (!hasPushConfiguration()) return refreshPushStatus();
+      await checkPushBackendHealth();
       setPushStatus("checking", "Apparaat registreren…", "", true);
       const registration = await registerPushServiceWorker();
       let subscription = await registration.pushManager.getSubscription();
       if (!subscription) {
         subscription = await registration.pushManager.subscribe({
           userVisibleOnly: true,
-          applicationServerKey: urlBase64ToUint8Array(pushConfig.vapidPublicKey),
+          applicationServerKey: urlBase64ToUint8Array(PUSH_VAPID_PUBLIC_KEY),
         });
       }
       await registerPushSubscription(subscription);
@@ -397,6 +436,7 @@
           workoutId,
         }),
       });
+      pushDebug("testmelding door server geaccepteerd", { workoutId });
       setPushStatus("active", "Testmelding verzonden", "Controleer je vergrendelscherm of meldingencentrum.");
     } catch (error) {
       console.warn("Testmelding is niet verzonden.", error);
@@ -778,6 +818,8 @@
     const switchCount = numericTimeline ? switchPlanFor(workout, timeline).length : 0;
     const status = state.pushStatus || { code: "checking", label: "Controleren…", detail: "" };
     const canRequest = ["permission-needed", "no-subscription", "registration-failed"].includes(status.code);
+    const needsSetup = ["backend-unconfigured", "backend-misconfigured", "backend-offline"].includes(status.code);
+    const canTest = status.code === "active" && settings.enabled && !activeTimer;
     return `<section class="notification-card" aria-labelledby="notification-title">
       <div class="notification-heading">
         <div><span>Trainingshulp</span><h2 id="notification-title">Meldingen</h2></div>
@@ -787,16 +829,37 @@
       <div class="notification-options">
         <label><span>Notificaties</span><input type="checkbox" data-notification-setting="enabled" data-workout-id="${escapeAttr(workout.workoutId)}" ${settings.enabled ? "checked" : ""} ${activeTimer ? "disabled" : ""}></label>
         <label><span>Geluid</span><input type="checkbox" data-notification-setting="soundEnabled" data-workout-id="${escapeAttr(workout.workoutId)}" ${settings.soundEnabled ? "checked" : ""} ${!settings.enabled || activeTimer ? "disabled" : ""}></label>
-        <label><span>Voorwaarschuwing</span><select data-notification-setting="warningSeconds" data-workout-id="${escapeAttr(workout.workoutId)}" ${!settings.enabled || activeTimer ? "disabled" : ""}><option value="30" ${settings.warningSeconds === 30 ? "selected" : ""}>30 sec</option><option value="45" ${settings.warningSeconds === 45 ? "selected" : ""}>45 sec</option></select></label>
         <label><span>Uitgebreid</span><input type="checkbox" data-notification-setting="extendedEnabled" data-workout-id="${escapeAttr(workout.workoutId)}" ${settings.extendedEnabled ? "checked" : ""} ${!settings.enabled || activeTimer ? "disabled" : ""}></label>
+        <div class="notification-option warning-option ${!settings.enabled || activeTimer ? "is-disabled" : ""}">
+          <span id="warning-label-${escapeAttr(workout.workoutId)}">Voorwaarschuwing</span>
+          <div class="warning-segments" role="radiogroup" aria-labelledby="warning-label-${escapeAttr(workout.workoutId)}">
+            ${[30, 45].map((seconds) => `<button type="button" role="radio" aria-checked="${settings.warningSeconds === seconds}" class="${settings.warningSeconds === seconds ? "is-active" : ""}" data-warning-seconds="${seconds}" data-workout-id="${escapeAttr(workout.workoutId)}" ${!settings.enabled || activeTimer ? "disabled" : ""}>${seconds} sec</button>`).join("")}
+          </div>
+        </div>
       </div>
       ${status.detail ? `<p class="push-status-detail">${escapeHtml(status.detail)}</p>` : ""}
       <div class="notification-actions">
         ${canRequest ? `<button type="button" data-request-notifications>Notificaties toestaan</button>` : ""}
-        <button type="button" class="is-secondary" data-test-notification="${escapeAttr(workout.workoutId)}" ${status.code !== "active" || !settings.enabled ? "disabled" : ""}>Test melding</button>
+        ${needsSetup ? `<button type="button" data-show-push-setup>${state.showPushSetup ? "Verberg configuratie" : "Pushserver configureren"}</button>` : ""}
+        ${canTest ? `<button type="button" class="is-secondary" data-test-notification="${escapeAttr(workout.workoutId)}">Test melding</button>` : ""}
       </div>
-      ${activeTimer ? `<p class="settings-locked">Tijdens een actieve timer blijven deze instellingen vaststaan.</p>` : ""}
+      ${state.showPushSetup && needsSetup ? `<div class="push-setup-panel">
+        <strong>Lock Screen-meldingen activeren</strong>
+        <ol><li>Deploy de meegeleverde map <code>push-server</code>.</li><li>Vul de publieke server-URL en VAPID-sleutel in <code>push-config.js</code> in.</li><li>Publiceer de app opnieuw en kies daarna Notificaties toestaan.</li></ol>
+        <p>De volledige stappen staan in <code>PUSH-DEPLOYMENT.md</code>. Private sleutels horen nooit in deze app.</p>
+      </div>` : ""}
+      ${activeTimer ? `<p class="settings-locked">Tijdens een actieve timer blijven deze instellingen vaststaan. Testen kan weer nadat je de timer stopt.</p>` : ""}
     </section>`;
+  }
+
+  function renderNotificationToggle(workout) {
+    const settings = notificationSettings(workout.workoutId);
+    const status = state.pushStatus || { code: "checking" };
+    const hasProblem = !["active", "checking", "permission-needed"].includes(status.code);
+    const summary = settings.enabled ? `${settings.warningSeconds} sec${settings.soundEnabled ? " · geluid" : " · stil"}` : "Uit";
+    return `<button type="button" class="notification-toggle${state.notificationsPanelOpen ? " is-open" : ""}" data-toggle-notifications aria-expanded="${state.notificationsPanelOpen}">
+      <span>Meldingen</span><small>${escapeHtml(summary)}${hasProblem ? " · controle nodig" : ""}</small><i aria-hidden="true">${state.notificationsPanelOpen ? "−" : "+"}</i>
+    </button>`;
   }
 
   function renderTreadmillBlock(block, currentIndex) {
@@ -854,7 +917,8 @@
         <div><span>Week ${workout.weekNumber} · Training ${workout.trainingNumber}</span><h1>${escapeHtml(capitalize(workout.title))}</h1><p>${escapeHtml(timeline.totalLabel)} totaal · ${timeline.blocks.length} blokken</p></div>
       </header>
       ${renderTreadmillTimer(workout, timeline)}
-      ${renderNotificationSettings(workout, timeline)}
+      ${renderNotificationToggle(workout)}
+      ${state.notificationsPanelOpen ? renderNotificationSettings(workout, timeline) : ""}
       <section class="treadmill-timeline" aria-label="Loopbandblokken">
         ${timeline.blocks.map((block) => renderTreadmillBlock(block, snapshot.currentIndex)).join("")}
       </section>
@@ -874,6 +938,7 @@
         method: "POST",
         body: JSON.stringify({ sessionId: timer.sessionId, generation: timer.generation || 1 }),
       });
+      pushDebug("pushsessie geannuleerd", { sessionId: timer.sessionId, generation: timer.generation || 1 });
     } catch (error) {
       console.warn("De oude pushplanning kon niet direct worden geannuleerd.", error);
       if (state.view === VIEWS.TREADMILL) setPushStatus("backend-offline", "Annuleren niet bevestigd", "Controleer je verbinding voordat je opnieuw start.");
@@ -911,6 +976,7 @@
       if (treadmillTimer.sessionId !== timerSession.sessionId) return;
       treadmillTimer.pushScheduled = true;
       treadmillTimer.pushJobCount = result.scheduledCount || 0;
+      pushDebug("wisselmeldingen gepland", { sessionId: timerSession.sessionId, count: treadmillTimer.pushJobCount });
       setPushStatus("active", "Push actief", `${treadmillTimer.pushJobCount} wisselmeldingen gepland.`);
     } catch (error) {
       console.warn("Switchmeldingen konden niet worden gepland.", error);
@@ -1355,6 +1421,8 @@
       releaseScreenWakeLock();
       treadmillTimer = createIdleTimer();
       state.treadmillWorkoutId = null;
+      state.notificationsPanelOpen = false;
+      state.showPushSetup = false;
       cancelPushSession(sessionToCancel);
     }
     state.view = view;
@@ -1400,6 +1468,8 @@
       event.stopPropagation();
       state.treadmillWorkoutId = treadmill.dataset.openTreadmill;
       state.treadmillReturnView = state.view;
+      state.notificationsPanelOpen = false;
+      state.showPushSetup = false;
       return setView(VIEWS.TREADMILL);
     }
 
@@ -1423,6 +1493,26 @@
 
     if (event.target.closest("[data-request-notifications]")) {
       requestNotificationAccess();
+      return;
+    }
+
+    if (event.target.closest("[data-toggle-notifications]")) {
+      state.notificationsPanelOpen = !state.notificationsPanelOpen;
+      state.showPushSetup = false;
+      renderTreadmillMode();
+      return;
+    }
+
+    if (event.target.closest("[data-show-push-setup]")) {
+      state.showPushSetup = !state.showPushSetup;
+      renderTreadmillMode();
+      return;
+    }
+
+    const warningSeconds = event.target.closest("[data-warning-seconds][data-workout-id]");
+    if (warningSeconds && !warningSeconds.disabled) {
+      saveNotificationSetting(warningSeconds.dataset.workoutId, "warningSeconds", Number(warningSeconds.dataset.warningSeconds));
+      renderTreadmillMode();
       return;
     }
 
@@ -1470,7 +1560,7 @@
   document.addEventListener("change", (event) => {
     if (event.target.matches("[data-notification-setting][data-workout-id]")) {
       const field = event.target.dataset.notificationSetting;
-      const value = field === "warningSeconds" ? Number(event.target.value) : Boolean(event.target.checked);
+      const value = Boolean(event.target.checked);
       saveNotificationSetting(event.target.dataset.workoutId, field, value);
       renderTreadmillMode();
       return;
@@ -1528,6 +1618,8 @@
     if (event.data?.type !== "OPEN_TREADMILL" || !workoutById(event.data.workoutId)) return;
     state.treadmillWorkoutId = event.data.workoutId;
     state.treadmillReturnView = VIEWS.WEEK;
+    state.notificationsPanelOpen = false;
+    state.showPushSetup = false;
     setView(VIEWS.TREADMILL);
   });
 

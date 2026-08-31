@@ -14,8 +14,8 @@ export default async function handler(req, res) {
     const workoutId = String(req.body?.workoutId || "").slice(0, 120) || null;
     const extended = req.body?.extendedEnabled !== false;
     await sendPush(installId, {
-      title: "TESTMELDING · SWITCH BIJ 10:00",
-      body: extended ? "Snelheid → 10,5 km/u\nHelling → 0,5%\nTot 15:00" : "10,5 km/u · 0,5%\nTot 15:00",
+      title: "Test trainingsmelding",
+      body: extended ? "SWITCH BIJ 10:00\nSnelheid 10,5 km/u · helling 0,5%\nTot 15:00" : "SWITCH BIJ 10:00 · 10,5 km/u · 0,5% · tot 15:00",
       silent: req.body?.soundEnabled === false,
       tag: `marathon-test-${Date.now()}`,
       workoutId,

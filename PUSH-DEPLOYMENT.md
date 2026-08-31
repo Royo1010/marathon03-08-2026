@@ -13,35 +13,79 @@ actief is; oude jobs na pauze, stop of herstart worden overgeslagen.
 
 ## Eenmalig instellen
 
-1. Maak een gratis Upstash Redis-database en een QStash-account/project aan.
-2. Open een terminal in `push-server/`, installeer de packages en maak VAPID-sleutels:
+### 1. Upstash voorbereiden
+
+1. Open `https://console.upstash.com/` en meld je aan.
+2. Kies **Redis** → **Create database**. Kies een Europese regio en maak de database.
+3. Open de database en kopieer bij **REST API**:
+   - `UPSTASH_REDIS_REST_URL`;
+   - `UPSTASH_REDIS_REST_TOKEN`.
+4. Kies in de Upstash-zijbalk **QStash** en open **Details**.
+5. Kopieer:
+   - `QSTASH_TOKEN`;
+   - `QSTASH_CURRENT_SIGNING_KEY`;
+   - `QSTASH_NEXT_SIGNING_KEY`.
+
+### 2. VAPID-sleutels maken
+
+Open een terminal in `push-server/`, installeer de packages en maak één sleutelpaar:
 
    ```sh
    npm install
    npm run generate-vapid
    ```
 
-3. Importeer `push-server/` als afzonderlijk Vercel-project.
-4. Voeg in Vercel de variabelen uit `push-server/.env.example` toe.
-5. Zet `PUBLIC_APP_ORIGIN` op alleen de origin van GitHub Pages, bijvoorbeeld
-   `https://royvanharten.github.io` (dus zonder `/marathon-330/`).
-6. Zet `JOB_CALLBACK_URL` op de publieke callback van dit Vercel-project:
-   `https://<project>.vercel.app/api/jobs/send-switch`.
-7. Deploy de pushserver en controleer dat `https://<project>.vercel.app/api/status`
-   zonder app-token terecht `401` retourneert. Dat bevestigt dat de route leeft
-   en niet publiek bruikbaar is.
-8. Vul in `push-config.js` alleen de publieke waarden in:
-   - `backendUrl`: de Vercel-URL;
-   - `vapidPublicKey`: de publieke VAPID-sleutel.
-9. Publiceer de bijgewerkte GitHub Pages-bestanden. Zet nooit de private
-   VAPID-sleutel, Redis-token, QStash-token of signing keys in de apprepository.
+Bewaar de publieke en private sleutel apart. De private sleutel komt uitsluitend
+in Vercel te staan.
+
+### 3. Pushserver op Vercel deployen
+
+1. Open `https://vercel.com/new` en importeer de GitHub-repository van de app.
+2. Open **Root Directory** en kies `push-server`.
+3. Open **Environment Variables** en voeg deze namen exact toe:
+   - `PUBLIC_APP_ORIGIN`: de origin van GitHub Pages, bijvoorbeeld `https://royvanharten.github.io` zonder `/marathon-330/`;
+   - `VAPID_SUBJECT`: bijvoorbeeld `mailto:jouw-email@example.com`;
+   - `VAPID_PUBLIC_KEY`: de zojuist gemaakte publieke sleutel;
+   - `VAPID_PRIVATE_KEY`: de zojuist gemaakte private sleutel;
+   - `UPSTASH_REDIS_REST_URL`: waarde uit Upstash Redis;
+   - `UPSTASH_REDIS_REST_TOKEN`: waarde uit Upstash Redis;
+   - `QSTASH_TOKEN`: waarde uit QStash;
+   - `QSTASH_CURRENT_SIGNING_KEY`: waarde uit QStash;
+   - `QSTASH_NEXT_SIGNING_KEY`: waarde uit QStash;
+   - `JOB_CALLBACK_URL`: `https://<jouw-vercel-project>.vercel.app/api/jobs/send-switch`.
+4. Klik **Deploy**. Als Vercel eerst een andere project-URL kiest, pas daarna
+   `JOB_CALLBACK_URL` aan onder **Settings** → **Environment Variables** en kies
+   **Deployments** → **Redeploy**.
+5. Open `https://<jouw-vercel-project>.vercel.app/api/health`. Een complete
+   configuratie toont `{"ok":true,...}`. Een `503` toont exact welke
+   variabelen nog ontbreken.
+6. Open `/api/status` zonder app-token. Een `401` is hier correct: de route leeft,
+   maar beschermt abonnementsgegevens.
+
+### 4. GitHub Pages-client koppelen
+
+Vul in `push-config.js` alleen de publieke waarden in:
+
+```js
+window.MARATHON_PUSH_CONFIG = Object.freeze({
+  backendUrl: "https://<jouw-vercel-project>.vercel.app",
+  vapidPublicKey: "<dezelfde-publieke-vapid-sleutel>",
+});
+```
+
+Daarna:
+
+1. Publiceer de bijgewerkte bestanden op GitHub Pages.
+2. Controleer dat de zichtbare appversie `2026.08.31-6` is.
+3. Zet nooit de private VAPID-sleutel, Redis-token, QStash-token of signing keys
+   in de apprepository.
 
 ## Op iPhone activeren
 
 1. Gebruik iOS 16.4 of nieuwer en voeg de site via Safari toe aan het beginscherm.
 2. Open de app vanaf het beginscherm, niet als gewone Safari-tab.
 3. Open een training en kies **Loopbandmodus**.
-4. Controleer de instellingen onder **Meldingen** en tik bewust op
+4. Tik op de compacte knop **Meldingen**, controleer de instellingen en tik bewust op
    **Notificaties toestaan**. De app vraagt nooit toestemming bij paginalaad.
 5. Wacht tot de status **Push actief** toont.
 6. Tik op **Test melding**. Dit loopt via Vercel en Web Push; het is geen lokale
@@ -57,7 +101,8 @@ voor meldingen.
 
 - **Toestemming nodig**: tik op de expliciete toestemmingsknop.
 - **Beginscherm-app nodig**: installeer/open de PWA vanaf het beginscherm.
-- **Pushserver niet ingesteld**: vul `push-config.js` in; de timer blijft werken.
+- **Pushserver instellen**: vul de twee publieke waarden in `push-config.js` in; de timer blijft werken.
+- **Pushserver onvolledig**: `/api/health` is bereikbaar, maar één of meer Vercel-variabelen ontbreken.
 - **Geen pushabonnement**: registreer het apparaat opnieuw.
 - **Pushserver niet bereikbaar**: controleer Vercel/Upstash en internet.
 - **Notificaties uit**: er worden geen serverjobs gepland; de training blijft werken.

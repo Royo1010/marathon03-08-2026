@@ -1215,11 +1215,58 @@ body.treadmill-active .content {
 }
 
 .notification-card {
-  margin-bottom: 9px;
+  margin: 0 0 7px;
   padding: 10px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--panel);
+}
+
+.notification-toggle {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 42px;
+  margin: 0 0 7px;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  background: var(--panel);
+  text-align: left;
+}
+
+.notification-toggle > span {
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.notification-toggle > small {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 9px;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.notification-toggle > i {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: var(--accent);
+  background: var(--accent-soft);
+  font-size: 15px;
+  font-style: normal;
+  line-height: 1;
+}
+
+.notification-toggle.is-open {
+  border-color: rgba(77, 145, 229, 0.52);
 }
 
 .notification-heading {
@@ -1281,7 +1328,8 @@ body.treadmill-active .content {
   margin-top: 8px;
 }
 
-.notification-options label {
+.notification-options label,
+.notification-option {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1303,18 +1351,38 @@ body.treadmill-active .content {
   accent-color: var(--accent);
 }
 
-.notification-options select {
-  min-height: 32px;
-  max-width: 82px;
-  padding: 4px 6px;
-  border: 1px solid var(--border-strong);
-  border-radius: 6px;
-  color: var(--text);
-  background: var(--panel-raised);
-  font: inherit;
+.warning-option {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(156px, 1.4fr);
 }
 
-.notification-options :disabled {
+.warning-segments {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.warning-segments button {
+  min-width: 0;
+  min-height: 44px;
+  padding: 6px 8px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  color: var(--muted);
+  background: var(--panel-raised);
+  font: inherit;
+  font-weight: 800;
+}
+
+.warning-segments button.is-active {
+  border-color: rgba(77, 145, 229, 0.76);
+  color: #f4f8ff;
+  background: #2868b0;
+}
+
+.notification-options :disabled,
+.notification-option.is-disabled {
   opacity: 0.5;
 }
 
@@ -1345,6 +1413,36 @@ body.treadmill-active .content {
 .notification-actions button:disabled {
   cursor: default;
   opacity: 0.46;
+}
+
+.push-setup-panel {
+  margin-top: 8px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--muted);
+  background: var(--panel-soft);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.push-setup-panel strong {
+  color: var(--text);
+  font-size: 11px;
+}
+
+.push-setup-panel ol {
+  margin: 7px 0;
+  padding-left: 18px;
+}
+
+.push-setup-panel p {
+  margin: 0;
+}
+
+.push-setup-panel code {
+  color: #b9d9ff;
+  font-size: 9px;
 }
 
 .treadmill-timeline {

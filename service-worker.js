@@ -1,4 +1,4 @@
-const APP_VERSION = "2026.08.30-5";
+const APP_VERSION = "2026.08.31-6";
 const APP_CACHE_PREFIXES = ["marathon-330-", "marathon-app-"];
 
 // Blijvende netwerk-eerst worker: oude appcaches worden opgeruimd, maar de worker
