@@ -4,6 +4,7 @@ import test from "node:test";
 import vm from "node:vm";
 
 const trainingDataCode = fs.readFileSync(new URL("../training-data.js", import.meta.url), "utf8");
+const trainingPlanV5Code = fs.readFileSync(new URL("../training-plan-v5.js", import.meta.url), "utf8");
 const notificationModelCode = fs.readFileSync(new URL("../notification-model.js", import.meta.url), "utf8");
 const pushConfigCode = fs.readFileSync(new URL("../push-config.js", import.meta.url), "utf8");
 const appCode = fs.readFileSync(new URL("../app.js", import.meta.url), "utf8");
@@ -69,6 +70,7 @@ function createHarness(storageValues = new Map()) {
     navigator: window.navigator,
   });
   vm.runInContext(trainingDataCode, context, { filename: "training-data.js" });
+  vm.runInContext(trainingPlanV5Code, context, { filename: "training-plan-v5.js" });
   vm.runInContext(notificationModelCode, context, { filename: "notification-model.js" });
   vm.runInContext(pushConfigCode, context, { filename: "push-config.js" });
   vm.runInContext(appCode, context, { filename: "app.js" });
@@ -154,6 +156,31 @@ test("vereenvoudigde weekplanner navigeert, klapt uit en bewaart voltooiing", ()
   assert.equal(reloadedAfterUndo.context.window.MarathonApp.isCompleted(workoutId), false);
 });
 
+test("definitieve fitnesschecks, herstelmetadata en weekfilosofie zijn volledig gekoppeld", () => {
+  const harness = createHarness();
+  harness.change({ "[data-week-select]": true, value: "2" });
+  const week38 = harness.context.window.MARATHON_PLAN.weeks.find((week) => week.weekNumber === 38);
+  const check = week38.workouts.find((workout) => workout.isFitnessCheck);
+
+  assert.equal((harness.app.innerHTML.match(/<article class="training-card/g) || []).length, 5);
+  assert.match(harness.app.innerHTML, /Waarom niet meer of harder/);
+  assert.match(harness.app.innerHTML, /vierde training|20K confidence/i);
+  assert.match(harness.app.innerHTML, /Fitness Check #1/);
+  assert.match(harness.app.innerHTML, /Herstel aanbevolen/);
+  assert.match(harness.app.innerHTML, /Loopband vereist/);
+
+  harness.click({ "[data-toggle-workout]": { dataset: { toggleWorkout: check.workoutId } } });
+  assert.match(harness.app.innerHTML, /Na ieder blok van 10 minuten/);
+  assert.match(harness.app.innerHTML, /data-test-field="block10Rpe"/);
+  assert.match(harness.app.innerHTML, /data-test-field="block12Legs"/);
+  assert.match(harness.app.innerHTML, /Waarom deze training hier staat/);
+  assert.match(harness.app.innerHTML, /Geen buitenvariant/);
+
+  harness.context.window.MarathonApp.saveTestField(check.workoutId, "block12Rpe", "7");
+  const saved = JSON.parse(harness.localStorage.getItem("marathon330TrainingAppData_v1"));
+  assert.equal(saved.testResults[check.workoutId].block12Rpe, "7");
+});
+
 test("Schema, Informatie en Marathonoverzicht zijn bereikbaar", () => {
   const harness = createHarness();
 
@@ -161,27 +188,30 @@ test("Schema, Informatie en Marathonoverzicht zijn bereikbaar", () => {
   assert.match(harness.app.innerHTML, /Volledig programma/);
   assert.equal((harness.app.innerHTML.match(/<button class="plan-row/g) || []).length, 12);
   assert.match(harness.app.innerHTML, /±39 km totaal/);
-  assert.match(harness.app.innerHTML, /Basisvolume verhogen \+ eerste marathonpaceblokken/);
-  assert.match(harness.app.innerHTML, /±58,2 km totaal incl\. marathon/);
+  assert.match(harness.app.innerHTML, /Basisvolume verhogen en marathontempo/);
+  assert.match(harness.app.innerHTML, /±58,1 km totaal incl\. marathon/);
   assert.match(harness.app.innerHTML, /4 sessies incl\. marathon/);
   assert.doesNotMatch(harness.app.innerHTML, /4 trainingen · Training 4/);
 
   harness.click({ "[data-view]": { dataset: { view: "info" } } });
   assert.match(harness.app.innerHTML, /Tempo en afkortingen/);
   assert.match(harness.app.innerHTML, /Inspanningsniveaus/);
-  assert.match(harness.app.innerHTML, /Versie 2026\.08\.31-6/);
+  assert.match(harness.app.innerHTML, /Versie 2026\.09\.01-7/);
 
   harness.brandHome.click();
   assert.equal(harness.context.window.MarathonApp.state.view, "marathon");
   assert.match(harness.app.innerHTML, /Marathon 3:30/);
   assert.match(harness.app.innerHTML, /83[\s\S]*Dagen te gaan/);
-  assert.match(harness.app.innerHTML, /47[\s\S]*Trainingen te gaan/);
-  assert.match(harness.app.innerHTML, /0 van 47 trainingen voltooid/);
+  assert.match(harness.app.innerHTML, /49[\s\S]*Trainingen te gaan/);
+  assert.match(harness.app.innerHTML, /0 van 49 trainingen voltooid/);
   assert.match(harness.app.innerHTML, /Gepland[\s\S]*km vóór de marathon/);
   assert.match(harness.app.innerHTML, /Weekvolume/);
   assert.match(harness.app.innerHTML, /Cumulatieve opbouw/);
+  assert.match(harness.app.innerHTML, /3:30-readiness/);
+  assert.match(harness.app.innerHTML, /Nog onzeker/i);
+  assert.match(harness.app.innerHTML, /Tests &amp; confidence|Tests & confidence/);
   assert.match(harness.app.innerHTML, /Confidence runs/);
-  assert.match(harness.app.innerHTML, /Officiële tests/);
+  assert.match(harness.app.innerHTML, /Meetmomenten/);
 
   harness.click({ "[data-back-week]": { dataset: {} } });
   assert.equal(harness.context.window.MarathonApp.state.view, "week");
@@ -195,7 +225,7 @@ test("Marathonoverzicht rekent voltooide trainingen en kilometers uit actuele vo
   harness.click({ "[data-toggle-complete]": { dataset: { toggleComplete: workout.workoutId } } });
   harness.brandHome.click();
 
-  assert.match(harness.app.innerHTML, /1 van 47 trainingen voltooid/);
+  assert.match(harness.app.innerHTML, /1 van 49 trainingen voltooid/);
   assert.match(harness.app.innerHTML, /Voltooid[\s\S]*7,3[\s\S]*km gelogd/);
   assert.match(harness.app.innerHTML, /Week 36/);
   assert.match(harness.app.innerHTML, /Laatste voltooid[\s\S]*Week 36 · Training 1/);
@@ -205,7 +235,7 @@ test("Schema en dashboard delen dezelfde centrale weekvolumes", () => {
   const harness = createHarness();
   const appApi = harness.context.window.MarathonApp;
   const plan = harness.context.window.MARATHON_PLAN;
-  const expected = [39, 43.7, 48.8, 54.2, 42.5, 56.5, 59.5, 64.4, 54.4, 47, 37.7, 58.195];
+  const expected = [38.983, 43.707, 51.575, 56, 42.547, 61.541, 65.533, 64.366, 54.923, 47.033, 37.723, 58.146];
 
   assert.deepEqual(Array.from(plan.weeks, (week) => appApi.getWeekPlannedKm(week)), expected);
   assert.deepEqual(Array.from(appApi.dashboardMetrics().weekly, (week) => week.plannedKm), expected);
@@ -309,7 +339,7 @@ test("testresultaten worden direct opgeslagen en blijven na herladen bestaan", (
   assert.match(reloaded.app.innerHTML, /niet automatisch aangepast/);
 
   reloaded.brandHome.click();
-  assert.match(reloaded.app.innerHTML, /Officiële tests[\s\S]*0 \/ 3/);
+  assert.match(reloaded.app.innerHTML, /Meetmomenten[\s\S]*0 \/ 6/);
   assert.match(reloaded.app.innerHTML, /Laatste testresultaat[\s\S]*22:35/);
 });
 

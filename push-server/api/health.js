@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     res.status(ok ? 200 : 503).json({
       ok,
       service: "marathon-330-push",
-      version: "2026.08.31-6",
+      version: "2026.09.01-7",
       configured: ok,
       missing,
     });

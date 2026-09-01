@@ -5,23 +5,25 @@ Mobiele weekplanner voor het definitieve Marathon 3:30-loopbandschema van
 
 ## Actieve versie
 
-- App-versie: `2026.08.31-6`
-- Schemaversie: `marathon-schema-3u30-expliciete-helling-2026.08.30-1`
-- Bronbestand: `marathon-schema-3u30-expliciete-helling.md`
+- App-versie: `2026.09.01-7`
+- Schemaversie: `marathon-3u30-definitief-2026.09.01-1`
+- Bronbestanden: `training-data.js` (basis) + `training-plan-v5.js` (definitief v5-schema en uitleg)
 - Opslagkey: `marathon330TrainingAppData_v1`
 
 ## Schema
 
-Het schema bevat week 36 tot en met week 47, steeds vier trainingen per week.
-Confidence runs, de drie officiële tests, taper en marathon zijn gemarkeerd in
-de interface. Het markdownbestand is de enige inhoudelijke bron; de appdata wordt
-er mechanisch uit gegenereerd:
+Het schema bevat week 36 tot en met week 47, steeds vier kerntrainingen per week.
+Week 38 en 42 bevatten daarnaast een korte submaximale Marathon Fitness Check.
+Confidence runs, meetmomenten, taper en marathon zijn gemarkeerd in de interface.
+De bestaande bron wordt mechanisch gegenereerd; `training-plan-v5.js` past daarop
+de definitieve wijzigingen en de vaste trainingsfilosofie toe zonder workout-ID's
+van de vier kerntrainingen te wijzigen.
 
 ```sh
 node scripts/generate-marathon-plan.mjs marathon-schema-3u30-expliciete-helling.md training-data.js
 ```
 
-Wijzig `training-data.js` daarom niet handmatig wanneer het schema verandert.
+Wijzig de bestaande workout-ID's niet zonder opslagmigratie.
 
 Het tabblad **Schema**, de kilometerkaarten en de twee dashboardgrafieken lezen
 dezelfde centrale weektotalen uit deze gegenereerde data. Bij bronranges wordt
@@ -45,13 +47,13 @@ Via de titel **Marathon 3:30** opent een overzicht met kalendercountdown,
 trainings- en kilometervoortgang, week- en cumulatieve grafieken, confidence
 runs, tests, lange duurlopen, de volgende training en de volgende mijlpaal.
 
-Alle 254 uitvoerbare loopbandblokken hebben vanuit de bron een expliciete
+Alle 259 uitvoerbare loopbandblokken hebben een expliciete
 numerieke helling van `0%`, `0,5%` of `1%`. Alleen de marathon zelf staat als
 buitenwedstrijd zonder loopbandhelling in de data.
 
 ## Testresultaten
 
-Bij TEST 1, TEST 2 en TEST 3 kan lokaal worden vastgelegd:
+Bij de fitnesschecks, Marathon Rhythm en officiële tests kan lokaal worden vastgelegd:
 
 - resultaat/tijd;
 - gemiddelde snelheid;
@@ -88,7 +90,7 @@ Na deze eerste release is daarom de betrouwbaarste eenmalige stap:
 
 1. verwijder het oude homescreen-icoon;
 2. open de actuele GitHub Pages-URL in Safari;
-3. controleer onder **Informatie** dat versie `2026.08.31-6` zichtbaar is;
+3. controleer onder **Informatie** dat versie `2026.09.01-7` zichtbaar is;
 4. kies opnieuw **Zet op beginscherm**.
 
 Daarna worden toekomstige bestanden rechtstreeks vanaf GitHub Pages geladen.
