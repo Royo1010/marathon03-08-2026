@@ -5,7 +5,7 @@ Mobiele weekplanner voor het definitieve Marathon 3:30-loopbandschema van
 
 ## Actieve versie
 
-- App-versie: `2026.09.01-7`
+- App-versie: `2026.09.01-8`
 - Schemaversie: `marathon-3u30-definitief-2026.09.01-1`
 - Bronbestanden: `training-data.js` (basis) + `training-plan-v5.js` (definitief v5-schema en uitleg)
 - Opslagkey: `marathon330TrainingAppData_v1`
@@ -90,7 +90,7 @@ Na deze eerste release is daarom de betrouwbaarste eenmalige stap:
 
 1. verwijder het oude homescreen-icoon;
 2. open de actuele GitHub Pages-URL in Safari;
-3. controleer onder **Informatie** dat versie `2026.09.01-7` zichtbaar is;
+3. controleer onder **Informatie** dat versie `2026.09.01-8` zichtbaar is;
 4. kies opnieuw **Zet op beginscherm**.
 
 Daarna worden toekomstige bestanden rechtstreeks vanaf GitHub Pages geladen.

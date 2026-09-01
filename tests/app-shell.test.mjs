@@ -95,7 +95,7 @@ function createHarness(storageValues = new Map()) {
     listeners.input({ target: targetFor(matchers) });
   }
 
-  return { app, brandHome, click, change, input, context, localStorage, listeners, navButtons };
+  return { app, brandHome, click, change, input, context, localStorage, listeners, windowListeners, navButtons };
 }
 
 test("vereenvoudigde weekplanner navigeert, klapt uit en bewaart voltooiing", () => {
@@ -196,7 +196,7 @@ test("Schema, Informatie en Marathonoverzicht zijn bereikbaar", () => {
   harness.click({ "[data-view]": { dataset: { view: "info" } } });
   assert.match(harness.app.innerHTML, /Tempo en afkortingen/);
   assert.match(harness.app.innerHTML, /Inspanningsniveaus/);
-  assert.match(harness.app.innerHTML, /Versie 2026\.09\.01-7/);
+  assert.match(harness.app.innerHTML, /Versie 2026\.09\.01-8/);
 
   harness.brandHome.click();
   assert.equal(harness.context.window.MarathonApp.state.view, "marathon");
@@ -272,6 +272,83 @@ test("Loopbandmodus gebruikt dezelfde blokken en berekent cumulatieve wisseltijd
 
   harness.click({ "[data-close-treadmill]": { dataset: {} } });
   assert.equal(harness.context.window.MarathonApp.state.view, "week");
+});
+
+test("Focus Mode gebruikt één snapshot voor iedere exacte blokgrens", () => {
+  const harness = createHarness();
+  const workout = harness.context.window.MARATHON_PLAN.weeks[0].workouts.find((item) => item.trainingNumber === 2);
+  const api = harness.context.window.MarathonApp;
+  const timeline = api.buildTreadmillTimeline(workout);
+  const checks = [
+    [0, 0, 600, 1],
+    [600, 1, 300, 2],
+    [900, 2, 480, 3],
+    [1380, 3, 180, 4],
+    [1560, 4, 480, 5],
+    [2040, 5, 180, 6],
+    [2220, 6, 480, 7],
+    [2700, 7, 600, null],
+  ];
+
+  for (const [seconds, currentIndex, remainingSeconds, nextIndex] of checks) {
+    const snapshot = api.timelineSnapshotAt(timeline, seconds);
+    assert.equal(snapshot.currentIndex, currentIndex, `actief blok bij ${seconds}s`);
+    assert.equal(snapshot.remainingSeconds, remainingSeconds, `resterend bij ${seconds}s`);
+    assert.equal(snapshot.next?.index ?? null, nextIndex, `volgend blok bij ${seconds}s`);
+    assert.equal(snapshot.completedCount, currentIndex);
+    assert.equal(snapshot.finished, false);
+  }
+
+  const finished = api.timelineSnapshotAt(timeline, 3300);
+  assert.equal(finished.currentIndex, -1);
+  assert.equal(finished.completedCount, 8);
+  assert.equal(finished.totalRemainingSeconds, 0);
+  assert.equal(finished.finished, true);
+
+  assert.deepEqual({ ...api.focusTimingState(api.timelineSnapshotAt(timeline, 569)) }, { switchSoon: false, finalCountdown: false });
+  assert.deepEqual({ ...api.focusTimingState(api.timelineSnapshotAt(timeline, 570)) }, { switchSoon: true, finalCountdown: false });
+  assert.deepEqual({ ...api.focusTimingState(api.timelineSnapshotAt(timeline, 595)) }, { switchSoon: true, finalCountdown: true });
+  assert.deepEqual({ ...api.focusTimingState(api.timelineSnapshotAt(timeline, 600)) }, { switchSoon: false, finalCountdown: false });
+});
+
+test("Start training schakelt naar rustige Focus Mode en Stop herstelt de voorbereiding", () => {
+  const harness = createHarness();
+  const workout = harness.context.window.MARATHON_PLAN.weeks[0].workouts.find((item) => item.trainingNumber === 2);
+
+  harness.click({ "[data-open-treadmill]": { dataset: { openTreadmill: workout.workoutId } } });
+  assert.match(harness.app.innerHTML, /Week 36 · Training 2/);
+  assert.match(harness.app.innerHTML, /Eerste marathonpaceblokken/i);
+
+  harness.click({ "[data-timer-start]": { dataset: { timerStart: workout.workoutId } } });
+  assert.match(harness.app.innerHTML, /class="treadmill-view focus-mode"/);
+  assert.match(harness.app.innerHTML, /Nog in dit blok/);
+  assert.match(harness.app.innerHTML, /data-focus-current-speed>9,5</);
+  assert.match(harness.app.innerHTML, /data-focus-current-incline>½%/);
+  assert.match(harness.app.innerHTML, /Daarna/);
+  assert.match(harness.app.innerHTML, /Blok 1 van 8/);
+  assert.equal((harness.app.innerHTML.match(/data-focus-queue-index=/g) || []).length, 8);
+  assert.equal((harness.app.innerHTML.match(/data-focus-progress-index=/g) || []).length, 8);
+  assert.doesNotMatch(harness.app.innerHTML, /class="treadmill-header"/);
+  assert.doesNotMatch(harness.app.innerHTML, /Week 36 · Training 2/);
+  assert.doesNotMatch(harness.app.innerHTML, /Eerste marathonpaceblokken/i);
+
+  harness.windowListeners.scroll();
+  assert.equal(harness.context.window.MarathonApp.state.focusQueueUserBrowsing, true);
+  harness.context.window.MarathonApp.render();
+  assert.match(harness.app.innerHTML, /data-focus-return-now[^>]*>Terug naar NU/);
+  harness.click({ "[data-focus-return-now]": { dataset: {} } });
+  assert.equal(harness.context.window.MarathonApp.state.focusQueueUserBrowsing, false);
+
+  harness.click({ "[data-timer-pause]": { dataset: {} } });
+  assert.match(harness.app.innerHTML, /Gepauzeerd/);
+  assert.match(harness.app.innerHTML, /data-focus-current-speed>9,5</);
+  harness.click({ "[data-timer-resume]": { dataset: {} } });
+  assert.match(harness.app.innerHTML, />Actief<\/em>/);
+
+  harness.click({ "[data-timer-stop]": { dataset: {} } });
+  assert.doesNotMatch(harness.app.innerHTML, /class="treadmill-view focus-mode"/);
+  assert.match(harness.app.innerHTML, /class="treadmill-header"/);
+  assert.match(harness.app.innerHTML, /Start training/);
 });
 
 test("afstandsblokken krijgen gemarkeerde schatting en onbekende testduur blokkeert alleen de timer", () => {

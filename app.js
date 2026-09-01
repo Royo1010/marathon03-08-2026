@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "2026.09.01-7";
+  const APP_VERSION = "2026.09.01-8";
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
   const APP_DATA_VERSION = 3;
   const plan = window.MARATHON_PLAN;
@@ -44,6 +44,9 @@
     pushStatus: { code: "checking", label: "Pushstatus controleren…", detail: "" },
     showPushSetup: false,
     notificationsPanelOpen: false,
+    focusQueueUserBrowsing: false,
+    focusCompletedExpanded: false,
+    focusLastActiveIndex: -1,
   };
 
   let appData = loadAppData();
@@ -51,6 +54,8 @@
   let treadmillTimerInterval = null;
   let screenWakeLock = null;
   let pushServiceWorkerRegistration = null;
+  let focusAutoScrolling = false;
+  let focusAutoScrollReleaseTimer = null;
 
   function isObject(value) {
     return Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -621,20 +626,27 @@
     return Math.max(0, Math.floor((Date.now() - treadmillTimer.startedAt) / 1000));
   }
 
-  function timerSnapshot(timeline) {
-    const elapsedSeconds = timerElapsedSeconds();
+  function timelineSnapshotAt(timeline, elapsedValue) {
+    const elapsedSeconds = Math.max(0, Math.floor(Number(elapsedValue) || 0));
     let currentIndex = timeline.blocks.findIndex((block) => block.endSeconds != null && elapsedSeconds < block.endSeconds);
     if (currentIndex === -1 && timeline.totalSeconds != null && elapsedSeconds < timeline.totalSeconds) currentIndex = 0;
     const current = currentIndex >= 0 ? timeline.blocks[currentIndex] : null;
     const next = currentIndex >= 0 ? timeline.blocks[currentIndex + 1] || null : null;
+    const finished = timeline.totalSeconds != null && elapsedSeconds >= timeline.totalSeconds;
     return {
       elapsedSeconds,
       currentIndex,
       current,
       next,
       remainingSeconds: current?.endSeconds != null ? Math.max(0, current.endSeconds - elapsedSeconds) : 0,
-      finished: timeline.totalSeconds != null && elapsedSeconds >= timeline.totalSeconds,
+      totalRemainingSeconds: timeline.totalSeconds != null ? Math.max(0, timeline.totalSeconds - elapsedSeconds) : 0,
+      completedCount: finished ? timeline.blocks.length : Math.max(0, currentIndex),
+      finished,
     };
+  }
+
+  function timerSnapshot(timeline) {
+    return timelineSnapshotAt(timeline, timerElapsedSeconds());
   }
 
   async function requestScreenWakeLock() {
@@ -959,6 +971,110 @@
     </article>`;
   }
 
+  function isTreadmillFocusMode(workout) {
+    return treadmillTimer.workoutId === workout?.workoutId && ["running", "paused"].includes(treadmillTimer.status);
+  }
+
+  function focusSpeedValue(block) {
+    return Number(block?.speedKmh) > 0 ? formatNumber(block.speedKmh) : "Zelf sturen";
+  }
+
+  function focusInclineLabel(block) {
+    if (block?.inclinePercent == null) return "Buiten";
+    if (Number(block.inclinePercent) === 0.5) return "½%";
+    return `${formatNumber(block.inclinePercent)}%`;
+  }
+
+  function focusTimingState(snapshot) {
+    return {
+      switchSoon: Boolean(snapshot.next && snapshot.remainingSeconds <= 30),
+      finalCountdown: Boolean(snapshot.next && snapshot.remainingSeconds <= 5),
+    };
+  }
+
+  function renderFocusProgress(timeline, snapshot) {
+    return `<div class="focus-progress" aria-label="Blok ${snapshot.currentIndex + 1} van ${timeline.blocks.length}">
+      <div class="focus-progress-heading"><span>Trainingsvoortgang</span><strong data-focus-block-progress>Blok ${snapshot.currentIndex + 1} van ${timeline.blocks.length}</strong></div>
+      <div class="focus-progress-segments" style="--focus-segment-count:${timeline.blocks.length}">
+        ${timeline.blocks.map((block) => `<i data-focus-progress-index="${block.index}" class="${block.index < snapshot.currentIndex ? "is-completed" : block.index === snapshot.currentIndex ? "is-current" : "is-upcoming"}" aria-hidden="true"></i>`).join("")}
+      </div>
+    </div>`;
+  }
+
+  function renderFocusCockpit(workout, timeline, snapshot) {
+    const current = snapshot.current || timeline.blocks.at(-1);
+    const next = snapshot.next;
+    const { switchSoon, finalCountdown } = focusTimingState(snapshot);
+    return `<section class="focus-cockpit${switchSoon ? " is-switch-soon" : ""}${finalCountdown ? " is-final-countdown" : ""}${treadmillTimer.status === "paused" ? " is-paused" : ""}" data-focus-cockpit aria-label="Actieve loopbandcockpit">
+      <div class="focus-countdown">
+        <div class="focus-countdown-label"><span>Nog in dit blok</span><em>${treadmillTimer.status === "paused" ? "Gepauzeerd" : "Actief"}</em></div>
+        <strong data-block-remaining>${formatStopwatch(snapshot.remainingSeconds)}</strong>
+        <small data-focus-current-context>${escapeHtml(current?.blockName || "Training")} · Blok ${snapshot.currentIndex + 1} van ${timeline.blocks.length}</small>
+      </div>
+      <div class="focus-now-grid">
+        <div class="focus-speed"><span>Nu · snelheid</span><strong><b data-focus-current-speed>${escapeHtml(focusSpeedValue(current))}</b>${Number(current?.speedKmh) > 0 ? "<small>km/u</small>" : ""}</strong></div>
+        <div class="focus-incline"><span>Helling</span><strong data-focus-current-incline>${escapeHtml(focusInclineLabel(current))}</strong></div>
+      </div>
+      <div class="focus-next${switchSoon ? " is-prominent" : ""}" data-focus-next>
+        <div><span>Daarna</span><small data-focus-next-name>${escapeHtml(next?.blockName || "Finish")}</small></div>
+        <strong><b data-focus-next-speed>${next ? escapeHtml(treadmillSpeedLabel(next)) : "Finish"}</b><b data-focus-next-incline>${next ? escapeHtml(focusInclineLabel(next)) : ""}</b></strong>
+        <small data-focus-next-in>${next ? `over ${formatStopwatch(snapshot.remainingSeconds)}` : "laatste blok"}</small>
+      </div>
+      ${renderFocusProgress(timeline, snapshot)}
+      <div class="focus-total-time"><span><strong data-timer-elapsed>${formatStopwatch(snapshot.elapsedSeconds)}</strong> verstreken</span><span><strong data-focus-total-remaining>${formatStopwatch(snapshot.totalRemainingSeconds)}</strong> resterend</span></div>
+      ${renderSwitchWarning(workout, timeline, snapshot.elapsedSeconds)}
+      <div class="timer-controls focus-controls">
+        ${treadmillTimer.status === "paused" ? `<button type="button" data-timer-resume>Hervat</button>` : `<button type="button" data-timer-pause>Pauze</button>`}
+        <button class="is-secondary" type="button" data-timer-stop>Stop timer</button>
+      </div>
+    </section>`;
+  }
+
+  function renderFocusQueueBlock(block, snapshot) {
+    const completed = block.index < snapshot.currentIndex;
+    const active = block.index === snapshot.currentIndex;
+    return `<article class="focus-queue-item${completed ? " is-completed" : ""}${active ? " is-current" : ""}" data-focus-queue-index="${block.index}" ${active ? 'aria-current="step"' : ""}>
+      <div class="focus-queue-time">
+        <span data-focus-queue-status>${active ? "Actief" : completed ? "Voltooid" : block.blockName}</span>
+        <strong>${escapeHtml(block.timeRangeLabel)}</strong>
+        <small>${escapeHtml(block.blockName)}</small>
+      </div>
+      <div class="focus-queue-speed"><span>Snelheid</span><strong><b>${escapeHtml(focusSpeedValue(block))}</b>${Number(block.speedKmh) > 0 ? "<small>km/u</small>" : ""}</strong></div>
+      <div class="focus-queue-incline"><span>Helling</span><strong>${escapeHtml(focusInclineLabel(block))}</strong></div>
+    </article>`;
+  }
+
+  function renderFocusQueue(timeline, snapshot) {
+    const completedCount = snapshot.completedCount;
+    return `<section class="focus-queue-section" aria-labelledby="focus-queue-title">
+      <div class="focus-queue-heading"><div><span>Training</span><h2 id="focus-queue-title">Resterende blokken</h2></div><small>Scroll om vooruit te kijken</small></div>
+      <button type="button" class="focus-completed-toggle" data-toggle-focus-completed ${completedCount ? "" : "hidden"} aria-expanded="${state.focusCompletedExpanded}">
+        <span data-focus-completed-summary>✓ ${completedCount} ${completedCount === 1 ? "blok" : "blokken"} voltooid</span><i aria-hidden="true">${state.focusCompletedExpanded ? "−" : "+"}</i>
+      </button>
+      <div class="focus-queue${state.focusCompletedExpanded ? " show-completed" : ""}" data-focus-queue>
+        ${timeline.blocks.map((block) => renderFocusQueueBlock(block, snapshot)).join("")}
+      </div>
+    </section>`;
+  }
+
+  function renderTreadmillFocusMode(workout, timeline) {
+    const snapshot = timerSnapshot(timeline);
+    state.focusLastActiveIndex = snapshot.currentIndex;
+    focusAutoScrolling = true;
+    if (focusAutoScrollReleaseTimer) window.clearTimeout?.(focusAutoScrollReleaseTimer);
+    focusAutoScrollReleaseTimer = window.setTimeout?.(() => { focusAutoScrolling = false; }, 120) || null;
+    if (!focusAutoScrollReleaseTimer) focusAutoScrolling = false;
+    return `<section class="treadmill-view focus-mode" data-treadmill-view="${workout.workoutId}" data-focus-mode>
+      ${renderFocusCockpit(workout, timeline, snapshot)}
+      ${renderFocusQueue(timeline, snapshot)}
+      <button type="button" class="focus-return-now${state.focusQueueUserBrowsing ? " is-visible" : ""}" data-focus-return-now ${state.focusQueueUserBrowsing ? "" : "hidden"}>Terug naar NU</button>
+      <div class="focus-secondary-controls">
+        ${renderNotificationToggle(workout)}
+        ${state.notificationsPanelOpen ? renderNotificationSettings(workout, timeline) : ""}
+      </div>
+    </section>`;
+  }
+
   function renderTreadmillTimer(workout, timeline) {
     if (!timeline.hasCompleteTiming) {
       return `<section class="timer-start-card"><div><span>Statisch overzicht</span><strong>Timer niet beschikbaar</strong><p>Minstens één blok heeft geen berekenbare duur. De tijdlijn blijft wel volledig bruikbaar.</p></div></section>`;
@@ -992,6 +1108,12 @@
       return renderWeek();
     }
     const timeline = buildTreadmillTimeline(workout);
+    if (isTreadmillFocusMode(workout)) {
+      document.body?.classList?.toggle("treadmill-focus-active", true);
+      app.innerHTML = renderTreadmillFocusMode(workout, timeline);
+      return;
+    }
+    document.body?.classList?.toggle("treadmill-focus-active", false);
     const snapshot = treadmillTimer.workoutId === workout.workoutId && treadmillTimer.status !== "idle" ? timerSnapshot(timeline) : { currentIndex: -1 };
     app.innerHTML = `<section class="treadmill-view" data-treadmill-view="${workout.workoutId}">
       <header class="treadmill-header">
@@ -1084,6 +1206,9 @@
       pushScheduled: false,
       pushJobCount: 0,
     };
+    state.focusQueueUserBrowsing = false;
+    state.focusCompletedExpanded = false;
+    state.focusLastActiveIndex = 0;
     requestScreenWakeLock();
     renderTreadmillMode();
     startTreadmillInterval();
@@ -1121,8 +1246,71 @@
     clearTreadmillInterval();
     releaseScreenWakeLock();
     treadmillTimer = createIdleTimer();
+    state.focusQueueUserBrowsing = false;
+    state.focusCompletedExpanded = false;
+    state.focusLastActiveIndex = -1;
     renderTreadmillMode();
     cancelPushSession(sessionToCancel);
+  }
+
+  function setFocusQueueBrowsing(active) {
+    state.focusQueueUserBrowsing = Boolean(active);
+    const button = app.querySelector?.("[data-focus-return-now]");
+    if (!button) return;
+    button.hidden = !state.focusQueueUserBrowsing;
+    button.classList?.toggle("is-visible", state.focusQueueUserBrowsing);
+  }
+
+  function scrollFocusQueueToCurrent(behavior = "smooth") {
+    const activeRow = app.querySelector?.("[data-focus-queue-index].is-current");
+    if (!activeRow) {
+      setFocusQueueBrowsing(false);
+      return;
+    }
+    setFocusQueueBrowsing(false);
+    focusAutoScrolling = true;
+    const cockpit = app.querySelector?.("[data-focus-cockpit]");
+    const rowTop = activeRow.getBoundingClientRect?.().top;
+    const cockpitHeight = cockpit?.getBoundingClientRect?.().height || 0;
+    if (Number.isFinite(rowTop) && typeof window.scrollTo === "function") {
+      const currentScroll = Number(window.scrollY || window.pageYOffset || 0);
+      window.scrollTo({ top: Math.max(0, currentScroll + rowTop - cockpitHeight - 14), behavior });
+    } else {
+      activeRow.scrollIntoView?.({ block: "center", behavior });
+    }
+    if (focusAutoScrollReleaseTimer) window.clearTimeout?.(focusAutoScrollReleaseTimer);
+    focusAutoScrollReleaseTimer = window.setTimeout?.(() => { focusAutoScrolling = false; }, behavior === "smooth" ? 450 : 50) || null;
+    if (!focusAutoScrollReleaseTimer) focusAutoScrolling = false;
+  }
+
+  function updateFocusQueue(snapshot, timeline) {
+    app.querySelectorAll?.("[data-focus-queue-index]").forEach((row) => {
+      const index = Number(row.dataset.focusQueueIndex);
+      const completed = index < snapshot.currentIndex;
+      const active = index === snapshot.currentIndex;
+      row.classList?.toggle("is-completed", completed);
+      row.classList?.toggle("is-current", active);
+      if (active) row.setAttribute?.("aria-current", "step");
+      else row.removeAttribute?.("aria-current");
+      const status = row.querySelector?.("[data-focus-queue-status]");
+      if (status) status.textContent = active ? "Actief" : completed ? "Voltooid" : timeline.blocks[index]?.blockName || "Blok";
+    });
+    app.querySelectorAll?.("[data-focus-progress-index]").forEach((segment) => {
+      const index = Number(segment.dataset.focusProgressIndex);
+      segment.classList?.toggle("is-completed", index < snapshot.currentIndex);
+      segment.classList?.toggle("is-current", index === snapshot.currentIndex);
+      segment.classList?.toggle("is-upcoming", index > snapshot.currentIndex);
+    });
+    const completedToggle = app.querySelector?.("[data-toggle-focus-completed]");
+    if (completedToggle) completedToggle.hidden = snapshot.completedCount === 0;
+    const completedSummary = app.querySelector?.("[data-focus-completed-summary]");
+    if (completedSummary) completedSummary.textContent = `✓ ${snapshot.completedCount} ${snapshot.completedCount === 1 ? "blok" : "blokken"} voltooid`;
+
+    if (snapshot.currentIndex !== state.focusLastActiveIndex) {
+      state.focusLastActiveIndex = snapshot.currentIndex;
+      if (!state.focusQueueUserBrowsing) scrollFocusQueueToCurrent();
+      else setFocusQueueBrowsing(true);
+    }
   }
 
   function updateTreadmillTimerUi() {
@@ -1135,6 +1323,9 @@
       const finishedSession = { ...treadmillTimer };
       treadmillTimer.elapsedSeconds = timeline.totalSeconds;
       treadmillTimer.status = "finished";
+      state.focusQueueUserBrowsing = false;
+      state.focusCompletedExpanded = false;
+      state.focusLastActiveIndex = -1;
       clearTreadmillInterval();
       releaseScreenWakeLock();
       renderTreadmillMode();
@@ -1145,12 +1336,33 @@
       const element = app.querySelector?.(selector);
       if (element) element.textContent = value;
     };
+    const cockpit = app.querySelector?.("[data-focus-cockpit]");
+    if (cockpit) {
+      const { switchSoon, finalCountdown } = focusTimingState(snapshot);
+      cockpit.classList?.toggle("is-switch-soon", switchSoon);
+      cockpit.classList?.toggle("is-final-countdown", finalCountdown);
+      const nextPanel = app.querySelector?.("[data-focus-next]");
+      nextPanel?.classList?.toggle("is-prominent", switchSoon);
+      setText("[data-block-remaining]", formatStopwatch(snapshot.remainingSeconds));
+      setText("[data-focus-current-speed]", focusSpeedValue(snapshot.current));
+      setText("[data-focus-current-incline]", focusInclineLabel(snapshot.current));
+      setText("[data-focus-current-context]", `${snapshot.current?.blockName || "Training"} · Blok ${snapshot.currentIndex + 1} van ${timeline.blocks.length}`);
+      setText("[data-focus-next-speed]", snapshot.next ? treadmillSpeedLabel(snapshot.next) : "Finish");
+      setText("[data-focus-next-incline]", snapshot.next ? focusInclineLabel(snapshot.next) : "");
+      setText("[data-focus-next-name]", snapshot.next?.blockName || "Finish");
+      setText("[data-focus-next-in]", snapshot.next ? `over ${formatStopwatch(snapshot.remainingSeconds)}` : "laatste blok");
+      setText("[data-focus-block-progress]", `Blok ${snapshot.currentIndex + 1} van ${timeline.blocks.length}`);
+      setText("[data-timer-elapsed]", formatStopwatch(snapshot.elapsedSeconds));
+      setText("[data-focus-total-remaining]", formatStopwatch(snapshot.totalRemainingSeconds));
+      updateFocusQueue(snapshot, timeline);
+    } else {
     setText("[data-timer-elapsed]", formatStopwatch(snapshot.elapsedSeconds));
     setText("[data-current-speed]", treadmillSpeedLabel(snapshot.current));
     setText("[data-current-incline]", `${treadmillInclineLabel(snapshot.current)} helling`);
     setText("[data-block-remaining]", formatStopwatch(snapshot.remainingSeconds));
     setText("[data-current-block]", snapshot.current?.blockName || "Training voltooid");
     setText("[data-next-block]", snapshot.next ? `${treadmillSpeedLabel(snapshot.next)} · ${treadmillInclineLabel(snapshot.next)}` : "Finish");
+    }
     const warning = notifications.activeWarning(switchPlanFor(workout, timeline), snapshot.elapsedSeconds);
     const warningElement = app.querySelector?.("[data-switch-warning]");
     if (warningElement) {
@@ -1617,6 +1829,9 @@
       state.treadmillWorkoutId = null;
       state.notificationsPanelOpen = false;
       state.showPushSetup = false;
+      state.focusQueueUserBrowsing = false;
+      state.focusCompletedExpanded = false;
+      state.focusLastActiveIndex = -1;
       cancelPushSession(sessionToCancel);
     }
     state.view = view;
@@ -1633,6 +1848,7 @@
 
   function render() {
     document.body?.classList?.toggle("treadmill-active", state.view === VIEWS.TREADMILL);
+    document.body?.classList?.toggle("treadmill-focus-active", state.view === VIEWS.TREADMILL && ["running", "paused"].includes(treadmillTimer.status));
     if (state.view === VIEWS.TREADMILL) renderTreadmillMode();
     else if (state.view === VIEWS.MARATHON) renderMarathonOverview();
     else if (state.view === VIEWS.PLAN) renderPlan();
@@ -1664,6 +1880,9 @@
       state.treadmillReturnView = state.view;
       state.notificationsPanelOpen = false;
       state.showPushSetup = false;
+      state.focusQueueUserBrowsing = false;
+      state.focusCompletedExpanded = false;
+      state.focusLastActiveIndex = -1;
       return setView(VIEWS.TREADMILL);
     }
 
@@ -1682,6 +1901,22 @@
     if (event.target.closest("[data-timer-reset]")) return resetTreadmillTimer();
     if (event.target.closest("[data-timer-stop]")) {
       if (!window.confirm || window.confirm("Timer stoppen en terugzetten naar 00:00?")) resetTreadmillTimer();
+      return;
+    }
+
+    if (event.target.closest("[data-focus-return-now]")) {
+      scrollFocusQueueToCurrent();
+      return;
+    }
+
+    if (event.target.closest("[data-toggle-focus-completed]")) {
+      state.focusCompletedExpanded = !state.focusCompletedExpanded;
+      const queue = app.querySelector?.("[data-focus-queue]");
+      queue?.classList?.toggle("show-completed", state.focusCompletedExpanded);
+      const toggle = app.querySelector?.("[data-toggle-focus-completed]");
+      toggle?.setAttribute?.("aria-expanded", String(state.focusCompletedExpanded));
+      const icon = toggle?.querySelector?.("i");
+      if (icon) icon.textContent = state.focusCompletedExpanded ? "−" : "+";
       return;
     }
 
@@ -1793,6 +2028,19 @@
     releaseScreenWakeLock();
   });
 
+  window.addEventListener("scroll", () => {
+    if (state.view !== VIEWS.TREADMILL || !["running", "paused"].includes(treadmillTimer.status) || focusAutoScrolling) return;
+    setFocusQueueBrowsing(true);
+  }, { passive: true });
+
+  document.addEventListener("touchmove", (event) => {
+    if (event.target.closest?.("[data-focus-queue]")) setFocusQueueBrowsing(true);
+  }, { passive: true });
+
+  document.addEventListener("wheel", (event) => {
+    if (event.target.closest?.("[data-focus-queue]")) setFocusQueueBrowsing(true);
+  }, { passive: true });
+
   async function initializePwaServices() {
     try {
       if ("caches" in window) {
@@ -1814,6 +2062,9 @@
     state.treadmillReturnView = VIEWS.WEEK;
     state.notificationsPanelOpen = false;
     state.showPushSetup = false;
+    state.focusQueueUserBrowsing = false;
+    state.focusCompletedExpanded = false;
+    state.focusLastActiveIndex = -1;
     setView(VIEWS.TREADMILL);
   });
 
@@ -1835,6 +2086,8 @@
     saveNotificationSetting,
     getTreadmillTimer: () => ({ ...treadmillTimer }),
     buildTreadmillTimeline,
+    timelineSnapshotAt,
+    focusTimingState,
     switchPlanFor,
     daysUntilMarathon,
     nextIncompleteWorkout,
