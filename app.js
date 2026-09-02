@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "2026.09.02-1";
+  const APP_VERSION = "2026.09.02-2";
   // Keep this key stable. Preserve existing logs; migrate additions and protocol changes.
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
   const APP_DATA_VERSION = 4;
@@ -956,7 +956,9 @@
   }
 
   function treadmillInclineLabel(block) {
-    return focusInclineLabel(block);
+    if (block?.inclinePercent == null) return "Buiten";
+    if (Number(block.inclinePercent) === 0.5) return "½%";
+    return `${formatNumber(block.inclinePercent)}%`;
   }
 
   function switchPlanFor(workout, timeline) {
@@ -1047,10 +1049,17 @@
     return Number(block?.speedKmh) > 0 ? formatNumber(block.speedKmh) : "Zelf sturen";
   }
 
-  function focusInclineLabel(block) {
-    if (block?.inclinePercent == null) return "Buiten";
-    if (Number(block.inclinePercent) === 0.5) return "½%";
-    return `${formatNumber(block.inclinePercent)}%`;
+  function focusInclineValue(block) {
+    return block?.inclinePercent == null ? "Buiten" : formatNumber(block.inclinePercent);
+  }
+
+  function focusInclineDescription(block) {
+    return block?.inclinePercent == null ? "Buitenwedstrijd, geen loopbandhelling" : `Helling ${focusInclineValue(block)} procent`;
+  }
+
+  function renderFocusIncline(block, current = false) {
+    const outside = block?.inclinePercent == null;
+    return `<strong class="${outside ? "is-text" : ""}" role="img" aria-label="${escapeAttr(focusInclineDescription(block))}" ${current ? "data-focus-current-incline" : ""}><b aria-hidden="true" ${current ? "data-focus-incline-value" : ""}>${escapeHtml(focusInclineValue(block))}</b><small aria-hidden="true" ${current ? "data-focus-incline-unit" : ""} ${outside ? "hidden" : ""}>%</small></strong>`;
   }
 
   function focusTimingState(snapshot) {
@@ -1080,7 +1089,7 @@
       </div>
       <div class="focus-now-grid">
         <div class="focus-speed"><span>Nu · snelheid</span><strong><b data-focus-current-speed>${escapeHtml(focusSpeedValue(current))}</b>${Number(current?.speedKmh) > 0 ? "<small>km/u</small>" : ""}</strong></div>
-        <div class="focus-incline"><span>Helling</span><strong class="${current?.inclinePercent == null ? "is-text" : ""}" data-focus-current-incline>${escapeHtml(focusInclineLabel(current))}</strong></div>
+        <div class="focus-incline"><span>Helling</span>${renderFocusIncline(current, true)}</div>
       </div>
       ${renderFocusProgress(timeline, snapshot)}
       <div class="focus-total-time"><span><strong data-timer-elapsed>${formatStopwatch(snapshot.elapsedSeconds)}</strong> verstreken</span><span><strong data-focus-total-remaining>${formatStopwatch(snapshot.totalRemainingSeconds)}</strong> resterend</span></div>
@@ -1102,7 +1111,7 @@
         <small>${escapeHtml(block.blockName)}</small>
       </div>
       <div class="focus-queue-speed"><span>Snelheid</span><strong><b>${escapeHtml(focusSpeedValue(block))}</b>${Number(block.speedKmh) > 0 ? "<small>km/u</small>" : ""}</strong></div>
-      <div class="focus-queue-incline"><span>Helling</span><strong class="${block.inclinePercent == null ? "is-text" : ""}">${escapeHtml(focusInclineLabel(block))}</strong></div>
+      <div class="focus-queue-incline"><span>Helling</span>${renderFocusIncline(block)}</div>
     </article>`;
   }
 
@@ -1431,7 +1440,12 @@
       cockpit.classList?.toggle("is-final-countdown", finalCountdown);
       setText("[data-block-remaining]", formatStopwatch(snapshot.remainingSeconds));
       setText("[data-focus-current-speed]", focusSpeedValue(snapshot.current));
-      setText("[data-focus-current-incline]", focusInclineLabel(snapshot.current));
+      setText("[data-focus-incline-value]", focusInclineValue(snapshot.current));
+      const incline = app.querySelector?.("[data-focus-current-incline]");
+      incline?.setAttribute("aria-label", focusInclineDescription(snapshot.current));
+      incline?.classList?.toggle("is-text", snapshot.current?.inclinePercent == null);
+      const inclineUnit = app.querySelector?.("[data-focus-incline-unit]");
+      if (inclineUnit) inclineUnit.hidden = snapshot.current?.inclinePercent == null;
       setText("[data-focus-current-context]", `${snapshot.current?.blockName || "Training"} · Blok ${snapshot.currentIndex + 1} van ${timeline.blocks.length}`);
       setText("[data-focus-block-progress]", `Blok ${snapshot.currentIndex + 1} van ${timeline.blocks.length}`);
       setText("[data-timer-elapsed]", formatStopwatch(snapshot.elapsedSeconds));

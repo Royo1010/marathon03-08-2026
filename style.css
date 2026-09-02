@@ -1892,7 +1892,7 @@ body.treadmill-focus-active .content {
 
 .focus-now-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 92px;
+  grid-template-columns: minmax(0, 1fr) 118px;
   gap: 12px;
   align-items: baseline;
 }
@@ -1940,6 +1940,7 @@ body.treadmill-focus-active .content {
   justify-content: flex-end;
   width: 100%;
   font-size: 56px;
+  font-variant-numeric: tabular-nums;
 }
 
 .focus-cockpit.is-final-countdown .focus-countdown strong {
@@ -2089,7 +2090,7 @@ body.treadmill-focus-active .content {
 
 .focus-queue-item {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 120px 60px;
+  grid-template-columns: minmax(0, 1fr) 120px 72px;
   align-items: center;
   gap: 6px;
   min-width: 0;
@@ -2172,11 +2173,23 @@ body.treadmill-focus-active .content {
 }
 
 .focus-queue-incline strong {
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+  gap: 3px;
   margin-top: 4px;
   color: #dbe9f8;
   font-size: 34px;
   line-height: 1;
   white-space: nowrap;
+}
+
+.focus-queue-incline strong b {
+  font: inherit;
+}
+
+.focus-queue-incline strong small {
+  font-size: 15px;
 }
 
 .focus-return-now {

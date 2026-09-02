@@ -787,7 +787,7 @@ Fitness Check #1 in week 38 en Fitness Check #2 in week 42 zijn exact gelijk:
 9. 4 min @ 12,9 km/u — 1%
 10. 10 min @ 9,0 km/u — 0,5%
 
-**Totaal:** 57 min · ongeveer 8,35 km  
+**Totaal:** 47 min · ongeveer 8,35 km  
 **Doel:** scherpte en snelheidsreserve onderhouden, niet uitputten.  
 **RPE:** laatste blok maximaal ongeveer 7–8/10.  
 **Mentaal:** krachtig maar netjes; stoppen met reserve.

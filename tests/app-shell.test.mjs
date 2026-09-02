@@ -204,7 +204,7 @@ test("Schema, Informatie en Marathonoverzicht zijn bereikbaar", () => {
   harness.click({ "[data-view]": { dataset: { view: "info" } } });
   assert.match(harness.app.innerHTML, /Tempo en afkortingen/);
   assert.match(harness.app.innerHTML, /Inspanningsniveaus/);
-  assert.match(harness.app.innerHTML, /Versie 2026\.09\.02-1/);
+  assert.match(harness.app.innerHTML, /Versie 2026\.09\.02-2/);
 
   harness.brandHome.click();
   assert.equal(harness.context.window.MarathonApp.state.view, "marathon");
@@ -331,7 +331,9 @@ test("Start training schakelt naar rustige Focus Mode en Stop herstelt de voorbe
   assert.match(harness.app.innerHTML, /class="treadmill-view focus-mode"/);
   assert.match(harness.app.innerHTML, /Nog in dit blok/);
   assert.match(harness.app.innerHTML, /data-focus-current-speed>9,5</);
-  assert.match(harness.app.innerHTML, /data-focus-current-incline>½%/);
+  assert.match(harness.app.innerHTML, /aria-label="Helling 0,5 procent"/);
+  assert.match(harness.app.innerHTML, /data-focus-incline-value>0,5<\/b><small aria-hidden="true" data-focus-incline-unit >%<\/small>/);
+  assert.doesNotMatch(harness.app.innerHTML, /½/);
   assert.doesNotMatch(harness.app.innerHTML, /Daarna|focus-next/);
   assert.match(harness.app.innerHTML, /Blok 1 van 8/);
   assert.equal((harness.app.innerHTML.match(/data-focus-queue-index=/g) || []).length, 8);
@@ -603,7 +605,7 @@ test("blokwissel houdt cockpit live, laat handmatige scroll met rust en herstelt
     querySelector: () => node() }));
   rows[0].classList.toggle("is-current", true);
   const nodes = new Map([["[data-focus-cockpit]", cockpit]]);
-  for (const s of ["[data-focus-return-now]", "[data-toggle-focus-completed]", "[data-focus-current-speed]", "[data-focus-current-incline]", "[data-block-remaining]", "[data-focus-current-context]"]) nodes.set(s, node());
+  for (const s of ["[data-focus-return-now]", "[data-toggle-focus-completed]", "[data-focus-current-speed]", "[data-focus-current-incline]", "[data-focus-incline-value]", "[data-focus-incline-unit]", "[data-block-remaining]", "[data-focus-current-context]"]) nodes.set(s, node());
   nodes.get("[data-toggle-focus-completed]").hidden = true;
   h.app.querySelector = (s) => s === "[data-focus-queue-index].is-current" ? rows.find((r) => r.classList.contains("is-current")) : nodes.get(s);
   h.app.querySelectorAll = (s) => s === "[data-focus-queue-index]" ? rows : s === ".focus-queue-item.keep-visible" ? rows.filter((r) => r.classList.contains("keep-visible")) : [];
@@ -614,7 +616,8 @@ test("blokwissel houdt cockpit live, laat handmatige scroll met rust en herstelt
   assert.equal(nodes.get("[data-focus-return-now]").hidden, false);
   h.advance(601);
   assert.equal(nodes.get("[data-focus-current-speed]").textContent, "10,5");
-  assert.equal(nodes.get("[data-focus-current-incline]").textContent, "½%");
+  assert.equal(nodes.get("[data-focus-incline-value]").textContent, "0,5");
+  assert.equal(nodes.get("[data-focus-incline-unit]").hidden, false);
   assert.equal(nodes.get("[data-block-remaining]").textContent, "04:59");
   assert.equal(w.scrollY, 300);
   assert.equal(scrolls.length, 0);
@@ -627,7 +630,7 @@ test("blokwissel houdt cockpit live, laat handmatige scroll met rust en herstelt
   assert.equal(rows[0].classList.contains("keep-visible"), false);
   h.advance(300);
   assert.equal(nodes.get("[data-focus-current-speed]").textContent, "12");
-  assert.equal(nodes.get("[data-focus-current-incline]").textContent, "1%");
+  assert.equal(nodes.get("[data-focus-incline-value]").textContent, "1");
   assert.equal(scrolls.length, 2);
   assert.equal(rows[2].getBoundingClientRect().top, 351);
   h.click({ "[data-timer-pause]": {} });
@@ -723,4 +726,31 @@ test("maak browserfixture met alle 24 snelheid/helling-combinaties uit de echte 
   const html = `<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="stylesheet" href="../style.css"><title>Focus layout test</title></head><body class="treadmill-active treadmill-focus-active"><div class="app-shell"><main id="app" class="content"></main></div><script>const fixtures=${JSON.stringify(fixtures)};document.getElementById('app').innerHTML=fixtures[Number(new URLSearchParams(location.search).get('case'))||0];</script></body></html>`;
   fs.writeFileSync(new URL("./focus-fixtures.html", import.meta.url), html);
   assert.equal(fixtures.length, 24);
+});
+
+test("Focus-helling heeft losse eenheid; 0, 0,5 en 1 blijven correct bij blokwissels", () => {
+  const h = createHarness();
+  const id = "marathon-3u30-w47-t2";
+  h.click({ "[data-open-treadmill]": { dataset: { openTreadmill: id } } });
+  assert.match(h.app.innerHTML, /<strong class="">½%<\/strong>/, "voorbereidingsweergave blijft ongewijzigd");
+  h.click({ "[data-timer-start]": { dataset: { timerStart: id } } });
+  for (const value of ["0", "0,5", "1"]) assert.ok(h.app.innerHTML.includes(`aria-label="Helling ${value} procent"`));
+  assert.doesNotMatch(h.app.innerHTML, /½/);
+  const attributes = {};
+  const incline = { classList: createClassList(), setAttribute(k, v) { attributes[k] = v; } };
+  const value = { textContent: "0,5" };
+  const unit = { textContent: "%", hidden: false };
+  const nodes = { "[data-focus-cockpit]": { classList: createClassList() }, "[data-focus-current-incline]": incline, "[data-focus-incline-value]": value, "[data-focus-incline-unit]": unit };
+  h.app.querySelector = (s) => nodes[s];
+  h.app.querySelectorAll = () => [];
+  h.advance(15 * 60);
+  assert.equal(value.textContent, "1");
+  assert.equal(attributes["aria-label"], "Helling 1 procent");
+  h.advance(21 * 60);
+  assert.equal(value.textContent, "0");
+  assert.equal(attributes["aria-label"], "Helling 0 procent");
+  assert.equal(unit.hidden, false);
+  assert.equal(unit.textContent, "%", "timerupdates verwijderen de eenheid niet");
+  h.click({ "[data-timer-pause]": {} });
+  assert.match(h.app.innerHTML, /Helling 0 procent/);
 });

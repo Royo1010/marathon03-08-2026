@@ -5,7 +5,7 @@ Mobiele weekplanner voor het definitieve Marathon 3:30-loopbandschema van
 
 ## Actieve versie
 
-- App-versie: `2026.09.02-1`
+- App-versie: `2026.09.02-2`
 - Schemaversie: `marathon-3u30-definitief-2026.09.02-1`
 - Inhoudelijke bron: `marathon-schema-3u30-definitief-2026.md`
 - Enige actieve trainingsdataset: het hieruit gegenereerde `training-data.js`
@@ -32,9 +32,9 @@ ongeronde blokwaarden; afronden gebeurt uitsluitend voor de presentatie.
 Week 47 wordt berekend uit drie trainingen plus de marathon en wordt zichtbaar
 als totaal inclusief marathon gemarkeerd.
 
-Bronafwijking: W44 Training 2 heeft exact 47 minuten aan blokken en 8,3483 km.
-De bron noemt in de samenvatting 57 minuten. De app volgt de expliciete blokken;
-deze afwijking staat ook in `plan.sourceDiscrepancies`. Er is geen extra blok toegevoegd.
+W44 Training 2 is definitief bevestigd: 47 minuten, 8,3483 km (weergave 8,35 km).
+De samenvatting in het projectbronbestand is gecorrigeerd. De tien bestaande
+blokken zijn ongewijzigd; `plan.sourceDiscrepancies` is leeg.
 
 ## Loopbandmodus
 
@@ -115,7 +115,7 @@ cache-updatefix intact zonder de pushregistratie weer te verwijderen.
 
 Een al bestaand iPhone-homescreen-icoon kan zijn oude start-URL in iOS bewaren.
 Controleer daarom na deployment in zowel Safari als het bestaande beginscherm-icoon
-onder **Informatie** of versie `2026.09.02-1` actief is. Verwijder geen installatie
+onder **Informatie** of versie `2026.09.02-2` actief is. Verwijder geen installatie
 of browsergegevens om een update af te dwingen. Deze app ondersteunt bewust geen
 offline herstart: bestanden komen van het netwerk. Een al geladen lokale timer
 heeft voor het aftellen zelf geen netwerk nodig. Dit bestaande cachebeleid is behouden.

@@ -4242,8 +4242,8 @@ window.MARATHON_PLAN = {
           "totalPlannedSeconds": 2820,
           "totalPlannedLabel": "47 min",
           "estimatedDistanceKm": 8.348333333333333,
-          "estimatedDistanceLabel": "±8,3 km",
-          "sourceSummary": "57 min · ongeveer 8,35 km",
+          "estimatedDistanceLabel": "±8,35 km",
+          "sourceSummary": "47 min · ongeveer 8,35 km",
           "goal": "scherpte en snelheidsreserve onderhouden, niet uitputten.",
           "targetRpe": "laatste blok maximaal ongeveer 7–8/10.",
           "mentalGoal": "krachtig maar netjes; stoppen met reserve.",
@@ -6048,14 +6048,7 @@ window.MARATHON_PLAN = {
       }
     }
   ],
-  "sourceDiscrepancies": [
-    {
-      "workoutId": "marathon-3u30-w44-t2",
-      "field": "duration",
-      "source": 3420,
-      "calculated": 2820
-    }
-  ],
+  "sourceDiscrepancies": [],
   "previousWorkouts": {
     "marathon-3u30-w36-t1": {
       "signature": "[[300,null,9,0.5],[2100,null,10,0.5],[300,null,8.5,0.5]]",

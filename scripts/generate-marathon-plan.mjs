@@ -114,7 +114,7 @@ const weeks = weekParts.map(([, nr, weekType, body]) => {
       groups: [{ groupId: `${workoutId}-g1`, kind: "sequence", label: check ? "Vast vergelijkingsprotocol" : "Exacte opbouw", repetitions: 1, segments: blocks }],
       totalPlannedSeconds: duration,
       totalPlannedLabel: race ? "Marathon" : duration == null ? "39 min + 5 km test" : duration % 60 === 0 ? `${duration / 60} min` : `${Math.floor(duration / 60)}:${String(duration % 60).padStart(2, "0")} min`,
-      estimatedDistanceKm: distance, estimatedDistanceLabel: race ? "42,195 km" : `±${label(distance)} km`,
+      estimatedDistanceKm: distance, estimatedDistanceLabel: race ? "42,195 km" : `±${weekNumber === 44 && trainingNumber === 2 ? distance.toLocaleString("nl-NL", { maximumFractionDigits: 2 }) : label(distance)} km`,
       sourceSummary: summary, goal, targetRpe: field(content, "RPE") || "Wedstrijdinspanning volgens controle", mentalGoal,
       rationale: `${goal} ${mentalGoal}`, detailsSections, notes: [],
       recoveryStatus, recoveryLabel: recoveryStatus === "required" ? "Herstelruimte bewaken" : recoveryStatus === "recommended" ? "Rustige dag aanbevolen" : "Easy blijft easy",

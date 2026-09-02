@@ -93,8 +93,11 @@ test("onafhankelijke afstandssommen, duur en expliciete hellingen", () => {
     assert.ok(Math.abs(sum - model.calculateWeekDistanceKm(week)) < 1e-10);
   }
   console.log(`Gecontroleerd: ${inclineCount} expliciete loopbandhellingen.`);
-  assert.equal(get(44, 2).totalPlannedSeconds, 47 * 60, "exacte blokken gaan boven foutieve 57-minutensamenvatting");
-  assert.equal(plan.sourceDiscrepancies.length, 1);
+  assert.equal(get(44, 2).totalPlannedSeconds, 47 * 60);
+  assert.equal(get(44, 2).estimatedDistanceLabel, "±8,35 km");
+  assert.match(get(44, 2).sourceSummary, /^47 min/);
+  assert.equal(flat(get(44, 2)).length, 10);
+  assert.equal(plan.sourceDiscrepancies.length, 0);
 });
 
 test("sleuteltrainingen, fitnessprotocol, taper, racevoeding en buitenaanbevelingen", () => {
@@ -121,4 +124,43 @@ test("sleuteltrainingen, fitnessprotocol, taper, racevoeding en buitenaanbevelin
   assert.equal(flat(get(47, 4))[0].inclinePercent, null);
   assert.deepEqual(Array.from(plan.guidance.officialTests, (w) => w.week), [38, 40, 41, 42, 43, 44]);
   assert.match(plan.guidance.raceStrategy[0].pace, /5:02–5:03/);
+});
+
+test("volledige bronmetadata, trainingsvolgorde, veiligheidsregels en samenvattingen", () => {
+  const clean = (s) => s.replace(/\*\*|`/g, "").trim();
+  const chapters = source.split(/^## WEEK /m).slice(1);
+  for (const chapter of chapters) {
+    const nr = Number(chapter.match(/^\d+/)[0]);
+    const week = plan.weeks.find((w) => w.weekNumber === nr);
+    assert.equal(week.periodLabel, chapter.match(/^\*\*Periode:\*\* (.+)/m)[1].trim());
+    const sections = chapter.split(/^### /m).slice(1);
+    assert.equal(sections.length, week.workouts.length);
+    for (const [i, section] of sections.entries()) {
+      const w = week.workouts[i];
+      const heading = section.split("\n")[0];
+      assert.equal(heading, w.isExtra ? w.trainingLabel : `${w.trainingLabel} — ${w.title}`);
+      const sourceLabels = [...section.match(/^\*\*Labels:\*\* (.+)/m)[1].matchAll(/`([^`]+)`/g)].map((m) => m[1]);
+      assert.ok(sourceLabels.every((label) => w.labels.includes(label)));
+      assert.equal(w.isTest, sourceLabels.includes("TEST"));
+      for (const field of ["Veiligheidsregel", "Buitenvariant", "Absolute grens", "Ondergrond", "Planning", "Specificiteit"]) {
+        const value = section.match(new RegExp(`^\\*\\*${field}:\\*\\* (.+)`, "m"))?.[1];
+        if (value) assert.ok(w.detailsSections.some((s) => s.title === field && s.items.includes(clean(value))), `${w.workoutId}: ${field}`);
+      }
+      const summary = section.match(/^\*\*(?:Totaal|Loopbandtotaal):\*\* (.+)/m)?.[1];
+      if (summary) {
+        assert.equal(w.sourceSummary, clean(summary));
+        const km = summary.match(/(?:ongeveer|exact) ([\d,]+) km/);
+        if (km) assert.ok(Math.abs(decimal(km[1]) - w.estimatedDistanceKm) < 0.006, w.workoutId);
+      }
+      for (const s of flat(w)) {
+        if (w.surface !== "loopband") continue;
+        const quality = ["sub-marathon", "marathonpace", "drempel", "interval", "test"].includes(s.type);
+        assert.equal(s.inclinePercent, s.type === "wandelen" ? 0 : quality ? 1 : 0.5, s.segmentId);
+      }
+    }
+  }
+  assert.deepEqual(flat(get(42, 2)).filter((s) => s.durationSeconds === 300 && s.speedKmh >= 12).map((s) => s.speedKmh), [12.8, 12.8, 12.8, 13, 13]);
+  assert.equal(flat(get(43, 2)).filter((s) => s.durationSeconds === 900 && s.speedKmh === 12 && s.inclinePercent === 1).length, 3);
+  assert.equal(flat(get(44, 4)).slice(0, 2).reduce((sum, s) => sum + s.durationSeconds, 0), 85 * 60);
+  assert.ok(Math.abs(get(41, 4).estimatedDistanceKm - 25.8) < 1e-10);
 });

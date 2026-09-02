@@ -15,11 +15,10 @@ De oude app gebruikte een basisdataset plus een v5-correctielaag. Dat liet onder
 andere verouderde volumes in W38 en W41-W44 bestaan. Nu wordt alle actuele
 trainingsdata rechtstreeks uit het nieuwe bronbestand gegenereerd.
 
-**Brontegenstrijdigheid:** W44 Training 2 bevat 47 minuten aan expliciete blokken,
-maar de samenvatting in het aangeleverde bestand noemt 57 minuten. De berekende
-8,3483 km past bij 47 minuten. De app volgt de exacte blokken. Er zijn geen tien
-minuten bij verzonnen. De afwijking is vastgelegd in `sourceDiscrepancies`; het
-oorspronkelijke Markdown-bestand is niet aangepast.
+**Vervolgcorrectie in versie 2026.09.02-2:** W44 Training 2 is definitief bevestigd
+op 47 minuten en 8,3483 km. Alleen de foutieve tijdsamenvatting in het projectbronbestand
+is gecorrigeerd; er zijn geen blokken toegevoegd. `sourceDiscrepancies` is nu leeg.
+De overige bevindingen hieronder beschrijven de eerdere oplevering.
 
 ## Controletabel
 
