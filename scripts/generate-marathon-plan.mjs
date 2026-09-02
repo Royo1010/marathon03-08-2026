@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const input = process.argv[2] || "marathon-schema-3u30-definitief-2026.md";
+const input = process.argv[2] || "marathon-schema-3u30-definitief-verfijnd-2026.md";
 const output = process.argv[3] || "training-data.js";
 const source = fs.readFileSync(input, "utf8").replace(/\r/g, "");
 const clean = (s) => s.replace(/\*\*|`/g, "").trim();
@@ -11,6 +11,7 @@ const field = (body, name) => clean(body.match(new RegExp(`^\\*\\*${name}:\\*\\*
 const days = (offset) => new Date(Date.UTC(2026, 7, 31 + offset)).toISOString().slice(0, 10);
 const problems = [];
 const previous = JSON.parse(fs.readFileSync(new URL("./previous-workouts-v5.json", import.meta.url), "utf8"));
+const previousV6 = JSON.parse(fs.readFileSync(new URL("./previous-workouts-v6.json", import.meta.url), "utf8"));
 
 function seconds(text) {
   const parts = text.split(":").map(number);
@@ -54,7 +55,7 @@ const weekGoals = [
   "3 × 12 min MP en progressieve halve-marathonconfidence",
   "Vermoeidheid laten zakken en 5K-snelheidsreserve meten",
   "Een uur marathonritme en steady halve-marathonconfidence",
-  "Identieke fitnesscheck en marathonpace na 150 minuten",
+  "Lichte volumeterugname, identieke fitnesscheck en MP na 150 minuten",
   "3 × 15 min MP-test en de langste duurloop van 30,4 km",
   "Minder volume, met 2 × 30 min MP onder vermoeidheid",
   "Taper starten en kwaliteit behouden zonder nieuwe tests",
@@ -70,12 +71,13 @@ const weeks = weekParts.map(([, nr, weekType, body]) => {
   const weekNumber = Number(nr);
   const phase = phaseDefinitions.find((p) => weekNumber >= p.startWeek && weekNumber <= p.endWeek);
   const week = { weekId: `marathon-3u30-w${nr}`, weekNumber, phaseId: phase.phaseId, phaseName: phase.name, startDate: days((weekNumber - 36) * 7), endDate: days((weekNumber - 36) * 7 + 6), periodLabel: field(body, "Periode"), weekType, focus: weekGoals[weekNumber - 36], includesMarathon: weekNumber === 47 };
-  const headings = [...body.matchAll(/^### (Training (\d+) — (.+)|Extra Fitness Check #(\d+))\n/gm)];
+  const headings = [...body.matchAll(/^### (Training (\d+) — (.+))\n/gm)];
   week.workouts = headings.map((match, i) => {
-    const [, heading, nr, title, check] = match;
+    const [, heading, nr, title] = match;
+    const check = title?.match(/^Fitness Check #(\d+)$/)?.[1];
     const content = body.slice(match.index + match[0].length, headings[i + 1]?.index ?? body.length);
     const trainingNumber = nr ? Number(nr) : null;
-    const workoutId = `marathon-3u30-w${weekNumber}-${nr ? `t${nr}` : `fitness-check-${check}`}`;
+    const workoutId = `marathon-3u30-w${weekNumber}-t${nr}${check ? `-fitness-check-${check}` : ""}`;
     const labels = field(content, "Labels").split(", ").filter(Boolean);
     const race = weekNumber === 47 && trainingNumber === 4;
     const blocks = check ? protocol.map((s) => ({ ...s })) : content.split("\n").map((l) => parseBlock(l.trim())).filter(Boolean);
@@ -106,21 +108,21 @@ const weeks = weekParts.map(([, nr, weekType, body]) => {
     const long = trainingNumber === 4;
     const recoveryStatus = long || trainingNumber === 2 ? "required" : check ? "recommended" : "none";
     const workout = {
-      workoutId, weekNumber, trainingNumber, trainingLabel: nr ? `Training ${nr}` : `Extra Fitness Check #${check}`,
+      workoutId, weekNumber, trainingNumber, trainingLabel: `Training ${nr}`,
       weekId: week.weekId, dateLabel: week.periodLabel, phaseId: week.phaseId, phaseName: phase.name,
       title: title || heading, category, tone, labels, surface: race ? "buiten" : "loopband",
-      isExtra: Boolean(check), isFitnessCheck: Boolean(check), fitnessCheckNumber: check ? Number(check) : null,
+      isExtra: false, isFitnessCheck: Boolean(check), fitnessCheckNumber: check ? Number(check) : null,
       isTest: labels.includes("TEST"), testNumber: !labels.includes("TEST") ? null : check ? `fitness-${check}` : weekNumber === 40 ? 1 : weekNumber === 41 ? "rhythm" : weekNumber === 43 ? 2 : weekNumber === 44 ? 3 : null,
       groups: [{ groupId: `${workoutId}-g1`, kind: "sequence", label: check ? "Vast vergelijkingsprotocol" : "Exacte opbouw", repetitions: 1, segments: blocks }],
       totalPlannedSeconds: duration,
       totalPlannedLabel: race ? "Marathon" : duration == null ? "39 min + 5 km test" : duration % 60 === 0 ? `${duration / 60} min` : `${Math.floor(duration / 60)}:${String(duration % 60).padStart(2, "0")} min`,
-      estimatedDistanceKm: distance, estimatedDistanceLabel: race ? "42,195 km" : `±${weekNumber === 44 && trainingNumber === 2 ? distance.toLocaleString("nl-NL", { maximumFractionDigits: 2 }) : label(distance)} km`,
+      estimatedDistanceKm: distance, estimatedDistanceLabel: race ? "42,195 km" : `±${check || (weekNumber === 44 && trainingNumber === 2) ? distance.toLocaleString("nl-NL", { maximumFractionDigits: 2 }) : label(distance)} km`,
       sourceSummary: summary, goal, targetRpe: field(content, "RPE") || "Wedstrijdinspanning volgens controle", mentalGoal,
       rationale: `${goal} ${mentalGoal}`, detailsSections, notes: [],
       recoveryStatus, recoveryLabel: recoveryStatus === "required" ? "Herstelruimte bewaken" : recoveryStatus === "recommended" ? "Rustige dag aanbevolen" : "Easy blijft easy",
       recoveryAdvice: "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
       orderWarning: field(content, "Planning") || (weekNumber >= 45 ? "Taper beschermd: geen extra volume, tests of trainingsdagen." : "Bij oplopende plaatselijke pijn, technisch verval of controleverlies: aanpassen of stoppen."),
-      locationStatus, outsideVariant: field(content, "Buitenvariant") || field(content, "Ondergrond") || (check ? "Gebruik dezelfde loopband, snelheden en hellingen als bij de andere check; geen automatische snelheidsaanpassing." : "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken."),
+      locationStatus, outsideVariant: field(content, "Buitenvariant") || field(content, "Ondergrond") || (check ? "Gebruik dezelfde loopband, snelheden en hellingen als bij de andere check; geen automatische snelheidsaanpassing." : weekNumber >= 39 && labels.includes("EASY") && !long ? "Vanaf week 39 mag één gewone easytraining per week optioneel buiten worden uitgevoerd. Dit vervangt de loopbanduitvoering; het is geen extra training. De loopbandvariant blijft de standaard." : "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken."),
       fueling: long, fullFuelRehearsal: long && [43, 44].includes(weekNumber),
       nutrition: long ? `${fuelText} ${[43, 44].includes(weekNumber) ? fullFuelText : ""} ${field(content, "Voeding")}`.trim() : "",
       evaluation: labels.includes("TEST") ? [field(content, "RPE"), ...detailsSections.filter((s) => s.title === "Interpretatie").flatMap((s) => s.items)].join(" ") : null,
@@ -140,12 +142,13 @@ const paces = table("| Type |").map(([type, speed, incline, rpe]) => ({ type, sp
 const raceStrategy = table("| Wedstrijddeel |").map(([distance, pace, instruction]) => ({ distance, pace, instruction }));
 const tests = weeks.flatMap((w) => w.workouts).filter((w) => w.isTest);
 const plan = {
-  config: { planId: "marathon-3u30-definitief-2026", planVersion: 6, schemaVersion: "marathon-3u30-definitief-2026.09.02-1", sourceFile: path.basename(input), planName: "Marathonschema 3:30", planSubtitle: "Vier kerntrainingen per week en twee extra fitnesschecks", startDate: days(0), endDate: "2026-11-22", marathonDate: "2026-11-22", targetTime: "3:30:00", targetPace: "4:58,6/km", targetSpeedKmh: 42.195 / 3.5, practicalMarathonSpeedKmh: 12, trainingFrequency: 4, primarySurface: "primair loopband" },
-  phases: phaseDefinitions, weeks, sourceDiscrepancies: problems, previousWorkouts: previous,
+  config: { planId: "marathon-3u30-definitief-2026", planVersion: 7, schemaVersion: "marathon-3u30-verfijnd-2026.09.02-1", sourceFile: path.basename(input), planName: "Marathonschema 3:30", planSubtitle: "Vier trainingen per week, inclusief de fitnesschecks", startDate: days(0), endDate: "2026-11-22", marathonDate: "2026-11-22", targetTime: "3:30:00", targetPace: "4:58,6/km", targetSpeedKmh: 42.195 / 3.5, practicalMarathonSpeedKmh: 12, trainingFrequency: 4, primarySurface: "primair loopband" },
+  phases: phaseDefinitions, weeks, sourceDiscrepancies: problems, previousWorkouts: previous, previousWorkoutsV6: previousV6,
+  workoutAliases: { "marathon-3u30-w38-fitness-check-1": "marathon-3u30-w38-t1-fitness-check-1", "marathon-3u30-w42-fitness-check-2": "marathon-3u30-w42-t1-fitness-check-2" },
   guidance: {
     philosophy: coreRules, paces,
     rpeScale: paces.map((p) => ({ type: p.type, rpe: p.rpe, feeling: p.type === "Easy" ? "Volledige zinnen mogelijk." : "Volg de specifieke training en houd controle." })),
-    scheduling: ["Vier reguliere loopdagen per week. Alleen W38 en W42 hebben een extra Fitness Check, geen structurele vijfde loopdag.", weeks[0].workouts[0].recoveryAdvice],
+    scheduling: ["Exact vier looptrainingen per week. In W38 en W42 vervangt de Fitness Check Training 1; er is geen vijfde loopdag.", weeks[0].workouts[0].recoveryAdvice, "Vanaf week 39 mag één gewone easytraining per week optioneel buiten. Dit is geen extra training; de loopbandvariant blijft standaard."],
     suggestedSequences: ["Trainingsdagen zijn vrij te kiezen. Plaats minimaal één rustdag tussen Training 2 en Training 4; laat op opeenvolgende loopdagen één sessie easy zijn."],
     incline: paces.map((p) => `${p.type}: ${p.incline}.`), painRules: coreRules.filter((s) => /pijn|test is|praattest/.test(s)), fueling: [fuelText, fullFuelText],
     raceStrategy, targetConfirmation: ["Exact 5:00/km geeft 3:30:59, niet 3:30:00. Het benodigde gemiddelde is 4:58,6/km.", "Halverwege-richtpunt: 1:44:50–1:45:00, rekening houdend met gelopen lijn en officiële markeringen.", field(weekParts.at(-1)[3], "B-doel")],
@@ -153,7 +156,7 @@ const plan = {
     testTimeline: ["Vanaf week 45: geen nieuwe test, volume of trainingsdag. Frisheid heeft voorrang."],
   },
 };
-if (weeks.length !== 12 || weeks.some((w) => w.workouts.filter((t) => !t.isExtra).length !== 4)) throw new Error("Schema onvolledig");
+if (weeks.length !== 12 || weeks.some((w) => w.workouts.length !== 4 || w.workouts.some((t) => t.isExtra))) throw new Error("Schema onvolledig");
 for (const w of weeks.flatMap((w) => w.workouts)) for (const s of w.groups[0].segments) {
   if (w.surface === "loopband" && !Number.isFinite(s.inclinePercent)) throw new Error(`Geen helling: ${s.segmentId}`);
   if (!(s.durationSeconds > 0 || s.distanceKm > 0)) throw new Error(`Geen duur/afstand: ${s.segmentId}`);

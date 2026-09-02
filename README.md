@@ -5,23 +5,27 @@ Mobiele weekplanner voor het definitieve Marathon 3:30-loopbandschema van
 
 ## Actieve versie
 
-- App-versie: `2026.09.02-2`
-- Schemaversie: `marathon-3u30-definitief-2026.09.02-1`
-- Inhoudelijke bron: `marathon-schema-3u30-definitief-2026.md`
+- App-versie: `2026.09.02-3`
+- Schemaversie: `marathon-3u30-verfijnd-2026.09.02-1`
+- Inhoudelijke bron: `marathon-schema-3u30-definitief-verfijnd-2026.md`
 - Enige actieve trainingsdataset: het hieruit gegenereerde `training-data.js`
 - Opslagkey: `marathon330TrainingAppData_v1`
 
 ## Schema
 
-Het schema bevat week 36 tot en met week 47, steeds vier kerntrainingen per week.
-Week 38 en 42 bevatten daarnaast een korte submaximale Marathon Fitness Check.
+Het schema bevat week 36 tot en met week 47, exact vier trainingen per week.
+In week 38 en 42 vervangt de submaximale Fitness Check de oorspronkelijke
+easytraining: het is Training 1, geen extra vijfde sessie.
 Confidence runs, meetmomenten, taper en marathon zijn gemarkeerd in de interface.
 De dataset, inclusief uitleg en registratiemetadata, wordt rechtstreeks uit het
 nieuwe bronbestand gegenereerd. De oude correctielaag `training-plan-v5.js` is
-verwijderd. Het programma bevat 50 sessies inclusief twee extra checks en de race.
+verwijderd. Het programma bevat 48 sessies inclusief de twee checks en de race.
+W44 Training 4 duurt 155 minuten en bevat 65 minuten op 10 km/u voor de
+twee MP-blokken. De eerste MP start na 75 minuten; totale afstand 27,5983 km.
+Vanaf W39 mag een gewone easytraining optioneel buiten, zonder extra sessie.
 
 ```sh
-node scripts/generate-marathon-plan.mjs marathon-schema-3u30-definitief-2026.md training-data.js
+node scripts/generate-marathon-plan.mjs
 ```
 
 Wijzig de bestaande workout-ID's niet zonder opslagmigratie.
@@ -57,9 +61,12 @@ Via de titel **Marathon 3:30** opent een overzicht met kalendercountdown,
 trainings- en kilometervoortgang, week- en cumulatieve grafieken, confidence
 runs, tests, lange duurlopen, de volgende training en de volgende mijlpaal.
 
-Alle 258 uitvoerbare loopbandblokken hebben een expliciete
+Alle 252 loopbandblokken hebben een expliciete
 numerieke helling van `0%`, `0,5%` of `1%`. Alleen de marathon zelf staat als
 buitenwedstrijd zonder loopbandhelling in de data.
+In Loopbandmodus en Focus Mode verschijnt 0,5% als `½`, onder het label
+Helling. De toegankelijke tekst blijft "Helling 0,5 procent". Numerieke
+data, kolombreedtes, timers en overige vormgeving zijn niet veranderd.
 
 ## Testresultaten
 
@@ -80,10 +87,16 @@ de extra volledige racevoedingsrepetitie. Voedingsvelden worden direct opgeslage
 
 ## Gegevens behouden
 
-De opslagkey blijft `marathon330TrainingAppData_v1`; dataversie is nu 4.
+De opslagkey blijft `marathon330TrainingAppData_v1`; dataversie is nu 5.
 Voltooiingen, notities, instellingen en registraties worden niet gereset.
-`scripts/previous-workouts-v5.json` is uitsluitend een historische momentopname
-voor migratie, geen tweede actief schema. Bij oudere voltooide trainingen blijft
+`scripts/previous-workouts-v5.json` en `scripts/previous-workouts-v6.json` zijn
+uitsluitend historische protocolmetadata voor migratie, geen actieve schema's.
+De ongewijzigde Fitness Checks verhuizen naar hun nieuwe Training 1-ID, inclusief
+resultaten, notities, voltooiing en meldingsinstellingen. Oude deeplinks blijven werken.
+De verwijderde easytrainingen en de langere W44-test worden met alle registraties
+bewaard onder `legacyData.refinedPlanMigration`, niet afgevinkt of als resultaat
+van een andere training gebruikt. Nieuwe registraties overschrijven dit archief niet.
+De migratie is eenmalig en herhalen verandert geen data. Bij oudere voltooide trainingen blijft
 hun historische afstand/duur behouden. Resultaten van een gewijzigd of onbekend
 testprotocol worden bewaard onder `legacyData.previousTestProtocols`, niet als
 uitslag van een andere test gebruikt. Bekende ongewijzigde protocollen blijven actief.
@@ -115,7 +128,7 @@ cache-updatefix intact zonder de pushregistratie weer te verwijderen.
 
 Een al bestaand iPhone-homescreen-icoon kan zijn oude start-URL in iOS bewaren.
 Controleer daarom na deployment in zowel Safari als het bestaande beginscherm-icoon
-onder **Informatie** of versie `2026.09.02-2` actief is. Verwijder geen installatie
+onder **Informatie** of versie `2026.09.02-3` actief is. Verwijder geen installatie
 of browsergegevens om een update af te dwingen. Deze app ondersteunt bewust geen
 offline herstart: bestanden komen van het netwerk. Een al geladen lokale timer
 heeft voor het aftellen zelf geen netwerk nodig. Dit bestaande cachebeleid is behouden.
@@ -155,4 +168,6 @@ De tests vergelijken alle bronblokken onafhankelijk met de dataset, controleren
 afstanden, tijden, hellingen, migratie, registratie, timer, meldingen en PWA-paden.
 Een gegenereerde `tests/focus-fixtures.html` gebruikt de echte renderer voor
 24 snelheid/helling-combinaties; dit is uitsluitend een lokale visuele testpagina.
-Zie `UPDATE-REPORT-2026-09-02.md` voor de volledige tweede audit en fysieke iPhone-tests.
+Zie `REFINED-SCHEMA-AUDIT-2026-09-02.md` voor de huidige controle en rekenverschillen.
+Eerdere auditrapporten en oudere Markdown-schema's zijn uitsluitend historisch;
+de app laadt alleen `training-data.js` uit de hierboven genoemde verfijnde bron.

@@ -15,13 +15,13 @@ test("manifest en assets gebruiken GitHub Pages-veilige relatieve paden", () => 
   assert.equal(manifest.display, "standalone");
   assert.ok(manifest.icons.every((icon) => icon.src.startsWith("./")));
   assert.match(html, /apple-mobile-web-app-capable/);
-  assert.match(html, /apple-touch-icon\.png\?v=2026\.09\.02-2/);
-  assert.match(html, /manifest\.json\?v=2026\.09\.02-2/);
-  assert.match(html, /training-data\.js\?v=2026\.09\.02-2/);
-  assert.match(html, /notification-model\.js\?v=2026\.09\.02-2/);
-  assert.match(html, /push-config\.js\?v=2026\.09\.02-2/);
-  assert.match(read("app.js"), /APP_VERSION = "2026\.09\.02-2"/);
-  assert.match(read("service-worker.js"), /APP_VERSION = "2026\.09\.02-2"/);
+  assert.match(html, /apple-touch-icon\.png\?v=2026\.09\.02-3/);
+  assert.match(html, /manifest\.json\?v=2026\.09\.02-3/);
+  assert.match(html, /training-data\.js\?v=2026\.09\.02-3/);
+  assert.match(html, /notification-model\.js\?v=2026\.09\.02-3/);
+  assert.match(html, /push-config\.js\?v=2026\.09\.02-3/);
+  assert.match(read("app.js"), /APP_VERSION = "2026\.09\.02-3"/);
+  assert.match(read("service-worker.js"), /APP_VERSION = "2026\.09\.02-3"/);
   assert.doesNotMatch(html, /(?:href|src)="\//);
   assert.match(html, /<strong>Marathon 3:30<\/strong>/);
   assert.doesNotMatch(html, /header-brand[\s\S]*?<strong>Marathon 3:30\s*<i/);
@@ -109,11 +109,11 @@ test("nieuwe pushworker verwijdert oude appcaches, blijft actief en gebruikt net
 });
 
 test("definitieve bron is direct gegenereerd zonder oude schemacorrectielaag", () => {
-  const markdown = read("marathon-schema-3u30-definitief-2026.md");
+  const markdown = read("marathon-schema-3u30-definitief-verfijnd-2026.md");
   const data = read("training-data.js");
   assert.match(markdown, /MARATHONSCHEMA 3:30 — DEFINITIEVE CODEX-BRON/);
   assert.match(markdown, /## WEEK 47 — RACE WEEK/);
-  assert.match(data, /"sourceFile": "marathon-schema-3u30-definitief-2026\.md"/);
-  assert.match(data, /"schemaVersion": "marathon-3u30-definitief-2026\.09\.02-1"/);
+  assert.match(data, /"sourceFile": "marathon-schema-3u30-definitief-verfijnd-2026\.md"/);
+  assert.match(data, /"schemaVersion": "marathon-3u30-verfijnd-2026\.09\.02-1"/);
   assert.doesNotMatch(read("index.html"), /training-plan-v5/);
 });

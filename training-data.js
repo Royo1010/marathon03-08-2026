@@ -1,12 +1,12 @@
-// Generated from marathon-schema-3u30-definitief-2026.md. Edit the source, then regenerate.
+// Generated from marathon-schema-3u30-definitief-verfijnd-2026.md. Edit the source, then regenerate.
 window.MARATHON_PLAN = {
   "config": {
     "planId": "marathon-3u30-definitief-2026",
-    "planVersion": 6,
-    "schemaVersion": "marathon-3u30-definitief-2026.09.02-1",
-    "sourceFile": "marathon-schema-3u30-definitief-2026.md",
+    "planVersion": 7,
+    "schemaVersion": "marathon-3u30-verfijnd-2026.09.02-1",
+    "sourceFile": "marathon-schema-3u30-definitief-verfijnd-2026.md",
     "planName": "Marathonschema 3:30",
-    "planSubtitle": "Vier kerntrainingen per week en twee extra fitnesschecks",
+    "planSubtitle": "Vier trainingen per week, inclusief de fitnesschecks",
     "startDate": "2026-08-31",
     "endDate": "2026-11-22",
     "marathonDate": "2026-11-22",
@@ -951,7 +951,7 @@ window.MARATHON_PLAN = {
       "includesMarathon": false,
       "workouts": [
         {
-          "workoutId": "marathon-3u30-w38-t1",
+          "workoutId": "marathon-3u30-w38-t1-fitness-check-1",
           "weekNumber": 38,
           "trainingNumber": 1,
           "trainingLabel": "Training 1",
@@ -959,106 +959,22 @@ window.MARATHON_PLAN = {
           "dateLabel": "14 t/m 20 september 2026",
           "phaseId": "opbouw-confidence",
           "phaseName": "Opbouw en confidence",
-          "title": "Easy",
-          "category": "rustige-duur",
-          "tone": "easy",
-          "labels": [
-            "EASY"
-          ],
-          "surface": "loopband",
-          "isExtra": false,
-          "isFitnessCheck": false,
-          "fitnessCheckNumber": null,
-          "isTest": false,
-          "testNumber": null,
-          "groups": [
-            {
-              "groupId": "marathon-3u30-w38-t1-g1",
-              "kind": "sequence",
-              "label": "Exacte opbouw",
-              "repetitions": 1,
-              "segments": [
-                {
-                  "basis": "time",
-                  "durationSeconds": 300,
-                  "display": "5 min",
-                  "speedKmh": 9.2,
-                  "inclinePercent": 0.5,
-                  "type": "warming-up",
-                  "instruction": "",
-                  "segmentId": "marathon-3u30-w38-t1-s01"
-                },
-                {
-                  "basis": "time",
-                  "durationSeconds": 2700,
-                  "display": "45 min",
-                  "speedKmh": 10.1,
-                  "inclinePercent": 0.5,
-                  "type": "easy",
-                  "instruction": "",
-                  "segmentId": "marathon-3u30-w38-t1-s02"
-                },
-                {
-                  "basis": "time",
-                  "durationSeconds": 300,
-                  "display": "5 min",
-                  "speedKmh": 8.5,
-                  "inclinePercent": 0.5,
-                  "type": "cooling-down",
-                  "instruction": "",
-                  "segmentId": "marathon-3u30-w38-t1-s03"
-                }
-              ]
-            }
-          ],
-          "totalPlannedSeconds": 3300,
-          "totalPlannedLabel": "55 min",
-          "estimatedDistanceKm": 9.05,
-          "estimatedDistanceLabel": "±9,1 km",
-          "sourceSummary": "55 min · ongeveer 9,05 km",
-          "goal": "rustige omvang.",
-          "targetRpe": "3–4/10.",
-          "mentalGoal": "controle bewaren vóór de snelle training.",
-          "rationale": "rustige omvang. controle bewaren vóór de snelle training.",
-          "detailsSections": [],
-          "notes": [],
-          "recoveryStatus": "none",
-          "recoveryLabel": "Easy blijft easy",
-          "recoveryAdvice": "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
-          "orderWarning": "Bij oplopende plaatselijke pijn, technisch verval of controleverlies: aanpassen of stoppen.",
-          "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
-          "fueling": false,
-          "fullFuelRehearsal": false,
-          "nutrition": "",
-          "evaluation": null,
-          "protocolSignature": "[[300,null,9.2,0.5],[2700,null,10.1,0.5],[300,null,8.5,0.5]]"
-        },
-        {
-          "workoutId": "marathon-3u30-w38-fitness-check-1",
-          "weekNumber": 38,
-          "trainingNumber": null,
-          "trainingLabel": "Extra Fitness Check #1",
-          "weekId": "marathon-3u30-w38",
-          "dateLabel": "14 t/m 20 september 2026",
-          "phaseId": "opbouw-confidence",
-          "phaseName": "Opbouw en confidence",
-          "title": "Extra Fitness Check #1",
+          "title": "Fitness Check #1",
           "category": "testtraining",
           "tone": "test",
           "labels": [
-            "EXTRA FITNESS CHECK",
+            "FITNESS CHECK",
             "TEST"
           ],
           "surface": "loopband",
-          "isExtra": true,
+          "isExtra": false,
           "isFitnessCheck": true,
           "fitnessCheckNumber": 1,
           "isTest": true,
           "testNumber": "fitness-1",
           "groups": [
             {
-              "groupId": "marathon-3u30-w38-fitness-check-1-g1",
+              "groupId": "marathon-3u30-w38-t1-fitness-check-1-g1",
               "kind": "sequence",
               "label": "Vast vergelijkingsprotocol",
               "repetitions": 1,
@@ -1071,7 +987,7 @@ window.MARATHON_PLAN = {
                   "inclinePercent": 0.5,
                   "type": "warming-up",
                   "instruction": "",
-                  "segmentId": "marathon-3u30-w38-fitness-check-1-s01"
+                  "segmentId": "marathon-3u30-w38-t1-fitness-check-1-s01"
                 },
                 {
                   "basis": "time",
@@ -1081,7 +997,7 @@ window.MARATHON_PLAN = {
                   "inclinePercent": 0.5,
                   "type": "easy",
                   "instruction": "",
-                  "segmentId": "marathon-3u30-w38-fitness-check-1-s02"
+                  "segmentId": "marathon-3u30-w38-t1-fitness-check-1-s02"
                 },
                 {
                   "basis": "time",
@@ -1091,7 +1007,7 @@ window.MARATHON_PLAN = {
                   "inclinePercent": 0.5,
                   "type": "steady",
                   "instruction": "",
-                  "segmentId": "marathon-3u30-w38-fitness-check-1-s03"
+                  "segmentId": "marathon-3u30-w38-t1-fitness-check-1-s03"
                 },
                 {
                   "basis": "time",
@@ -1101,7 +1017,7 @@ window.MARATHON_PLAN = {
                   "inclinePercent": 1,
                   "type": "marathonpace",
                   "instruction": "",
-                  "segmentId": "marathon-3u30-w38-fitness-check-1-s04"
+                  "segmentId": "marathon-3u30-w38-t1-fitness-check-1-s04"
                 },
                 {
                   "basis": "time",
@@ -1111,7 +1027,7 @@ window.MARATHON_PLAN = {
                   "inclinePercent": 0.5,
                   "type": "cooling-down",
                   "instruction": "",
-                  "segmentId": "marathon-3u30-w38-fitness-check-1-s05"
+                  "segmentId": "marathon-3u30-w38-t1-fitness-check-1-s05"
                 }
               ]
             }
@@ -1119,7 +1035,7 @@ window.MARATHON_PLAN = {
           "totalPlannedSeconds": 2400,
           "totalPlannedLabel": "40 min",
           "estimatedDistanceKm": 6.958333333333333,
-          "estimatedDistanceLabel": "±7 km",
+          "estimatedDistanceLabel": "±6,96 km",
           "sourceSummary": "40 min · ongeveer 6,96 km.",
           "goal": "nulmeting voor vergelijking met week 42.",
           "targetRpe": "registreren per relevant blok; niet maximaal.",
@@ -1527,25 +1443,24 @@ window.MARATHON_PLAN = {
           "protocolSignature": "[[600,null,9.5,0.5],[6000,null,10,0.5],[600,null,10.5,0.5],[300,null,8.5,0.5]]"
         }
       ],
-      "plannedDistanceKm": 55.78333333333333,
-      "plannedDistanceLabel": "±55,8 km",
+      "plannedDistanceKm": 46.733333333333334,
+      "plannedDistanceLabel": "±46,7 km",
       "weekPhilosophy": {
         "theme": "BUILD + FITNESS CHECK #1",
         "summary": "Eerste 20K confidence run en submaximale nulmeting",
         "adaptations": [
-          "EASY",
-          "EXTRA FITNESS CHECK",
+          "FITNESS CHECK",
           "TEST",
           "QUALITY",
           "INTERVAL",
+          "EASY",
           "STEADY",
           "LONG RUN",
           "CONFIDENCE RUN",
           "20K CONFIDENCE"
         ],
         "why": [
-          "Training 1: rustige omvang.",
-          "Extra Fitness Check #1: nulmeting voor vergelijking met week 42.",
+          "Training 1: nulmeting voor vergelijking met week 42.",
           "Training 2: korte snelheidsreserve.",
           "Training 3: gecontroleerd eindigen zonder er een tempotraining van te maken.",
           "Training 4: ervaren dat 20 km een trainingsafstand kan zijn. Dit is geen prestatietest."
@@ -1644,7 +1559,7 @@ window.MARATHON_PLAN = {
           "recoveryAdvice": "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
           "orderWarning": "Bij oplopende plaatselijke pijn, technisch verval of controleverlies: aanpassen of stoppen.",
           "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
+          "outsideVariant": "Vanaf week 39 mag één gewone easytraining per week optioneel buiten worden uitgevoerd. Dit vervangt de loopbanduitvoering; het is geen extra training. De loopbandvariant blijft de standaard.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -1874,7 +1789,7 @@ window.MARATHON_PLAN = {
           "recoveryAdvice": "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
           "orderWarning": "Bij oplopende plaatselijke pijn, technisch verval of controleverlies: aanpassen of stoppen.",
           "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
+          "outsideVariant": "Vanaf week 39 mag één gewone easytraining per week optioneel buiten worden uitgevoerd. Dit vervangt de loopbanduitvoering; het is geen extra training. De loopbandvariant blijft de standaard.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -2111,7 +2026,7 @@ window.MARATHON_PLAN = {
           "recoveryAdvice": "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
           "orderWarning": "Bij oplopende plaatselijke pijn, technisch verval of controleverlies: aanpassen of stoppen.",
           "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
+          "outsideVariant": "Vanaf week 39 mag één gewone easytraining per week optioneel buiten worden uitgevoerd. Dit vervangt de loopbanduitvoering; het is geen extra training. De loopbandvariant blijft de standaard.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -2408,7 +2323,7 @@ window.MARATHON_PLAN = {
           "recoveryAdvice": "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
           "orderWarning": "Bij oplopende plaatselijke pijn, technisch verval of controleverlies: aanpassen of stoppen.",
           "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
+          "outsideVariant": "Vanaf week 39 mag één gewone easytraining per week optioneel buiten worden uitgevoerd. Dit vervangt de loopbanduitvoering; het is geen extra training. De loopbandvariant blijft de standaard.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -2614,7 +2529,7 @@ window.MARATHON_PLAN = {
           "recoveryAdvice": "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
           "orderWarning": "Bij oplopende plaatselijke pijn, technisch verval of controleverlies: aanpassen of stoppen.",
           "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
+          "outsideVariant": "Vanaf week 39 mag één gewone easytraining per week optioneel buiten worden uitgevoerd. Dit vervangt de loopbanduitvoering; het is geen extra training. De loopbandvariant blijft de standaard.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -2801,7 +2716,7 @@ window.MARATHON_PLAN = {
           "recoveryAdvice": "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
           "orderWarning": "Bij oplopende plaatselijke pijn, technisch verval of controleverlies: aanpassen of stoppen.",
           "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
+          "outsideVariant": "Vanaf week 39 mag één gewone easytraining per week optioneel buiten worden uitgevoerd. Dit vervangt de loopbanduitvoering; het is geen extra training. De loopbandvariant blijft de standaard.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -2936,11 +2851,11 @@ window.MARATHON_PLAN = {
       "endDate": "2026-10-18",
       "periodLabel": "12 t/m 18 oktober 2026",
       "weekType": "PEAK / MARATHON SPECIFIC + FITNESS CHECK #2",
-      "focus": "Identieke fitnesscheck en marathonpace na 150 minuten",
+      "focus": "Lichte volumeterugname, identieke fitnesscheck en MP na 150 minuten",
       "includesMarathon": false,
       "workouts": [
         {
-          "workoutId": "marathon-3u30-w42-t1",
+          "workoutId": "marathon-3u30-w42-t1-fitness-check-2",
           "weekNumber": 42,
           "trainingNumber": 1,
           "trainingLabel": "Training 1",
@@ -2948,106 +2863,22 @@ window.MARATHON_PLAN = {
           "dateLabel": "12 t/m 18 oktober 2026",
           "phaseId": "marathonspecifiek",
           "phaseName": "Marathonspecifieke piekfase",
-          "title": "Easy",
-          "category": "rustige-duur",
-          "tone": "easy",
-          "labels": [
-            "EASY"
-          ],
-          "surface": "loopband",
-          "isExtra": false,
-          "isFitnessCheck": false,
-          "fitnessCheckNumber": null,
-          "isTest": false,
-          "testNumber": null,
-          "groups": [
-            {
-              "groupId": "marathon-3u30-w42-t1-g1",
-              "kind": "sequence",
-              "label": "Exacte opbouw",
-              "repetitions": 1,
-              "segments": [
-                {
-                  "basis": "time",
-                  "durationSeconds": 300,
-                  "display": "5 min",
-                  "speedKmh": 9.2,
-                  "inclinePercent": 0.5,
-                  "type": "warming-up",
-                  "instruction": "",
-                  "segmentId": "marathon-3u30-w42-t1-s01"
-                },
-                {
-                  "basis": "time",
-                  "durationSeconds": 3000,
-                  "display": "50 min",
-                  "speedKmh": 10.2,
-                  "inclinePercent": 0.5,
-                  "type": "easy",
-                  "instruction": "",
-                  "segmentId": "marathon-3u30-w42-t1-s02"
-                },
-                {
-                  "basis": "time",
-                  "durationSeconds": 300,
-                  "display": "5 min",
-                  "speedKmh": 8.5,
-                  "inclinePercent": 0.5,
-                  "type": "cooling-down",
-                  "instruction": "",
-                  "segmentId": "marathon-3u30-w42-t1-s03"
-                }
-              ]
-            }
-          ],
-          "totalPlannedSeconds": 3600,
-          "totalPlannedLabel": "60 min",
-          "estimatedDistanceKm": 9.975,
-          "estimatedDistanceLabel": "±10 km",
-          "sourceSummary": "60 min · ongeveer 9,98 km",
-          "goal": "rustige aerobe omvang.",
-          "targetRpe": "3–4/10.",
-          "mentalGoal": "fris genoeg blijven voor de kwaliteit en lange duur.",
-          "rationale": "rustige aerobe omvang. fris genoeg blijven voor de kwaliteit en lange duur.",
-          "detailsSections": [],
-          "notes": [],
-          "recoveryStatus": "none",
-          "recoveryLabel": "Easy blijft easy",
-          "recoveryAdvice": "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
-          "orderWarning": "Bij oplopende plaatselijke pijn, technisch verval of controleverlies: aanpassen of stoppen.",
-          "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
-          "fueling": false,
-          "fullFuelRehearsal": false,
-          "nutrition": "",
-          "evaluation": null,
-          "protocolSignature": "[[300,null,9.2,0.5],[3000,null,10.2,0.5],[300,null,8.5,0.5]]"
-        },
-        {
-          "workoutId": "marathon-3u30-w42-fitness-check-2",
-          "weekNumber": 42,
-          "trainingNumber": null,
-          "trainingLabel": "Extra Fitness Check #2",
-          "weekId": "marathon-3u30-w42",
-          "dateLabel": "12 t/m 18 oktober 2026",
-          "phaseId": "marathonspecifiek",
-          "phaseName": "Marathonspecifieke piekfase",
-          "title": "Extra Fitness Check #2",
+          "title": "Fitness Check #2",
           "category": "testtraining",
           "tone": "test",
           "labels": [
-            "EXTRA FITNESS CHECK",
+            "FITNESS CHECK",
             "TEST"
           ],
           "surface": "loopband",
-          "isExtra": true,
+          "isExtra": false,
           "isFitnessCheck": true,
           "fitnessCheckNumber": 2,
           "isTest": true,
           "testNumber": "fitness-2",
           "groups": [
             {
-              "groupId": "marathon-3u30-w42-fitness-check-2-g1",
+              "groupId": "marathon-3u30-w42-t1-fitness-check-2-g1",
               "kind": "sequence",
               "label": "Vast vergelijkingsprotocol",
               "repetitions": 1,
@@ -3060,7 +2891,7 @@ window.MARATHON_PLAN = {
                   "inclinePercent": 0.5,
                   "type": "warming-up",
                   "instruction": "",
-                  "segmentId": "marathon-3u30-w42-fitness-check-2-s01"
+                  "segmentId": "marathon-3u30-w42-t1-fitness-check-2-s01"
                 },
                 {
                   "basis": "time",
@@ -3070,7 +2901,7 @@ window.MARATHON_PLAN = {
                   "inclinePercent": 0.5,
                   "type": "easy",
                   "instruction": "",
-                  "segmentId": "marathon-3u30-w42-fitness-check-2-s02"
+                  "segmentId": "marathon-3u30-w42-t1-fitness-check-2-s02"
                 },
                 {
                   "basis": "time",
@@ -3080,7 +2911,7 @@ window.MARATHON_PLAN = {
                   "inclinePercent": 0.5,
                   "type": "steady",
                   "instruction": "",
-                  "segmentId": "marathon-3u30-w42-fitness-check-2-s03"
+                  "segmentId": "marathon-3u30-w42-t1-fitness-check-2-s03"
                 },
                 {
                   "basis": "time",
@@ -3090,7 +2921,7 @@ window.MARATHON_PLAN = {
                   "inclinePercent": 1,
                   "type": "marathonpace",
                   "instruction": "",
-                  "segmentId": "marathon-3u30-w42-fitness-check-2-s04"
+                  "segmentId": "marathon-3u30-w42-t1-fitness-check-2-s04"
                 },
                 {
                   "basis": "time",
@@ -3100,7 +2931,7 @@ window.MARATHON_PLAN = {
                   "inclinePercent": 0.5,
                   "type": "cooling-down",
                   "instruction": "",
-                  "segmentId": "marathon-3u30-w42-fitness-check-2-s05"
+                  "segmentId": "marathon-3u30-w42-t1-fitness-check-2-s05"
                 }
               ]
             }
@@ -3108,7 +2939,7 @@ window.MARATHON_PLAN = {
           "totalPlannedSeconds": 2400,
           "totalPlannedLabel": "40 min",
           "estimatedDistanceKm": 6.958333333333333,
-          "estimatedDistanceLabel": "±7 km",
+          "estimatedDistanceLabel": "±6,96 km",
           "sourceSummary": "40 min · ongeveer 6,96 km.",
           "goal": "resultaten logisch vergelijken met week 38.",
           "targetRpe": "registreer dezelfde velden als in week 38.",
@@ -3391,7 +3222,7 @@ window.MARATHON_PLAN = {
           "recoveryAdvice": "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
           "orderWarning": "Bij oplopende plaatselijke pijn, technisch verval of controleverlies: aanpassen of stoppen.",
           "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
+          "outsideVariant": "Vanaf week 39 mag één gewone easytraining per week optioneel buiten worden uitgevoerd. Dit vervangt de loopbanduitvoering; het is geen extra training. De loopbandvariant blijft de standaard.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -3529,25 +3360,24 @@ window.MARATHON_PLAN = {
           "protocolSignature": "[[600,null,9.5,0.5],[6900,null,10.1,0.5],[1200,null,11.5,1],[300,null,11.8,1],[600,null,12,1],[300,null,8.5,0.5]]"
         }
       ],
-      "plannedDistanceKm": 68.88333333333334,
-      "plannedDistanceLabel": "±68,9 km",
+      "plannedDistanceKm": 58.90833333333333,
+      "plannedDistanceLabel": "±58,9 km",
       "weekPhilosophy": {
         "theme": "PEAK / MARATHON SPECIFIC + FITNESS CHECK #2",
-        "summary": "Identieke fitnesscheck en marathonpace na 150 minuten",
+        "summary": "Lichte volumeterugname, identieke fitnesscheck en MP na 150 minuten",
         "adaptations": [
-          "EASY",
-          "EXTRA FITNESS CHECK",
+          "FITNESS CHECK",
           "TEST",
           "QUALITY",
           "CONTROLLED FAST",
+          "EASY",
           "STEADY",
           "LONG RUN",
           "MARATHON SPECIFIC",
           "MP UNDER FATIGUE"
         ],
         "why": [
-          "Training 1: rustige aerobe omvang.",
-          "Extra Fitness Check #2: resultaten logisch vergelijken met week 38.",
+          "Training 1: resultaten logisch vergelijken met week 38.",
           "Training 2: snelheidsreserve onderhouden zonder maximale intervaltraining.",
           "Training 3: middellange omvang met een korte beheerste finish.",
           "Training 4: progressief leren versnellen en uiteindelijk MP beheersen onder diepe vermoeidheid."
@@ -3646,7 +3476,7 @@ window.MARATHON_PLAN = {
           "recoveryAdvice": "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
           "orderWarning": "Bij oplopende plaatselijke pijn, technisch verval of controleverlies: aanpassen of stoppen.",
           "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
+          "outsideVariant": "Vanaf week 39 mag één gewone easytraining per week optioneel buiten worden uitgevoerd. Dit vervangt de loopbanduitvoering; het is geen extra training. De loopbandvariant blijft de standaard.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -3866,7 +3696,7 @@ window.MARATHON_PLAN = {
           "recoveryAdvice": "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
           "orderWarning": "Bij oplopende plaatselijke pijn, technisch verval of controleverlies: aanpassen of stoppen.",
           "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
+          "outsideVariant": "Vanaf week 39 mag één gewone easytraining per week optioneel buiten worden uitgevoerd. Dit vervangt de loopbanduitvoering; het is geen extra training. De loopbandvariant blijft de standaard.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -4100,7 +3930,7 @@ window.MARATHON_PLAN = {
           "recoveryAdvice": "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
           "orderWarning": "Bij oplopende plaatselijke pijn, technisch verval of controleverlies: aanpassen of stoppen.",
           "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
+          "outsideVariant": "Vanaf week 39 mag één gewone easytraining per week optioneel buiten worden uitgevoerd. Dit vervangt de loopbanduitvoering; het is geen extra training. De loopbandvariant blijft de standaard.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -4340,7 +4170,7 @@ window.MARATHON_PLAN = {
           "recoveryAdvice": "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
           "orderWarning": "Bij oplopende plaatselijke pijn, technisch verval of controleverlies: aanpassen of stoppen.",
           "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
+          "outsideVariant": "Vanaf week 39 mag één gewone easytraining per week optioneel buiten worden uitgevoerd. Dit vervangt de loopbanduitvoering; het is geen extra training. De loopbandvariant blijft de standaard.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -4393,8 +4223,8 @@ window.MARATHON_PLAN = {
                 },
                 {
                   "basis": "time",
-                  "durationSeconds": 4500,
-                  "display": "75 min",
+                  "durationSeconds": 3900,
+                  "display": "65 min",
                   "speedKmh": 10,
                   "inclinePercent": 0.5,
                   "type": "easy",
@@ -4454,15 +4284,15 @@ window.MARATHON_PLAN = {
               ]
             }
           ],
-          "totalPlannedSeconds": 9900,
-          "totalPlannedLabel": "165 min",
-          "estimatedDistanceKm": 29.265,
-          "estimatedDistanceLabel": "±29,3 km",
-          "sourceSummary": "165 min · ongeveer 29,27 km; toon afgerond ±29,3 km",
-          "goal": "testen of MP beheerst blijft nadat al 85 minuten is gelopen.",
+          "totalPlannedSeconds": 9300,
+          "totalPlannedLabel": "155 min",
+          "estimatedDistanceKm": 27.598333333333336,
+          "estimatedDistanceLabel": "±27,6 km",
+          "sourceSummary": "155 min · ongeveer 27,60 km; toon afgerond ±27,6 km",
+          "goal": "testen of MP beheerst blijft nadat al 75 minuten is gelopen, zonder een week na de 30K opnieuw bijna 30 km te hoeven lopen.",
           "targetRpe": "tweede MP-blok idealiter maximaal ongeveer 7–7,5/10; techniek blijft goed; daarna normaal kunnen doorlopen.",
-          "mentalGoal": "“Ik heb ruim 29 km gelopen en kon diep in de training tweemaal 30 minuten MP draaien.”",
-          "rationale": "testen of MP beheerst blijft nadat al 85 minuten is gelopen. “Ik heb ruim 29 km gelopen en kon diep in de training tweemaal 30 minuten MP draaien.”",
+          "mentalGoal": "“Ik heb ruim 27 km gelopen en kon diep in de training tweemaal 30 minuten MP draaien.”",
+          "rationale": "testen of MP beheerst blijft nadat al 75 minuten is gelopen, zonder een week na de 30K opnieuw bijna 30 km te hoeven lopen. “Ik heb ruim 27 km gelopen en kon diep in de training tweemaal 30 minuten MP draaien.”",
           "detailsSections": [
             {
               "title": "Ondergrond",
@@ -4488,11 +4318,11 @@ window.MARATHON_PLAN = {
           "fullFuelRehearsal": true,
           "nutrition": "Oefen voor grote lange trainingen geleidelijk richting 60–75 gram koolhydraten per uur, indien goed verdragen. Bouw dit niet ineens op in de zwaarste sessie; gebruik in de laatste weken geen nieuwe producten. Gebruik dezelfde producten, timing, beoogde hoeveelheid per uur en een vergelijkbare drinkstrategie als op raceday.",
           "evaluation": "tweede MP-blok idealiter maximaal ongeveer 7–7,5/10; techniek blijft goed; daarna normaal kunnen doorlopen.",
-          "protocolSignature": "[[600,null,9.5,0.5],[4500,null,10,0.5],[1800,null,12,1],[480,null,9.8,0.5],[1800,null,12,1],[420,null,10,0.5],[300,null,8.5,0.5]]"
+          "protocolSignature": "[[600,null,9.5,0.5],[3900,null,10,0.5],[1800,null,12,1],[480,null,9.8,0.5],[1800,null,12,1],[420,null,10,0.5],[300,null,8.5,0.5]]"
         }
       ],
-      "plannedDistanceKm": 53.64666666666667,
-      "plannedDistanceLabel": "±53,6 km",
+      "plannedDistanceKm": 51.980000000000004,
+      "plannedDistanceLabel": "±52 km",
       "weekPhilosophy": {
         "theme": "BELANGRIJKSTE MARATHONSPECIFIEKE WEEK",
         "summary": "Minder volume, met 2 × 30 min MP onder vermoeidheid",
@@ -4510,11 +4340,11 @@ window.MARATHON_PLAN = {
           "Training 1: herstellen van de 30K en aerobe routine behouden.",
           "Training 2: scherpte en snelheidsreserve onderhouden, niet uitputten.",
           "Training 3: herstellen vóór de belangrijkste specifieke test.",
-          "Training 4: testen of MP beheerst blijft nadat al 85 minuten is gelopen."
+          "Training 4: testen of MP beheerst blijft nadat al 75 minuten is gelopen, zonder een week na de 30K opnieuw bijna 30 km te hoeven lopen."
         ],
         "targetLink": "Van aerobe omvang en snelheidsreserve naar controle op 12,0 km/u onder vermoeidheid, gevolgd door taper en frisheid.",
         "whyNotMore": "Easy blijft echt easy: RPE 3–4/10 en volledige zinnen kunnen spreken. Een test is diagnostiek, geen verplichting om jezelf kapot te lopen. De taper in week 45–47 is beschermd: geen extra kilometers, extra tests of extra trainingsdagen. De langste duurloop blijft de 30K Confidence Run in week 43: ongeveer 30,36 km. Niet verlengen naar 32, 33 of 35 km. Bij oplopende plaatselijke pijn, technisch verval of duidelijke controleproblemen wordt een training aangepast of gestopt.",
-        "confidence": "“Ik heb ruim 29 km gelopen en kon diep in de training tweemaal 30 minuten MP draaien.”"
+        "confidence": "“Ik heb ruim 27 km gelopen en kon diep in de training tweemaal 30 minuten MP draaien.”"
       }
     },
     {
@@ -4607,7 +4437,7 @@ window.MARATHON_PLAN = {
           "recoveryAdvice": "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
           "orderWarning": "Taper beschermd: geen extra volume, tests of trainingsdagen.",
           "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
+          "outsideVariant": "Vanaf week 39 mag één gewone easytraining per week optioneel buiten worden uitgevoerd. Dit vervangt de loopbanduitvoering; het is geen extra training. De loopbandvariant blijft de standaard.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -4828,7 +4658,7 @@ window.MARATHON_PLAN = {
           "recoveryAdvice": "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
           "orderWarning": "Taper beschermd: geen extra volume, tests of trainingsdagen.",
           "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
+          "outsideVariant": "Vanaf week 39 mag één gewone easytraining per week optioneel buiten worden uitgevoerd. Dit vervangt de loopbanduitvoering; het is geen extra training. De loopbandvariant blijft de standaard.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -5064,7 +4894,7 @@ window.MARATHON_PLAN = {
           "recoveryAdvice": "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
           "orderWarning": "Taper beschermd: geen extra volume, tests of trainingsdagen.",
           "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
+          "outsideVariant": "Vanaf week 39 mag één gewone easytraining per week optioneel buiten worden uitgevoerd. Dit vervangt de loopbanduitvoering; het is geen extra training. De loopbandvariant blijft de standaard.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -5376,7 +5206,7 @@ window.MARATHON_PLAN = {
           "recoveryAdvice": "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
           "orderWarning": "Taper beschermd: geen extra volume, tests of trainingsdagen.",
           "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
+          "outsideVariant": "Vanaf week 39 mag één gewone easytraining per week optioneel buiten worden uitgevoerd. Dit vervangt de loopbanduitvoering; het is geen extra training. De loopbandvariant blijft de standaard.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -5601,7 +5431,7 @@ window.MARATHON_PLAN = {
           "recoveryAdvice": "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
           "orderWarning": "Taper beschermd: geen extra volume, tests of trainingsdagen.",
           "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
+          "outsideVariant": "Vanaf week 39 mag één gewone easytraining per week optioneel buiten worden uitgevoerd. Dit vervangt de loopbanduitvoering; het is geen extra training. De loopbandvariant blijft de standaard.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -5881,7 +5711,7 @@ window.MARATHON_PLAN = {
           "recoveryAdvice": "uiterlijk de dag vóór de volledige rustdag uitvoeren; minimaal één volledige rustdag vóór de marathon.",
           "orderWarning": "uiterlijk de dag vóór de volledige rustdag uitvoeren; minimaal één volledige rustdag vóór de marathon.",
           "locationStatus": "Primair loopband",
-          "outsideVariant": "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken.",
+          "outsideVariant": "Vanaf week 39 mag één gewone easytraining per week optioneel buiten worden uitgevoerd. Dit vervangt de loopbanduitvoering; het is geen extra training. De loopbandvariant blijft de standaard.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -6351,6 +6181,42 @@ window.MARATHON_PLAN = {
       "title": "Marathon — 22 NOVEMBER 2026"
     }
   },
+  "previousWorkoutsV6": {
+    "marathon-3u30-w38-t1": {
+      "signature": "[[300,null,9.2,0.5],[2700,null,10.1,0.5],[300,null,8.5,0.5]]",
+      "distanceKm": 9.05,
+      "durationSeconds": 3300,
+      "title": "Easy"
+    },
+    "marathon-3u30-w38-fitness-check-1": {
+      "signature": "[[300,null,9,0.5],[600,null,10,0.5],[600,null,11,0.5],[600,null,12,1],[300,null,8.5,0.5]]",
+      "distanceKm": 6.958333333333333,
+      "durationSeconds": 2400,
+      "title": "Extra Fitness Check #1"
+    },
+    "marathon-3u30-w42-t1": {
+      "signature": "[[300,null,9.2,0.5],[3000,null,10.2,0.5],[300,null,8.5,0.5]]",
+      "distanceKm": 9.975,
+      "durationSeconds": 3600,
+      "title": "Easy"
+    },
+    "marathon-3u30-w42-fitness-check-2": {
+      "signature": "[[300,null,9,0.5],[600,null,10,0.5],[600,null,11,0.5],[600,null,12,1],[300,null,8.5,0.5]]",
+      "distanceKm": 6.958333333333333,
+      "durationSeconds": 2400,
+      "title": "Extra Fitness Check #2"
+    },
+    "marathon-3u30-w44-t4": {
+      "signature": "[[600,null,9.5,0.5],[4500,null,10,0.5],[1800,null,12,1],[480,null,9.8,0.5],[1800,null,12,1],[420,null,10,0.5],[300,null,8.5,0.5]]",
+      "distanceKm": 29.265,
+      "durationSeconds": 9900,
+      "title": "Key Marathon Specific Test: 2 × 30 min MP under fatigue"
+    }
+  },
+  "workoutAliases": {
+    "marathon-3u30-w38-fitness-check-1": "marathon-3u30-w38-t1-fitness-check-1",
+    "marathon-3u30-w42-fitness-check-2": "marathon-3u30-w42-t1-fitness-check-2"
+  },
   "guidance": {
     "philosophy": [
       "Easy blijft echt easy: RPE 3–4/10 en volledige zinnen kunnen spreken.",
@@ -6465,8 +6331,9 @@ window.MARATHON_PLAN = {
       }
     ],
     "scheduling": [
-      "Vier reguliere loopdagen per week. Alleen W38 en W42 hebben een extra Fitness Check, geen structurele vijfde loopdag.",
-      "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3."
+      "Exact vier looptrainingen per week. In W38 en W42 vervangt de Fitness Check Training 1; er is geen vijfde loopdag.",
+      "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
+      "Vanaf week 39 mag één gewone easytraining per week optioneel buiten. Dit is geen extra training; de loopbandvariant blijft standaard."
     ],
     "suggestedSequences": [
       "Trainingsdagen zijn vrij te kiezen. Plaats minimaal één rustdag tussen Training 2 en Training 4; laat op opeenvolgende loopdagen één sessie easy zijn."
@@ -6531,8 +6398,8 @@ window.MARATHON_PLAN = {
     "officialTests": [
       {
         "week": 38,
-        "training": "extra",
-        "title": "Extra Fitness Check #1",
+        "training": 1,
+        "title": "Fitness Check #1",
         "question": "nulmeting voor vergelijking met week 42."
       },
       {
@@ -6549,8 +6416,8 @@ window.MARATHON_PLAN = {
       },
       {
         "week": 42,
-        "training": "extra",
-        "title": "Extra Fitness Check #2",
+        "training": 1,
+        "title": "Fitness Check #2",
         "question": "resultaten logisch vergelijken met week 38."
       },
       {
@@ -6563,7 +6430,7 @@ window.MARATHON_PLAN = {
         "week": 44,
         "training": 4,
         "title": "Key Marathon Specific Test: 2 × 30 min MP under fatigue",
-        "question": "testen of MP beheerst blijft nadat al 85 minuten is gelopen."
+        "question": "testen of MP beheerst blijft nadat al 75 minuten is gelopen, zonder een week na de 30K opnieuw bijna 30 km te hoeven lopen."
       }
     ],
     "testTimeline": [

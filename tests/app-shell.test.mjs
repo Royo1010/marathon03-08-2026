@@ -26,7 +26,7 @@ function createStorage(seed = new Map()) {
   };
 }
 
-function createHarness(storageValues = new Map()) {
+function createHarness(storageValues = new Map(), search = "?date=2026-08-31") {
   let clock = Date.parse("2026-08-31T10:00:00Z");
   let intervalCallback;
   class TestDate extends Date {
@@ -55,7 +55,7 @@ function createHarness(storageValues = new Map()) {
   const window = {
     document,
     localStorage,
-    location: { search: "?date=2026-08-31", href: "https://example.test/marathon-330/?date=2026-08-31" },
+    location: { search, href: `https://example.test/marathon-330/${search}` },
     navigator: {},
     confirm() { return true; },
     scrollTo() {},
@@ -170,12 +170,14 @@ test("definitieve fitnesschecks, herstelmetadata en weekfilosofie zijn volledig 
   const week38 = harness.context.window.MARATHON_PLAN.weeks.find((week) => week.weekNumber === 38);
   const check = week38.workouts.find((workout) => workout.isFitnessCheck);
 
-  assert.equal((harness.app.innerHTML.match(/<article class="training-card/g) || []).length, 5);
+  assert.equal((harness.app.innerHTML.match(/<article class="training-card/g) || []).length, 4);
   assert.match(harness.app.innerHTML, /Waarom niet meer of harder/);
   assert.match(harness.app.innerHTML, /vierde training|20K confidence/i);
   assert.match(harness.app.innerHTML, /Fitness Check #1/);
   assert.match(harness.app.innerHTML, /Rustige dag aanbevolen/);
-  assert.match(harness.app.innerHTML, /EXTRA FITNESS CHECK/);
+  assert.match(harness.app.innerHTML, /FITNESS CHECK/);
+  assert.doesNotMatch(harness.app.innerHTML, /EXTRA FITNESS CHECK/);
+  assert.equal(check.trainingNumber, 1);
 
   harness.click({ "[data-toggle-workout]": { dataset: { toggleWorkout: check.workoutId } } });
   assert.match(harness.app.innerHTML, /Na ieder blok van 10 minuten/);
@@ -204,14 +206,14 @@ test("Schema, Informatie en Marathonoverzicht zijn bereikbaar", () => {
   harness.click({ "[data-view]": { dataset: { view: "info" } } });
   assert.match(harness.app.innerHTML, /Tempo en afkortingen/);
   assert.match(harness.app.innerHTML, /Inspanningsniveaus/);
-  assert.match(harness.app.innerHTML, /Versie 2026\.09\.02-2/);
+  assert.match(harness.app.innerHTML, /Versie 2026\.09\.02-3/);
 
   harness.brandHome.click();
   assert.equal(harness.context.window.MarathonApp.state.view, "marathon");
   assert.match(harness.app.innerHTML, /Marathon 3:30/);
   assert.match(harness.app.innerHTML, /83[\s\S]*Dagen te gaan/);
-  assert.match(harness.app.innerHTML, /49[\s\S]*Trainingen te gaan/);
-  assert.match(harness.app.innerHTML, /0 van 49 trainingen voltooid/);
+  assert.match(harness.app.innerHTML, /47[\s\S]*Trainingen te gaan/);
+  assert.match(harness.app.innerHTML, /0 van 47 trainingen voltooid/);
   assert.match(harness.app.innerHTML, /Gepland[\s\S]*km vóór de marathon/);
   assert.match(harness.app.innerHTML, /Weekvolume/);
   assert.match(harness.app.innerHTML, /Cumulatieve opbouw/);
@@ -233,7 +235,7 @@ test("Marathonoverzicht rekent voltooide trainingen en kilometers uit actuele vo
   harness.click({ "[data-toggle-complete]": { dataset: { toggleComplete: workout.workoutId } } });
   harness.brandHome.click();
 
-  assert.match(harness.app.innerHTML, /1 van 49 trainingen voltooid/);
+  assert.match(harness.app.innerHTML, /1 van 47 trainingen voltooid/);
   assert.match(harness.app.innerHTML, /Voltooid[\s\S]*7,3[\s\S]*km gelogd/);
   assert.match(harness.app.innerHTML, /Week 36/);
   assert.match(harness.app.innerHTML, /Laatste voltooid[\s\S]*Week 36 · Training 1/);
@@ -243,7 +245,7 @@ test("Schema en dashboard delen dezelfde centrale weekvolumes", () => {
   const harness = createHarness();
   const appApi = harness.context.window.MarathonApp;
   const plan = harness.context.window.MARATHON_PLAN;
-  const expected = [38.98, 43.71, 55.78, 54.20, 42.55, 64.91, 68.88, 67.73, 53.65, 47.03, 37.72, 58.15];
+  const expected = [38.98, 43.71, 46.73, 54.20, 42.55, 64.91, 58.91, 67.73, 51.98, 47.03, 37.72, 58.15];
 
   assert.deepEqual(Array.from(plan.weeks, (week) => Number(appApi.getWeekPlannedKm(week).toFixed(2))), expected);
   assert.deepEqual(Array.from(appApi.dashboardMetrics().weekly, (week) => Number(week.plannedKm.toFixed(2))), expected);
@@ -332,8 +334,8 @@ test("Start training schakelt naar rustige Focus Mode en Stop herstelt de voorbe
   assert.match(harness.app.innerHTML, /Nog in dit blok/);
   assert.match(harness.app.innerHTML, /data-focus-current-speed>9,5</);
   assert.match(harness.app.innerHTML, /aria-label="Helling 0,5 procent"/);
-  assert.match(harness.app.innerHTML, /data-focus-incline-value>0,5<\/b><small aria-hidden="true" data-focus-incline-unit >%<\/small>/);
-  assert.doesNotMatch(harness.app.innerHTML, /½/);
+  assert.match(harness.app.innerHTML, /data-focus-incline-value>½<\/b><small aria-hidden="true" data-focus-incline-unit hidden>%<\/small>/);
+  assert.doesNotMatch(harness.app.innerHTML, /½%/);
   assert.doesNotMatch(harness.app.innerHTML, /Daarna|focus-next/);
   assert.match(harness.app.innerHTML, /Blok 1 van 8/);
   assert.equal((harness.app.innerHTML.match(/data-focus-queue-index=/g) || []).length, 8);
@@ -566,14 +568,14 @@ test("migratie behoudt voortgang, echte historische kilometers en alleen vergeli
   const values = new Map([["marathon330TrainingAppData_v1", JSON.stringify(raw)], ["unrelated", "laat staan"]]);
   const h = createHarness(values);
   const saved = JSON.parse(values.get("marathon330TrainingAppData_v1"));
-  assert.equal(saved.appDataVersion, 4);
+  assert.equal(saved.appDataVersion, 5);
   assert.equal(saved.workoutLogs[id].plannedDistanceAtCompletion, old[id].distanceKm);
   assert.equal(saved.workoutLogs[id].plannedSecondsAtCompletion, old[id].durationSeconds);
   assert.equal(saved.workoutLogs[id].note, "Oude uitvoering");
   assert.equal(saved.workoutLogs[id].rpe, 7);
   assert.equal(saved.testResults[id], undefined);
   assert.deepEqual(saved.legacyData.previousTestProtocols[id].result, raw.testResults[id]);
-  assert.deepEqual(saved.testResults[fitness], raw.testResults[fitness]);
+  assert.deepEqual(saved.testResults["marathon-3u30-w38-t1-fitness-check-1"], raw.testResults[fitness]);
   assert.equal(saved.userSettings.customSetting, true);
   assert.equal(saved.nutritionLogs[id].note, "Behouden");
   assert.equal(saved.uiState.custom, true);
@@ -582,7 +584,7 @@ test("migratie behoudt voortgang, echte historische kilometers en alleen vergeli
   createHarness(values);
   assert.deepEqual(JSON.parse(values.get("marathon330TrainingAppData_v1")), saved, "tweede opening migreert niet opnieuw");
   h.change({ "[data-week-select]": true, value: "6" });
-  h.click({ "[data-toggle-workout]": { dataset: { toggleWorkout: "marathon-3u30-w42-fitness-check-2" } } });
+  h.click({ "[data-toggle-workout]": { dataset: { toggleWorkout: "marathon-3u30-w42-t1-fitness-check-2" } } });
   assert.match(h.app.innerHTML, /12 km\/u · W38[\s\S]*RPE 7.5 · Beheerst · Normaal/);
 });
 
@@ -616,8 +618,8 @@ test("blokwissel houdt cockpit live, laat handmatige scroll met rust en herstelt
   assert.equal(nodes.get("[data-focus-return-now]").hidden, false);
   h.advance(601);
   assert.equal(nodes.get("[data-focus-current-speed]").textContent, "10,5");
-  assert.equal(nodes.get("[data-focus-incline-value]").textContent, "0,5");
-  assert.equal(nodes.get("[data-focus-incline-unit]").hidden, false);
+  assert.equal(nodes.get("[data-focus-incline-value]").textContent, "½");
+  assert.equal(nodes.get("[data-focus-incline-unit]").hidden, true);
   assert.equal(nodes.get("[data-block-remaining]").textContent, "04:59");
   assert.equal(w.scrollY, 300);
   assert.equal(scrolls.length, 0);
@@ -728,14 +730,15 @@ test("maak browserfixture met alle 24 snelheid/helling-combinaties uit de echte 
   assert.equal(fixtures.length, 24);
 });
 
-test("Focus-helling heeft losse eenheid; 0, 0,5 en 1 blijven correct bij blokwissels", () => {
+test("halve helling toont alleen ½; 0 en 1 behouden hun eenheid bij blokwissels", () => {
   const h = createHarness();
   const id = "marathon-3u30-w47-t2";
   h.click({ "[data-open-treadmill]": { dataset: { openTreadmill: id } } });
-  assert.match(h.app.innerHTML, /<strong class="">½%<\/strong>/, "voorbereidingsweergave blijft ongewijzigd");
+  assert.match(h.app.innerHTML, /<strong class="">½<\/strong>/);
   h.click({ "[data-timer-start]": { dataset: { timerStart: id } } });
   for (const value of ["0", "0,5", "1"]) assert.ok(h.app.innerHTML.includes(`aria-label="Helling ${value} procent"`));
-  assert.doesNotMatch(h.app.innerHTML, /½/);
+  assert.doesNotMatch(h.app.innerHTML, /½%/);
+  assert.match(h.app.innerHTML, /data-focus-incline-value>½</);
   const attributes = {};
   const incline = { classList: createClassList(), setAttribute(k, v) { attributes[k] = v; } };
   const value = { textContent: "0,5" };
@@ -753,4 +756,82 @@ test("Focus-helling heeft losse eenheid; 0, 0,5 en 1 blijven correct bij blokwis
   assert.equal(unit.textContent, "%", "timerupdates verwijderen de eenheid niet");
   h.click({ "[data-timer-pause]": {} });
   assert.match(h.app.innerHTML, /Helling 0 procent/);
+});
+
+test("verfijnde migratie verplaatst dezelfde checks en archiveert gewijzigde trainingen zonder verlies", () => {
+  const key = "marathon330TrainingAppData_v1";
+  const oldIds = ["marathon-3u30-w38-t1", "marathon-3u30-w42-t1", "marathon-3u30-w44-t4", "marathon-3u30-w38-fitness-check-1", "marathon-3u30-w42-fitness-check-2"];
+  const unchanged = "marathon-3u30-w43-t4";
+  const raw = { appDataVersion: 4, meta: { schemaVersion: "marathon-3u30-definitief-2026.09.02-1" }, workoutLogs: {}, completedSessions: {}, testResults: {}, nutritionLogs: {}, userSettings: { preferred: true, notificationSettings: {} }, uiState: { selected: "week" } };
+  for (const id of [...oldIds, unchanged]) {
+    raw.workoutLogs[id] = { completed: true, note: `${id}: notitie`, completedDate: "2026-09-02" };
+    raw.completedSessions[id] = { completedAt: "2026-09-02" };
+    raw.testResults[id] = { block12Rpe: "6.5", note: `${id}: test` };
+    raw.nutritionLogs[id] = { carbsPerHour: "70", notes: `${id}: voeding` };
+    raw.userSettings.notificationSettings[id] = { enabled: false };
+  }
+  const values = new Map([[key, JSON.stringify(raw)], ["other-app", "behouden"]]);
+  const h = createHarness(values);
+  const saved = JSON.parse(values.get(key));
+  assert.equal(saved.appDataVersion, 5);
+  for (const id of oldIds) {
+    const archived = saved.legacyData.refinedPlanMigration.workouts[id];
+    for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) assert.deepEqual(archived[field], raw[field][id]);
+    assert.deepEqual(archived.notificationSettings, raw.userSettings.notificationSettings[id]);
+    assert.ok(archived.prescription.signature);
+    assert.equal(saved.workoutLogs[id], undefined);
+    assert.equal(saved.completedSessions[id], undefined);
+    assert.equal(saved.testResults[id], undefined);
+    assert.equal(saved.nutritionLogs[id], undefined);
+  }
+  for (const [oldId, newId] of Object.entries(h.context.window.MARATHON_PLAN.workoutAliases)) {
+    assert.equal(saved.workoutLogs[newId].note, raw.workoutLogs[oldId].note);
+    assert.equal(saved.workoutLogs[newId].workoutId, newId);
+    assert.equal(h.context.window.MarathonApp.isCompleted(newId), true);
+    for (const field of ["testResults", "nutritionLogs", "completedSessions"]) assert.deepEqual(saved[field][newId], raw[field][oldId]);
+  }
+  assert.equal(h.context.window.MarathonApp.isCompleted("marathon-3u30-w44-t4"), false);
+  assert.equal(saved.workoutLogs[unchanged].note, raw.workoutLogs[unchanged].note);
+  assert.deepEqual(saved.nutritionLogs[unchanged], raw.nutritionLogs[unchanged]);
+  assert.deepEqual(saved.testResults[unchanged], raw.testResults[unchanged]);
+  assert.equal(saved.userSettings.preferred, true);
+  assert.deepEqual(saved.uiState, raw.uiState);
+  assert.equal(values.get("other-app"), "behouden");
+  const reloaded = createHarness(values);
+  assert.deepEqual(JSON.parse(values.get(key)), saved, "migratie is idempotent");
+  reloaded.context.window.MarathonApp.saveTestField("marathon-3u30-w44-t4", "rpe", "7");
+  reloaded.click({ "[data-toggle-complete]": { dataset: { toggleComplete: "marathon-3u30-w44-t4" } } });
+  createHarness(values);
+  const latest = JSON.parse(values.get(key));
+  assert.equal(latest.testResults["marathon-3u30-w44-t4"].rpe, "7");
+  assert.equal(latest.workoutLogs["marathon-3u30-w44-t4"].plannedSecondsAtCompletion, 155 * 60);
+  assert.deepEqual(latest.legacyData, saved.legacyData, "nieuw resultaat overschrijft oud archief niet");
+});
+
+test("oude easytraining vinkt nieuwe Fitness Check niet af; conflicterende checkdata blijft bewaard", () => {
+  const key = "marathon330TrainingAppData_v1";
+  for (const [week, nr] of [[38, 1], [42, 2]]) {
+    const id = `marathon-3u30-w${week}-t1`;
+    const newId = `${id}-fitness-check-${nr}`;
+    const values = new Map([[key, JSON.stringify({ appDataVersion: 4, workoutLogs: { [id]: { completed: true, note: "oude easy" } }, completedSessions: { [id]: true } })]]);
+    const h = createHarness(values);
+    assert.equal(h.context.window.MarathonApp.isCompleted(newId), false);
+    assert.equal(JSON.parse(values.get(key)).legacyData.refinedPlanMigration.workouts[id].workoutLogs.note, "oude easy");
+    const oldId = `marathon-3u30-w${week}-fitness-check-${nr}`;
+    values.set(key, JSON.stringify({ appDataVersion: 4, testResults: { [oldId]: { note: "oud" }, [newId]: { note: "nieuw" } } }));
+    createHarness(values);
+    const saved = JSON.parse(values.get(key));
+    assert.equal(saved.testResults[newId].note, "nieuw");
+    assert.equal(saved.legacyData.refinedPlanMigration.workouts[oldId].testResults.note, "oud");
+  }
+});
+
+test("oude fitnesscheck-deeplinks openen de reguliere Training 1 met hetzelfde protocol", () => {
+  for (const [week, nr] of [[38, 1], [42, 2]]) {
+    const h = createHarness(new Map(), `?treadmill=marathon-3u30-w${week}-fitness-check-${nr}`);
+    assert.equal(h.context.window.MarathonApp.state.treadmillWorkoutId, `marathon-3u30-w${week}-t1-fitness-check-${nr}`);
+    assert.match(h.app.innerHTML, new RegExp(`Week ${week} · Training 1`));
+    assert.match(h.app.innerHTML, /40:00/);
+    assert.doesNotMatch(h.app.innerHTML, /EXTRA FITNESS CHECK/);
+  }
 });

@@ -1,0 +1,32 @@
+{
+  "marathon-3u30-w38-t1": {
+    "signature": "[[300,null,9.2,0.5],[2700,null,10.1,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 9.05,
+    "durationSeconds": 3300,
+    "title": "Easy"
+  },
+  "marathon-3u30-w38-fitness-check-1": {
+    "signature": "[[300,null,9,0.5],[600,null,10,0.5],[600,null,11,0.5],[600,null,12,1],[300,null,8.5,0.5]]",
+    "distanceKm": 6.958333333333333,
+    "durationSeconds": 2400,
+    "title": "Extra Fitness Check #1"
+  },
+  "marathon-3u30-w42-t1": {
+    "signature": "[[300,null,9.2,0.5],[3000,null,10.2,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 9.975,
+    "durationSeconds": 3600,
+    "title": "Easy"
+  },
+  "marathon-3u30-w42-fitness-check-2": {
+    "signature": "[[300,null,9,0.5],[600,null,10,0.5],[600,null,11,0.5],[600,null,12,1],[300,null,8.5,0.5]]",
+    "distanceKm": 6.958333333333333,
+    "durationSeconds": 2400,
+    "title": "Extra Fitness Check #2"
+  },
+  "marathon-3u30-w44-t4": {
+    "signature": "[[600,null,9.5,0.5],[4500,null,10,0.5],[1800,null,12,1],[480,null,9.8,0.5],[1800,null,12,1],[420,null,10,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 29.265,
+    "durationSeconds": 9900,
+    "title": "Key Marathon Specific Test: 2 × 30 min MP under fatigue"
+  }
+}

@@ -1,10 +1,10 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "2026.09.02-2";
+  const APP_VERSION = "2026.09.02-3";
   // Keep this key stable. Preserve existing logs; migrate additions and protocol changes.
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
-  const APP_DATA_VERSION = 4;
+  const APP_DATA_VERSION = 5;
   const plan = window.MARATHON_PLAN;
   const model = window.MARATHON_MODEL;
   const notifications = window.MARATHON_NOTIFICATIONS;
@@ -21,7 +21,8 @@
   const navButtons = Array.from(document.querySelectorAll("[data-view]"));
 
   const VIEWS = { WEEK: "week", PLAN: "plan", INFO: "info", MARATHON: "marathon", TREADMILL: "treadmill" };
-  const initialTreadmillWorkoutId = new URLSearchParams(window.location.search).get("treadmill");
+  const requestedTreadmillWorkoutId = new URLSearchParams(window.location.search).get("treadmill");
+  const initialTreadmillWorkoutId = plan.workoutAliases?.[requestedTreadmillWorkoutId] || requestedTreadmillWorkoutId;
   const state = {
     view: workouts.some((workout) => workout.workoutId === initialTreadmillWorkoutId) ? VIEWS.TREADMILL : VIEWS.WEEK,
     viewedWeekIndex: currentPlanWeekIndex(),
@@ -151,9 +152,53 @@
     };
   }
 
+  function migrateRefinedWorkouts(raw) {
+    const sourceSchema = raw.meta?.schemaVersion || "onbekend";
+    const archive = (id) => {
+      const entry = {};
+      for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) {
+        if (isObject(raw[field]) && Object.hasOwn(raw[field], id)) entry[field] = raw[field][id];
+      }
+      const settings = raw.userSettings?.notificationSettings?.[id];
+      if (settings) entry.notificationSettings = settings;
+      if (!Object.keys(entry).length) return;
+      if (!isObject(raw.legacyData)) raw.legacyData = {};
+      raw.legacyData.refinedPlanMigration ||= { sourceSchema, archivedAt: nowIso(), workouts: {} };
+      const previous = sourceSchema === "marathon-3u30-definitief-2026.09.01-1" ? plan.previousWorkouts : plan.previousWorkoutsV6;
+      raw.legacyData.refinedPlanMigration.workouts[id] ||= { ...entry, prescription: previous?.[id] || null };
+    };
+    const remove = (id) => {
+      for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) {
+        if (isObject(raw[field])) delete raw[field][id];
+      }
+      if (isObject(raw.userSettings?.notificationSettings)) delete raw.userSettings.notificationSettings[id];
+    };
+    // Same fitness protocol, new regular-session identity. Preserve conflicts in the archive.
+    for (const [oldId, newId] of Object.entries(plan.workoutAliases || {})) {
+      archive(oldId);
+      const workout = workouts.find((w) => w.workoutId === newId);
+      if (plan.previousWorkoutsV6?.[oldId]?.signature !== workout?.protocolSignature) continue;
+      for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) {
+        if (isObject(raw[field]) && Object.hasOwn(raw[field], oldId) && !Object.hasOwn(raw[field], newId)) {
+          raw[field][newId] = raw[field][oldId];
+        }
+      }
+      const settings = raw.userSettings?.notificationSettings;
+      if (isObject(settings) && settings[oldId] && !settings[newId]) settings[newId] = settings[oldId];
+      remove(oldId);
+    }
+    // These prescriptions changed identity/content: never count an old effort as the new one.
+    for (const id of ["marathon-3u30-w38-t1", "marathon-3u30-w42-t1", "marathon-3u30-w44-t4"]) {
+      archive(id);
+      remove(id);
+    }
+  }
+
   function migrateAppData(raw) {
     const empty = createEmptyAppData();
     if (!isObject(raw)) throw new Error("Opgeslagen data is geen app-object.");
+    raw = JSON.parse(JSON.stringify(raw));
+    if (Number(raw.appDataVersion || 0) < 5) migrateRefinedWorkouts(raw);
     const data = {
       ...empty,
       ...raw,
@@ -203,7 +248,8 @@
       const knownPrevious = raw.meta?.schemaVersion === "marathon-3u30-definitief-2026.09.01-1";
       for (const workout of workouts) {
         const id = workout.workoutId;
-        const old = knownPrevious ? plan.previousWorkouts?.[id] : null;
+        const previousId = Object.keys(plan.workoutAliases || {}).find((key) => plan.workoutAliases[key] === id) || id;
+        const old = knownPrevious ? plan.previousWorkouts?.[previousId] : null;
         const log = data.workoutLogs[id];
         if (old && (log?.completed || data.completedSessions[id])) {
           data.workoutLogs[id] = { ...normalizeWorkoutLog(log, id), completed: true,
@@ -881,7 +927,8 @@
       ["11 km/u", "block11"],
       ["12 km/u", "block12"],
     ];
-    const comparison = workout.fitnessCheckNumber === 2 ? testResult("marathon-3u30-w38-fitness-check-1") : null;
+    const firstCheck = workouts.find((w) => w.fitnessCheckNumber === 1);
+    const comparison = workout.fitnessCheckNumber === 2 ? testResult(firstCheck.workoutId) : null;
     const hasBaseline = comparison && Object.keys(comparison).some((key) => key !== "updatedAt");
     return `<div class="fitness-check-fields">
       <h4>Na ieder blok van 10 minuten</h4>
@@ -957,7 +1004,7 @@
 
   function treadmillInclineLabel(block) {
     if (block?.inclinePercent == null) return "Buiten";
-    if (Number(block.inclinePercent) === 0.5) return "½%";
+    if (Number(block.inclinePercent) === 0.5) return "½";
     return `${formatNumber(block.inclinePercent)}%`;
   }
 
@@ -1050,16 +1097,16 @@
   }
 
   function focusInclineValue(block) {
-    return block?.inclinePercent == null ? "Buiten" : formatNumber(block.inclinePercent);
+    return block?.inclinePercent == null ? "Buiten" : Number(block.inclinePercent) === 0.5 ? "½" : formatNumber(block.inclinePercent);
   }
 
   function focusInclineDescription(block) {
-    return block?.inclinePercent == null ? "Buitenwedstrijd, geen loopbandhelling" : `Helling ${focusInclineValue(block)} procent`;
+    return block?.inclinePercent == null ? "Buitenwedstrijd, geen loopbandhelling" : `Helling ${formatNumber(block.inclinePercent)} procent`;
   }
 
   function renderFocusIncline(block, current = false) {
     const outside = block?.inclinePercent == null;
-    return `<strong class="${outside ? "is-text" : ""}" role="img" aria-label="${escapeAttr(focusInclineDescription(block))}" ${current ? "data-focus-current-incline" : ""}><b aria-hidden="true" ${current ? "data-focus-incline-value" : ""}>${escapeHtml(focusInclineValue(block))}</b><small aria-hidden="true" ${current ? "data-focus-incline-unit" : ""} ${outside ? "hidden" : ""}>%</small></strong>`;
+    return `<strong class="${outside ? "is-text" : ""}" role="img" aria-label="${escapeAttr(focusInclineDescription(block))}" ${current ? "data-focus-current-incline" : ""}><b aria-hidden="true" ${current ? "data-focus-incline-value" : ""}>${escapeHtml(focusInclineValue(block))}</b><small aria-hidden="true" ${current ? "data-focus-incline-unit" : ""} ${outside || Number(block.inclinePercent) === 0.5 ? "hidden" : ""}>%</small></strong>`;
   }
 
   function focusTimingState(snapshot) {
@@ -1445,7 +1492,7 @@
       incline?.setAttribute("aria-label", focusInclineDescription(snapshot.current));
       incline?.classList?.toggle("is-text", snapshot.current?.inclinePercent == null);
       const inclineUnit = app.querySelector?.("[data-focus-incline-unit]");
-      if (inclineUnit) inclineUnit.hidden = snapshot.current?.inclinePercent == null;
+      if (inclineUnit) inclineUnit.hidden = snapshot.current?.inclinePercent == null || Number(snapshot.current.inclinePercent) === 0.5;
       setText("[data-focus-current-context]", `${snapshot.current?.blockName || "Training"} · Blok ${snapshot.currentIndex + 1} van ${timeline.blocks.length}`);
       setText("[data-focus-block-progress]", `Blok ${snapshot.currentIndex + 1} van ${timeline.blocks.length}`);
       setText("[data-timer-elapsed]", formatStopwatch(snapshot.elapsedSeconds));
@@ -2158,8 +2205,10 @@
   }
 
   navigator.serviceWorker?.addEventListener?.("message", (event) => {
-    if (event.data?.type !== "OPEN_TREADMILL" || !workoutById(event.data.workoutId)) return;
-    state.treadmillWorkoutId = event.data.workoutId;
+    if (event.data?.type !== "OPEN_TREADMILL") return;
+    const workoutId = plan.workoutAliases?.[event.data.workoutId] || event.data.workoutId;
+    if (!workoutById(workoutId)) return;
+    state.treadmillWorkoutId = workoutId;
     state.treadmillReturnView = VIEWS.WEEK;
     state.notificationsPanelOpen = false;
     state.showPushSetup = false;
