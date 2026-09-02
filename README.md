@@ -5,9 +5,10 @@ Mobiele weekplanner voor het definitieve Marathon 3:30-loopbandschema van
 
 ## Actieve versie
 
-- App-versie: `2026.09.01-8`
-- Schemaversie: `marathon-3u30-definitief-2026.09.01-1`
-- Bronbestanden: `training-data.js` (basis) + `training-plan-v5.js` (definitief v5-schema en uitleg)
+- App-versie: `2026.09.02-1`
+- Schemaversie: `marathon-3u30-definitief-2026.09.02-1`
+- Inhoudelijke bron: `marathon-schema-3u30-definitief-2026.md`
+- Enige actieve trainingsdataset: het hieruit gegenereerde `training-data.js`
 - Opslagkey: `marathon330TrainingAppData_v1`
 
 ## Schema
@@ -15,21 +16,25 @@ Mobiele weekplanner voor het definitieve Marathon 3:30-loopbandschema van
 Het schema bevat week 36 tot en met week 47, steeds vier kerntrainingen per week.
 Week 38 en 42 bevatten daarnaast een korte submaximale Marathon Fitness Check.
 Confidence runs, meetmomenten, taper en marathon zijn gemarkeerd in de interface.
-De bestaande bron wordt mechanisch gegenereerd; `training-plan-v5.js` past daarop
-de definitieve wijzigingen en de vaste trainingsfilosofie toe zonder workout-ID's
-van de vier kerntrainingen te wijzigen.
+De dataset, inclusief uitleg en registratiemetadata, wordt rechtstreeks uit het
+nieuwe bronbestand gegenereerd. De oude correctielaag `training-plan-v5.js` is
+verwijderd. Het programma bevat 50 sessies inclusief twee extra checks en de race.
 
 ```sh
-node scripts/generate-marathon-plan.mjs marathon-schema-3u30-expliciete-helling.md training-data.js
+node scripts/generate-marathon-plan.mjs marathon-schema-3u30-definitief-2026.md training-data.js
 ```
 
 Wijzig de bestaande workout-ID's niet zonder opslagmigratie.
 
 Het tabblad **Schema**, de kilometerkaarten en de twee dashboardgrafieken lezen
-dezelfde centrale weektotalen uit deze gegenereerde data. Bij bronranges wordt
-de originele range getoond en gebruikt de grafiek het midden van die range.
+dezelfde centrale weektotalen. Alle afstanden worden opgeteld vanuit de
+ongeronde blokwaarden; afronden gebeurt uitsluitend voor de presentatie.
 Week 47 wordt berekend uit drie trainingen plus de marathon en wordt zichtbaar
 als totaal inclusief marathon gemarkeerd.
+
+Bronafwijking: W44 Training 2 heeft exact 47 minuten aan blokken en 8,3483 km.
+De bron noemt in de samenvatting 57 minuten. De app volgt de expliciete blokken;
+deze afwijking staat ook in `plan.sourceDiscrepancies`. Er is geen extra blok toegevoegd.
 
 ## Loopbandmodus
 
@@ -43,11 +48,16 @@ De timer ondersteunt pauzeren, hervatten en stoppen. Tijdens een actieve timer
 wordt de Screen Wake Lock API gebruikt wanneer de browser dit ondersteunt.
 Zonder Wake Lock blijft de rest van de Loopbandmodus normaal functioneren.
 
+De actieve Focus Mode toont een grote countdown, snelheid en een vaste,
+rechts uitgelijnde hellingkolom. De dubbele DAARNA-sectie is verwijderd.
+De queue volgt blokwissels automatisch, behalve wanneer de gebruiker wegscrollt.
+Terug naar NU plaatst de actieve kaart onder de sticky cockpit en herstelt volgen.
+
 Via de titel **Marathon 3:30** opent een overzicht met kalendercountdown,
 trainings- en kilometervoortgang, week- en cumulatieve grafieken, confidence
 runs, tests, lange duurlopen, de volgende training en de volgende mijlpaal.
 
-Alle 259 uitvoerbare loopbandblokken hebben een expliciete
+Alle 258 uitvoerbare loopbandblokken hebben een expliciete
 numerieke helling van `0%`, `0,5%` of `1%`. Alleen de marathon zelf staat als
 buitenwedstrijd zonder loopbandhelling in de data.
 
@@ -63,6 +73,24 @@ Bij de fitnesschecks, Marathon Rhythm en officiële tests kan lokaal worden vast
 
 Deze gegevens worden direct opgeslagen. Ze veranderen nooit automatisch de
 voorgeschreven trainingssnelheden.
+
+De W42 Fitness Check toont de opgeslagen W38-blokresultaten ter vergelijking.
+Alle twaalf lange sessies hebben een racevoedingsregistratie. W43 en W44 hebben
+de extra volledige racevoedingsrepetitie. Voedingsvelden worden direct opgeslagen.
+
+## Gegevens behouden
+
+De opslagkey blijft `marathon330TrainingAppData_v1`; dataversie is nu 4.
+Voltooiingen, notities, instellingen en registraties worden niet gereset.
+`scripts/previous-workouts-v5.json` is uitsluitend een historische momentopname
+voor migratie, geen tweede actief schema. Bij oudere voltooide trainingen blijft
+hun historische afstand/duur behouden. Resultaten van een gewijzigd of onbekend
+testprotocol worden bewaard onder `legacyData.previousTestProtocols`, niet als
+uitslag van een andere test gebruikt. Bekende ongewijzigde protocollen blijven actief.
+
+Wijzig de opslagkey nooit zonder migratie en schrijf geen lege defaults over
+bestaande data. Onleesbare opslag blijft onaangeroerd en blokkeert nieuwe saves
+met een zichtbare waarschuwing. Bij een schrijffout blijft leesbare data zichtbaar.
 
 ## PWA en iPhone
 
@@ -86,14 +114,11 @@ cache-updatefix intact zonder de pushregistratie weer te verwijderen.
 `localStorage` en persoonlijke trainingsgegevens worden hierbij niet verwijderd.
 
 Een al bestaand iPhone-homescreen-icoon kan zijn oude start-URL in iOS bewaren.
-Na deze eerste release is daarom de betrouwbaarste eenmalige stap:
-
-1. verwijder het oude homescreen-icoon;
-2. open de actuele GitHub Pages-URL in Safari;
-3. controleer onder **Informatie** dat versie `2026.09.01-8` zichtbaar is;
-4. kies opnieuw **Zet op beginscherm**.
-
-Daarna worden toekomstige bestanden rechtstreeks vanaf GitHub Pages geladen.
+Controleer daarom na deployment in zowel Safari als het bestaande beginscherm-icoon
+onder **Informatie** of versie `2026.09.02-1` actief is. Verwijder geen installatie
+of browsergegevens om een update af te dwingen. Deze app ondersteunt bewust geen
+offline herstart: bestanden komen van het netwerk. Een al geladen lokale timer
+heeft voor het aftellen zelf geen netwerk nodig. Dit bestaande cachebeleid is behouden.
 
 ## Trainingsmeldingen
 
@@ -113,3 +138,21 @@ iPhone-tests.
 Publiceer de appbestanden samen in dezelfde GitHub Pages-projectmap. De planner,
 timer en in-app waarschuwingen hebben geen buildstap of backend nodig. Alleen
 Lock Screen-push gebruikt het afzonderlijke `push-server/`-project.
+
+Upload samen: `index.html`, `style.css`, `app.js`, `training-data.js`,
+`notification-model.js`, `push-config.js`, `service-worker.js`, `manifest.json`,
+`apple-touch-icon.png` en `icon.svg`. Behoud je bestaande publieke pushconfiguratie.
+`training-plan-v5.js` is niet meer nodig. Bronbestanden, scripts, tests en rapport
+zijn voor beheer; ze zijn niet nodig om de statische app uit te voeren.
+
+## Verificatie
+
+```sh
+node --test tests/*.test.mjs push-server/tests/*.test.mjs
+```
+
+De tests vergelijken alle bronblokken onafhankelijk met de dataset, controleren
+afstanden, tijden, hellingen, migratie, registratie, timer, meldingen en PWA-paden.
+Een gegenereerde `tests/focus-fixtures.html` gebruikt de echte renderer voor
+24 snelheid/helling-combinaties; dit is uitsluitend een lokale visuele testpagina.
+Zie `UPDATE-REPORT-2026-09-02.md` voor de volledige tweede audit en fysieke iPhone-tests.

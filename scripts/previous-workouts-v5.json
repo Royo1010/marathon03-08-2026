@@ -1,0 +1,302 @@
+{
+  "marathon-3u30-w36-t1": {
+    "signature": "[[300,null,9,0.5],[2100,null,10,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 7.291666666666667,
+    "durationSeconds": 2700,
+    "title": "Easy"
+  },
+  "marathon-3u30-w36-t2": {
+    "signature": "[[600,null,9.5,0.5],[300,null,10.5,0.5],[480,null,12,1],[180,null,9.5,0.5],[480,null,12,1],[180,null,9.5,0.5],[480,null,12,1],[600,null,9,0.5]]",
+    "distanceKm": 9.708333333333332,
+    "durationSeconds": 3300,
+    "title": "Eerste marathonpaceblokken"
+  },
+  "marathon-3u30-w36-t3": {
+    "signature": "[[300,null,9,0.5],[1800,null,9.8,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 6.358333333333333,
+    "durationSeconds": 2400,
+    "title": "Recovery"
+  },
+  "marathon-3u30-w36-t4": {
+    "signature": "[[600,null,9.5,0.5],[4800,null,10,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 15.625,
+    "durationSeconds": 5700,
+    "title": "Lange duur"
+  },
+  "marathon-3u30-w37-t1": {
+    "signature": "[[300,null,9.2,0.5],[2400,null,10.1,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 8.208333333333332,
+    "durationSeconds": 3000,
+    "title": "Easy"
+  },
+  "marathon-3u30-w37-t2": {
+    "signature": "[[600,null,9.5,0.5],[300,null,10.5,0.5],[360,null,12.3,1],[150,null,9.5,0.5],[360,null,12.3,1],[150,null,9.5,0.5],[360,null,12.3,1],[150,null,9.5,0.5],[360,null,12.3,1],[600,null,9,0.5]]",
+    "distanceKm": 10.065833333333334,
+    "durationSeconds": 3390,
+    "title": "4 × 6 min drempel"
+  },
+  "marathon-3u30-w37-t3": {
+    "signature": "[[300,null,9.2,0.5],[2100,null,10,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 7.308333333333334,
+    "durationSeconds": 2700,
+    "title": "Easy"
+  },
+  "marathon-3u30-w37-t4": {
+    "signature": "[[600,null,9.5,0.5],[5700,null,10,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 18.124999999999996,
+    "durationSeconds": 6600,
+    "title": "Lange duur"
+  },
+  "marathon-3u30-w38-t1": {
+    "signature": "[[300,null,9.2,0.5],[1800,null,10.1,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 6.5249999999999995,
+    "durationSeconds": 2400,
+    "title": "Easy"
+  },
+  "marathon-3u30-w38-fitness-check-1": {
+    "signature": "[[300,null,9,0.5],[600,null,10,0.5],[600,null,11,0.5],[600,null,12,1],[300,null,8.5,0.5]]",
+    "distanceKm": 6.958333333333333,
+    "durationSeconds": 2400,
+    "title": "Marathon Fitness Check #1"
+  },
+  "marathon-3u30-w38-t2": {
+    "signature": "[[600,null,9.5,0.5],[300,null,10.5,0.5],[240,null,13,1],[120,null,9.5,0.5],[240,null,13,1],[120,null,9.5,0.5],[240,null,13,1],[120,null,9.5,0.5],[240,null,13,1],[120,null,9.5,0.5],[240,null,13,1],[120,null,9.5,0.5],[240,null,13,1],[600,null,9,0.5]]",
+    "distanceKm": 10.741666666666667,
+    "durationSeconds": 3540,
+    "title": "6 × 4 min snel"
+  },
+  "marathon-3u30-w38-t3": {
+    "signature": "[[300,null,9.2,0.5],[1200,null,10.1,0.5],[600,null,10.8,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 6.641666666666666,
+    "durationSeconds": 2400,
+    "title": "Progressief"
+  },
+  "marathon-3u30-w38-t4": {
+    "signature": "[[600,null,9.5,0.5],[6000,null,10,0.5],[600,null,10.5,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 20.708333333333332,
+    "durationSeconds": 7500,
+    "title": "FIRST 20K CONFIDENCE RUN"
+  },
+  "marathon-3u30-w39-t1": {
+    "signature": "[[300,null,9.2,0.5],[2700,null,10.2,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 9.125,
+    "durationSeconds": 3300,
+    "title": "Easy"
+  },
+  "marathon-3u30-w39-t2": {
+    "signature": "[[600,null,9.5,0.5],[300,null,10.5,0.5],[900,null,12,1],[180,null,9.5,0.5],[900,null,12,1],[180,null,9.5,0.5],[900,null,12,1],[600,null,9,0.5]]",
+    "distanceKm": 13.908333333333333,
+    "durationSeconds": 4560,
+    "title": "3 × 15 min marathonpace"
+  },
+  "marathon-3u30-w39-t3": {
+    "signature": "[[300,null,9.2,0.5],[2100,null,10.1,0.5],[600,null,10.8,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 9.166666666666668,
+    "durationSeconds": 3300,
+    "title": "Steady finish"
+  },
+  "marathon-3u30-w39-t4": {
+    "signature": "[[null,3,10,0.5],[null,8,10.3,0.5],[null,6,10.8,0.5],[null,4.1,11.2,1],[null,2.7,10,0.5]]",
+    "distanceKm": 23.8,
+    "durationSeconds": 8166,
+    "title": "CONFIDENCE RUN #1"
+  },
+  "marathon-3u30-w40-t1": {
+    "signature": "[[300,null,9,0.5],[2100,null,9.8,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 7.175000000000001,
+    "durationSeconds": 2700,
+    "title": "Recovery"
+  },
+  "marathon-3u30-w40-t2": {
+    "signature": "[[600,null,9.5,0.5],[300,null,10.5,0.5],[180,null,9,0.5],[20,null,13,1],[100,null,9,0.5],[20,null,13,1],[100,null,9,0.5],[20,null,13,1],[100,null,9,0.5],[20,null,13,1],[100,null,9,0.5],[180,null,9,0.5],[null,5,null,1],[600,null,9,0.5]]",
+    "distanceKm": 11.147222222222222,
+    "durationSeconds": null,
+    "title": "TEST 1 — 5 KM BENCHMARK"
+  },
+  "marathon-3u30-w40-t3": {
+    "signature": "[[300,null,9,0.5],[1800,null,9.6,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 6.258333333333333,
+    "durationSeconds": 2400,
+    "title": "Recovery"
+  },
+  "marathon-3u30-w40-t4": {
+    "signature": "[[600,null,9.5,0.5],[5700,null,9.9,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 17.966666666666665,
+    "durationSeconds": 6600,
+    "title": "Rustige lange duur"
+  },
+  "marathon-3u30-w41-t1": {
+    "signature": "[[300,null,9.2,0.5],[3000,null,10.2,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 9.975,
+    "durationSeconds": 3600,
+    "title": "Easy"
+  },
+  "marathon-3u30-w41-t2": {
+    "signature": "[[600,null,9.5,0.5],[300,null,10.5,0.5],[3600,null,12,1],[600,null,9,0.5]]",
+    "distanceKm": 15.958333333333332,
+    "durationSeconds": 5100,
+    "title": "Marathon Rhythm — 60 min continu"
+  },
+  "marathon-3u30-w41-t3": {
+    "signature": "[[300,null,9.2,0.5],[3000,null,10,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 9.808333333333335,
+    "durationSeconds": 3600,
+    "title": "Easy"
+  },
+  "marathon-3u30-w41-t4": {
+    "signature": "[[null,1.5,9.8,0.5],[null,21.1,10.7,0.5],[null,3.2,9.8,0.5]]",
+    "distanceKm": 25.8,
+    "durationSeconds": 8826,
+    "title": "CONFIDENCE RUN #2"
+  },
+  "marathon-3u30-w42-t1": {
+    "signature": "[[300,null,9.2,0.5],[2400,null,10.2,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 8.274999999999999,
+    "durationSeconds": 3000,
+    "title": "Easy"
+  },
+  "marathon-3u30-w42-fitness-check-2": {
+    "signature": "[[300,null,9,0.5],[600,null,10,0.5],[600,null,11,0.5],[600,null,12,1],[300,null,8.5,0.5]]",
+    "distanceKm": 6.958333333333333,
+    "durationSeconds": 2400,
+    "title": "Marathon Fitness Check #2"
+  },
+  "marathon-3u30-w42-t2": {
+    "signature": "[[600,null,9.5,0.5],[300,null,10.5,0.5],[300,null,13,1],[150,null,9.5,0.5],[300,null,13,1],[150,null,9.5,0.5],[300,null,13,1],[150,null,9.5,0.5],[300,null,13.2,1],[150,null,9.5,0.5],[300,null,13.2,1],[600,null,9,0.5]]",
+    "distanceKm": 10.991666666666665,
+    "durationSeconds": 3600,
+    "title": "5 × 5 min snel"
+  },
+  "marathon-3u30-w42-t3": {
+    "signature": "[[300,null,9.2,0.5],[3000,null,10.2,0.5],[300,null,10.8,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 10.875,
+    "durationSeconds": 3900,
+    "title": "Easy met steady finish"
+  },
+  "marathon-3u30-w42-t4": {
+    "signature": "[[600,null,9.5,0.5],[6900,null,10.1,0.5],[1200,null,11.5,1],[900,null,11.8,1],[300,null,8.5,0.5]]",
+    "distanceKm": 28.43333333333333,
+    "durationSeconds": 9900,
+    "title": "Progressieve 28 km"
+  },
+  "marathon-3u30-w43-t1": {
+    "signature": "[[300,null,9.2,0.5],[3000,null,10.2,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 9.975,
+    "durationSeconds": 3600,
+    "title": "Easy"
+  },
+  "marathon-3u30-w43-t2": {
+    "signature": "[[600,null,9.5,0.5],[300,null,10.5,0.5],[900,null,12,1],[240,null,9.5,0.5],[900,null,12,1],[240,null,9.5,0.5],[900,null,12,1],[600,null,9,0.5]]",
+    "distanceKm": 14.225,
+    "durationSeconds": 4680,
+    "title": "TEST 2 — 3 × 15 MIN MARATHONPACE"
+  },
+  "marathon-3u30-w43-t3": {
+    "signature": "[[300,null,9.2,0.5],[3000,null,10,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 9.808333333333335,
+    "durationSeconds": 3600,
+    "title": "Easy"
+  },
+  "marathon-3u30-w43-t4": {
+    "signature": "[[600,null,9.5,0.5],[8400,null,10.1,0.5],[1500,null,10.8,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 30.35833333333333,
+    "durationSeconds": 10800,
+    "title": "30K CONFIDENCE RUN"
+  },
+  "marathon-3u30-w44-t1": {
+    "signature": "[[300,null,9.2,0.5],[2700,null,10,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 8.975,
+    "durationSeconds": 3300,
+    "title": "Easy"
+  },
+  "marathon-3u30-w44-t2": {
+    "signature": "[[600,null,9.5,0.5],[300,null,10.5,0.5],[240,null,13.2,1],[120,null,9.5,0.5],[240,null,13.2,1],[120,null,9.5,0.5],[240,null,13.2,1],[120,null,9.5,0.5],[240,null,13.2,1],[120,null,9.5,0.5],[240,null,13.2,1],[600,null,9,0.5]]",
+    "distanceKm": 9.624999999999998,
+    "durationSeconds": 3180,
+    "title": "Korte snelheid"
+  },
+  "marathon-3u30-w44-t3": {
+    "signature": "[[300,null,9,0.5],[2100,null,9.6,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 7.058333333333334,
+    "durationSeconds": 2700,
+    "title": "Recovery"
+  },
+  "marathon-3u30-w44-t4": {
+    "signature": "[[600,null,9.5,0.5],[4500,null,10,0.5],[1800,null,12,1],[480,null,9.8,0.5],[1800,null,12,1],[420,null,10,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 29.265,
+    "durationSeconds": 9900,
+    "title": "Key Marathon Confidence — 2 × 30 min MP"
+  },
+  "marathon-3u30-w45-t1": {
+    "signature": "[[300,null,9.2,0.5],[2400,null,9.9,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 8.075,
+    "durationSeconds": 3000,
+    "title": "Easy / herstel"
+  },
+  "marathon-3u30-w45-t2": {
+    "signature": "[[600,null,9.5,0.5],[300,null,10.5,0.5],[600,null,12.4,1],[180,null,9.5,0.5],[600,null,12.4,1],[180,null,9.5,0.5],[600,null,12.4,1],[600,null,9,0.5]]",
+    "distanceKm": 11.10833333333333,
+    "durationSeconds": 3660,
+    "title": "Drempel onderhouden"
+  },
+  "marathon-3u30-w45-t3": {
+    "signature": "[[300,null,9,0.5],[2100,null,9.6,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 7.058333333333334,
+    "durationSeconds": 2700,
+    "title": "Easy"
+  },
+  "marathon-3u30-w45-t4": {
+    "signature": "[[600,null,9.5,0.5],[4200,null,10,0.5],[1800,null,12,1],[300,null,10,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 20.791666666666664,
+    "durationSeconds": 7200,
+    "title": "Marathonpace onderhoud"
+  },
+  "marathon-3u30-w46-t1": {
+    "signature": "[[300,null,9,0.5],[2100,null,9.8,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 7.175000000000001,
+    "durationSeconds": 2700,
+    "title": "Easy / herstel"
+  },
+  "marathon-3u30-w46-t2": {
+    "signature": "[[600,null,9.5,0.5],[300,null,10.5,0.5],[480,null,12.1,1],[180,null,9.5,0.5],[480,null,12.1,1],[180,null,9.5,0.5],[480,null,12.1,1],[600,null,9,0.5]]",
+    "distanceKm": 9.748333333333331,
+    "durationSeconds": 3300,
+    "title": "Kwaliteitstraining"
+  },
+  "marathon-3u30-w46-t3": {
+    "signature": "[[300,null,9,0.5],[900,null,9.6,0.5],[20,null,13.5,1],[100,null,9,0.5],[20,null,13.5,1],[100,null,9,0.5],[20,null,13.5,1],[100,null,9,0.5],[20,null,13.5,1],[100,null,9,0.5],[300,null,8.5,0.5],[120,null,5.5,0]]",
+    "distanceKm": 5.341666666666667,
+    "durationSeconds": 2100,
+    "title": "Losmaken"
+  },
+  "marathon-3u30-w46-t4": {
+    "signature": "[[600,null,9.5,0.5],[3300,null,10,0.5],[1200,null,12,1],[300,null,8.5,0.5]]",
+    "distanceKm": 15.458333333333334,
+    "durationSeconds": 5400,
+    "title": "Lange duur"
+  },
+  "marathon-3u30-w47-t1": {
+    "signature": "[[300,null,9,0.5],[1500,null,9.6,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 5.458333333333333,
+    "durationSeconds": 2100,
+    "title": "Easy"
+  },
+  "marathon-3u30-w47-t2": {
+    "signature": "[[600,null,9.5,0.5],[300,null,10.5,0.5],[300,null,12,1],[180,null,9.2,0.5],[300,null,12,1],[480,null,9,0.5],[240,null,5.5,0]]",
+    "distanceKm": 6.484999999999999,
+    "durationSeconds": 2400,
+    "title": "Marathonpace aanraken"
+  },
+  "marathon-3u30-w47-t3": {
+    "signature": "[[300,null,9,0.5],[600,null,9.5,0.5],[20,null,13,1],[100,null,9,0.5],[20,null,13,1],[100,null,9,0.5],[20,null,13,1],[100,null,9,0.5],[300,null,8.5,0.5]]",
+    "distanceKm": 4.008333333333334,
+    "durationSeconds": 1560,
+    "title": "Losmaken"
+  },
+  "marathon-3u30-w47-t4": {
+    "signature": "[[null,42.195,12.06,null]]",
+    "distanceKm": 42.195,
+    "durationSeconds": 12596,
+    "title": "Marathon — 22 NOVEMBER 2026"
+  }
+}

@@ -15,14 +15,13 @@ test("manifest en assets gebruiken GitHub Pages-veilige relatieve paden", () => 
   assert.equal(manifest.display, "standalone");
   assert.ok(manifest.icons.every((icon) => icon.src.startsWith("./")));
   assert.match(html, /apple-mobile-web-app-capable/);
-  assert.match(html, /apple-touch-icon\.png\?v=2026\.09\.01-8/);
-  assert.match(html, /manifest\.json\?v=2026\.09\.01-8/);
-  assert.match(html, /training-data\.js\?v=2026\.09\.01-8/);
-  assert.match(html, /training-plan-v5\.js\?v=2026\.09\.01-8/);
-  assert.match(html, /notification-model\.js\?v=2026\.09\.01-8/);
-  assert.match(html, /push-config\.js\?v=2026\.09\.01-8/);
-  assert.match(read("app.js"), /APP_VERSION = "2026\.09\.01-8"/);
-  assert.match(read("service-worker.js"), /APP_VERSION = "2026\.09\.01-8"/);
+  assert.match(html, /apple-touch-icon\.png\?v=2026\.09\.02-1/);
+  assert.match(html, /manifest\.json\?v=2026\.09\.02-1/);
+  assert.match(html, /training-data\.js\?v=2026\.09\.02-1/);
+  assert.match(html, /notification-model\.js\?v=2026\.09\.02-1/);
+  assert.match(html, /push-config\.js\?v=2026\.09\.02-1/);
+  assert.match(read("app.js"), /APP_VERSION = "2026\.09\.02-1"/);
+  assert.match(read("service-worker.js"), /APP_VERSION = "2026\.09\.02-1"/);
   assert.doesNotMatch(html, /(?:href|src)="\//);
   assert.match(html, /<strong>Marathon 3:30<\/strong>/);
   assert.doesNotMatch(html, /header-brand[\s\S]*?<strong>Marathon 3:30\s*<i/);
@@ -109,18 +108,12 @@ test("nieuwe pushworker verwijdert oude appcaches, blijft actief en gebruikt net
   assert.equal(messages[0].workoutId, "week36-training2");
 });
 
-test("basisbron en definitieve v5-schemalaag zijn beide lokaal meegeleverd", () => {
-  const markdown = read("marathon-schema-3u30-expliciete-helling.md");
+test("definitieve bron is direct gegenereerd zonder oude schemacorrectielaag", () => {
+  const markdown = read("marathon-schema-3u30-definitief-2026.md");
   const data = read("training-data.js");
-  const v5 = read("training-plan-v5.js");
-
-  assert.match(markdown, /MARATHONSCHEMA 3:30 — DEFINITIEVE VERSIE/);
-  assert.match(markdown, /# WEEK 36/);
-  assert.match(markdown, /# WEEK 47 — MARATHONWEEK/);
-  assert.match(markdown, /Ieder loopbandblok heeft altijd een expliciet hellingspercentage/);
-  assert.match(data, /"sourceFile": "marathon-schema-3u30-expliciete-helling\.md"/);
-  assert.match(data, /"schemaVersion": "marathon-schema-3u30-expliciete-helling-2026\.08\.30-1"/);
-  assert.match(v5, /marathon-3u30-definitief-2026\.09\.01-1/);
-  assert.match(v5, /Marathon Fitness Check #1/);
-  assert.match(v5, /whyNotMore/);
+  assert.match(markdown, /MARATHONSCHEMA 3:30 — DEFINITIEVE CODEX-BRON/);
+  assert.match(markdown, /## WEEK 47 — RACE WEEK/);
+  assert.match(data, /"sourceFile": "marathon-schema-3u30-definitief-2026\.md"/);
+  assert.match(data, /"schemaVersion": "marathon-3u30-definitief-2026\.09\.02-1"/);
+  assert.doesNotMatch(read("index.html"), /training-plan-v5/);
 });

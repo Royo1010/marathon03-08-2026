@@ -1,96 +1,124 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import vm from "node:vm";
+import test from "node:test";
 
-const context = { window: {} };
-vm.createContext(context);
-vm.runInContext(fs.readFileSync(new URL("../training-data.js", import.meta.url), "utf8"), context);
-vm.runInContext(fs.readFileSync(new URL("../training-plan-v5.js", import.meta.url), "utf8"), context);
+const c = vm.createContext({ window: {} });
+vm.runInContext(fs.readFileSync(new URL("../training-data.js", import.meta.url), "utf8"), c);
+const plan = c.window.MARATHON_PLAN;
+const model = c.window.MARATHON_MODEL;
+const all = plan.weeks.flatMap((w) => w.workouts);
+const get = (w, t) => all.find((x) => x.weekNumber === w && x.trainingNumber === t);
+const flat = (w) => Array.from(model.flattenWorkoutSegments(w));
+const source = fs.readFileSync(new URL("../marathon-schema-3u30-definitief-2026.md", import.meta.url), "utf8");
+const decimal = (s) => Number(s.replace(",", "."));
 
-const plan = context.window.MARATHON_PLAN;
-const model = context.window.MARATHON_MODEL;
-const allWorkouts = plan.weeks.flatMap((week) => week.workouts);
-const week = (number) => plan.weeks.find((item) => item.weekNumber === number);
-const workout = (weekNumber, trainingNumber) => week(weekNumber).workouts.find((item) => item.trainingNumber === trainingNumber);
-const fitness = (weekNumber) => week(weekNumber).workouts.find((item) => item.isFitnessCheck);
-const flattened = (item) => Array.from(model.flattenWorkoutSegments(item));
+test("alle 50 sessies en hun metadata komen uit de definitieve bron", () => {
+  assert.equal(all.length, 50);
+  assert.equal(new Set(all.map((w) => w.workoutId)).size, 50);
+  assert.equal(plan.config.marathonDate, "2026-11-22");
+  assert.equal(plan.config.schemaVersion, "marathon-3u30-definitief-2026.09.02-1");
+  assert.equal(plan.config.trainingFrequency, 4);
+  assert.equal(plan.config.targetTime, "3:30:00");
+  for (const week of plan.weeks) {
+    assert.equal(week.workouts.filter((w) => !w.isExtra).length, 4);
+    assert.equal(week.workouts.length, [38, 42].includes(week.weekNumber) ? 5 : 4);
+    assert.equal(week.startDate, new Date(Date.UTC(2026, 7, 31 + (week.weekNumber - 36) * 7)).toISOString().slice(0, 10));
+    assert.ok(week.weekPhilosophy.whyNotMore && week.weekPhilosophy.targetLink);
+  }
+  for (const w of all) assert.ok(w.title && w.goal && w.targetRpe && w.mentalGoal && w.outsideVariant);
+});
 
-assert.equal(plan.config.startDate, "2026-08-31");
-assert.equal(plan.config.marathonDate, "2026-11-22");
-assert.equal(plan.config.targetTime, "3:30:00");
-assert.equal(plan.config.targetPace, "4:58,6/km");
-assert.equal(plan.config.targetSpeedKmh, 12.056);
-assert.equal(plan.config.practicalMarathonSpeedKmh, 12);
-assert.equal(plan.config.trainingFrequency, 4);
-assert.equal(plan.config.schemaVersion, "marathon-3u30-definitief-2026.09.01-1");
-assert.equal(plan.config.planVersion, 5);
+test("onafhankelijke tweede parser vergelijkt ieder bronblok, titel, doel, RPE en mentale tekst", () => {
+  let weekNumber;
+  let current;
+  let expected = [];
+  const compare = () => {
+    if (!current || current.isFitnessCheck || current.category === "wedstrijd") return;
+    assert.deepEqual(flat(current).map((s) => [s.durationSeconds || null, s.distanceKm || null, s.speedKmh, s.inclinePercent]), expected, current.workoutId);
+  };
+  for (const line of source.split("\n")) {
+    const week = line.match(/^## WEEK (\d+)/);
+    if (week) { compare(); current = null; weekNumber = Number(week[1]); }
+    const training = line.match(/^### Training (\d+) — (.+)/);
+    const fitness = line.match(/^### Extra Fitness Check #(\d+)/);
+    if (training || fitness) {
+      compare();
+      current = training ? get(weekNumber, Number(training[1])) : all.find((w) => w.weekNumber === weekNumber && w.isExtra);
+      expected = [];
+      if (training) assert.equal(current.title, training[2]);
+    }
+    if (!current) continue;
+    const block = line.match(/^\d+\. (.+?) @ ([\d,]+) km\/u — ([\d,]+)%$/);
+    if (block) {
+      const [measure, unit] = block[1].split(" ");
+      const clock = measure.split(":").map(decimal);
+      const duration = unit === "km" ? null : unit === "sec" ? clock[0] : clock[0] * 60 + (clock[1] || 0);
+      expected.push([duration, unit === "km" ? decimal(measure) : null, decimal(block[2]), decimal(block[3])]);
+    }
+    if (/^\d+\. 5,00 km test/.test(line)) expected.push([null, 5, null, 1]);
+    const meta = line.match(/^\*\*(Doel|RPE|Mentaal):\*\* (.+)/);
+    if (meta) assert.equal(current[{ Doel: "goal", RPE: "targetRpe", Mentaal: "mentalGoal" }[meta[1]]], meta[2].replace(/\*\*|`/g, "").trim());
+    if (line.startsWith("# 6.")) { compare(); current = null; }
+  }
+});
 
-assert.deepEqual(Array.from(plan.weeks, (item) => item.weekNumber), Array.from({ length: 12 }, (_, index) => 36 + index));
-assert.equal(allWorkouts.length, 50, "48 kernsessies plus twee fitnesschecks");
-assert.ok(plan.weeks.filter((item) => ![38, 42].includes(item.weekNumber)).every((item) => item.workouts.length === 4));
-assert.equal(week(38).workouts.length, 5);
-assert.equal(week(42).workouts.length, 5);
-assert.equal(new Set(allWorkouts.map((item) => item.workoutId)).size, 50);
-assert.ok(allWorkouts.every((item) => item.goal && item.targetRpe && item.mentalGoal));
-assert.ok(allWorkouts.every((item) => item.rationale && item.recoveryStatus && item.recoveryLabel && item.locationStatus && item.outsideVariant));
-assert.ok(plan.weeks.every((item) => item.weekPhilosophy?.whyNotMore && item.weekPhilosophy?.targetLink));
+test("onafhankelijke afstandssommen, duur en expliciete hellingen", () => {
+  const expected = [38.98, 43.71, 55.78, 54.20, 42.55, 64.91, 68.88, 67.73, 53.65, 47.03, 37.72, 58.15];
+  let inclineCount = 0;
+  for (const [i, week] of plan.weeks.entries()) {
+    let sum = 0;
+    for (const w of week.workouts) {
+      let distance = 0;
+      let duration = 0;
+      let unknown = false;
+      for (const s of flat(w)) {
+        assert.ok(s.durationSeconds > 0 || s.distanceKm > 0);
+        if (w.surface === "loopband") {
+          assert.ok(Number.isFinite(s.inclinePercent));
+          assert.ok([0, 0.5, 1].includes(s.inclinePercent));
+          inclineCount++;
+        }
+        assert.ok(s.speedKmh > 0 || (w.workoutId === "marathon-3u30-w40-t2" && s.distanceKm === 5));
+        distance += s.basis === "distance" ? s.distanceKm : s.durationSeconds / 3600 * s.speedKmh;
+        if (s.durationSeconds) duration += s.durationSeconds;
+        else if (s.speedKmh) duration += s.distanceKm / s.speedKmh * 3600;
+        else unknown = true;
+      }
+      assert.ok(Math.abs(distance - w.estimatedDistanceKm) < 1e-10);
+      assert.equal(w.totalPlannedSeconds, unknown ? null : Math.round(duration));
+      sum += distance;
+    }
+    assert.ok(Math.abs(sum - expected[i]) < 0.006, `W${week.weekNumber}: ${sum}`);
+    assert.ok(Math.abs(sum - model.calculateWeekDistanceKm(week)) < 1e-10);
+  }
+  console.log(`Gecontroleerd: ${inclineCount} expliciete loopbandhellingen.`);
+  assert.equal(get(44, 2).totalPlannedSeconds, 47 * 60, "exacte blokken gaan boven foutieve 57-minutensamenvatting");
+  assert.equal(plan.sourceDiscrepancies.length, 1);
+});
 
-assert.deepEqual(Array.from(plan.weeks, (item) => item.plannedDistanceLabel), [
-  "±39 km", "±43,7 km", "±51,6 km", "±56 km", "±42,5 km", "±61,5 km",
-  "±65,5 km", "±64,4 km", "±54,9 km", "±47 km", "±37,7 km", "±58,1 km",
-]);
-assert.deepEqual(Array.from(plan.weeks, (item) => item.plannedDistanceKm), [
-  38.983, 43.707, 51.575, 56, 42.547, 61.541, 65.533, 64.366, 54.923, 47.033, 37.723, 58.146,
-]);
-assert.ok(plan.weeks.every((item) => Math.abs(item.plannedDistanceKm - item.workouts.reduce((sum, entry) => sum + entry.estimatedDistanceKm, 0)) < 0.0001));
-
-assert.deepEqual(flattened(workout(38, 1)).map((item) => [item.durationSeconds, item.speedKmh, item.inclinePercent]), [
-  [300, 9.2, 0.5], [1800, 10.1, 0.5], [300, 8.5, 0.5],
-]);
-assert.deepEqual(flattened(workout(38, 3)).map((item) => [item.durationSeconds, item.speedKmh, item.inclinePercent]), [
-  [300, 9.2, 0.5], [1200, 10.1, 0.5], [600, 10.8, 0.5], [300, 8.5, 0.5],
-]);
-
-for (const weekNumber of [38, 42]) {
-  const check = fitness(weekNumber);
-  assert.ok(check?.isTest);
-  assert.equal(check.totalPlannedSeconds, 40 * 60);
-  assert.equal(Math.round(check.estimatedDistanceKm * 10) / 10, 7);
-  assert.deepEqual(flattened(check).map((item) => [item.durationSeconds, item.speedKmh, item.inclinePercent]), [
-    [300, 9, 0.5], [600, 10, 0.5], [600, 11, 0.5], [600, 12, 1], [300, 8.5, 0.5],
-  ]);
-}
-
-assert.equal(workout(39, 2).totalPlannedSeconds, 76 * 60);
-assert.deepEqual(flattened(workout(39, 2)).map((item) => item.speedKmh), [9.5, 10.5, 12, 9.5, 12, 9.5, 12, 9]);
-assert.equal(workout(41, 2).totalPlannedSeconds, 85 * 60);
-assert.deepEqual(flattened(workout(41, 2)).map((item) => [item.durationSeconds, item.speedKmh]), [[600, 9.5], [300, 10.5], [3600, 12], [600, 9]]);
-assert.equal(workout(42, 4).totalPlannedSeconds, 165 * 60);
-assert.deepEqual(flattened(workout(42, 4)).map((item) => [item.durationSeconds, item.speedKmh]), [[600, 9.5], [6900, 10.1], [1200, 11.5], [900, 11.8], [300, 8.5]]);
-assert.equal(workout(44, 4).totalPlannedSeconds, 165 * 60);
-assert.deepEqual(flattened(workout(44, 4)).map((item) => [item.durationSeconds, item.speedKmh]), [[600, 9.5], [4500, 10], [1800, 12], [480, 9.8], [1800, 12], [420, 10], [300, 8.5]]);
-
-assert.match(workout(40, 2).evaluation, /22:00–22:45/);
-assert.match(workout(38, 4).outsideVariant, /90 min easy/);
-assert.match(workout(41, 4).outsideVariant, /2 uur steady/);
-assert.match(workout(43, 4).outsideVariant, /140 min praattempo/);
-assert.match(workout(44, 4).outsideVariant, /Loopband aanbevolen/);
-assert.equal(workout(47, 3).recoveryStatus, "required");
-
-const marathon = workout(47, 4);
-assert.equal(marathon.category, "wedstrijd");
-assert.equal(marathon.surface, "buiten");
-assert.equal(marathon.estimatedDistanceKm, 42.195);
-assert.equal(flattened(marathon)[0].inclinePercent, null);
-
-const treadmillSegments = allWorkouts.filter((item) => item.surface === "loopband").flatMap(flattened);
-assert.equal(treadmillSegments.length, 259);
-assert.ok(treadmillSegments.every((item) => Number.isFinite(item.inclinePercent)), "Ieder loopbandblok heeft een numerieke helling");
-assert.deepEqual(Array.from(new Set(treadmillSegments.map((item) => item.inclinePercent))).sort((a, b) => a - b), [0, 0.5, 1]);
-assert.ok(treadmillSegments.filter((item) => item.type === "wandelen").every((item) => item.inclinePercent === 0));
-assert.ok(treadmillSegments.filter((item) => ["recovery", "herstel", "easy", "steady", "warming-up", "cooling-down"].includes(item.type)).every((item) => item.inclinePercent === 0.5));
-assert.ok(treadmillSegments.filter((item) => ["sub-marathon", "marathonpace", "marathontempo", "drempel", "interval", "test"].includes(item.type)).every((item) => item.inclinePercent === 1));
-assert.ok(plan.guidance.raceStrategy.some((item) => item.pace === "5:01/km"));
-assert.deepEqual(Array.from(plan.guidance.officialTests, (item) => item.week), [38, 40, 42, 43, 44]);
-
-console.log("Planmodeltests geslaagd: 50 sessies, 259 expliciete loopbandhellingen en definitieve v5-weekvolumes gecontroleerd.");
+test("sleuteltrainingen, fitnessprotocol, taper, racevoeding en buitenaanbevelingen", () => {
+  const checks = all.filter((w) => w.isFitnessCheck);
+  for (const check of checks) {
+    assert.equal(check.totalPlannedSeconds, 2400);
+    assert.ok(check.labels.includes("EXTRA FITNESS CHECK"));
+    assert.equal(check.trainingNumber, null);
+    assert.deepEqual(flat(check).map((s) => [s.durationSeconds, s.speedKmh, s.inclinePercent]), [[300, 9, 0.5], [600, 10, 0.5], [600, 11, 0.5], [600, 12, 1], [300, 8.5, 0.5]]);
+  }
+  assert.equal(flat(get(41, 2))[2].durationSeconds, 3600);
+  assert.equal(get(41, 2).locationStatus, "Buiten aanbevolen");
+  const w42 = flat(get(42, 4));
+  assert.deepEqual(w42.slice(2).map((s) => [s.durationSeconds, s.speedKmh]), [[1200, 11.5], [300, 11.8], [600, 12], [300, 8.5]]);
+  assert.equal(w42.slice(0, 4).reduce((sum, s) => sum + s.durationSeconds, 0), 150 * 60);
+  assert.equal(get(43, 4).locationStatus, "Buiten aanbevolen");
+  assert.equal(get(43, 4).estimatedDistanceKm, Math.max(...all.filter((w) => w.category === "lange-duur").map((w) => w.estimatedDistanceKm)));
+  assert.equal(get(44, 4).locationStatus, "Loopband aanbevolen");
+  assert.equal(flat(get(44, 4)).filter((s) => s.durationSeconds === 1800 && s.speedKmh === 12).length, 2);
+  for (const w of all.filter((w) => w.trainingNumber === 4)) assert.ok(w.fueling && w.labels.includes("RACEVOEDING OEFENEN"));
+  assert.deepEqual(Array.from(all.filter((w) => w.fullFuelRehearsal), (w) => w.weekNumber), [43, 44]);
+  assert.ok(all.filter((w) => w.weekNumber >= 45).every((w) => !w.isTest && !w.isExtra));
+  assert.equal(get(47, 4).estimatedDistanceKm, 42.195);
+  assert.equal(flat(get(47, 4))[0].inclinePercent, null);
+  assert.deepEqual(Array.from(plan.guidance.officialTests, (w) => w.week), [38, 40, 41, 42, 43, 44]);
+  assert.match(plan.guidance.raceStrategy[0].pace, /5:02–5:03/);
+});

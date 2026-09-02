@@ -1,9 +1,10 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "2026.09.01-8";
+  const APP_VERSION = "2026.09.02-1";
+  // Keep this key stable. Preserve existing logs; migrate additions and protocol changes.
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
-  const APP_DATA_VERSION = 3;
+  const APP_DATA_VERSION = 4;
   const plan = window.MARATHON_PLAN;
   const model = window.MARATHON_MODEL;
   const notifications = window.MARATHON_NOTIFICATIONS;
@@ -20,20 +21,6 @@
   const navButtons = Array.from(document.querySelectorAll("[data-view]"));
 
   const VIEWS = { WEEK: "week", PLAN: "plan", INFO: "info", MARATHON: "marathon", TREADMILL: "treadmill" };
-  const WEEK_OVERVIEW = {
-    36: { theme: "Opbouw", goal: "Basisvolume verhogen + eerste marathonpaceblokken" },
-    37: { theme: "Duur + drempel", goal: "Drempelblokken verlengen + duur verder opbouwen" },
-    38: { theme: "Confidence-opbouw", goal: "Eerste 20K confidence run + snelheid ontwikkelen" },
-    39: { theme: "Confidence + MP", goal: "Halve-marathonconfidence + marathonpace" },
-    40: { theme: "Herstel + test", goal: "Herstellen + 5 km benchmark" },
-    41: { theme: "Marathonspecifiek", goal: "Steady halve marathon + drempelontwikkeling" },
-    42: { theme: "Duuropbouw", goal: "Duurvermogen richting 28 km" },
-    43: { theme: "Piekweek", goal: "Piekvolume + 30K confidence + marathonpace-test" },
-    44: { theme: "Sleutelweek", goal: "Belangrijkste marathonspecifieke sleutelweek" },
-    45: { theme: "Taperstart", goal: "Taper starten, kwaliteit behouden" },
-    46: { theme: "Taper", goal: "Volume verder verlagen, marathonpace scherp houden" },
-    47: { theme: "Marathonweek", goal: "Herstellen, losmaken en racen" },
-  };
   const initialTreadmillWorkoutId = new URLSearchParams(window.location.search).get("treadmill");
   const state = {
     view: workouts.some((workout) => workout.workoutId === initialTreadmillWorkoutId) ? VIEWS.TREADMILL : VIEWS.WEEK,
@@ -49,6 +36,7 @@
     focusLastActiveIndex: -1,
   };
 
+  let storageWriteBlocked = false;
   let appData = loadAppData();
   let treadmillTimer = createIdleTimer();
   let treadmillTimerInterval = null;
@@ -139,6 +127,7 @@
       workoutLogs: {},
       completedSessions: {},
       testResults: {},
+      nutritionLogs: {},
       userSettings: {
         notificationDefaults: { ...notifications.DEFAULT_SETTINGS },
         notificationSettings: {},
@@ -164,7 +153,7 @@
 
   function migrateAppData(raw) {
     const empty = createEmptyAppData();
-    if (!isObject(raw)) return empty;
+    if (!isObject(raw)) throw new Error("Opgeslagen data is geen app-object.");
     const data = {
       ...empty,
       ...raw,
@@ -173,6 +162,7 @@
       userSettings: isObject(raw.userSettings) ? raw.userSettings : {},
       uiState: isObject(raw.uiState) ? raw.uiState : {},
       testResults: isObject(raw.testResults) ? raw.testResults : {},
+      nutritionLogs: isObject(raw.nutritionLogs) ? raw.nutritionLogs : {},
       legacyData: isObject(raw.legacyData) ? raw.legacyData : {},
       meta: { ...empty.meta, ...(isObject(raw.meta) ? raw.meta : {}), schemaVersion: plan.config.schemaVersion },
     };
@@ -208,32 +198,64 @@
       data.legacyData.previousPlan ||= { archivedAt: nowIso(), workoutLogs: {}, completedSessions: {} };
       data.legacyData.previousPlan.completedSessions = { ...(data.legacyData.previousPlan.completedSessions || {}), ...archivedCompleted };
     }
+    // Keep historical effort, not the revised prescription; never repurpose a different test.
+    if (Number(raw.appDataVersion || 0) < 4) {
+      const knownPrevious = raw.meta?.schemaVersion === "marathon-3u30-definitief-2026.09.01-1";
+      for (const workout of workouts) {
+        const id = workout.workoutId;
+        const old = knownPrevious ? plan.previousWorkouts?.[id] : null;
+        const log = data.workoutLogs[id];
+        if (old && (log?.completed || data.completedSessions[id])) {
+          data.workoutLogs[id] = { ...normalizeWorkoutLog(log, id), completed: true,
+            plannedDistanceAtCompletion: log?.plannedDistanceAtCompletion ?? old.distanceKm,
+            plannedSecondsAtCompletion: log?.plannedSecondsAtCompletion ?? old.durationSeconds };
+        }
+        const result = data.testResults[id];
+        if (result && (!old || old.signature !== workout.protocolSignature)) {
+          data.legacyData.previousTestProtocols ||= {};
+          data.legacyData.previousTestProtocols[id] = { result, sourceSchema: raw.meta?.schemaVersion || "onbekend", title: old?.title || id };
+          delete data.testResults[id];
+        }
+      }
+    }
     return data;
   }
 
   function loadAppData() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) {
-        const empty = createEmptyAppData();
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(empty));
-        return empty;
+      const data = raw ? migrateAppData(JSON.parse(raw)) : createEmptyAppData();
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      } catch (error) {
+        // A write failure must not hide data that was read successfully.
+        showStorageWarning("Opslaan lukt niet. Je bestaande gegevens blijven zichtbaar; controleer de beschikbare browseropslag.");
+        console.warn("Opslag kon niet worden bijgewerkt.", error);
       }
-      const data = migrateAppData(JSON.parse(raw));
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       return data;
     } catch (error) {
-      console.warn("Lokale voortgang kon niet worden gelezen; de planner start leeg.", error);
-      const empty = createEmptyAppData();
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(empty)); } catch (_) {}
-      return empty;
+      storageWriteBlocked = true;
+      showStorageWarning("Lokale gegevens konden niet worden geladen. De originele opslag is behouden. Nieuwe registraties worden niet opgeslagen totdat de opslag is hersteld.");
+      console.warn("Opslag niet toegankelijk. Bestaande data blijft onaangeroerd; opslaan is geblokkeerd.", error);
+      return createEmptyAppData();
     }
   }
 
+  function showStorageWarning(message = "") {
+    const warning = document.getElementById("storage-warning");
+    if (!warning) return;
+    warning.textContent = message;
+    warning.hidden = !message;
+  }
+
   function saveAppData() {
+    if (storageWriteBlocked) return;
     appData.updatedAt = nowIso();
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); }
-    catch (error) { console.warn("Voortgang opslaan is niet gelukt.", error); }
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); showStorageWarning(); }
+    catch (error) {
+      showStorageWarning("Opslaan lukt niet. Houd de app open en controleer de beschikbare browseropslag; nieuwe invoer is nog niet veilig bewaard.");
+      console.warn("Voortgang opslaan is niet gelukt.", error);
+    }
   }
 
   function notificationSettings(workoutId) {
@@ -464,6 +486,12 @@
     log.completed = completed;
     log.completedDate = completed ? localDateIso() : "";
     log.updatedAt = nowIso();
+    if (completed) {
+      const workout = workoutById(workoutId);
+      log.plannedDistanceAtCompletion = plannedDistanceKm(workout);
+      log.plannedSecondsAtCompletion = workoutDurationSeconds(workout);
+      log.schemaVersion = plan.config.schemaVersion;
+    }
     appData.workoutLogs[workoutId] = log;
     if (completed) appData.completedSessions[workoutId] = { completedAt: log.completedDate, updatedAt: log.updatedAt };
     else delete appData.completedSessions[workoutId];
@@ -518,7 +546,7 @@
     }
     const distanceSegments = relevantSegments(workout).filter((segment) => segment.basis === "distance");
     if (distanceSegments.length) {
-      return distanceSegments.slice(0, 3).map((segment) => `${segment.display} op ${formatNumber(segment.speedKmh)} km/u`).join(" · ") + (distanceSegments.length > 3 ? " · …" : "");
+      return distanceSegments.slice(0, 3).map((segment) => `${segment.display} ${segment.speedKmh > 0 ? `op ${formatNumber(segment.speedKmh)} km/u` : "op testtempo"}`).join(" · ") + (distanceSegments.length > 3 ? " · …" : "");
     }
     const faster = relevantSegments(workout).filter((segment) => Number(segment.speedKmh) >= 11.5);
     if (faster.length) return faster.slice(0, 2).map((segment) => `${segment.display} op ${formatNumber(segment.speedKmh)} km/u`).join(" · ") + (faster.length > 2 ? " · …" : "");
@@ -724,6 +752,7 @@
           </label>
         </div>
         <div class="week-meta">${escapeHtml(week.periodLabel || `${formatDate(week.startDate, { day: "numeric", month: "long" })} – ${formatDate(week.endDate, { day: "numeric", month: "long", year: "numeric" })}`)} · ${escapeHtml(week.plannedDistanceLabel || "Afstand volgens trainingen")} · nog ${daysUntilMarathon()} dagen</div>
+        <div class="training-labels week-type">${renderSemanticBadge(week.weekType)}</div>
         <p class="week-focus">${escapeHtml(week.focus)}</p>
       </section>
 
@@ -746,16 +775,49 @@
     `;
   }
 
+  function renderSemanticBadge(label) {
+    const text = String(label || "");
+    const tone = /VOEDING/.test(text) ? "fueling" : /BUITEN/.test(text) ? "outdoor" : /LOOPBAND/.test(text) ? "treadmill"
+      : /CUTBACK|RECOVERY/.test(text) ? "recovery" : /RACE/.test(text) ? "race" : /TAPER/.test(text) ? "taper"
+      : /TEST|BENCHMARK|FITNESS CHECK/.test(text) ? "test" : /LONG|CONFIDENCE|PEAK/.test(text) ? "long"
+      : /MARATHON SPECIFIC|MARATHONSPECIFIEK|MP/.test(text) ? "mp" : /INTERVAL|STRIDES/.test(text) ? "interval"
+      : /QUALITY|THRESHOLD|CONTROLLED FAST/.test(text) ? "threshold" : /STEADY/.test(text) ? "steady" : "easy";
+    return `<span class="semantic-badge tone-${tone}">${escapeHtml(text)}</span>`;
+  }
+
+  function renderFuelingForm(workout) {
+    const log = appData.nutritionLogs?.[workout.workoutId] || {};
+    const fields = [
+      ["products", "Gebruikte producten", "text"], ["servings", "Gels / servings", "number"],
+      ["totalCarbs", "Koolhydraten totaal (g)", "number"], ["carbsPerHour", "Koolhydraten per uur (g)", "number"],
+      ["timing", "Timing", "text"], ["drinking", "Drinken", "text"],
+      ["gut", "Maag / darmen", "text"], ["energy", "Energieniveau", "text"], ["legs", "Benen", "text"],
+    ];
+    return `<details class="info-accordion fueling-registration">
+      <summary><span>${workout.fullFuelRehearsal ? "Volledige racevoedingsrepetitie" : "Racevoeding registreren"}</span><span aria-hidden="true">+</span></summary>
+      <div><p>${escapeHtml(workout.nutrition)}</p><div class="test-fields">
+      ${fields.map(([key, title, type]) => `<label><span>${title}</span><input type="${type}" ${type === "number" ? 'inputmode="decimal" min="0" step="any"' : ""} value="${escapeAttr(log[key] ?? "")}" data-fuel-workout="${workout.workoutId}" data-fuel-field="${key}"></label>`).join("")}
+      <label class="wide"><span>Voeding volgens plan voltooid</span><select data-fuel-workout="${workout.workoutId}" data-fuel-field="completedAsPlanned"><option value="">Kies</option><option value="ja" ${log.completedAsPlanned === "ja" ? "selected" : ""}>Ja</option><option value="nee" ${log.completedAsPlanned === "nee" ? "selected" : ""}>Nee</option></select></label>
+      <label class="wide"><span>Notitie</span><textarea rows="3" data-fuel-workout="${workout.workoutId}" data-fuel-field="note">${escapeHtml(log.note || "")}</textarea></label>
+      </div></div></details>`;
+  }
+
+  function saveFuelField(workoutId, field, value) {
+    if (!workoutById(workoutId)?.fueling || !["products", "servings", "totalCarbs", "carbsPerHour", "timing", "drinking", "gut", "energy", "legs", "completedAsPlanned", "note"].includes(field)) return;
+    appData.nutritionLogs[workoutId] = { ...appData.nutritionLogs[workoutId], [field]: value, updatedAt: nowIso() };
+    saveAppData();
+  }
+
   function renderTrainingCard(workout) {
     const open = state.expandedWorkoutIds.has(workout.workoutId);
     const completed = isCompleted(workout.workoutId);
     const detailsId = `details-${workout.workoutId}`;
     return `
-      <article class="training-card ${open ? "is-open" : ""} ${completed ? "is-completed" : ""}" data-workout-card="${workout.workoutId}">
+      <article class="training-card tone-${escapeAttr(workout.tone || "easy")} ${open ? "is-open" : ""} ${completed ? "is-completed" : ""}" data-workout-card="${workout.workoutId}">
         <button class="training-card-toggle" type="button" data-toggle-workout="${workout.workoutId}" aria-expanded="${open}" aria-controls="${detailsId}">
           <span class="card-topline"><span>${escapeHtml(workoutSequenceLabel(workout))}</span>${completed ? `<span class="completed-mark">✓ Voltooid</span>` : `<span class="training-type">${escapeHtml(trainingType(workout))}</span>`}<span class="expand-icon" aria-hidden="true">${open ? "−" : "+"}</span></span>
-          ${(workout.labels || []).length ? `<span class="training-labels">${workout.labels.map((label) => `<span>${escapeHtml(label)}</span>`).join("")}</span>` : ""}
-          <span class="training-metadata"><span class="recovery-${escapeAttr(workout.recoveryStatus || "none")}">${escapeHtml(workout.recoveryLabel || "")}</span><span>${escapeHtml(workout.locationStatus || workout.surface || "")}</span></span>
+          ${(workout.labels || []).length ? `<span class="training-labels">${workout.labels.map(renderSemanticBadge).join("")}</span>` : ""}
+          <span class="training-metadata"><span class="recovery-${escapeAttr(workout.recoveryStatus || "none")}">${escapeHtml(workout.recoveryLabel || "")}</span></span>
           <span class="training-name">${escapeHtml(capitalize(workout.title))}</span>
           <span class="training-primary">${escapeHtml(workoutPrimarySummary(workout))}</span>
           <span class="training-speed">${escapeHtml(joinText([speedSummary(workout), workout.targetRpe ? `RPE ${workout.targetRpe}` : ""]))}</span>
@@ -783,6 +845,7 @@
       <div class="detail-section"><h3>Planning en herstel</h3><p><strong>${escapeHtml(workout.recoveryLabel || "Herstel volgens weekbelasting")}:</strong> ${escapeHtml(workout.recoveryAdvice || workout.orderWarning || "Bewaak herstel tussen de sessies.")}</p>${workout.orderWarning ? `<p>${escapeHtml(workout.orderWarning)}</p>` : ""}</div>
       <div class="detail-section"><h3>Locatie en buitenvariant</h3><p><strong>${escapeHtml(workout.locationStatus || "Loopband of buiten")}.</strong> ${escapeHtml(workout.outsideVariant || "Volg buiten dezelfde duur en inspanning.")}</p></div>
       ${(workout.detailsSections || []).map((section) => `<div class="detail-section source-detail"><h3>${escapeHtml(section.title)}</h3><ul>${section.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div>`).join("")}
+      ${workout.fueling ? renderFuelingForm(workout) : ""}
       ${workout.isTest ? renderTestForm(workout) : ""}
     `;
   }
@@ -808,7 +871,7 @@
   }
 
   function renderRpeOptions(value) {
-    return `<option value="">Kies RPE</option>${Array.from({ length: 10 }, (_, index) => index + 1).map((number) => `<option value="${number}" ${String(value) === String(number) ? "selected" : ""}>${number}/10</option>`).join("")}`;
+    return `<option value="">Kies RPE</option>${Array.from({ length: 19 }, (_, index) => 1 + index / 2).map((number) => `<option value="${number}" ${String(value) === String(number) ? "selected" : ""}>${formatNumber(number)}/10</option>`).join("")}`;
   }
 
   function renderFitnessCheckFields(workout, result) {
@@ -827,11 +890,16 @@
         <label><span>Ademhaling</span><input type="text" value="${escapeAttr(result[`${prefix}Breathing`] || "")}" placeholder="rustig / stevig / zwaar" data-test-workout="${workout.workoutId}" data-test-field="${prefix}Breathing"></label>
         <label><span>Benen</span><input type="text" value="${escapeAttr(result[`${prefix}Legs`] || "")}" placeholder="fris / normaal / zwaar" data-test-workout="${workout.workoutId}" data-test-field="${prefix}Legs"></label>
       </fieldset>`).join("")}
-      ${workout.fitnessCheckNumber === 2 ? `<div class="fitness-comparison"><strong>Vergelijking met week 38</strong><p>${hasBaseline ? `De nulmeting is beschikbaar. Vergelijk vooral RPE bij 12 km/u, ademhaling, benen, klachten en verwachte hersteltijd; kijk niet alleen naar één veld.` : "Fitness Check #1 is nog niet geregistreerd. Deze check blijft bruikbaar, maar er is nog geen persoonlijke nulmeting om mee te vergelijken."}</p></div>` : ""}
+      ${workout.fitnessCheckNumber === 2 ? `<div class="fitness-comparison"><strong>Vergelijking met week 38</strong><p>${hasBaseline ? `Dezelfde 40 minuten, snelheden en hellingen. Vergelijk ook ademhaling, benen, klachten en herstel.` : "Fitness Check #1 is nog niet geregistreerd. Er is nog geen vergelijkbare persoonlijke nulmeting."}</p>${hasBaseline ? `<dl>${blocks.map(([label, prefix]) => `<div><dt>${label} · W38</dt><dd>RPE ${escapeHtml(comparison[`${prefix}Rpe`] || "niet ingevuld")} · ${escapeHtml(comparison[`${prefix}Breathing`] || "ademhaling niet ingevuld")} · ${escapeHtml(comparison[`${prefix}Legs`] || "benen niet ingevuld")}</dd></div>`).join("")}</dl>` : ""}</div>` : ""}
     </div>`;
   }
 
   function renderWorkoutSpecificTestFields(workout, result) {
+    if (workout.workoutId === "marathon-3u30-w43-t2") {
+      return `<div class="fitness-check-fields"><h4>3 × 15 min marathonpace</h4><fieldset><legend>RPE per MP-blok</legend>
+        ${[1, 2, 3].map((block) => `<label><span>Blok ${block}</span><select data-test-workout="${workout.workoutId}" data-test-field="mpBlock${block}Rpe">${renderRpeOptions(result[`mpBlock${block}Rpe`])}</select></label>`).join("")}
+        </fieldset><label><span>Voelde een vierde blok mogelijk?</span><select data-test-workout="${workout.workoutId}" data-test-field="fourthBlockPossible"><option value="">Kies</option>${["ja", "twijfel", "nee"].map((value) => `<option value="${value}" ${result.fourthBlockPossible === value ? "selected" : ""}>${capitalize(value)}</option>`).join("")}</select></label></div>`;
+    }
     if (workout.workoutId === "marathon-3u30-w41-t2") {
       return `<div class="fitness-check-fields rhythm-check-fields">
         <h4>Marathon Rhythm-verloop</h4>
@@ -888,7 +956,7 @@
   }
 
   function treadmillInclineLabel(block) {
-    return block?.inclinePercent == null ? "Buiten" : `${formatNumber(block.inclinePercent)}%`;
+    return focusInclineLabel(block);
   }
 
   function switchPlanFor(workout, timeline) {
@@ -966,8 +1034,8 @@
         <strong>${escapeHtml(block.timeRangeLabel)}</strong>
         <small>${escapeHtml(joinText([distance, duration]))}</small>
       </div>
-      <div class="treadmill-block-speed"><span>Snelheid</span><strong>${escapeHtml(treadmillSpeedLabel(block))}</strong></div>
-      <div class="treadmill-block-incline"><span>Helling</span><strong>${escapeHtml(treadmillInclineLabel(block))}</strong></div>
+      <div class="treadmill-block-speed"><span>Snelheid</span><strong class="${Number(block.speedKmh) > 0 ? "" : "is-text"}">${escapeHtml(treadmillSpeedLabel(block))}</strong></div>
+      <div class="treadmill-block-incline"><span>Helling</span><strong class="${block.inclinePercent == null ? "is-text" : ""}">${escapeHtml(treadmillInclineLabel(block))}</strong></div>
     </article>`;
   }
 
@@ -1003,7 +1071,6 @@
 
   function renderFocusCockpit(workout, timeline, snapshot) {
     const current = snapshot.current || timeline.blocks.at(-1);
-    const next = snapshot.next;
     const { switchSoon, finalCountdown } = focusTimingState(snapshot);
     return `<section class="focus-cockpit${switchSoon ? " is-switch-soon" : ""}${finalCountdown ? " is-final-countdown" : ""}${treadmillTimer.status === "paused" ? " is-paused" : ""}" data-focus-cockpit aria-label="Actieve loopbandcockpit">
       <div class="focus-countdown">
@@ -1013,12 +1080,7 @@
       </div>
       <div class="focus-now-grid">
         <div class="focus-speed"><span>Nu · snelheid</span><strong><b data-focus-current-speed>${escapeHtml(focusSpeedValue(current))}</b>${Number(current?.speedKmh) > 0 ? "<small>km/u</small>" : ""}</strong></div>
-        <div class="focus-incline"><span>Helling</span><strong data-focus-current-incline>${escapeHtml(focusInclineLabel(current))}</strong></div>
-      </div>
-      <div class="focus-next${switchSoon ? " is-prominent" : ""}" data-focus-next>
-        <div><span>Daarna</span><small data-focus-next-name>${escapeHtml(next?.blockName || "Finish")}</small></div>
-        <strong><b data-focus-next-speed>${next ? escapeHtml(treadmillSpeedLabel(next)) : "Finish"}</b><b data-focus-next-incline>${next ? escapeHtml(focusInclineLabel(next)) : ""}</b></strong>
-        <small data-focus-next-in>${next ? `over ${formatStopwatch(snapshot.remainingSeconds)}` : "laatste blok"}</small>
+        <div class="focus-incline"><span>Helling</span><strong class="${current?.inclinePercent == null ? "is-text" : ""}" data-focus-current-incline>${escapeHtml(focusInclineLabel(current))}</strong></div>
       </div>
       ${renderFocusProgress(timeline, snapshot)}
       <div class="focus-total-time"><span><strong data-timer-elapsed>${formatStopwatch(snapshot.elapsedSeconds)}</strong> verstreken</span><span><strong data-focus-total-remaining>${formatStopwatch(snapshot.totalRemainingSeconds)}</strong> resterend</span></div>
@@ -1040,7 +1102,7 @@
         <small>${escapeHtml(block.blockName)}</small>
       </div>
       <div class="focus-queue-speed"><span>Snelheid</span><strong><b>${escapeHtml(focusSpeedValue(block))}</b>${Number(block.speedKmh) > 0 ? "<small>km/u</small>" : ""}</strong></div>
-      <div class="focus-queue-incline"><span>Helling</span><strong>${escapeHtml(focusInclineLabel(block))}</strong></div>
+      <div class="focus-queue-incline"><span>Helling</span><strong class="${block.inclinePercent == null ? "is-text" : ""}">${escapeHtml(focusInclineLabel(block))}</strong></div>
     </article>`;
   }
 
@@ -1261,25 +1323,49 @@
     button.classList?.toggle("is-visible", state.focusQueueUserBrowsing);
   }
 
+  function focusActiveRowIsVisible(activeRect, cockpitRect, viewportHeight) {
+    if (!activeRect || !cockpitRect || !Number.isFinite(Number(viewportHeight))) return true;
+    const topLimit = Number(cockpitRect.bottom) + 8;
+    const bottomLimit = Number(viewportHeight) - 12;
+    return Number(activeRect.top) >= topLimit && Number(activeRect.bottom) <= bottomLimit;
+  }
+
+  function syncFocusQueueBrowsingFromViewport() {
+    if (focusAutoScrolling || state.view !== VIEWS.TREADMILL || !["running", "paused"].includes(treadmillTimer.status)) return;
+    const activeRow = app.querySelector?.("[data-focus-queue-index].is-current");
+    const cockpit = app.querySelector?.("[data-focus-cockpit]");
+    if (!activeRow || !cockpit) return setFocusQueueBrowsing(false);
+    const activeRect = activeRow.getBoundingClientRect?.();
+    const cockpitRect = cockpit.getBoundingClientRect?.();
+    setFocusQueueBrowsing(!focusActiveRowIsVisible(activeRect, cockpitRect, window.innerHeight || document.documentElement?.clientHeight || 0));
+  }
+
   function scrollFocusQueueToCurrent(behavior = "smooth") {
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) behavior = "auto";
     const activeRow = app.querySelector?.("[data-focus-queue-index].is-current");
     if (!activeRow) {
       setFocusQueueBrowsing(false);
       return;
     }
     setFocusQueueBrowsing(false);
+    app.querySelectorAll?.(".focus-queue-item.keep-visible").forEach((row) => row.classList.remove("keep-visible"));
+    const completedToggle = app.querySelector?.("[data-toggle-focus-completed]");
+    if (completedToggle && state.focusLastActiveIndex > 0) completedToggle.hidden = false;
     focusAutoScrolling = true;
     const cockpit = app.querySelector?.("[data-focus-cockpit]");
     const rowTop = activeRow.getBoundingClientRect?.().top;
-    const cockpitHeight = cockpit?.getBoundingClientRect?.().height || 0;
+    const cockpitBottom = cockpit?.getBoundingClientRect?.().bottom || 0;
     if (Number.isFinite(rowTop) && typeof window.scrollTo === "function") {
       const currentScroll = Number(window.scrollY || window.pageYOffset || 0);
-      window.scrollTo({ top: Math.max(0, currentScroll + rowTop - cockpitHeight - 14), behavior });
+      window.scrollTo({ top: Math.max(0, currentScroll + rowTop - cockpitBottom - 10), behavior });
     } else {
-      activeRow.scrollIntoView?.({ block: "center", behavior });
+      activeRow.scrollIntoView?.({ block: "start", behavior });
     }
     if (focusAutoScrollReleaseTimer) window.clearTimeout?.(focusAutoScrollReleaseTimer);
-    focusAutoScrollReleaseTimer = window.setTimeout?.(() => { focusAutoScrolling = false; }, behavior === "smooth" ? 450 : 50) || null;
+    focusAutoScrollReleaseTimer = window.setTimeout?.(() => {
+      focusAutoScrolling = false;
+      syncFocusQueueBrowsingFromViewport();
+    }, behavior === "smooth" ? 550 : 50) || null;
     if (!focusAutoScrollReleaseTimer) focusAutoScrolling = false;
   }
 
@@ -1288,6 +1374,7 @@
       const index = Number(row.dataset.focusQueueIndex);
       const completed = index < snapshot.currentIndex;
       const active = index === snapshot.currentIndex;
+      if (completed && state.focusQueueUserBrowsing && !row.classList?.contains("is-completed")) row.classList?.toggle("keep-visible", true);
       row.classList?.toggle("is-completed", completed);
       row.classList?.toggle("is-current", active);
       if (active) row.setAttribute?.("aria-current", "step");
@@ -1302,7 +1389,8 @@
       segment.classList?.toggle("is-upcoming", index > snapshot.currentIndex);
     });
     const completedToggle = app.querySelector?.("[data-toggle-focus-completed]");
-    if (completedToggle) completedToggle.hidden = snapshot.completedCount === 0;
+    // Do not insert a new row above the user's reading position during a switch.
+    if (completedToggle) completedToggle.hidden = snapshot.completedCount === 0 || (state.focusQueueUserBrowsing && completedToggle.hidden);
     const completedSummary = app.querySelector?.("[data-focus-completed-summary]");
     if (completedSummary) completedSummary.textContent = `✓ ${snapshot.completedCount} ${snapshot.completedCount === 1 ? "blok" : "blokken"} voltooid`;
 
@@ -1341,16 +1429,10 @@
       const { switchSoon, finalCountdown } = focusTimingState(snapshot);
       cockpit.classList?.toggle("is-switch-soon", switchSoon);
       cockpit.classList?.toggle("is-final-countdown", finalCountdown);
-      const nextPanel = app.querySelector?.("[data-focus-next]");
-      nextPanel?.classList?.toggle("is-prominent", switchSoon);
       setText("[data-block-remaining]", formatStopwatch(snapshot.remainingSeconds));
       setText("[data-focus-current-speed]", focusSpeedValue(snapshot.current));
       setText("[data-focus-current-incline]", focusInclineLabel(snapshot.current));
       setText("[data-focus-current-context]", `${snapshot.current?.blockName || "Training"} · Blok ${snapshot.currentIndex + 1} van ${timeline.blocks.length}`);
-      setText("[data-focus-next-speed]", snapshot.next ? treadmillSpeedLabel(snapshot.next) : "Finish");
-      setText("[data-focus-next-incline]", snapshot.next ? focusInclineLabel(snapshot.next) : "");
-      setText("[data-focus-next-name]", snapshot.next?.blockName || "Finish");
-      setText("[data-focus-next-in]", snapshot.next ? `over ${formatStopwatch(snapshot.remainingSeconds)}` : "laatste blok");
       setText("[data-focus-block-progress]", `Blok ${snapshot.currentIndex + 1} van ${timeline.blocks.length}`);
       setText("[data-timer-elapsed]", formatStopwatch(snapshot.elapsedSeconds));
       setText("[data-focus-total-remaining]", formatStopwatch(snapshot.totalRemainingSeconds));
@@ -1398,15 +1480,14 @@
   }
 
   function plannedDistanceKm(workout) {
-    const explicit = Number(workout?.estimatedDistanceKm);
-    if (Number.isFinite(explicit) && explicit >= 0) return explicit;
     const calculated = Number(model.calculateWorkoutDistanceKm(workout));
     return Number.isFinite(calculated) && calculated >= 0 ? calculated : 0;
   }
 
   function actualDistanceKm(workout) {
     const log = workoutLog(workout.workoutId) || {};
-    const actual = [log.actualDistanceKm, log.distanceKm, log.completedDistanceKm]
+    const actual = [log.actualDistanceKm, log.distanceKm, log.completedDistanceKm, log.plannedDistanceAtCompletion]
+      .filter((value) => value != null && value !== "")
       .map(Number)
       .find((value) => Number.isFinite(value) && value >= 0);
     return actual ?? null;
@@ -1422,9 +1503,6 @@
   }
 
   function getWeekPlannedKm(week, includeMarathon = true) {
-    const containsMarathon = weekWorkouts(week, true).some((workout) => workout.category === "wedstrijd");
-    const authoritative = Number(week?.plannedDistanceKm);
-    if (Number.isFinite(authoritative) && (includeMarathon || !containsMarathon)) return authoritative;
     return weekWorkouts(week, includeMarathon).reduce((total, workout) => total + plannedDistanceKm(workout), 0);
   }
 
@@ -1460,7 +1538,8 @@
   function completedDurationSeconds(workout) {
     if (!isCompleted(workout.workoutId)) return 0;
     const log = workoutLog(workout.workoutId) || {};
-    const actual = [log.actualDurationSeconds, log.durationSeconds, log.completedDurationSeconds]
+    const actual = [log.actualDurationSeconds, log.durationSeconds, log.completedDurationSeconds, log.plannedSecondsAtCompletion]
+      .filter((value) => value != null && value !== "")
       .map(Number)
       .find((value) => Number.isFinite(value) && value >= 0);
     return actual ?? workoutDurationSeconds(workout) ?? 0;
@@ -1620,12 +1699,12 @@
 
     const mpWorkoutId = hasMeaningfulTestResult("marathon-3u30-w43-t2") ? "marathon-3u30-w43-t2" : "marathon-3u30-w41-t2";
     const mpResult = testResult(mpWorkoutId);
-    const mpRpe = Number(mpResult.lastBlockRpe || mpResult.rpe60 || mpResult.rpe);
+    const mpRpe = Number(mpResult.mpBlock3Rpe || mpResult.lastBlockRpe || mpResult.rpe60 || mpResult.rpe);
     const mp = !hasMeaningfulTestResult(mpWorkoutId)
       ? { key: "mp", label: "MP-controle", status: "orange", detail: "Nog geen uitgebreide marathonpacemeting geregistreerd." }
       : painIsPresent(mpResult.pain) || mpRpe >= 9
         ? { key: "mp", label: "MP-controle", status: "red", detail: "Marathontempo gaf klachten of zeer hoge ervaren belasting." }
-        : mpRpe > 0 && mpRpe <= 7.5
+        : mpRpe > 0 && mpRpe <= 7 && mpResult.fourthBlockPossible !== "nee"
           ? { key: "mp", label: "MP-controle", status: "green", detail: `Doeltempo bleef beheerst rond RPE ${formatNumber(mpRpe)}.` }
           : { key: "mp", label: "MP-controle", status: "orange", detail: "Meting aanwezig, maar nog geen overtuigend stabiele RPE-indicatie." };
 
@@ -1638,7 +1717,7 @@
     const fatigueResult = testResult("marathon-3u30-w44-t4");
     const fatigueRpe = Number(fatigueResult.secondBlockRpe || fatigueResult.lastBlockRpe || fatigueResult.rpe);
     const fatigue = !hasMeaningfulTestResult("marathon-3u30-w44-t4") && !isCompleted("marathon-3u30-w44-t4")
-      ? { key: "fatigue", label: "Vermoeidheidsbestendigheid", status: "orange", detail: "Key Marathon Confidence moet nog worden uitgevoerd." }
+      ? { key: "fatigue", label: "Vermoeidheidsbestendigheid", status: "orange", detail: "Key Marathon Specific Test moet nog worden uitgevoerd." }
       : painIsPresent(fatigueResult.pain) || fatigueRpe >= 9
         ? { key: "fatigue", label: "Vermoeidheidsbestendigheid", status: "red", detail: "De sleuteltraining gaf klachten of zeer hoge belasting." }
         : fatigueRpe > 0 && fatigueRpe <= 7.5
@@ -1774,7 +1853,7 @@
           const completed = week.workouts.filter((workout) => isCompleted(workout.workoutId)).length;
           const overview = week.weekPhilosophy
             ? { theme: week.weekPhilosophy.theme, goal: week.weekPhilosophy.summary }
-            : WEEK_OVERVIEW[week.weekNumber] || { theme: phase?.shortName || week.phaseName, goal: week.focus };
+            : { theme: phase?.shortName || week.phaseName, goal: week.focus };
           const marathonWeek = Boolean(week.includesMarathon || longRun?.category === "wedstrijd");
           const extraCount = week.workouts.filter((workout) => workout.isExtra).length;
           const regularCount = week.workouts.length - extraCount;
@@ -1958,7 +2037,7 @@
     }
 
     const card = event.target.closest("[data-workout-card]");
-    if (card && !event.target.closest("button, a, select, summary")) {
+    if (card && !event.target.closest("button, a, select, summary, input, textarea, label, .training-details")) {
       toggleWorkoutDetails(card.dataset.workoutCard);
       return;
     }
@@ -1987,6 +2066,10 @@
   });
 
   document.addEventListener("change", (event) => {
+    if (event.target.matches("[data-fuel-workout][data-fuel-field]")) {
+      saveFuelField(event.target.dataset.fuelWorkout, event.target.dataset.fuelField, event.target.value);
+      return;
+    }
     if (event.target.matches("[data-notification-setting][data-workout-id]")) {
       const field = event.target.dataset.notificationSetting;
       const value = Boolean(event.target.checked);
@@ -2006,6 +2089,10 @@
   });
 
   document.addEventListener("input", (event) => {
+    if (event.target.matches("[data-fuel-workout][data-fuel-field]")) {
+      saveFuelField(event.target.dataset.fuelWorkout, event.target.dataset.fuelField, event.target.value);
+      return;
+    }
     if (event.target.matches("[data-test-workout][data-test-field]")) {
       saveTestField(event.target.dataset.testWorkout, event.target.dataset.testField, event.target.value);
     }
@@ -2030,15 +2117,15 @@
 
   window.addEventListener("scroll", () => {
     if (state.view !== VIEWS.TREADMILL || !["running", "paused"].includes(treadmillTimer.status) || focusAutoScrolling) return;
-    setFocusQueueBrowsing(true);
+    syncFocusQueueBrowsingFromViewport();
   }, { passive: true });
 
   document.addEventListener("touchmove", (event) => {
-    if (event.target.closest?.("[data-focus-queue]")) setFocusQueueBrowsing(true);
+    if (event.target.closest?.("[data-focus-queue]")) window.setTimeout?.(syncFocusQueueBrowsingFromViewport, 0);
   }, { passive: true });
 
   document.addEventListener("wheel", (event) => {
-    if (event.target.closest?.("[data-focus-queue]")) setFocusQueueBrowsing(true);
+    if (event.target.closest?.("[data-focus-queue]")) window.setTimeout?.(syncFocusQueueBrowsingFromViewport, 0);
   }, { passive: true });
 
   async function initializePwaServices() {
@@ -2088,6 +2175,7 @@
     buildTreadmillTimeline,
     timelineSnapshotAt,
     focusTimingState,
+    focusActiveRowIsVisible,
     switchPlanFor,
     daysUntilMarathon,
     nextIncompleteWorkout,

@@ -1,532 +1,189 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const inputPath = process.argv[2];
-const outputPath = process.argv[3] || path.resolve("training-data.js");
+const input = process.argv[2] || "marathon-schema-3u30-definitief-2026.md";
+const output = process.argv[3] || "training-data.js";
+const source = fs.readFileSync(input, "utf8").replace(/\r/g, "");
+const clean = (s) => s.replace(/\*\*|`/g, "").trim();
+const number = (s) => Number(s.replace(",", "."));
+const label = (n) => n.toLocaleString("nl-NL", { maximumFractionDigits: 1 });
+const field = (body, name) => clean(body.match(new RegExp(`^\\*\\*${name}:\\*\\* (.+)$`, "m"))?.[1] || "");
+const days = (offset) => new Date(Date.UTC(2026, 7, 31 + offset)).toISOString().slice(0, 10);
+const problems = [];
+const previous = JSON.parse(fs.readFileSync(new URL("./previous-workouts-v5.json", import.meta.url), "utf8"));
 
-if (!inputPath) {
-  throw new Error("Gebruik: node scripts/generate-marathon-plan.mjs <marathon-schema-3u30-expliciete-helling.md> [training-data.js]");
+function seconds(text) {
+  const parts = text.split(":").map(number);
+  return parts.length === 2 ? parts[0] * 60 + parts[1] : number(text) * 60;
 }
 
-const source = fs.readFileSync(inputPath, "utf8").replace(/\r/g, "");
-const lines = source.split("\n");
-const schemaVersion = "marathon-schema-3u30-expliciete-helling-2026.08.30-1";
-const scheduleStart = "2026-08-31";
-
-function localIso(date) {
-  return [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
+function parseBlock(line) {
+  const m = line.match(/^\d+\. ([\d,:.]+) (min|sec|km)(?: wandelen)? @ ([\d,]+) km\/u — ([\d,]+)%$/);
+  if (m) {
+    const speedKmh = number(m[3]);
+    const inclinePercent = number(m[4]);
+    return {
+      basis: m[2] === "km" ? "distance" : "time",
+      ...(m[2] === "km" ? { distanceKm: number(m[1]) } : { durationSeconds: m[2] === "sec" ? number(m[1]) : seconds(m[1]) }),
+      display: `${m[1]} ${m[2]}`, speedKmh, inclinePercent,
+      type: speedKmh <= 6 ? "wandelen" : speedKmh <= 8.5 ? "cooling-down" : speedKmh < 9.9 ? "herstel" : speedKmh <= 10.3 ? "easy" : inclinePercent === 0.5 ? "steady" : speedKmh < 12 ? "sub-marathon" : speedKmh <= 12.1 ? "marathonpace" : speedKmh < 13 ? "drempel" : "interval",
+      instruction: "",
+    };
+  }
+  if (/^\d+\. 5,00 km test/.test(line)) return { basis: "distance", distanceKm: 5, speedKmh: null, inclinePercent: 1, display: "5,00 km", type: "test", instruction: line.split(";")[1].trim() };
+  if (/^\d+\. .*@/.test(line)) throw new Error(`Onbegrepen trainingsblok: ${line}`);
+  return null;
 }
 
-function addDays(iso, days) {
-  const [year, month, day] = iso.split("-").map(Number);
-  const date = new Date(year, month - 1, day);
-  date.setDate(date.getDate() + days);
-  return localIso(date);
+function table(heading) {
+  const rest = source.slice(source.indexOf(heading));
+  return rest.slice(0, rest.indexOf("\n\n")).split("\n").slice(2).map((l) => l.split("|").slice(1, -1).map(clean));
 }
-
-function parseDecimal(value) {
-  const match = String(value || "").replace(",", ".").match(/-?\d+(?:\.\d+)?/);
-  return match ? Number(match[0]) : null;
-}
-
-function parseDistanceRange(value) {
-  const values = String(value || "").replace(/,/g, ".").match(/\d+(?:\.\d+)?/g)?.map(Number) || [];
-  if (!values.length) return null;
-  const min = values[0];
-  const max = values[1] ?? values[0];
-  return { min, max, midpoint: (min + max) / 2 };
-}
-
-function parseClockSeconds(value) {
-  const text = String(value || "").trim().toLowerCase().replace(/^±/, "");
-  const minuteSecond = text.match(/^(\d+):(\d{2})(?:\s*min)?$/);
-  if (minuteSecond) return Number(minuteSecond[1]) * 60 + Number(minuteSecond[2]);
-  const seconds = text.match(/([\d,.]+)\s*sec/);
-  if (seconds) return Math.round(parseDecimal(seconds[1]) * 1);
-  const minutes = text.match(/([\d,.]+)\s*min/);
-  if (minutes) return Math.round(parseDecimal(minutes[1]) * 60);
-  return 0;
-}
-
-function measureFromText(value) {
-  const text = String(value || "").trim();
-  const distance = text.match(/([\d,.]+)\s*km/i);
-  if (distance) return { basis: "distance", distanceKm: parseDecimal(distance[1]), display: text };
-  const seconds = parseClockSeconds(text);
-  return { basis: "time", durationSeconds: seconds, display: text };
-}
-
-function phaseForWeek(weekNumber) {
-  if (weekNumber <= 39) return "opbouw-confidence";
-  if (weekNumber === 40) return "herstel-test";
-  if (weekNumber <= 44) return "marathonspecifiek";
-  if (weekNumber <= 46) return "taper";
-  return "marathonweek";
-}
-
+const protocol = table("| Blok |").map((cols, i) => ({ ...parseBlock(`${i + 1}. ${cols[1]} @ ${cols[2]} — ${cols[3]}`), type: cols[4] }));
 const phaseDefinitions = [
-  { phaseId: "opbouw-confidence", number: 1, name: "Opbouw en confidence", shortName: "Opbouw", startWeek: 36, endWeek: 39, goal: "Lange afstanden geleidelijk normaler laten voelen en marathonpace gecontroleerd introduceren." },
-  { phaseId: "herstel-test", number: 2, name: "Herstel en eerste test", shortName: "Herstel + test", startWeek: 40, endWeek: 40, goal: "Vermoeidheid laten zakken en de ontwikkeling van snelheid en drempel meten met de 5 km-benchmark." },
-  { phaseId: "marathonspecifiek", number: 3, name: "Marathonspecifieke confidence-fase", shortName: "Marathonspecifiek", startWeek: 41, endWeek: 44, goal: "Lange afstanden beheersen en marathonpace diep in een lange training leren controleren." },
-  { phaseId: "taper", number: 4, name: "Taper", shortName: "Taper", startWeek: 45, endWeek: 46, goal: "Volume verlagen, kwaliteit behouden en fris worden zonder nieuwe vermoeidheid op te bouwen." },
-  { phaseId: "marathonweek", number: 5, name: "Marathonweek", shortName: "Marathonweek", startWeek: 47, endWeek: 47, goal: "Fit worden, niet fitter worden, en de geteste wedstrijdstrategie uitvoeren." },
+  ["opbouw-confidence", "Opbouw en confidence", 36, 39],
+  ["herstel-test", "Herstel en eerste test", 40, 40],
+  ["marathonspecifiek", "Marathonspecifieke piekfase", 41, 44],
+  ["taper", "Taper", 45, 46],
+  ["marathonweek", "Marathonweek", 47, 47],
+].map(([phaseId, name, startWeek, endWeek], i) => ({ phaseId, name, shortName: name, number: i + 1, startWeek, endWeek, startDate: days((startWeek - 36) * 7), endDate: days((endWeek - 36) * 7 + 6) }));
+const weekGoals = [
+  "Basisvolume en eerste beheerste marathonpaceblokken",
+  "Drempelwerk en lange duur richting 18 km",
+  "Eerste 20K confidence run en submaximale nulmeting",
+  "3 × 12 min MP en progressieve halve-marathonconfidence",
+  "Vermoeidheid laten zakken en 5K-snelheidsreserve meten",
+  "Een uur marathonritme en steady halve-marathonconfidence",
+  "Identieke fitnesscheck en marathonpace na 150 minuten",
+  "3 × 15 min MP-test en de langste duurloop van 30,4 km",
+  "Minder volume, met 2 × 30 min MP onder vermoeidheid",
+  "Taper starten en kwaliteit behouden zonder nieuwe tests",
+  "Frisheid opbouwen en marathonpace kort onderhouden",
+  "Losmaken, volledig herstellen en de marathon uitvoeren",
 ];
+const coreRules = source.slice(source.indexOf("## Kernprincipes"), source.indexOf("# 2.")).split("\n").filter((l) => l.startsWith("- ")).map((l) => clean(l.slice(2)));
+const fuelText = "Oefen voor grote lange trainingen geleidelijk richting 60–75 gram koolhydraten per uur, indien goed verdragen. Bouw dit niet ineens op in de zwaarste sessie; gebruik in de laatste weken geen nieuwe producten.";
+const fullFuelText = "Gebruik dezelfde producten, timing, beoogde hoeveelheid per uur en een vergelijkbare drinkstrategie als op raceday.";
+const weekParts = [...source.matchAll(/^## WEEK (\d+) — (.+)\n([\s\S]*?)(?=^## WEEK |^# 6\.)/gm)];
 
-function titleFallback(weekNumber, trainingNumber, segments) {
-  if (trainingNumber === 1) return weekNumber >= 45 ? "Easy / herstel" : "Easy";
-  if (trainingNumber === 3) return segments.some((segment) => Number(segment.speedKmh) >= 10.6) ? "Easy met steady finish" : "Easy / herstel";
-  if (trainingNumber === 4) return weekNumber === 47 ? "Marathon — 22 november 2026" : "Lange duur";
-  return "Kwaliteitstraining";
-}
-
-function categoryFor(trainingNumber, title, weekNumber) {
-  const lower = title.toLowerCase();
-  if (weekNumber === 47 && trainingNumber === 4) return "wedstrijd";
-  if (trainingNumber === 4) return "lange-duur";
-  if (/test|benchmark/.test(lower)) return "testtraining";
-  if (trainingNumber === 2 && /snel|drempel|×/.test(lower)) return "interval";
-  if (trainingNumber === 2) return "kwaliteit";
-  if (/recovery|herstel|losmaken/.test(lower)) return "herstel";
-  return "rustige-duur";
-}
-
-function segmentType(segment, groupLabel, title) {
-  const speed = segment.speedKmh == null ? null : Number(segment.speedKmh);
-  const text = `${segment.display} ${groupLabel} ${title}`.toLowerCase();
-  if (/wandelen/.test(text) || (Number.isFinite(speed) && speed <= 6)) return "wandelen";
-  if (/cooldown|uitlopen/.test(text) || (speed && speed <= 8.8)) return "cooling-down";
-  if (/warming/.test(text)) return "warming-up";
-  if (/herstel|na blok/.test(text) || (speed && speed < 9.9)) return "herstel";
-  if (!Number.isFinite(speed)) return /test/.test(text) ? "test" : "afstand";
-  if (speed <= 10.3) return "easy";
-  if (speed <= 11) return "steady";
-  if (speed < 12) return "sub-marathon";
-  if (speed <= 12.1) return "marathontempo";
-  if (speed <= 12.7) return "drempel";
-  return "interval";
-}
-
-function parseSegment(line, workoutId, segmentIndex, groupLabel) {
-  const clean = line.replace(/^[-*]\s*/, "").trim();
-  const recoveryPrefix = clean.match(/^na blok\s+([^:]+):\s*(.+)$/i);
-  const content = recoveryPrefix ? recoveryPrefix[2] : clean;
-  const atMatch = content.match(/^(.+?)\s*@\s*([\d,.]+)(?:\s*km\/u)?(?:\s*—\s*([\d,.]+)%)?$/i);
-  if (atMatch) {
-    const segment = {
-      segmentId: `${workoutId}-s${String(segmentIndex).padStart(2, "0")}`,
-      ...measureFromText(atMatch[1]),
-      speedKmh: parseDecimal(atMatch[2]),
-      inclinePercent: atMatch[3] == null ? null : parseDecimal(atMatch[3]),
-      instruction: recoveryPrefix ? `Na blok ${recoveryPrefix[1]}.` : "",
+const weeks = weekParts.map(([, nr, weekType, body]) => {
+  const weekNumber = Number(nr);
+  const phase = phaseDefinitions.find((p) => weekNumber >= p.startWeek && weekNumber <= p.endWeek);
+  const week = { weekId: `marathon-3u30-w${nr}`, weekNumber, phaseId: phase.phaseId, phaseName: phase.name, startDate: days((weekNumber - 36) * 7), endDate: days((weekNumber - 36) * 7 + 6), periodLabel: field(body, "Periode"), weekType, focus: weekGoals[weekNumber - 36], includesMarathon: weekNumber === 47 };
+  const headings = [...body.matchAll(/^### (Training (\d+) — (.+)|Extra Fitness Check #(\d+))\n/gm)];
+  week.workouts = headings.map((match, i) => {
+    const [, heading, nr, title, check] = match;
+    const content = body.slice(match.index + match[0].length, headings[i + 1]?.index ?? body.length);
+    const trainingNumber = nr ? Number(nr) : null;
+    const workoutId = `marathon-3u30-w${weekNumber}-${nr ? `t${nr}` : `fitness-check-${check}`}`;
+    const labels = field(content, "Labels").split(", ").filter(Boolean);
+    const race = weekNumber === 47 && trainingNumber === 4;
+    const blocks = check ? protocol.map((s) => ({ ...s })) : content.split("\n").map((l) => parseBlock(l.trim())).filter(Boolean);
+    if (race) blocks.push({ basis: "distance", distanceKm: 42.195, speedKmh: 42.195 / 3.5, inclinePercent: null, type: "wedstrijd", display: "42,195 km", instruction: "Buitenwedstrijd: volg de pacingstrategie; 3:30 is een doel, geen vaste voorspelling." });
+    if (!blocks.length) throw new Error(`Geen blokken: ${workoutId}`);
+    if (!race) {
+      blocks[0].type = "warming-up";
+      if (blocks.at(-1).speedKmh <= 9) blocks.at(-1).type = blocks.at(-1).speedKmh <= 6 ? "wandelen" : "cooling-down";
+    }
+    blocks.forEach((s, i) => { s.segmentId = `${workoutId}-s${String(i + 1).padStart(2, "0")}`; });
+    const distance = blocks.reduce((sum, s) => sum + (s.distanceKm ?? s.durationSeconds * s.speedKmh / 3600), 0);
+    const durations = blocks.map((s) => s.durationSeconds || (s.speedKmh ? s.distanceKm / s.speedKmh * 3600 : null));
+    const duration = durations.every((s) => s > 0) ? Math.round(durations.reduce((a, b) => a + b, 0)) : null;
+    const summary = field(content, "(?:Totaal|Loopbandtotaal)");
+    const statedTime = summary.match(/^([\d:]+) min/);
+    if (statedTime && duration !== seconds(statedTime[1])) problems.push({ workoutId, field: "duration", source: seconds(statedTime[1]), calculated: duration });
+    const category = race ? "wedstrijd" : trainingNumber === 4 ? "lange-duur" : labels.includes("TEST") ? "testtraining" : labels.includes("RECOVERY") ? "herstel" : labels.includes("INTERVAL") || labels.includes("STRIDES") ? "interval" : trainingNumber === 2 ? "kwaliteit" : "rustige-duur";
+    const tone = race ? "race" : labels.includes("TEST") ? "test" : trainingNumber === 4 ? "long" : labels.includes("RECOVERY") ? "recovery" : labels.includes("MARATHON SPECIFIC") ? "mp" : labels.includes("INTERVAL") || labels.includes("STRIDES") ? "interval" : trainingNumber === 2 ? "threshold" : labels.includes("STEADY") ? "steady" : "easy";
+    const detailsSections = [];
+    const primaryFields = new Set(["Labels", "Blokken", "Afstandsblokken", "Loopbandblokken", "Totaal", "Loopbandtotaal", "Doel", "RPE", "Mentaal", "Protocol"]);
+    for (const [, name, value] of content.matchAll(/^\*\*([^*]+):\*\* (.+)$/gm)) if (!primaryFields.has(name)) detailsSections.push({ title: name, items: [clean(value)] });
+    const rows = content.split("\n").filter((l) => l.startsWith("|") && !/^\|\s*---/.test(l));
+    if (rows.length) detailsSections.push({ title: race ? "Wedstrijdstrategie" : "Interpretatie", items: rows.slice(1).map((l) => l.split("|").slice(1, -1).map(clean).join(" · ")) });
+    if (race) detailsSections.unshift({ title: "Pacing", items: ["Exact 5:00/km geeft ongeveer 3:30:59. Voor 3:30:00 is gemiddeld 4:58,6/km nodig; na de beheerste start ligt het tempo hoofdzakelijk rond 4:58–4:59/km."] });
+    const locationStatus = labels.includes("BUITEN AANBEVOLEN") ? "Buiten aanbevolen" : labels.includes("LOOPBAND AANBEVOLEN") ? "Loopband aanbevolen" : race ? "Buitenwedstrijd" : "Primair loopband";
+    const goal = field(content, "Doel") || "Het geteste raceplan uitvoeren wanneer het totaalbeeld groen licht geeft.";
+    const mentalGoal = field(content, "Mentaal") || field(content, "B-doel");
+    const long = trainingNumber === 4;
+    const recoveryStatus = long || trainingNumber === 2 ? "required" : check ? "recommended" : "none";
+    const workout = {
+      workoutId, weekNumber, trainingNumber, trainingLabel: nr ? `Training ${nr}` : `Extra Fitness Check #${check}`,
+      weekId: week.weekId, dateLabel: week.periodLabel, phaseId: week.phaseId, phaseName: phase.name,
+      title: title || heading, category, tone, labels, surface: race ? "buiten" : "loopband",
+      isExtra: Boolean(check), isFitnessCheck: Boolean(check), fitnessCheckNumber: check ? Number(check) : null,
+      isTest: labels.includes("TEST"), testNumber: !labels.includes("TEST") ? null : check ? `fitness-${check}` : weekNumber === 40 ? 1 : weekNumber === 41 ? "rhythm" : weekNumber === 43 ? 2 : weekNumber === 44 ? 3 : null,
+      groups: [{ groupId: `${workoutId}-g1`, kind: "sequence", label: check ? "Vast vergelijkingsprotocol" : "Exacte opbouw", repetitions: 1, segments: blocks }],
+      totalPlannedSeconds: duration,
+      totalPlannedLabel: race ? "Marathon" : duration == null ? "39 min + 5 km test" : duration % 60 === 0 ? `${duration / 60} min` : `${Math.floor(duration / 60)}:${String(duration % 60).padStart(2, "0")} min`,
+      estimatedDistanceKm: distance, estimatedDistanceLabel: race ? "42,195 km" : `±${label(distance)} km`,
+      sourceSummary: summary, goal, targetRpe: field(content, "RPE") || "Wedstrijdinspanning volgens controle", mentalGoal,
+      rationale: `${goal} ${mentalGoal}`, detailsSections, notes: [],
+      recoveryStatus, recoveryLabel: recoveryStatus === "required" ? "Herstelruimte bewaken" : recoveryStatus === "recommended" ? "Rustige dag aanbevolen" : "Easy blijft easy",
+      recoveryAdvice: "Plan Training 2 en Training 4 bij voorkeur met minimaal één rustdag ertussen. Op opeenvolgende trainingsdagen is minimaal één sessie Training 1 of Training 3.",
+      orderWarning: field(content, "Planning") || (weekNumber >= 45 ? "Taper beschermd: geen extra volume, tests of trainingsdagen." : "Bij oplopende plaatselijke pijn, technisch verval of controleverlies: aanpassen of stoppen."),
+      locationStatus, outsideVariant: field(content, "Buitenvariant") || field(content, "Ondergrond") || (check ? "Gebruik dezelfde loopband, snelheden en hellingen als bij de andere check; geen automatische snelheidsaanpassing." : "Primair loopband. Houd buiten de voorgeschreven duur of afstand en inspanning aan, zonder de training zwaarder te maken."),
+      fueling: long, fullFuelRehearsal: long && [43, 44].includes(weekNumber),
+      nutrition: long ? `${fuelText} ${[43, 44].includes(weekNumber) ? fullFuelText : ""} ${field(content, "Voeding")}`.trim() : "",
+      evaluation: labels.includes("TEST") ? [field(content, "RPE"), ...detailsSections.filter((s) => s.title === "Interpretatie").flatMap((s) => s.items)].join(" ") : null,
+      protocolSignature: JSON.stringify(blocks.map((s) => [s.durationSeconds || null, s.distanceKm || null, s.speedKmh, s.inclinePercent])),
     };
-    segment.type = segmentType(segment, recoveryPrefix ? `herstel ${groupLabel}` : groupLabel, "");
-    segment.isRecovery = Boolean(recoveryPrefix);
-    return segment;
-  }
-
-  const benchmark = content.match(/^([\d,.]+\s*km)\s*—\s*([\d,.]+)%$/i);
-  if (benchmark) {
-    const segment = {
-      segmentId: `${workoutId}-s${String(segmentIndex).padStart(2, "0")}`,
-      ...measureFromText(benchmark[1]),
-      speedKmh: null,
-      inclinePercent: parseDecimal(benchmark[2]),
-      instruction: "Begin gecontroleerd rond 12,5 km/u en pas daarna geleidelijk aan.",
-      type: "test",
-    };
-    return segment;
-  }
-  return null;
-}
-
-function repeatMarker(line) {
-  const clean = line.trim();
-  const repeated = clean.match(/^(?:Daarna\s+)?(\d+)\s*×:$/i);
-  if (repeated) return { label: clean.replace(/:$/, ""), repetitions: Number(repeated[1]) };
-  const blockRange = clean.match(/^Blok\s+(\d+)(?:–(\d+))?:$/i);
-  if (blockRange) return { label: clean.replace(/:$/, ""), repetitions: blockRange[2] ? Number(blockRange[2]) - Number(blockRange[1]) + 1 : 1 };
-  return null;
-}
-
-function isSummaryLine(line) {
-  const clean = line.trim();
-  return /^(?:±?\d+(?::\d{2})?(?:\s*min)?\s*—\s*)?±?[\d,.]+\s*km$/i.test(clean)
-    || /^\d+(?::\d{2})?\s*min\s*—\s*±?[\d,.]+\s*km$/i.test(clean)
-    || /^(?:Totaal|Totale training):\s*±?[\d,.]+\s*km$/i.test(clean);
-}
-
-function parseSummary(bodyLines, groups, category) {
-  let totalLabel = "";
-  let distanceLabel = "";
-  for (const raw of bodyLines) {
-    const line = raw.trim();
-    let match = line.match(/^(±?\d+(?::\d{2})?(?:\s*min)?)\s*—\s*(±?[\d,.]+\s*km)$/i);
-    if (match) {
-      totalLabel = match[1];
-      distanceLabel = match[2];
-      continue;
-    }
-    match = line.match(/^(?:Totaal|Totale training):\s*(±?[\d,.]+\s*km)$/i);
-    if (match) distanceLabel = match[1];
-    if (!distanceLabel && /^±?[\d,.]+\s*km$/i.test(line)) distanceLabel = line;
-  }
-
-  const flattened = flattenGroups(groups);
-  const calculatedSeconds = flattened.reduce((sum, segment) => {
-    if (segment.durationSeconds) return sum + segment.durationSeconds;
-    if (segment.distanceKm && segment.speedKmh) return sum + (segment.distanceKm / segment.speedKmh) * 3600;
-    return sum;
-  }, 0);
-  const hasUnknownDuration = flattened.some((segment) => segment.distanceKm && !segment.speedKmh);
-  const totalSeconds = totalLabel ? parseClockSeconds(totalLabel) : hasUnknownDuration ? 0 : Math.round(calculatedSeconds);
-
-  if (!totalLabel) {
-    if (category === "wedstrijd") totalLabel = "Marathon";
-    else if (hasUnknownDuration) totalLabel = "Tijd afhankelijk van testresultaat";
-    else if (totalSeconds) totalLabel = `${Math.round(totalSeconds / 60)} min`;
-    else totalLabel = "Tijd niet vermeld";
-  }
-  if (!distanceLabel && category === "wedstrijd") distanceLabel = "42,195 km";
-  return {
-    totalPlannedLabel: totalLabel,
-    totalPlannedSeconds: totalSeconds,
-    estimatedDistanceLabel: distanceLabel || "Afstand niet vermeld",
-    estimatedDistanceKm: distanceLabel ? parseDecimal(distanceLabel) : category === "wedstrijd" ? 42.195 : null,
-  };
-}
-
-function flattenGroups(groups) {
-  const result = [];
-  for (const group of groups) {
-    const repetitions = group.kind === "repeat" ? group.repetitions : 1;
-    for (let repeat = 1; repeat <= repetitions; repeat += 1) {
-      group.segments.forEach((segment, index) => {
-        if (group.omitRecoveryAfterLast && repeat === repetitions && index === group.segments.length - 1 && segment.isRecovery) return;
-        result.push({ ...segment, repeat, repetitions });
-      });
-    }
-  }
-  return result;
-}
-
-function detailSections(bodyLines) {
-  const sections = [];
-  let current = { title: "Aanwijzingen", items: [] };
-  const push = () => {
-    if (current.items.length) sections.push(current);
-  };
-  for (const raw of bodyLines) {
-    const line = raw.trim();
-    if (!line || parseSegment(line, "preview", 1, "") || isSummaryLine(line) || repeatMarker(line)) continue;
-    if (/^(?:Cooldown|Warming-up|Hoofdblok|Uitlopen|Eerst|Daarna|Vervolgens|Loop exact|Test):?$/i.test(line)) continue;
-    if (/^Helling:\s*[\d,.]+%/i.test(line)) continue;
-    const heading = line.match(/^#{1,3}\s+(.+)$/);
-    const colonHeading = line.match(/^([^“”]{2,55}):$/);
-    if (heading || colonHeading || /^(?:Beoordeling|Interpretatie|Waarom dit de sleuteltraining is|Wedstrijdstrategie)$/i.test(line)) {
-      push();
-      current = { title: (heading ? heading[1] : colonHeading ? colonHeading[1] : line).trim(), items: [] };
-      continue;
-    }
-    current.items.push(line.replace(/^[-*]\s*/, ""));
-  }
-  push();
-  return sections;
-}
-
-function explicitTextAfter(bodyLines, labelPattern) {
-  const index = bodyLines.findIndex((line) => labelPattern.test(line.trim()));
-  if (index === -1) return "";
-  const values = [];
-  for (let cursor = index + 1; cursor < bodyLines.length; cursor += 1) {
-    const line = bodyLines[cursor].trim();
-    if (!line || /^#{1,3}\s/.test(line) || /^[^“”]{2,55}:$/.test(line) || isSummaryLine(line) || parseSegment(line, "preview", 1, "")) break;
-    values.push(line.replace(/^[-*]\s*/, ""));
-  }
-  return values.join(" ");
-}
-
-function defaultGoal(category, title, weekNumber) {
-  if (category === "wedstrijd") return "De marathon uitvoeren volgens de geteste 3:30-strategie, als de ontwikkeling en tests groen licht geven.";
-  if (/test 1/i.test(title)) return "Meten hoeveel snelheid en drempel zijn verbeterd; deze test beslist nog niet zelfstandig over 3:30.";
-  if (/test 2/i.test(title)) return "Beoordelen hoe comfortabel het beoogde marathonpace van 12,0 km/u is geworden.";
-  if (/test 3/i.test(title)) return "Beoordelen of marathonpace na 85 minuten lopen nog beheerst kan worden.";
-  if (category === "rustige-duur") return "Easy en ontspannen lopen op RPE 3–4/10; volledige zinnen moeten mogelijk blijven.";
-  if (category === "herstel") return "Herstellen en loopritme behouden met zo weinig mogelijk restvermoeidheid.";
-  if (category === "lange-duur") return "Lange afstanden conditioneel en psychologisch steeds normaler en beter beheersbaar maken.";
-  if (weekNumber >= 45) return "Kwaliteit behouden en fris blijven zonder nieuwe vermoeidheid op te bouwen.";
-  return "De voorgeschreven kwaliteitsblokken gecontroleerd uitvoeren zonder de lange duurtraining te ondermijnen.";
-}
-
-function defaultRpe(category, title, bodyLines) {
-  const explicit = bodyLines.map((line) => line.trim()).find((line) => /^RPE:/i.test(line));
-  if (explicit) return explicit.replace(/^RPE:\s*/i, "").replace(/\.$/, "");
-  if (/test 2/i.test(title)) return "derde blok maximaal ongeveer 7/10 voor groen";
-  if (/test 3/i.test(title)) return "derde blok maximaal ±7–7,5/10 voor groen licht";
-  if (category === "rustige-duur" || category === "herstel") return "3–4/10";
-  if (category === "lange-duur") return "4–6/10, tenzij expliciet anders beschreven";
-  if (category === "wedstrijd") return "wedstrijdinspanning";
-  return "maximaal ongeveer 7–8/10";
-}
-
-function labelsFor(workout, weekNumber) {
-  const labels = [];
-  if (workout.category === "rustige-duur" || workout.category === "herstel") labels.push("EASY");
-  if (["kwaliteit", "interval", "testtraining"].includes(workout.category)) labels.push("QUALITY");
-  if (workout.category === "lange-duur") labels.push("LONG RUN");
-  if (/confidence/i.test(workout.title)) labels.push("CONFIDENCE RUN");
-  if (workout.isTest) labels.push("TEST");
-  if (/marathonpace|marathon confidence/i.test(workout.title)) labels.push("MARATHON SPECIFIC");
-  if (weekNumber === 45 || weekNumber === 46) labels.push("TAPER");
-  if (workout.category === "wedstrijd") labels.push("RACE");
-  return [...new Set(labels)];
-}
-
-function parseWorkout(weekNumber, trainingNumber, headingTitle, bodyLines, mentalGoal) {
-  const workoutId = `marathon-3u30-w${weekNumber}-t${trainingNumber}`;
-  const groups = [];
-  let group = { groupId: `${workoutId}-g1`, kind: "sequence", label: "Opbouw", repetitions: 1, segments: [] };
-  groups.push(group);
-  let segmentIndex = 0;
-  let title = String(headingTitle || "").trim();
-
-  for (const raw of bodyLines) {
-    const line = raw.trim();
-    const markdownTitle = line.match(/^#\s+MARATHON\s+—\s+(.+)$/i);
-    if (markdownTitle) {
-      title = `Marathon — ${markdownTitle[1]}`;
-      continue;
-    }
-    const marker = repeatMarker(line);
-    if (marker) {
-      group = { groupId: `${workoutId}-g${groups.length + 1}`, kind: marker.repetitions > 1 ? "repeat" : "sequence", label: marker.label, repetitions: marker.repetitions, segments: [], omitRecoveryAfterLast: false };
-      groups.push(group);
-      continue;
-    }
-    if (/^(?:Cooldown|Warming-up|Hoofdblok|Uitlopen|Eerst|Daarna|Vervolgens|Test):?$/i.test(line)) {
-      group = { groupId: `${workoutId}-g${groups.length + 1}`, kind: "sequence", label: line.replace(/:$/, ""), repetitions: 1, segments: [] };
-      groups.push(group);
-      continue;
-    }
-    const segment = parseSegment(line, workoutId, segmentIndex + 1, group.label);
-    if (segment) {
-      segmentIndex += 1;
-      segment.type = segmentType(segment, group.label, title);
-      group.segments.push(segment);
-      if (segment.isRecovery && group.kind === "repeat") group.omitRecoveryAfterLast = true;
-      continue;
-    }
-    const incline = line.match(/^Helling:\s*([\d,.]+)%/i);
-    if (incline && group.segments.length) group.segments[group.segments.length - 1].inclinePercent = parseDecimal(incline[1]);
-  }
-
-  const cleanGroups = groups.filter((item) => item.segments.length);
-  if (!title) title = titleFallback(weekNumber, trainingNumber, flattenGroups(cleanGroups));
-  if (/^TEST\s+[123]$/i.test(title)) {
-    const firstText = bodyLines.map((line) => line.trim()).find((line) => line && !line.startsWith("#") && !line.startsWith("-") && !parseSegment(line, "preview", 1, "") && !isSummaryLine(line));
-    if (firstText) title = `${title} — ${firstText}`;
-  }
-  const category = categoryFor(trainingNumber, title, weekNumber);
-  if (category === "wedstrijd" && !cleanGroups.length) {
-    cleanGroups.push({
-      groupId: `${workoutId}-g1`,
-      kind: "sequence",
-      label: "Marathon",
-      repetitions: 1,
-      segments: [{ segmentId: `${workoutId}-s01`, basis: "distance", distanceKm: 42.195, display: "42,195 km", speedKmh: 12.06, inclinePercent: null, type: "wedstrijd", instruction: "Benodigd gemiddelde 4:58,6/km; start bewust rustiger volgens de wedstrijdstrategie." }],
-    });
-  }
-
-  const summary = parseSummary(bodyLines, cleanGroups, category);
-  const explicitGoal = explicitTextAfter(bodyLines, /^Doel(?: is)?:$/i);
-  const explicitMental = explicitTextAfter(bodyLines, /^(?:Mentale boodschap|Mentale doel|Psychologische boodschap):$/i);
-  const isTest = /\bTEST\s+[123]\b/i.test(title);
-  const workout = {
-    workoutId,
-    weekNumber,
-    trainingNumber,
-    category,
-    title,
-    surface: category === "wedstrijd" ? "buiten" : "loopband",
-    groups: cleanGroups,
-    ...summary,
-    goal: explicitGoal || defaultGoal(category, title, weekNumber),
-    targetRpe: defaultRpe(category, title, bodyLines),
-    mentalGoal: explicitMental || mentalGoal,
-    orderWarning: trainingNumber === 2
-      ? "Plan Training 2 en Training 4 liefst met minimaal één rustdag ertussen."
-      : trainingNumber === 4
-        ? "Kom niet direct uit Training 2; houd liefst minimaal één rustdag tussen beide trainingen."
-        : "Kies je trainingsdagen zelf en bewaak herstel en oplopende pijnklachten.",
-    detailsSections: detailSections(bodyLines),
-    notes: [],
-    isTest,
-    testNumber: isTest ? Number(title.match(/TEST\s+([123])/i)[1]) : null,
-  };
-  workout.labels = labelsFor(workout, weekNumber);
-  workout.evaluation = isTest
-    ? { title: `Beoordeling TEST ${workout.testNumber}`, criteria: workout.detailsSections.flatMap((section) => section.items), adjustmentRules: ["Sla het resultaat op en beoordeel het totaalbeeld; trainingssnelheden worden niet automatisch aangepast."] }
-    : null;
-  return workout;
-}
-
-function parsePsychologicalGoals() {
-  const start = lines.findIndex((line) => /^# DE PSYCHOLOGISCHE OPBOUW/.test(line));
-  const end = lines.findIndex((line, index) => index > start && /^# DE DRIE OFFICIËLE TESTS/.test(line));
-  const goals = {};
-  let activeWeeks = [];
-  for (const raw of lines.slice(start + 1, end)) {
-    const line = raw.trim();
-    const heading = line.match(/^# Week (\d+)(?:–(\d+))?/i);
-    if (heading) {
-      const from = Number(heading[1]);
-      const to = Number(heading[2] || heading[1]);
-      activeWeeks = Array.from({ length: to - from + 1 }, (_, index) => from + index);
-      continue;
-    }
-    if (line && !line.startsWith("#")) activeWeeks.forEach((week) => { goals[week] = [goals[week], line].filter(Boolean).join(" "); });
-  }
-  return goals;
-}
-
-const psychologicalGoals = parsePsychologicalGoals();
-const weekHeaderIndices = lines.map((line, index) => (/^# WEEK \d+/.test(line) ? index : -1)).filter((index) => index >= 0);
-const scheduleEndIndex = lines.findIndex((line) => /^# DE PSYCHOLOGISCHE OPBOUW/.test(line));
-const weeks = [];
-
-weekHeaderIndices.forEach((startIndex, weekPosition) => {
-  const endIndex = weekPosition + 1 < weekHeaderIndices.length ? weekHeaderIndices[weekPosition + 1] : scheduleEndIndex;
-  const block = lines.slice(startIndex, endIndex);
-  const heading = block[0].match(/^# WEEK (\d+)(?:\s+—\s+(.+))?$/);
-  const weekNumber = Number(heading[1]);
-  const periodLabel = block.find((line, index) => index > 0 && /\d/.test(line) && /(?:augustus|september|oktober|november)/i.test(line))?.trim() || "";
-  const plannedDistanceLabel = block.find((line) => /^±[\d,.]+(?:–[\d,.]+)?\s*km$/i.test(line.trim()))?.trim() || "";
-  const workoutStarts = block.map((line, index) => (/^#{1,2}\s+Training\s+\d+(?:\s+—\s+.+)?$/i.test(line.trim()) ? index : -1)).filter((index) => index >= 0);
-  const firstWorkout = workoutStarts[0] ?? block.length;
-  const intro = block.slice(1, firstWorkout).map((line) => line.trim()).filter((line) => line && line !== periodLabel && line !== plannedDistanceLabel && !line.startsWith("#"));
-  const workouts = workoutStarts.map((workoutStart, workoutPosition) => {
-    const workoutEnd = workoutPosition + 1 < workoutStarts.length ? workoutStarts[workoutPosition + 1] : block.length;
-    const workoutHeading = block[workoutStart].trim().match(/^#{1,2}\s+Training\s+(\d+)(?:\s+—\s+(.+))?$/i);
-    return parseWorkout(weekNumber, Number(workoutHeading[1]), workoutHeading[2] || "", block.slice(workoutStart + 1, workoutEnd), psychologicalGoals[weekNumber] || "");
+    if (long && !labels.includes("RACEVOEDING OEFENEN")) labels.push("RACEVOEDING OEFENEN");
+    if (weekNumber === 47 && trainingNumber === 3) { workout.recoveryStatus = "required"; workout.recoveryLabel = "Daarna volledige rust"; workout.recoveryAdvice = field(content, "Planning"); }
+    return workout;
   });
-  const startDate = addDays(scheduleStart, (weekNumber - 36) * 7);
-  const weekId = `marathon-3u30-week-${weekNumber}`;
-  const phaseId = phaseForWeek(weekNumber);
-  const phaseName = phaseDefinitions.find((phase) => phase.phaseId === phaseId).name;
-  const sourceDistanceRange = parseDistanceRange(plannedDistanceLabel);
-  const calculatedDistanceKm = workouts.reduce((total, workout) => total + (workout.estimatedDistanceKm || flattenGroups(workout.groups).reduce((distance, segment) => {
-    if (segment.distanceKm) return distance + segment.distanceKm;
-    return distance + ((segment.durationSeconds || 0) / 3600) * (segment.speedKmh || 0);
-  }, 0)), 0);
-  workouts.forEach((workout) => {
-    workout.weekId = weekId;
-    workout.weekNumber = weekNumber;
-    workout.dateLabel = periodLabel;
-    workout.phaseId = phaseId;
-    workout.phaseName = phaseName;
-  });
-  weeks.push({
-    weekId,
-    weekNumber,
-    phaseId,
-    phaseName,
-    title: heading[2] || "",
-    startDate,
-    endDate: addDays(startDate, 6),
-    periodLabel,
-    plannedDistanceLabel: plannedDistanceLabel || (weekNumber === 47 ? "Marathonweek" : ""),
-    plannedDistanceKm: sourceDistanceRange ? sourceDistanceRange.midpoint : calculatedDistanceKm,
-    plannedDistanceMinKm: sourceDistanceRange?.min ?? calculatedDistanceKm,
-    plannedDistanceMaxKm: sourceDistanceRange?.max ?? calculatedDistanceKm,
-    calculatedWorkoutDistanceKm: calculatedDistanceKm,
-    includesMarathon: workouts.some((workout) => workout.category === "wedstrijd"),
-    focus: [...intro, psychologicalGoals[weekNumber]].filter(Boolean).join(" "),
-    mentalGoal: psychologicalGoals[weekNumber] || "",
-    workouts,
-  });
+  week.plannedDistanceKm = week.workouts.reduce((s, w) => s + w.estimatedDistanceKm, 0);
+  week.plannedDistanceLabel = `±${label(week.plannedDistanceKm)} km`;
+  week.weekPhilosophy = { theme: weekType, summary: week.focus, adaptations: [...new Set(week.workouts.flatMap((w) => w.labels).filter((l) => !/VOEDING|AANBEVOLEN/.test(l)))], why: week.workouts.map((w) => `${w.trainingLabel}: ${w.goal}`), targetLink: "Van aerobe omvang en snelheidsreserve naar controle op 12,0 km/u onder vermoeidheid, gevolgd door taper en frisheid.", whyNotMore: coreRules.filter((s) => /Easy|taper|langste|pijn|test is/.test(s)).join(" "), confidence: week.workouts.filter((w) => w.trainingNumber === 4 || w.isTest).map((w) => w.mentalGoal).join(" ") };
+  return week;
 });
 
-for (const phase of phaseDefinitions) {
-  const phaseWeeks = weeks.filter((week) => week.weekNumber >= phase.startWeek && week.weekNumber <= phase.endWeek);
-  phase.startDate = phaseWeeks[0]?.startDate || "";
-  phase.endDate = phaseWeeks.at(-1)?.endDate || "";
-}
-
-const treadmillSegments = weeks.flatMap((week) => week.workouts)
-  .filter((workout) => workout.surface === "loopband")
-  .flatMap((workout) => flattenGroups(workout.groups).map((segment) => ({ workoutId: workout.workoutId, segment })));
-const missingInclines = treadmillSegments.filter(({ segment }) => !Number.isFinite(Number(segment.inclinePercent)));
-if (missingInclines.length) {
-  throw new Error(`Helling ontbreekt in ${missingInclines.length} loopbandblokken: ${missingInclines.map(({ workoutId, segment }) => `${workoutId}/${segment.segmentId}`).join(", ")}`);
-}
-
-function linesBetween(startPattern, endPattern) {
-  const start = lines.findIndex((line) => startPattern.test(line));
-  const end = lines.findIndex((line, index) => index > start && endPattern.test(line));
-  return lines.slice(start + 1, end < 0 ? lines.length : end).map((line) => line.trim()).filter(Boolean);
-}
-
-const paces = lines.slice(lines.findIndex((line) => /^\| Type \|/.test(line)) + 2).filter((line) => /^\|/.test(line)).map((line) => {
-  const [type, speed, incline] = line.split("|").map((value) => value.trim()).filter(Boolean);
-  return { type, speed, incline };
-});
-
-const raceStrategy = [
-  { distance: "0–5 km", pace: "5:03–5:05/km", instruction: "Niet meegaan met mensen die te snel vertrekken." },
-  { distance: "5–10 km", pace: "stabiliseren rond 5:00/km", instruction: "Langzaam naar het beoogde ritme gaan." },
-  { distance: "10–30 km", pace: "4:59–5:00/km", instruction: "Gecontroleerd lopen en geen tijd proberen te winnen." },
-  { distance: "30–35 km", pace: "tempo vasthouden", instruction: "De wedstrijd begint hier pas echt." },
-  { distance: "35–40 km", pace: "op controle", instruction: "Alleen versnellen als er daadwerkelijk controle is." },
-  { distance: "Laatste 2,2 km", pace: "op gevoel", instruction: "Alles wat nog beschikbaar is." },
-];
-
+const paces = table("| Type |").map(([type, speed, incline, rpe]) => ({ type, speed, incline, rpe }));
+const raceStrategy = table("| Wedstrijddeel |").map(([distance, pace, instruction]) => ({ distance, pace, instruction }));
+const tests = weeks.flatMap((w) => w.workouts).filter((w) => w.isTest);
 const plan = {
-  config: {
-    planId: "marathon-3u30-definitief-2026",
-    planVersion: 4,
-    schemaVersion,
-    sourceFile: path.basename(inputPath),
-    planName: "Marathonschema 3:30 — definitieve versie",
-    planSubtitle: "12 weken met confidence runs, drie officiële tests en taper",
-    startDate: scheduleStart,
-    endDate: "2026-11-22",
-    marathonDate: "2026-11-22",
-    targetTime: "3:30:00",
-    targetPace: "4:58,6/km",
-    targetSpeedKmh: 12,
-    practicalMarathonSpeedKmh: 12,
-    trainingFrequency: 4,
-    primarySurface: "primair loopband",
-  },
-  phases: phaseDefinitions,
-  weeks,
+  config: { planId: "marathon-3u30-definitief-2026", planVersion: 6, schemaVersion: "marathon-3u30-definitief-2026.09.02-1", sourceFile: path.basename(input), planName: "Marathonschema 3:30", planSubtitle: "Vier kerntrainingen per week en twee extra fitnesschecks", startDate: days(0), endDate: "2026-11-22", marathonDate: "2026-11-22", targetTime: "3:30:00", targetPace: "4:58,6/km", targetSpeedKmh: 42.195 / 3.5, practicalMarathonSpeedKmh: 12, trainingFrequency: 4, primarySurface: "primair loopband" },
+  phases: phaseDefinitions, weeks, sourceDiscrepancies: problems, previousWorkouts: previous,
   guidance: {
-    philosophy: linesBetween(/^# TRAININGSFILOSOFIE/, /^# TRAININGSSNELHEDEN/).filter((line) => !line.startsWith("#")),
-    paces,
-    scheduling: ["Vier loopdagen per week.", "Training 2 en Training 4 liefst met minimaal één rustdag ertussen.", "Geen structurele vijfde loopdag."],
-    suggestedSequences: ["Training 1 → rust of herstel → Training 2 → minimaal één rustdag → Training 4", "Training 3 kan flexibel worden geplaatst zolang Training 2 en Training 4 niet direct op elkaar volgen."],
-    rpeScale: [
-      { type: "Easy", rpe: "3–4/10", feeling: "Volledige zinnen moeten mogelijk blijven." },
-      { type: "Confidence/long run", rpe: "meestal 4–6/10", feeling: "Controle en tijd op de benen zijn belangrijker dan snelheid." },
-      { type: "Kwaliteit/test", rpe: "volgens de specifieke criteria", feeling: "Niet harder dan de beschreven training vraagt." },
-    ],
-    incline: paces.map((item) => `${item.type}: ${item.incline}.`),
-    painRules: ["Geen oplopende pijn- of blessureklachten accepteren.", "Herstel tussen trainingen moet goed blijven.", "Pas belasting aan bij pijn die tijdens het lopen toeneemt."],
-    fueling: ["Gebruik lange duurlopen en confidence runs om voeding en drinken te testen.", "Verander trainingssnelheden nooit automatisch op basis van één testresultaat."],
-    raceStrategy,
-    targetConfirmation: linesBetween(/^# 3:30 — GROEN LICHT/, /^# REGELS VOOR DE HTML-APP/).filter((line) => line.startsWith("-")).map((line) => line.replace(/^[-*]\s*/, "")),
-    officialTests: [
-      { week: 40, training: 2, title: "TEST 1 — 5 km benchmark", question: "Hoeveel is mijn snelheid/drempel verbeterd?" },
-      { week: 43, training: 2, title: "TEST 2 — 3 × 15 min @ 12 km/u", question: "Hoe comfortabel is mijn beoogde marathonpace geworden?" },
-      { week: 44, training: 4, title: "TEST 3 — 28,7 km met marathonpace na 85 minuten", question: "Kan ik marathonpace ook onder vermoeidheid beheersen?" },
-    ],
+    philosophy: coreRules, paces,
+    rpeScale: paces.map((p) => ({ type: p.type, rpe: p.rpe, feeling: p.type === "Easy" ? "Volledige zinnen mogelijk." : "Volg de specifieke training en houd controle." })),
+    scheduling: ["Vier reguliere loopdagen per week. Alleen W38 en W42 hebben een extra Fitness Check, geen structurele vijfde loopdag.", weeks[0].workouts[0].recoveryAdvice],
+    suggestedSequences: ["Trainingsdagen zijn vrij te kiezen. Plaats minimaal één rustdag tussen Training 2 en Training 4; laat op opeenvolgende loopdagen één sessie easy zijn."],
+    incline: paces.map((p) => `${p.type}: ${p.incline}.`), painRules: coreRules.filter((s) => /pijn|test is|praattest/.test(s)), fueling: [fuelText, fullFuelText],
+    raceStrategy, targetConfirmation: ["Exact 5:00/km geeft 3:30:59, niet 3:30:00. Het benodigde gemiddelde is 4:58,6/km.", "Halverwege-richtpunt: 1:44:50–1:45:00, rekening houdend met gelopen lijn en officiële markeringen.", field(weekParts.at(-1)[3], "B-doel")],
+    officialTests: tests.map((w) => ({ week: w.weekNumber, training: w.isExtra ? "extra" : w.trainingNumber, title: w.title, question: w.goal })),
+    testTimeline: ["Vanaf week 45: geen nieuwe test, volume of trainingsdag. Frisheid heeft voorrang."],
   },
 };
-
-if (weeks.length !== 12 || weeks.some((week) => week.workouts.length !== 4)) {
-  throw new Error(`Schema onvolledig: ${weeks.length} weken; trainingen per week: ${weeks.map((week) => `${week.weekNumber}:${week.workouts.length}`).join(", ")}`);
+if (weeks.length !== 12 || weeks.some((w) => w.workouts.filter((t) => !t.isExtra).length !== 4)) throw new Error("Schema onvolledig");
+for (const w of weeks.flatMap((w) => w.workouts)) for (const s of w.groups[0].segments) {
+  if (w.surface === "loopband" && !Number.isFinite(s.inclinePercent)) throw new Error(`Geen helling: ${s.segmentId}`);
+  if (!(s.durationSeconds > 0 || s.distanceKm > 0)) throw new Error(`Geen duur/afstand: ${s.segmentId}`);
 }
 
-const output = `(function () {\n  "use strict";\n\n  const MARATHON_PLAN = ${JSON.stringify(plan, null, 2)};\n\n  function segmentDurationSeconds(segment) {\n    if (segment.durationSeconds) return segment.durationSeconds;\n    if (segment.distanceKm && segment.speedKmh) return Math.round((segment.distanceKm / segment.speedKmh) * 3600);\n    return 0;\n  }\n\n  function flattenWorkoutSegments(workout) {\n    const result = [];\n    (workout.groups || []).forEach((group) => {\n      const repeats = group.kind === "repeat" ? group.repetitions || 1 : 1;\n      for (let repeat = 1; repeat <= repeats; repeat += 1) {\n        (group.segments || []).forEach((segment, index) => {\n          if (group.omitRecoveryAfterLast && repeat === repeats && index === group.segments.length - 1 && segment.isRecovery) return;\n          result.push({ ...segment, groupLabel: group.label, repeat, repeats, executionId: segment.segmentId + "-r" + repeat });\n        });\n      }\n    });\n    return result;\n  }\n\n  function calculateWorkoutDistanceKm(workout) {\n    return flattenWorkoutSegments(workout).reduce((total, segment) => {\n      if (segment.distanceKm) return total + segment.distanceKm;\n      return total + ((segment.durationSeconds || 0) / 3600) * (segment.speedKmh || 0);\n    }, 0);\n  }\n\n  function calculateWeekDistanceKm(week) {\n    return (week.workouts || []).reduce((total, workout) => total + (workout.estimatedDistanceKm || calculateWorkoutDistanceKm(workout)), 0);\n  }\n\n  window.MARATHON_PLAN = MARATHON_PLAN;\n  window.APP_CONFIG = MARATHON_PLAN.config;\n  window.TRAINING_WEEKS = MARATHON_PLAN.weeks;\n  window.TRAINING_PLAN = MARATHON_PLAN.phases.map((phase) => ({ ...phase, weeks: MARATHON_PLAN.weeks.filter((week) => week.phaseId === phase.phaseId) }));\n  window.MARATHON_MODEL = { segmentDurationSeconds, flattenWorkoutSegments, calculateWorkoutDistanceKm, calculateWeekDistanceKm };\n})();\n`;
-
-fs.writeFileSync(outputPath, output);
-console.log(`Gegenereerd: ${weeks.length} weken en ${weeks.flatMap((week) => week.workouts).length} trainingen uit ${path.basename(inputPath)}.`);
+function installModel() {
+  function segmentDurationSeconds(segment) {
+    if (segment.durationSeconds) return segment.durationSeconds;
+    if (segment.distanceKm && segment.speedKmh) return Math.round(segment.distanceKm / segment.speedKmh * 3600);
+    return 0;
+  }
+  function flattenWorkoutSegments(workout) {
+    const result = [];
+    (workout?.groups || []).forEach((group) => {
+      const repeats = group.kind === "repeat" ? group.repetitions || 1 : 1;
+      for (let repeat = 1; repeat <= repeats; repeat++) (group.segments || []).forEach((segment, index) => {
+        if (group.omitRecoveryAfterLast && repeat === repeats && index === group.segments.length - 1 && segment.isRecovery) return;
+        result.push({ ...segment, groupLabel: group.label, repeat, repeats, executionId: `${segment.segmentId}-r${repeat}` });
+      });
+    });
+    return result;
+  }
+  function calculateWorkoutDistanceKm(workout) {
+    return flattenWorkoutSegments(workout).reduce((sum, s) => sum + (s.distanceKm ?? (s.durationSeconds || 0) * (s.speedKmh || 0) / 3600), 0);
+  }
+  function calculateWeekDistanceKm(week) { return week.workouts.reduce((sum, w) => sum + calculateWorkoutDistanceKm(w), 0); }
+  window.MARATHON_MODEL = { segmentDurationSeconds, flattenWorkoutSegments, calculateWorkoutDistanceKm, calculateWeekDistanceKm };
+  window.APP_CONFIG = window.MARATHON_PLAN.config;
+  window.TRAINING_WEEKS = window.MARATHON_PLAN.weeks;
+  window.TRAINING_PLAN = window.MARATHON_PLAN.phases.map((p) => ({ ...p, weeks: window.TRAINING_WEEKS.filter((w) => w.phaseId === p.phaseId) }));
+}
+fs.writeFileSync(output, `// Generated from ${path.basename(input)}. Edit the source, then regenerate.\nwindow.MARATHON_PLAN = ${JSON.stringify(plan, null, 2)};\n(${installModel.toString()})();\n`);
+console.log(JSON.stringify({ workouts: weeks.flatMap((w) => w.workouts).length, weeks: weeks.map((w) => [w.weekNumber, w.plannedDistanceKm]), sourceDiscrepancies: problems }, null, 2));
