@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "2026.09.02-3";
+  const APP_VERSION = "2026.09.04-1";
   // Keep this key stable. Preserve existing logs; migrate additions and protocol changes.
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
   const APP_DATA_VERSION = 5;
@@ -797,7 +797,7 @@
             </select>
           </label>
         </div>
-        <div class="week-meta">${escapeHtml(week.periodLabel || `${formatDate(week.startDate, { day: "numeric", month: "long" })} – ${formatDate(week.endDate, { day: "numeric", month: "long", year: "numeric" })}`)} · ${escapeHtml(week.plannedDistanceLabel || "Afstand volgens trainingen")} · nog ${daysUntilMarathon()} dagen</div>
+        <div class="week-meta">${escapeHtml(week.periodLabel || `${formatDate(week.startDate, { day: "numeric", month: "long" })} – ${formatDate(week.endDate, { day: "numeric", month: "long", year: "numeric" })}`)} · ${escapeHtml(getWeekPlannedLabel(week))} · nog ${daysUntilMarathon()} dagen</div>
         <div class="training-labels week-type">${renderSemanticBadge(week.weekType)}</div>
         <p class="week-focus">${escapeHtml(week.focus)}</p>
       </section>
@@ -1579,7 +1579,9 @@
 
   function getWeekPlannedLabel(week) {
     if (week?.includesMarathon || weekWorkouts(week, true).some((workout) => workout.category === "wedstrijd")) {
-      return `±${formatNumber(getWeekPlannedKm(week, true))} km totaal incl. marathon`;
+      const beforeRace = getWeekPlannedKm(week, false).toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const includingRace = getWeekPlannedKm(week, true).toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      return `±${beforeRace} km vóór race · ±${includingRace} km incl. marathon`;
     }
     const sourceLabel = String(week?.plannedDistanceLabel || "").trim();
     return sourceLabel ? `${sourceLabel} totaal` : `±${formatNumber(getWeekPlannedKm(week, true))} km totaal`;

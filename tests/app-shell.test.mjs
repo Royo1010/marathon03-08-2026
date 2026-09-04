@@ -199,14 +199,18 @@ test("Schema, Informatie en Marathonoverzicht zijn bereikbaar", () => {
   assert.equal((harness.app.innerHTML.match(/<button class="plan-row/g) || []).length, 12);
   assert.match(harness.app.innerHTML, /±39 km totaal/);
   assert.match(harness.app.innerHTML, /Basisvolume en eerste beheerste/);
-  assert.match(harness.app.innerHTML, /±58,1 km totaal incl\. marathon/);
+  assert.match(harness.app.innerHTML, /±15,95 km vóór race · ±58,15 km incl\. marathon/);
   assert.match(harness.app.innerHTML, /4 sessies incl\. marathon/);
   assert.doesNotMatch(harness.app.innerHTML, /4 trainingen · Training 4/);
+
+  harness.click({ "[data-open-week]": { dataset: { openWeek: "11" } } });
+  assert.match(harness.app.innerHTML, /Week 47/);
+  assert.match(harness.app.innerHTML, /±15,95 km vóór race · ±58,15 km incl\. marathon/);
 
   harness.click({ "[data-view]": { dataset: { view: "info" } } });
   assert.match(harness.app.innerHTML, /Tempo en afkortingen/);
   assert.match(harness.app.innerHTML, /Inspanningsniveaus/);
-  assert.match(harness.app.innerHTML, /Versie 2026\.09\.02-3/);
+  assert.match(harness.app.innerHTML, /Versie 2026\.09\.04-1/);
 
   harness.brandHome.click();
   assert.equal(harness.context.window.MarathonApp.state.view, "marathon");

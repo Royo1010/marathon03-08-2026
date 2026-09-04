@@ -5,7 +5,7 @@ Mobiele weekplanner voor het definitieve Marathon 3:30-loopbandschema van
 
 ## Actieve versie
 
-- App-versie: `2026.09.02-3`
+- App-versie: `2026.09.04-1`
 - Schemaversie: `marathon-3u30-verfijnd-2026.09.02-1`
 - Inhoudelijke bron: `marathon-schema-3u30-definitief-verfijnd-2026.md`
 - Enige actieve trainingsdataset: het hieruit gegenereerde `training-data.js`
@@ -128,7 +128,7 @@ cache-updatefix intact zonder de pushregistratie weer te verwijderen.
 
 Een al bestaand iPhone-homescreen-icoon kan zijn oude start-URL in iOS bewaren.
 Controleer daarom na deployment in zowel Safari als het bestaande beginscherm-icoon
-onder **Informatie** of versie `2026.09.02-3` actief is. Verwijder geen installatie
+onder **Informatie** of versie `2026.09.04-1` actief is. Verwijder geen installatie
 of browsergegevens om een update af te dwingen. Deze app ondersteunt bewust geen
 offline herstart: bestanden komen van het netwerk. Een al geladen lokale timer
 heeft voor het aftellen zelf geen netwerk nodig. Dit bestaande cachebeleid is behouden.

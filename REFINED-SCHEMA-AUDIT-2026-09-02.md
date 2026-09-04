@@ -1,6 +1,6 @@
 # Verfijnd marathonschema: implementatie en controle
 
-App: `2026.09.02-3`. Planversie: 7. Opslagversie: 5.
+App: `2026.09.04-1`. Planversie: 7. Opslagversie: 5.
 Schema: `marathon-3u30-verfijnd-2026.09.02-1`.
 Opslagkey ongewijzigd: `marathon330TrainingAppData_v1`.
 
@@ -32,22 +32,24 @@ dezelfde berekening. De bestaande UI rondt weekafstanden op maximaal een decimaa
 | --- | ---: | ---: | --- |
 | 36 | 38,98 km | 38,98 km | 4 trainingen |
 | 37 | 43,71 km | 43,71 km | 4 trainingen |
-| 38 | 46,73 km | 46,74 km | Fitness Check is Training 1 |
+| 38 | 46,73 km | 46,73 km | Fitness Check is Training 1 |
 | 39 | 54,20 km | 54,20 km | 4 trainingen |
 | 40 | 42,55 km | 42,55 km | 5,00 km benchmark, variabele testduur |
 | 41 | 64,91 km | 64,91 km | 60 minuten onafgebroken MP |
-| 42 | 58,91 km | 58,92 km | Fitness Check is Training 1 |
+| 42 | 58,91 km | 58,91 km | Fitness Check is Training 1 |
 | 43 | 67,73 km | 67,73 km | Langste duurloop: 30,36 km |
-| 44 | 51,98 km | 51,99 km | Verkorte sleuteltraining |
+| 44 | 51,98 km | 51,98 km | Verkorte sleuteltraining |
 | 45 | 47,03 km | 47,03 km | Taper |
 | 46 | 37,72 km | 37,72 km | Taper |
 | 47 voor race | 15,95 km | 15,95 km | 3 trainingen |
 | 47 incl. race | 58,15 km | 58,15 km | 4 sessies, inclusief 42,195 km marathon |
 
-De bron noemt W38/W42/W44 ongeveer 0,01 km hoger dan de blokken samen opleveren.
-De exacte sommen zijn 46,733333 / 58,908333 / 51,980000 km. Er is geen volume
-toegevoegd om de samenvattingen passend te maken. Alle afstanden en snelheden
-uit de afzonderlijke blokken zijn leidend gebleven.
+De eerder vermelde waarden 46,74 / 58,92 / 51,99 km zijn gecorrigeerd.
+De exacte ongeronde sommen zijn 46,733333 / 58,908333 / 51,980000 km. Er is
+geen trainingsblok gewijzigd. Alle afstanden worden eerst ongerond opgeteld en
+alleen het uiteindelijke week- of programmatotaal wordt voor de UI afgerond.
+Het volledige schema is 570,409722 km vóór de marathon en 612,604722 km
+inclusief de marathon: respectievelijk 570,41 km en 612,60 km op twee decimalen.
 
 ## Databehoud
 
@@ -82,10 +84,10 @@ niet aangesloten op de app. Er is geen oude correctielaag of tweede actieve data
 | Helling, snelheid en mobiele uitlijning | PASS: 24 combinaties op 375/390/393/430 px, 96 controles zonder overlap of afkappen |
 | Schema en dashboard | PASS: identieke weektotalen, 47 voorbereidende trainingen plus marathon |
 | Browserconsole | PASS: geen waarschuwingen of fouten tijdens de controles |
-| Automatische regressiesuite | PASS: 49 van 49 tests |
+| Automatische regressiesuite | PASS: 50 van 50 tests |
 | Opslag, migratie en herhaald openen | PASS: getest met representatieve opgeslagen logs, voeding, notities, instellingen en testresultaten |
 | Timer, pauze/hervatten, auto-follow, meldingen en Wake Lock | PASS: bestaande regressietests |
-| Manifest, assetpaden en netwerkgestuurde service worker | PASS: bestaande PWA-tests, versie 2026.09.02-3 zichtbaar na browserreload |
+| Manifest, assetpaden en netwerkgestuurde service worker | PASS: bestaande PWA-tests, versie 2026.09.04-1 zichtbaar na browserreload |
 | Fysieke iPhone / Home Screen na GitHub-deployment | MANUAL IPHONE TEST REQUIRED |
 
 Commando: `node --test tests/*.test.mjs push-server/tests/*.test.mjs`.
@@ -120,7 +122,7 @@ bronvergelijking, reproduceerbare generatie en tests.
 Publiceer de appbestanden gezamenlijk zoals vermeld in README. De wijzigingen
 zijn lokaal uitgevoerd, niet naar GitHub gepubliceerd. Controleer na deployment
 in Safari en het bestaande beginscherm-icoon onder Informatie versie
-`2026.09.02-3`. Verwijder daarvoor geen gebruikersdata of installatie.
+`2026.09.04-1`. Verwijder daarvoor geen gebruikersdata of installatie.
 
 De bestaande netwerkstrategie blijft behouden: geen offline herstart van de app.
 Echte vergrendelschermmeldingen vereisen nog steeds een geconfigureerde pushserver

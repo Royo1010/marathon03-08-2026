@@ -281,7 +281,7 @@ Fitness Check #1 in week 38 en Fitness Check #2 in week 42 zijn exact gelijk:
 ## WEEK 38 — BUILD + FITNESS CHECK #1
 
 **Periode:** 14 t/m 20 september 2026  
-**Weekafstand:** exact berekend ongeveer 46,74 km  
+**Weekafstand:** exact berekend ongeveer 46,73 km  
 **Planning:** vier trainingen; de Fitness Check is Training 1 en vervangt de oorspronkelijke easytraining.
 
 ### Training 1 — Fitness Check #1
@@ -582,7 +582,7 @@ Fitness Check #1 in week 38 en Fitness Check #2 in week 42 zijn exact gelijk:
 ## WEEK 42 — PEAK / MARATHON SPECIFIC + FITNESS CHECK #2
 
 **Periode:** 12 t/m 18 oktober 2026  
-**Weekafstand:** exact berekend ongeveer 58,92 km  
+**Weekafstand:** exact berekend ongeveer 58,91 km  
 **Planning:** vier trainingen; de Fitness Check is Training 1 en vervangt de oorspronkelijke easytraining. Hierdoor ontstaat bewust een lichte volumeterugname tussen week 41 en week 43.
 
 ### Training 1 — Fitness Check #2
@@ -727,7 +727,7 @@ Fitness Check #1 in week 38 en Fitness Check #2 in week 42 zijn exact gelijk:
 ## WEEK 44 — BELANGRIJKSTE MARATHONSPECIFIEKE WEEK
 
 **Periode:** 26 oktober t/m 1 november 2026  
-**Reguliere weekafstand:** exact berekend ongeveer 51,99 km  
+**Reguliere weekafstand:** exact berekend ongeveer 51,98 km  
 **Weektype:** `MARATHON SPECIFIC`; volume bewust lager dan week 43  
 
 ### Training 1 — Easy
@@ -1053,13 +1053,13 @@ Bij afstandsblokken is de vermelde afstand leidend en wordt de tijd uit afstand 
 | ---: | --- | ---: | ---: | ---: |
 | 36 | Build | 38,98 km | — | 38,98 km |
 | 37 | Build | 43,71 km | — | 43,71 km |
-| 38 | Build + Fitness Check | 46,74 km | — | 46,74 km |
+| 38 | Build + Fitness Check | 46,73 km | — | 46,73 km |
 | 39 | Marathon-specific build | 54,20 km | — | 54,20 km |
 | 40 | Cutback + test | 42,55 km | — | 42,55 km |
 | 41 | Peak / marathon specific | 64,91 km | — | 64,91 km |
-| 42 | Peak + Fitness Check / lichte volumeterugname | 58,92 km | — | 58,92 km |
+| 42 | Peak + Fitness Check / lichte volumeterugname | 58,91 km | — | 58,91 km |
 | 43 | Peak / 30K | 67,73 km | — | 67,73 km |
-| 44 | Key marathon specific | 51,99 km | — | 51,99 km |
+| 44 | Key marathon specific | 51,98 km | — | 51,98 km |
 | 45 | Taper 1 | 47,03 km | — | 47,03 km |
 | 46 | Taper 2 | 37,72 km | — | 37,72 km |
 | 47 | Race week vóór race | 15,95 km | — | 15,95 km |
@@ -1136,7 +1136,7 @@ De implementatie is pas inhoudelijk gereed nadat al het onderstaande is gecontro
 - [ ] Iedere loopbandblok heeft een expliciete helling.
 - [ ] Easy blijft 0,5% en MP/quality 1% volgens het hellingbeleid.
 - [ ] W38 Fitness Check #1 gebruikt exact het standaardprotocol.
-- [ ] W38 is ongeveer 46,74 km totaal.
+- [ ] W38 is ongeveer 46,73 km totaal.
 - [ ] W42 Fitness Check #2 gebruikt exact hetzelfde protocol.
 - [ ] W38 en W42 bevatten elk exact vier looptrainingen; Fitness Check #1/#2 is telkens Training 1 en er is geen extra vijfde loopdag.
 - [ ] W40 is zichtbaar een cutbackweek en bevat de 5K Benchmark.
@@ -1144,13 +1144,13 @@ De implementatie is pas inhoudelijk gereed nadat al het onderstaande is gecontro
 - [ ] W41 is ongeveer 64,91 km.
 - [ ] W42 Training 4 eindigt progressief met 20 min @ 11,5 — 1%, 5 min @ 11,8 — 1% en 10 min @ 12,0 — 1%.
 - [ ] Het echte MP-blok van W42 begint pas na ongeveer 150 minuten.
-- [ ] W42 is ongeveer 58,92 km totaal en vormt bewust een lichte volumeterugname tussen W41 en W43.
+- [ ] W42 is ongeveer 58,91 km totaal en vormt bewust een lichte volumeterugname tussen W41 en W43.
 - [ ] W43 bevat de test 3 × 15 min MP.
 - [ ] W43 bevat de langste duurloop van ongeveer 30,36 km en is buiten aanbevolen.
 - [ ] W43 is ongeveer 67,73 km.
 - [ ] W44 bevat 2 × 30 min @ 12,0 km/u — 1% na 75 minuten voorafgaand lopen.
 - [ ] W44 Training 4 is loopband aanbevolen.
-- [ ] W44 Training 4 is ongeveer 27,60 km en W44 totaal ongeveer 51,99 km.
+- [ ] W44 Training 4 is ongeveer 27,60 km en W44 totaal ongeveer 51,98 km.
 - [ ] W43 en W44 hebben de volledige racevoedingsrepetitie.
 - [ ] De taper W45–W47 bevat geen extra volume, test of trainingsdag.
 - [ ] De marathon staat op zondag 22 november 2026.

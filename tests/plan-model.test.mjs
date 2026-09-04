@@ -105,6 +105,23 @@ test("onafhankelijke afstandssommen, duur en expliciete hellingen", () => {
   assert.equal(plan.sourceDiscrepancies.length, 0);
 });
 
+test("volledige volumes worden pas na optellen van alle ongeronde blokken afgerond", () => {
+  const beforeRace = plan.weeks.reduce((total, week) => total + week.workouts
+    .filter((workout) => workout.category !== "wedstrijd")
+    .reduce((weekTotal, workout) => weekTotal + model.calculateWorkoutDistanceKm(workout), 0), 0);
+  const includingRace = plan.weeks.reduce((total, week) => total + model.calculateWeekDistanceKm(week), 0);
+  const raceWeek = plan.weeks.find((week) => week.weekNumber === 47);
+  const raceWeekBeforeRace = raceWeek.workouts
+    .filter((workout) => workout.category !== "wedstrijd")
+    .reduce((total, workout) => total + model.calculateWorkoutDistanceKm(workout), 0);
+
+  assert.equal(beforeRace.toFixed(2), "570.41");
+  assert.equal(includingRace.toFixed(2), "612.60");
+  assert.equal(raceWeekBeforeRace.toFixed(2), "15.95");
+  assert.equal(model.calculateWeekDistanceKm(raceWeek).toFixed(2), "58.15");
+  assert.equal(get(47, 4).estimatedDistanceKm, 42.195);
+});
+
 test("sleuteltrainingen, fitnessprotocol, taper, racevoeding en buitenaanbevelingen", () => {
   const checks = all.filter((w) => w.isFitnessCheck);
   for (const check of checks) {
