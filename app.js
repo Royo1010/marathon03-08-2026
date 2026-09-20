@@ -1,10 +1,10 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "2026.09.04-1";
+  const APP_VERSION = "2026.09.20-1";
   // Keep this key stable. Preserve existing logs; migrate additions and protocol changes.
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
-  const APP_DATA_VERSION = 5;
+  const APP_DATA_VERSION = 6;
   const plan = window.MARATHON_PLAN;
   const model = window.MARATHON_MODEL;
   const notifications = window.MARATHON_NOTIFICATIONS;
@@ -20,15 +20,15 @@
   const brandHome = document.getElementById("brand-home");
   const navButtons = Array.from(document.querySelectorAll("[data-view]"));
 
-  const VIEWS = { WEEK: "week", PLAN: "plan", INFO: "info", MARATHON: "marathon", TREADMILL: "treadmill" };
+  const VIEWS = { TODAY: "today", WEEK: "week", PLAN: "plan", PHASES: "phases", STATS: "stats", INFO: "info", MARATHON: "marathon", TREADMILL: "treadmill" };
   const requestedTreadmillWorkoutId = new URLSearchParams(window.location.search).get("treadmill");
   const initialTreadmillWorkoutId = plan.workoutAliases?.[requestedTreadmillWorkoutId] || requestedTreadmillWorkoutId;
   const state = {
-    view: workouts.some((workout) => workout.workoutId === initialTreadmillWorkoutId) ? VIEWS.TREADMILL : VIEWS.WEEK,
+    view: workouts.some((workout) => workout.workoutId === initialTreadmillWorkoutId) ? VIEWS.TREADMILL : VIEWS.TODAY,
     viewedWeekIndex: currentPlanWeekIndex(),
     expandedWorkoutIds: new Set(),
     treadmillWorkoutId: workouts.some((workout) => workout.workoutId === initialTreadmillWorkoutId) ? initialTreadmillWorkoutId : null,
-    treadmillReturnView: VIEWS.WEEK,
+    treadmillReturnView: VIEWS.TODAY,
     pushStatus: { code: "checking", label: "Pushstatus controleren…", detail: "" },
     showPushSetup: false,
     notificationsPanelOpen: false,
@@ -152,8 +152,9 @@
     };
   }
 
-  function migrateRefinedWorkouts(raw) {
+  function migrateFinalV3Workouts(raw) {
     const sourceSchema = raw.meta?.schemaVersion || "onbekend";
+    const currentById = new Map(workouts.map((workout) => [workout.workoutId, workout]));
     const archive = (id) => {
       const entry = {};
       for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) {
@@ -162,33 +163,25 @@
       const settings = raw.userSettings?.notificationSettings?.[id];
       if (settings) entry.notificationSettings = settings;
       if (!Object.keys(entry).length) return;
-      if (!isObject(raw.legacyData)) raw.legacyData = {};
-      raw.legacyData.refinedPlanMigration ||= { sourceSchema, archivedAt: nowIso(), workouts: {} };
-      const previous = sourceSchema === "marathon-3u30-definitief-2026.09.01-1" ? plan.previousWorkouts : plan.previousWorkoutsV6;
-      raw.legacyData.refinedPlanMigration.workouts[id] ||= { ...entry, prescription: previous?.[id] || null };
+      raw.legacyData = isObject(raw.legacyData) ? raw.legacyData : {};
+      raw.legacyData.finalV3Migration ||= { sourceSchema, archivedAt: nowIso(), workouts: {} };
+      raw.legacyData.finalV3Migration.workouts[id] ||= { ...entry, prescription: plan.previousWorkoutsV7?.[id] || null };
     };
     const remove = (id) => {
-      for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) {
-        if (isObject(raw[field])) delete raw[field][id];
-      }
+      for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) if (isObject(raw[field])) delete raw[field][id];
       if (isObject(raw.userSettings?.notificationSettings)) delete raw.userSettings.notificationSettings[id];
     };
-    // Same fitness protocol, new regular-session identity. Preserve conflicts in the archive.
-    for (const [oldId, newId] of Object.entries(plan.workoutAliases || {})) {
-      archive(oldId);
-      const workout = workouts.find((w) => w.workoutId === newId);
-      if (plan.previousWorkoutsV6?.[oldId]?.signature !== workout?.protocolSignature) continue;
-      for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) {
-        if (isObject(raw[field]) && Object.hasOwn(raw[field], oldId) && !Object.hasOwn(raw[field], newId)) {
-          raw[field][newId] = raw[field][oldId];
-        }
-      }
-      const settings = raw.userSettings?.notificationSettings;
-      if (isObject(settings) && settings[oldId] && !settings[newId]) settings[newId] = settings[oldId];
-      remove(oldId);
-    }
-    // These prescriptions changed identity/content: never count an old effort as the new one.
-    for (const id of ["marathon-3u30-w38-t1", "marathon-3u30-w42-t1", "marathon-3u30-w44-t4"]) {
+    const storedIds = new Set([
+      ...Object.keys(isObject(raw.workoutLogs) ? raw.workoutLogs : {}),
+      ...Object.keys(isObject(raw.completedSessions) ? raw.completedSessions : {}),
+      ...Object.keys(isObject(raw.testResults) ? raw.testResults : {}),
+      ...Object.keys(isObject(raw.nutritionLogs) ? raw.nutritionLogs : {}),
+      ...Object.keys(isObject(raw.userSettings?.notificationSettings) ? raw.userSettings.notificationSettings : {}),
+    ]);
+    for (const id of storedIds) {
+      const previous = plan.previousWorkoutsV7?.[id];
+      const current = currentById.get(id);
+      if (current && previous?.signature === current.protocolSignature) continue;
       archive(id);
       remove(id);
     }
@@ -198,7 +191,7 @@
     const empty = createEmptyAppData();
     if (!isObject(raw)) throw new Error("Opgeslagen data is geen app-object.");
     raw = JSON.parse(JSON.stringify(raw));
-    if (Number(raw.appDataVersion || 0) < 5) migrateRefinedWorkouts(raw);
+    if (Number(raw.appDataVersion || 0) < 6) migrateFinalV3Workouts(raw);
     const data = {
       ...empty,
       ...raw,
@@ -242,27 +235,6 @@
     if (Object.keys(archivedCompleted).length) {
       data.legacyData.previousPlan ||= { archivedAt: nowIso(), workoutLogs: {}, completedSessions: {} };
       data.legacyData.previousPlan.completedSessions = { ...(data.legacyData.previousPlan.completedSessions || {}), ...archivedCompleted };
-    }
-    // Keep historical effort, not the revised prescription; never repurpose a different test.
-    if (Number(raw.appDataVersion || 0) < 4) {
-      const knownPrevious = raw.meta?.schemaVersion === "marathon-3u30-definitief-2026.09.01-1";
-      for (const workout of workouts) {
-        const id = workout.workoutId;
-        const previousId = Object.keys(plan.workoutAliases || {}).find((key) => plan.workoutAliases[key] === id) || id;
-        const old = knownPrevious ? plan.previousWorkouts?.[previousId] : null;
-        const log = data.workoutLogs[id];
-        if (old && (log?.completed || data.completedSessions[id])) {
-          data.workoutLogs[id] = { ...normalizeWorkoutLog(log, id), completed: true,
-            plannedDistanceAtCompletion: log?.plannedDistanceAtCompletion ?? old.distanceKm,
-            plannedSecondsAtCompletion: log?.plannedSecondsAtCompletion ?? old.durationSeconds };
-        }
-        const result = data.testResults[id];
-        if (result && (!old || old.signature !== workout.protocolSignature)) {
-          data.legacyData.previousTestProtocols ||= {};
-          data.legacyData.previousTestProtocols[id] = { result, sourceSchema: raw.meta?.schemaVersion || "onbekend", title: old?.title || id };
-          delete data.testResults[id];
-        }
-      }
     }
     return data;
   }
@@ -542,7 +514,7 @@
     if (completed) appData.completedSessions[workoutId] = { completedAt: log.completedDate, updatedAt: log.updatedAt };
     else delete appData.completedSessions[workoutId];
     saveAppData();
-    renderWeek();
+    render();
   }
 
   function firstIncompleteWorkout(week) {
@@ -567,6 +539,10 @@
   }
 
   function workoutSequenceLabel(workout) {
+    const week = weeks.find((item) => item.weekNumber === workout?.weekNumber);
+    if (week?.planningMode === "calendar" && workout?.fixedDay && workout.date) {
+      return `${workout.weekday || formatDate(workout.date, { weekday: "long" })} ${formatDate(workout.date, { day: "numeric", month: "long" })}`;
+    }
     return workout?.trainingLabel || (workout?.trainingNumber ? `Training ${workout.trainingNumber}` : "Extra sessie");
   }
 
@@ -597,7 +573,9 @@
     const faster = relevantSegments(workout).filter((segment) => Number(segment.speedKmh) >= 11.5);
     if (faster.length) return faster.slice(0, 2).map((segment) => `${segment.display} op ${formatNumber(segment.speedKmh)} km/u`).join(" · ") + (faster.length > 2 ? " · …" : "");
     const longest = relevantSegments(workout).sort((a, b) => model.segmentDurationSeconds(b) - model.segmentDurationSeconds(a))[0];
-    return longest ? `${longest.display} op ${formatNumber(longest.speedKmh)} km/u` : workout.goal;
+    if (!longest) return workout.goal;
+    if (Number(longest.speedKmh) > 0) return `${longest.display} op ${formatNumber(longest.speedKmh)} km/u`;
+    return joinText([longest.display, longest.instruction || "op gevoel"]);
   }
 
   function fuelingAdvice(workout) {
@@ -764,17 +742,47 @@
         <section><h3>Verbinding met 3:30</h3><p>${escapeHtml(philosophy.targetLink)}</p></section>
         <section><h3>Waarom niet meer of harder?</h3><p>${escapeHtml(philosophy.whyNotMore)}</p></section>
         <section><h3>Waar vertrouwen uit mag komen</h3><p>${escapeHtml(philosophy.confidence)}</p></section>
-        ${renderWeekTestInsight(week)}
       </div>
     </details>`;
   }
 
-  function renderWeekTestInsight(week) {
-    const tests = (week.workouts || []).filter((workout) => workout.isTest);
-    const completed = tests.filter((workout) => Object.keys(testResult(workout.workoutId)).some((key) => key !== "updatedAt"));
-    if (!tests.length) return "";
-    if (!completed.length) return `<section class="week-test-insight"><h3>Meetpunt deze week</h3><p>${tests.map((workout) => escapeHtml(workoutSequenceLabel(workout))).join(" en ")} is nog niet geregistreerd. Voer het protocol uit zoals beschreven; één uitkomst verandert het schema niet automatisch.</p></section>`;
-    return `<section class="week-test-insight"><h3>Geregistreerd meetpunt</h3><p>${completed.map((workout) => `${escapeHtml(workoutSequenceLabel(workout))}: ${escapeHtml(testResult(workout.workoutId).result || `RPE ${testResult(workout.workoutId).rpe || "geregistreerd"}`)}`).join(" · ")}. Lees dit samen met herstel, ademhaling, benen en klachten.</p></section>`;
+  function renderRestDay(day) {
+    return `<article class="rest-day-card">
+      <div><span>${escapeHtml(day.weekday)} · ${escapeHtml(formatDate(day.date, { day: "numeric", month: "long" }))}</span><strong>Rust</strong></div>
+      <p>${escapeHtml(day.note || "Volledige looprust en herstel.")}</p>
+    </article>`;
+  }
+
+  function renderCalendarWeek(week) {
+    return `<section class="calendar-week" aria-label="Vaste planning week ${week.weekNumber}">${(week.days || []).map((day) => {
+      if (day.isRestDay) return renderRestDay(day);
+      const workout = workoutById(day.workoutId);
+      return workout ? `<div class="calendar-training-day">${renderTrainingCard(workout)}</div>` : "";
+    }).join("")}</section>`;
+  }
+
+  function renderToday() {
+    const date = appDateIso();
+    const week = weeks[currentPlanWeekIndex()] || weeks[0];
+    const beforePlan = date < plan.config.startDate;
+    const afterPlan = date > plan.config.endDate;
+    let content = "";
+    if (beforePlan) {
+      content = `<section class="today-state"><span>Start programma</span><strong>Maandag 21 september</strong><p>FINAL V3 begint morgen met week 39. Vandaag staat geen schemaonderdeel gepland.</p></section>`;
+    } else if (afterPlan) {
+      content = `<section class="today-state"><span>Programma voltooid</span><strong>Marathon afgerond</strong><p>Het actieve FINAL V3-schema liep tot zondag 22 november 2026.</p></section>`;
+    } else if (week.planningMode === "calendar") {
+      const day = (week.days || []).find((item) => item.date === date);
+      if (day?.isRestDay) content = renderRestDay(day);
+      else {
+        const workout = workoutById(day?.workoutId);
+        content = workout ? renderTrainingCard(workout) : `<section class="today-state"><strong>Geen training gepland</strong></section>`;
+      }
+    } else {
+      const workout = firstIncompleteWorkout(week);
+      content = workout ? `<section class="today-flex-note"><strong>Flexibele week</strong><p>De volgorde en herstelvoorwaarden zijn leidend. Dit is je eerstvolgende open sessie; de kalenderdag is niet verplicht.</p></section>${renderTrainingCard(workout)}` : `<section class="today-state"><strong>Week voltooid</strong><p>Alle sessies van week ${week.weekNumber} zijn afgerond.</p></section>`;
+    }
+    app.innerHTML = `<header class="page-header today-header"><span>${escapeHtml(formatDate(date, { weekday: "long", day: "numeric", month: "long" }))}</span><h1>Vandaag</h1><p>Week ${week.weekNumber} · ${escapeHtml(week.weekType)}</p></header>${content}`;
   }
 
   function renderWeek() {
@@ -800,6 +808,7 @@
         <div class="week-meta">${escapeHtml(week.periodLabel || `${formatDate(week.startDate, { day: "numeric", month: "long" })} – ${formatDate(week.endDate, { day: "numeric", month: "long", year: "numeric" })}`)} · ${escapeHtml(getWeekPlannedLabel(week))} · nog ${daysUntilMarathon()} dagen</div>
         <div class="training-labels week-type">${renderSemanticBadge(week.weekType)}</div>
         <p class="week-focus">${escapeHtml(week.focus)}</p>
+        <p class="week-pattern">${escapeHtml(week.planningMode === "calendar" ? "Vaste kalenderplanning · rustdagen horen bij het schema" : week.suggestedPattern)}</p>
       </section>
 
       ${renderWeekPhilosophy(week)}
@@ -815,15 +824,13 @@
         <div class="week-score">${completed}/${week.workouts.length}</div>
       </section>
 
-      <section class="training-list" aria-label="Trainingen in week ${week.weekNumber}">
-        ${week.workouts.map((workout) => renderTrainingCard(workout)).join("")}
-      </section>
+      ${week.planningMode === "calendar" ? renderCalendarWeek(week) : `<section class="training-list" aria-label="Trainingen in week ${week.weekNumber}">${week.workouts.map((workout) => renderTrainingCard(workout)).join("")}</section>`}
     `;
   }
 
   function renderSemanticBadge(label) {
     const text = String(label || "");
-    const tone = /VOEDING/.test(text) ? "fueling" : /BUITEN/.test(text) ? "outdoor" : /LOOPBAND/.test(text) ? "treadmill"
+    const tone = /VOEDING|RACEVOEDING/.test(text) ? "fueling" : /STRENGTH/.test(text) ? "strength" : /BUITEN/.test(text) ? "outdoor" : /LOOPBAND/.test(text) ? "treadmill"
       : /CUTBACK|RECOVERY/.test(text) ? "recovery" : /RACE/.test(text) ? "race" : /TAPER/.test(text) ? "taper"
       : /TEST|BENCHMARK|FITNESS CHECK/.test(text) ? "test" : /LONG|CONFIDENCE|PEAK/.test(text) ? "long"
       : /MARATHON SPECIFIC|MARATHONSPECIFIEK|MP/.test(text) ? "mp" : /INTERVAL|STRIDES/.test(text) ? "interval"
@@ -854,6 +861,19 @@
     saveAppData();
   }
 
+  function renderStrengthCard(workout) {
+    const strength = workout.strength;
+    if (!strength) return "";
+    return `<details class="strength-card">
+      <summary><span><small>Na het hardlopen</small><strong>Kracht · Sessie ${escapeHtml(strength.type)}</strong></span><span>${escapeHtml(strength.duration)}</span></summary>
+      <div class="strength-body">
+        <p class="strength-order"><strong>Eerst hardlopen, daarna krachttraining.</strong> ${escapeHtml(strength.note)}</p>
+        <div class="strength-exercises">${(strength.exercises || []).map(([name, prescription]) => `<div><strong>${escapeHtml(name)}</strong><span>${escapeHtml(prescription)}</span></div>`).join("")}</div>
+        <p><strong>Intensiteit:</strong> ${escapeHtml(strength.rir)}</p>
+      </div>
+    </details>`;
+  }
+
   function renderTrainingCard(workout) {
     const open = state.expandedWorkoutIds.has(workout.workoutId);
     const completed = isCompleted(workout.workoutId);
@@ -866,6 +886,7 @@
           <span class="training-metadata"><span class="recovery-${escapeAttr(workout.recoveryStatus || "none")}">${escapeHtml(workout.recoveryLabel || "")}</span></span>
           <span class="training-name">${escapeHtml(capitalize(workout.title))}</span>
           <span class="training-primary">${escapeHtml(workoutPrimarySummary(workout))}</span>
+          ${workout.strength ? `<span class="strength-inline">Daarna kracht · Sessie ${escapeHtml(workout.strength.type)} · ${escapeHtml(workout.strength.duration)}</span>` : ""}
           <span class="training-speed">${escapeHtml(joinText([speedSummary(workout), workout.targetRpe ? `RPE ${workout.targetRpe}` : ""]))}</span>
           <span class="key-block"><strong>Belangrijkste blok</strong>${escapeHtml(keyBlockSummary(workout))}</span>
           <span class="practical-hint">${escapeHtml(workout.goal)}</span>
@@ -873,7 +894,7 @@
         ${open ? `<div class="training-details" id="${detailsId}">${renderTrainingDetails(workout)}</div>` : ""}
         <div class="completion-row">
           <button class="treadmill-button" type="button" data-open-treadmill="${workout.workoutId}">
-            <span aria-hidden="true">▶</span>Loopbandmodus
+            <span aria-hidden="true">▶</span>${workout.surface === "buiten" ? "Trainingsmodus" : "Loopbandmodus"}
           </button>
           <button class="completion-button ${completed ? "is-completed" : ""}" type="button" data-toggle-complete="${workout.workoutId}" aria-pressed="${completed}">
             <span aria-hidden="true">${completed ? "✓" : "○"}</span>${completed ? "Voltooid" : "Markeer als voltooid"}
@@ -890,9 +911,10 @@
       <div class="detail-section rationale-section"><h3>Waarom deze training hier staat</h3><p>${escapeHtml(workout.rationale || workout.goal)}</p></div>
       <div class="detail-section"><h3>Planning en herstel</h3><p><strong>${escapeHtml(workout.recoveryLabel || "Herstel volgens weekbelasting")}:</strong> ${escapeHtml(workout.recoveryAdvice || workout.orderWarning || "Bewaak herstel tussen de sessies.")}</p>${workout.orderWarning ? `<p>${escapeHtml(workout.orderWarning)}</p>` : ""}</div>
       <div class="detail-section"><h3>Locatie en buitenvariant</h3><p><strong>${escapeHtml(workout.locationStatus || "Loopband of buiten")}.</strong> ${escapeHtml(workout.outsideVariant || "Volg buiten dezelfde duur en inspanning.")}</p></div>
+      ${workout.shoes ? `<div class="detail-section shoe-section"><h3>Schoenen</h3><p>${escapeHtml(workout.shoes)}</p></div>` : ""}
+      ${renderStrengthCard(workout)}
       ${(workout.detailsSections || []).map((section) => `<div class="detail-section source-detail"><h3>${escapeHtml(section.title)}</h3><ul>${section.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div>`).join("")}
       ${workout.fueling ? renderFuelingForm(workout) : ""}
-      ${workout.isTest ? renderTestForm(workout) : ""}
     `;
   }
 
@@ -910,92 +932,6 @@
         ${group.omitRecoveryAfterLast ? `<p class="segment-footnote">Na de laatste herhaling vervalt het herstelstuk, zoals in het schema beschreven.</p>` : ""}
         ${(group.segments || []).some((segment) => segment.instruction) ? `<p class="segment-footnote">${escapeHtml(group.segments.map((segment) => segment.instruction).filter(Boolean).join(" "))}</p>` : ""}
       </section>`;
-  }
-
-  function testResult(workoutId) {
-    return isObject(appData.testResults?.[workoutId]) ? appData.testResults[workoutId] : {};
-  }
-
-  function renderRpeOptions(value) {
-    return `<option value="">Kies RPE</option>${Array.from({ length: 19 }, (_, index) => 1 + index / 2).map((number) => `<option value="${number}" ${String(value) === String(number) ? "selected" : ""}>${formatNumber(number)}/10</option>`).join("")}`;
-  }
-
-  function renderFitnessCheckFields(workout, result) {
-    if (!workout.isFitnessCheck) return "";
-    const blocks = [
-      ["10 km/u", "block10"],
-      ["11 km/u", "block11"],
-      ["12 km/u", "block12"],
-    ];
-    const firstCheck = workouts.find((w) => w.fitnessCheckNumber === 1);
-    const comparison = workout.fitnessCheckNumber === 2 ? testResult(firstCheck.workoutId) : null;
-    const hasBaseline = comparison && Object.keys(comparison).some((key) => key !== "updatedAt");
-    return `<div class="fitness-check-fields">
-      <h4>Na ieder blok van 10 minuten</h4>
-      ${blocks.map(([label, prefix]) => `<fieldset><legend>${label}</legend>
-        <label><span>RPE</span><select data-test-workout="${workout.workoutId}" data-test-field="${prefix}Rpe">${renderRpeOptions(result[`${prefix}Rpe`])}</select></label>
-        <label><span>Ademhaling</span><input type="text" value="${escapeAttr(result[`${prefix}Breathing`] || "")}" placeholder="rustig / stevig / zwaar" data-test-workout="${workout.workoutId}" data-test-field="${prefix}Breathing"></label>
-        <label><span>Benen</span><input type="text" value="${escapeAttr(result[`${prefix}Legs`] || "")}" placeholder="fris / normaal / zwaar" data-test-workout="${workout.workoutId}" data-test-field="${prefix}Legs"></label>
-      </fieldset>`).join("")}
-      ${workout.fitnessCheckNumber === 2 ? `<div class="fitness-comparison"><strong>Vergelijking met week 38</strong><p>${hasBaseline ? `Dezelfde 40 minuten, snelheden en hellingen. Vergelijk ook ademhaling, benen, klachten en herstel.` : "Fitness Check #1 is nog niet geregistreerd. Er is nog geen vergelijkbare persoonlijke nulmeting."}</p>${hasBaseline ? `<dl>${blocks.map(([label, prefix]) => `<div><dt>${label} · W38</dt><dd>RPE ${escapeHtml(comparison[`${prefix}Rpe`] || "niet ingevuld")} · ${escapeHtml(comparison[`${prefix}Breathing`] || "ademhaling niet ingevuld")} · ${escapeHtml(comparison[`${prefix}Legs`] || "benen niet ingevuld")}</dd></div>`).join("")}</dl>` : ""}</div>` : ""}
-    </div>`;
-  }
-
-  function renderWorkoutSpecificTestFields(workout, result) {
-    if (workout.workoutId === "marathon-3u30-w43-t2") {
-      return `<div class="fitness-check-fields"><h4>3 × 15 min marathonpace</h4><fieldset><legend>RPE per MP-blok</legend>
-        ${[1, 2, 3].map((block) => `<label><span>Blok ${block}</span><select data-test-workout="${workout.workoutId}" data-test-field="mpBlock${block}Rpe">${renderRpeOptions(result[`mpBlock${block}Rpe`])}</select></label>`).join("")}
-        </fieldset><label><span>Voelde een vierde blok mogelijk?</span><select data-test-workout="${workout.workoutId}" data-test-field="fourthBlockPossible"><option value="">Kies</option>${["ja", "twijfel", "nee"].map((value) => `<option value="${value}" ${result.fourthBlockPossible === value ? "selected" : ""}>${capitalize(value)}</option>`).join("")}</select></label></div>`;
-    }
-    if (workout.workoutId === "marathon-3u30-w41-t2") {
-      return `<div class="fitness-check-fields rhythm-check-fields">
-        <h4>Marathon Rhythm-verloop</h4>
-        <fieldset><legend>RPE tijdens 60 min marathonpace</legend>
-          ${[20, 40, 60].map((minute) => `<label><span>Na ${minute} min</span><select data-test-workout="${workout.workoutId}" data-test-field="rpe${minute}">${renderRpeOptions(result[`rpe${minute}`])}</select></label>`).join("")}
-        </fieldset>
-        <label class="reserve-field"><span>Voelde nog 15–20 min mogelijk?</span><select data-test-workout="${workout.workoutId}" data-test-field="couldContinue"><option value="">Kies</option><option value="ja" ${result.couldContinue === "ja" ? "selected" : ""}>Ja</option><option value="twijfel" ${result.couldContinue === "twijfel" ? "selected" : ""}>Twijfel</option><option value="nee" ${result.couldContinue === "nee" ? "selected" : ""}>Nee</option></select></label>
-      </div>`;
-    }
-    if (workout.workoutId === "marathon-3u30-w44-t4") {
-      return `<div class="fitness-check-fields key-test-fields">
-        <h4>Fatigue-resistanceblokken</h4>
-        <fieldset><legend>RPE per marathonpaceblok</legend>
-          <label><span>Eerste 30 min</span><select data-test-workout="${workout.workoutId}" data-test-field="firstBlockRpe">${renderRpeOptions(result.firstBlockRpe)}</select></label>
-          <label><span>Tweede 30 min</span><select data-test-workout="${workout.workoutId}" data-test-field="secondBlockRpe">${renderRpeOptions(result.secondBlockRpe)}</select></label>
-          <label><span>Techniek tweede blok</span><input type="text" value="${escapeAttr(result.secondBlockTechnique || "")}" placeholder="stabiel / verval" data-test-workout="${workout.workoutId}" data-test-field="secondBlockTechnique"></label>
-        </fieldset>
-      </div>`;
-    }
-    return "";
-  }
-
-  function renderTestForm(workout) {
-    const result = testResult(workout.workoutId);
-    return `<div class="detail-section test-registration">
-      <h3>Testresultaat registreren</h3>
-      <p>De waarden worden direct lokaal opgeslagen. Het schema en de voorgeschreven snelheden worden hierdoor niet automatisch aangepast.</p>
-      ${renderFitnessCheckFields(workout, result)}
-      ${renderWorkoutSpecificTestFields(workout, result)}
-      <div class="test-fields">
-        <label><span>Resultaat / tijd</span><input type="text" inputmode="text" value="${escapeAttr(result.result || "")}" placeholder="bijv. 22:35" data-test-workout="${workout.workoutId}" data-test-field="result"></label>
-        <label><span>Gemiddelde snelheid</span><input type="number" inputmode="decimal" min="0" step="0.1" value="${escapeAttr(result.averageSpeed || "")}" placeholder="km/u" data-test-workout="${workout.workoutId}" data-test-field="averageSpeed"></label>
-        <label><span>RPE</span><select data-test-workout="${workout.workoutId}" data-test-field="rpe">${renderRpeOptions(result.rpe)}</select></label>
-        <label><span>RPE laatste blok</span><select data-test-workout="${workout.workoutId}" data-test-field="lastBlockRpe">${renderRpeOptions(result.lastBlockRpe)}</select></label>
-        <label class="wide"><span>Ademhaling</span><input type="text" value="${escapeAttr(result.breathing || "")}" placeholder="bijv. stevig maar beheersbaar" data-test-workout="${workout.workoutId}" data-test-field="breathing"></label>
-        <label class="wide"><span>Benen</span><input type="text" value="${escapeAttr(result.legs || "")}" placeholder="Hoe voelden je benen?" data-test-workout="${workout.workoutId}" data-test-field="legs"></label>
-        <label class="wide"><span>Pijn / klachten</span><input type="text" value="${escapeAttr(result.pain || "")}" placeholder="Geen, of beschrijf waar en wanneer" data-test-workout="${workout.workoutId}" data-test-field="pain"></label>
-        <label class="wide"><span>Verwacht herstel</span><input type="text" value="${escapeAttr(result.recoveryExpectation || "")}" placeholder="bijv. morgen normaal / 48 uur nodig" data-test-workout="${workout.workoutId}" data-test-field="recoveryExpectation"></label>
-        <label class="wide"><span>Algemene ervaring</span><textarea rows="3" data-test-workout="${workout.workoutId}" data-test-field="experience" placeholder="Hoe verliep de test?">${escapeHtml(result.experience || "")}</textarea></label>
-        <label class="wide"><span>Vrije notitie</span><textarea rows="3" data-test-workout="${workout.workoutId}" data-test-field="note" placeholder="Aanvullende notitie">${escapeHtml(result.note || "")}</textarea></label>
-      </div>
-    </div>`;
-  }
-
-  function saveTestField(workoutId, field, value) {
-    if (!workoutId || !field) return;
-    appData.testResults ||= {};
-    appData.testResults[workoutId] = { ...testResult(workoutId), [field]: value, updatedAt: nowIso() };
-    saveAppData();
   }
 
   function treadmillSpeedLabel(block) {
@@ -1528,7 +1464,7 @@
   }
 
   function isMilestoneWorkout(workout) {
-    return workout.category === "wedstrijd" || (workout.labels || []).some((label) => ["CONFIDENCE RUN", "FITNESS CHECK", "KEY TEST", "TEST", "RACE"].includes(label));
+    return workout.category === "wedstrijd" || workout.confidence || (workout.labels || []).some((label) => /CONFIDENCE|RACE/.test(label));
   }
 
   function nextMilestoneWorkout() {
@@ -1564,7 +1500,8 @@
   }
 
   function getWeekPlannedKm(week, includeMarathon = true) {
-    return weekWorkouts(week, includeMarathon).reduce((total, workout) => total + plannedDistanceKm(workout), 0);
+    const calculated = Number(model.calculateWeekDistanceKm?.(week, includeMarathon));
+    return Number.isFinite(calculated) ? calculated : weekWorkouts(week, includeMarathon).reduce((total, workout) => total + plannedDistanceKm(workout), 0);
   }
 
   function getWeekCompletedKm(week, includeMarathon = true) {
@@ -1634,14 +1571,7 @@
       return { weekNumber: week.weekNumber, plannedKm, completedKm, includesMarathon: Boolean(week.includesMarathon), current: week.weekId === currentWeek?.weekId };
     });
     const current = weekly.find((week) => week.current) || { plannedKm: 0, completedKm: 0 };
-    const confidence = workouts.filter((workout) => (workout.labels || []).includes("CONFIDENCE RUN"));
-    const tests = workouts.filter((workout) => workout.isTest);
-    const completedTests = tests.filter((workout) => isCompleted(workout.workoutId));
-    const testsWithResults = tests.filter((workout) => Object.keys(testResult(workout.workoutId)).some((key) => key !== "updatedAt"));
-    const nextTest = tests.find((workout) => !completedTests.includes(workout)) || null;
-    const latestTest = testsWithResults
-      .slice()
-      .sort((a, b) => String(testResult(b.workoutId).updatedAt || "").localeCompare(String(testResult(a.workoutId).updatedAt || "")))[0] || null;
+    const confidence = workouts.filter((workout) => workout.confidence || (workout.labels || []).some((label) => /CONFIDENCE/.test(label)));
     const longRuns = programWorkouts.filter((workout) => workout.category === "lange-duur");
     const longestPlanned = longRuns.slice().sort((a, b) => plannedDistanceKm(b) - plannedDistanceKm(a))[0] || null;
     const longestCompleted = longRuns.filter((workout) => isCompleted(workout.workoutId)).sort((a, b) => completedDistanceKm(b) - completedDistanceKm(a))[0] || null;
@@ -1669,10 +1599,7 @@
       currentCompletedKm: current.completedKm,
       confidence,
       completedConfidence: confidence.filter((workout) => isCompleted(workout.workoutId)),
-      tests,
-      completedTests,
-      nextTest,
-      latestTest,
+      latestCompletedConfidence: confidence.filter((workout) => isCompleted(workout.workoutId)).at(-1) || null,
       longestPlanned,
       longestCompleted,
       latestCompleted: latestCompletedWorkout(),
@@ -1718,7 +1645,7 @@
       const y = plotBottom - ((plotBottom - plotTop) * value) / maxKm;
       return `${x.toFixed(1)},${y.toFixed(1)}`;
     };
-    const labels = new Set([36, 39, 42, 45, 47]);
+    const labels = new Set([39, 41, 43, 45, 47]);
     return `<section class="dashboard-card chart-card">
       <div class="dashboard-title"><div><span>Programma-afstand</span><h2>Cumulatieve opbouw</h2></div><div class="chart-legend"><span><i class="is-line-planned"></i>Gepland</span><span><i class="is-line-completed"></i>Voltooid</span></div></div>
       <svg class="cumulative-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Cumulatieve geplande en voltooide kilometers">
@@ -1733,106 +1660,13 @@
     </section>`;
   }
 
-  function parseClockResult(value) {
-    const match = String(value || "").trim().match(/^(\d{1,2}):(\d{2})$/);
-    return match ? Number(match[1]) * 60 + Number(match[2]) : null;
-  }
-
-  function hasMeaningfulTestResult(workoutId) {
-    return Object.keys(testResult(workoutId)).some((key) => key !== "updatedAt" && String(testResult(workoutId)[key] || "").trim());
-  }
-
-  function painIsPresent(value) {
-    const text = String(value || "").trim().toLowerCase();
-    return Boolean(text) && !["geen", "nee", "n.v.t.", "nvt", "0"].includes(text);
-  }
-
-  function readinessScorecard() {
-    const speedResult = testResult("marathon-3u30-w40-t2");
-    const speedSeconds = parseClockResult(speedResult.result);
-    const speed = !hasMeaningfulTestResult("marathon-3u30-w40-t2")
-      ? { key: "speed", label: "Snelheidsreserve", status: "orange", detail: "5 km-benchmark nog niet geregistreerd." }
-      : speedSeconds == null
-        ? { key: "speed", label: "Snelheidsreserve", status: "orange", detail: "Resultaat aanwezig; gebruik een tijd als mm:ss voor indeling." }
-        : speedSeconds <= 1365
-          ? { key: "speed", label: "Snelheidsreserve", status: "green", detail: `${speedResult.result}: voldoende ondersteunende snelheidsreserve.` }
-          : speedSeconds <= 1395
-            ? { key: "speed", label: "Snelheidsreserve", status: "orange", detail: `${speedResult.result}: aandachtspunt, beoordeel samen met MP en duur.` }
-            : { key: "speed", label: "Snelheidsreserve", status: "red", detail: `${speedResult.result}: momenteel achter de ideale 5 km-indicatie.` };
-
-    const mpWorkoutId = hasMeaningfulTestResult("marathon-3u30-w43-t2") ? "marathon-3u30-w43-t2" : "marathon-3u30-w41-t2";
-    const mpResult = testResult(mpWorkoutId);
-    const mpRpe = Number(mpResult.mpBlock3Rpe || mpResult.lastBlockRpe || mpResult.rpe60 || mpResult.rpe);
-    const mp = !hasMeaningfulTestResult(mpWorkoutId)
-      ? { key: "mp", label: "MP-controle", status: "orange", detail: "Nog geen uitgebreide marathonpacemeting geregistreerd." }
-      : painIsPresent(mpResult.pain) || mpRpe >= 9
-        ? { key: "mp", label: "MP-controle", status: "red", detail: "Marathontempo gaf klachten of zeer hoge ervaren belasting." }
-        : mpRpe > 0 && mpRpe <= 7 && mpResult.fourthBlockPossible !== "nee"
-          ? { key: "mp", label: "MP-controle", status: "green", detail: `Doeltempo bleef beheerst rond RPE ${formatNumber(mpRpe)}.` }
-          : { key: "mp", label: "MP-controle", status: "orange", detail: "Meting aanwezig, maar nog geen overtuigend stabiele RPE-indicatie." };
-
-    const endurance = isCompleted("marathon-3u30-w43-t4")
-      ? { key: "endurance", label: "Duurvermogen", status: "green", detail: "30K confidence run voltooid." }
-      : isCompleted("marathon-3u30-w42-t4") || isCompleted("marathon-3u30-w41-t4")
-        ? { key: "endurance", label: "Duurvermogen", status: "orange", detail: "Lange opbouw is onderweg; 30K-bewijs volgt nog." }
-        : { key: "endurance", label: "Duurvermogen", status: "orange", detail: "Belangrijkste lange duurlopen nog niet voltooid." };
-
-    const fatigueResult = testResult("marathon-3u30-w44-t4");
-    const fatigueRpe = Number(fatigueResult.secondBlockRpe || fatigueResult.lastBlockRpe || fatigueResult.rpe);
-    const fatigue = !hasMeaningfulTestResult("marathon-3u30-w44-t4") && !isCompleted("marathon-3u30-w44-t4")
-      ? { key: "fatigue", label: "Vermoeidheidsbestendigheid", status: "orange", detail: "Key Marathon Specific Test moet nog worden uitgevoerd." }
-      : painIsPresent(fatigueResult.pain) || fatigueRpe >= 9
-        ? { key: "fatigue", label: "Vermoeidheidsbestendigheid", status: "red", detail: "De sleuteltraining gaf klachten of zeer hoge belasting." }
-        : fatigueRpe > 0 && fatigueRpe <= 7.5
-          ? { key: "fatigue", label: "Vermoeidheidsbestendigheid", status: "green", detail: `Tweede MP-blok bleef rond RPE ${formatNumber(fatigueRpe)}.` }
-          : { key: "fatigue", label: "Vermoeidheidsbestendigheid", status: "orange", detail: "Sleuteltraining voltooid, maar de volledige evaluatie ontbreekt." };
-
-    const resultValues = Object.values(appData.testResults || {}).filter(isObject);
-    const recoveryValues = resultValues.map((result) => String(result.recoveryExpectation || "").toLowerCase()).filter(Boolean);
-    const recovery = !recoveryValues.length
-      ? { key: "recovery", label: "Herstel", status: "orange", detail: "Nog onvoldoende herstelregistraties." }
-      : recoveryValues.some((value) => /72|drie dagen|slecht|onvoldoende/.test(value))
-        ? { key: "recovery", label: "Herstel", status: "red", detail: "Minstens één registratie wijst op ongunstig herstel." }
-        : recoveryValues.some((value) => /morgen|normaal|24|goed/.test(value))
-          ? { key: "recovery", label: "Herstel", status: "green", detail: "Geregistreerd herstel blijft passend bij de belasting." }
-          : { key: "recovery", label: "Herstel", status: "orange", detail: "Herstel is geregistreerd, maar nog niet duidelijk positief." };
-
-    const painValues = resultValues.map((result) => result.pain).filter((value) => String(value || "").trim());
-    const complaints = !painValues.length
-      ? { key: "complaints", label: "Klachten", status: "orange", detail: "Nog geen consistente klachtenregistratie." }
-      : painValues.some(painIsPresent)
-        ? { key: "complaints", label: "Klachten", status: "red", detail: "Er zijn pijn- of klachtennotities; beoordeel belasting voorzichtig." }
-        : { key: "complaints", label: "Klachten", status: "green", detail: "Geregistreerde meetmomenten melden geen klachten." };
-
-    const categories = [speed, mp, endurance, fatigue, recovery, complaints];
-    const greens = categories.filter((item) => item.status === "green").length;
-    const reds = categories.filter((item) => item.status === "red").length;
-    const overall = reds >= 2
-      ? { status: "red", label: "Momenteel niet onderbouwd" }
-      : greens >= 4 && reds === 0
-        ? { status: "green", label: "3:30 op koers" }
-        : { status: "orange", label: "Nog onzeker" };
-    return { categories, overall };
-  }
-
-  function renderReadinessScorecard() {
-    const scorecard = readinessScorecard();
-    const statusLabel = { green: "Groen", orange: "Oranje", red: "Rood" };
-    return `<section class="dashboard-card readiness-card">
-      <div class="dashboard-title"><div><span>Bewijs uit meerdere bronnen</span><h2>3:30-readiness</h2></div><strong class="readiness-overall is-${scorecard.overall.status}">${escapeHtml(scorecard.overall.label)}</strong></div>
-      <div class="readiness-grid">${scorecard.categories.map((item) => `<article><span class="readiness-dot is-${item.status}" aria-label="${statusLabel[item.status]}"></span><div><strong>${escapeHtml(item.label)}</strong><p>${escapeHtml(item.detail)}</p></div></article>`).join("")}</div>
-      <p class="readiness-note">Geen enkele test beslist het doel alleen. Vanaf week 45 wordt niet meer bewezen: taper en frisheid krijgen voorrang.</p>
-    </section>`;
-  }
-
   function renderTestAndConfidenceHistory() {
-    const milestones = workouts.filter((workout) => workout.isTest || (workout.labels || []).includes("CONFIDENCE RUN") || workout.category === "wedstrijd");
+    const milestones = workouts.filter((workout) => workout.confidence || (workout.labels || []).some((label) => /CONFIDENCE/.test(label)) || workout.category === "wedstrijd");
     return `<details class="dashboard-card history-card">
-      <summary><span><small>Chronologisch overzicht</small><strong>Tests & confidence</strong></span><i aria-hidden="true">+</i></summary>
+      <summary><span><small>Chronologisch overzicht</small><strong>Confidence-ladder</strong></span><i aria-hidden="true">+</i></summary>
       <div class="history-list">${milestones.map((workout) => {
-        const result = testResult(workout.workoutId);
         const completed = isCompleted(workout.workoutId);
-        const resultLabel = result.result || (result.rpe ? `RPE ${result.rpe}` : completed ? "Voltooid" : "Nog te doen");
+        const resultLabel = completed ? "Voltooid" : "Nog te doen";
         return `<article><span>Week ${workout.weekNumber}</span><div><strong>${escapeHtml(capitalize(workout.title))}</strong><p>${escapeHtml(workoutSequenceLabel(workout))} · ${escapeHtml(resultLabel)}</p></div></article>`;
       }).join("")}</div>
     </details>`;
@@ -1846,7 +1680,6 @@
     const next = nextIncompleteWorkout();
     const milestone = nextMilestoneWorkout();
     const currentRemainingKm = Math.max(0, metrics.currentPlannedKm - metrics.currentCompletedKm);
-    const latestTestResult = metrics.latestTest ? testResult(metrics.latestTest.workoutId) : null;
     app.innerHTML = `<section class="marathon-overview">
       <header class="overview-header">
         <button type="button" data-back-week>← Terug naar week</button>
@@ -1882,7 +1715,6 @@
       </section>
       ${renderWeeklyDistanceChart(metrics)}
       ${renderCumulativeDistanceChart(metrics)}
-      ${renderReadinessScorecard()}
       ${renderTestAndConfidenceHistory()}
       <section class="overview-next-grid">
         <article><span>Volgende training</span>${next ? `<strong>Week ${next.weekNumber} · ${escapeHtml(workoutSequenceLabel(next))}</strong><h2>${escapeHtml(capitalize(next.title))}</h2><p>${escapeHtml(workoutPrimarySummary(next))}</p>` : `<strong>Programma voltooid</strong><h2>De marathon wacht</h2>`}</article>
@@ -1890,7 +1722,7 @@
       </section>
       <section class="dashboard-summary-grid">
         <article class="dashboard-card"><span>Confidence runs</span><strong>${metrics.completedConfidence.length} / ${metrics.confidence.length}</strong><p>${metrics.confidence.length - metrics.completedConfidence.length} te gaan</p></article>
-        <article class="dashboard-card"><span>Meetmomenten</span><strong>${metrics.completedTests.length} / ${metrics.tests.length}</strong><p>${metrics.nextTest ? `Volgende: week ${metrics.nextTest.weekNumber}` : "Alle meetmomenten afgerond"}</p></article>
+        <article class="dashboard-card"><span>MP vóór marathon</span><strong>${plan.config.programmedMpMinutes} min</strong><p>5 uur en 28 minuten geprogrammeerd</p></article>
         <article class="dashboard-card"><span>Langste gepland</span><strong>${metrics.longestPlanned ? `${formatNumber(plannedDistanceKm(metrics.longestPlanned))} km` : "-"}</strong><p>${metrics.longestPlanned ? `Week ${metrics.longestPlanned.weekNumber}` : "Geen lange duurloop"}</p></article>
         <article class="dashboard-card"><span>Langste voltooid</span><strong>${metrics.longestCompleted ? `${formatNumber(completedDistanceKm(metrics.longestCompleted))} km` : "0 km"}</strong><p>${metrics.longestCompleted ? escapeHtml(capitalize(metrics.longestCompleted.title)) : "Nog geen lange duurloop"}</p></article>
         <article class="dashboard-card"><span>Bekende trainingsuren</span><strong>${formatHours(metrics.completedDurationSeconds)}</strong><p>van ${formatHours(metrics.plannedDurationSeconds)}</p></article>
@@ -1900,38 +1732,65 @@
         <div><span>Gemiddelde voltooide training</span><strong>${formatNumber(metrics.averageCompletedKm)} km</strong></div>
         <div><span>Gemiddeld per actieve week</span><strong>${formatNumber(metrics.activeCompletedWeeks ? metrics.totalCompletedKm / metrics.activeCompletedWeeks : 0)} km</strong></div>
         <div><span>Laatste voltooid</span><strong>${metrics.latestCompleted ? `Week ${metrics.latestCompleted.weekNumber} · ${escapeHtml(workoutSequenceLabel(metrics.latestCompleted))}` : "Nog geen training"}</strong><small>${metrics.latestCompleted ? escapeHtml(capitalize(metrics.latestCompleted.title)) : ""}</small></div>
-        <div><span>Laatste testresultaat</span><strong>${metrics.latestTest ? escapeHtml(latestTestResult?.result || `Week ${metrics.latestTest.weekNumber}`) : "Nog geen test"}</strong><small>${metrics.latestTest ? escapeHtml(capitalize(metrics.latestTest.title)) : ""}</small></div>
+        <div><span>Laatste confidence</span><strong>${metrics.latestCompletedConfidence ? `Week ${metrics.latestCompletedConfidence.weekNumber}` : "Nog geen confidence-run"}</strong><small>${metrics.latestCompletedConfidence ? escapeHtml(capitalize(metrics.latestCompletedConfidence.title)) : ""}</small></div>
       </section>
-      <p class="dashboard-method">Werkelijk gelogde afstand wordt gebruikt wanneer die beschikbaar is. Anders telt een voltooide sessie voor de geplande afstand mee. De kilometerkaarten tellen ${metrics.programWorkouts.length} sessies vóór de race, inclusief de twee korte fitnesschecks; de weekgrafieken en het Schema tonen week 47 inclusief marathon.</p>
+      <p class="dashboard-method">Werkelijk gelogde afstand wordt gebruikt wanneer die beschikbaar is. Anders telt een voltooide sessie voor de geplande afstand mee. Rustdagen en krachttraining tellen niet mee als looptraining of kilometers; week 47 wordt in grafieken inclusief marathon getoond.</p>
     </section>`;
   }
 
   function renderPlan() {
     app.innerHTML = `
-      <header class="page-header"><span>Volledig programma</span><h1>Schema</h1><p>Alle twaalf trainingsweken in één compact overzicht.</p></header>
+      <header class="page-header"><span>FINAL V3</span><h1>Schema</h1><p>Week 39 tot en met marathonweek, vanuit één centrale trainingsbron.</p></header>
       <section class="plan-list">
         ${weeks.map((week, index) => {
           const phase = plan.phases.find((item) => item.phaseId === week.phaseId);
-          const longRun = week.workouts.find((workout) => workout.trainingNumber === 4);
+          const longRun = week.workouts.filter((workout) => workout.category === "lange-duur").at(-1);
           const completed = week.workouts.filter((workout) => isCompleted(workout.workoutId)).length;
           const overview = week.weekPhilosophy
             ? { theme: week.weekPhilosophy.theme, goal: week.weekPhilosophy.summary }
             : { theme: phase?.shortName || week.phaseName, goal: week.focus };
-          const marathonWeek = Boolean(week.includesMarathon || longRun?.category === "wedstrijd");
-          const extraCount = week.workouts.filter((workout) => workout.isExtra).length;
-          const regularCount = week.workouts.length - extraCount;
+          const marathonWeek = Boolean(week.includesMarathon || week.workouts.some((workout) => workout.category === "wedstrijd"));
+          const restCount = (week.days || []).filter((day) => day.isRestDay).length;
+          const runCount = week.workouts.filter((workout) => workout.category !== "wedstrijd").length;
           return `<button class="plan-row${completed === week.workouts.length ? " is-completed" : ""}" type="button" data-open-week="${index}" aria-label="Open week ${week.weekNumber}">
             <span class="plan-row-top"><span class="plan-week">Week ${week.weekNumber}</span><span class="plan-status">${completed}/${week.workouts.length}<i aria-hidden="true">›</i></span></span>
             <span class="plan-main">
               <strong>${escapeHtml(overview.theme)}</strong>
               <span class="plan-volume">${escapeHtml(getWeekPlannedLabel(week))}</span>
-              <small>${marathonWeek ? `${week.workouts.length} sessies incl. marathon` : extraCount ? `${regularCount} trainingen + fitnesscheck` : `${week.workouts.length} trainingen`}</small>
+              <small>${marathonWeek ? `${runCount} trainingen + marathon · ${restCount} rustdagen` : week.planningMode === "calendar" ? `${runCount} trainingen · ${restCount} rustdagen` : `${runCount} trainingen · flexibel gepland`}</small>
               <span class="plan-goal"><b>Doel</b>${escapeHtml(overview.goal)}</span>
-              <small class="plan-longest">${marathonWeek ? "Marathon" : "Langste training"}: ${escapeHtml(longRun?.estimatedDistanceLabel || `${formatNumber(plannedDistanceKm(longRun))} km`)}</small>
+              <small class="plan-longest">${marathonWeek ? "Marathon: 42,195 km" : `Langste training: ${escapeHtml(longRun?.estimatedDistanceLabel || `${formatNumber(plannedDistanceKm(longRun))} km`)}`}</small>
             </span>
           </button>`;
         }).join("")}
       </section>`;
+  }
+
+  function renderPhases() {
+    app.innerHTML = `<header class="page-header"><span>Opbouw FINAL V3</span><h1>Fases</h1><p>De volume-piek ligt in week 43; de zwaarste marathonspecifieke long run volgt in week 44.</p></header>
+      <section class="phase-list">${plan.phases.map((phase) => {
+        const week = weeks.find((item) => item.phaseId === phase.phaseId);
+        return `<article class="phase-card">
+          <div><span>Week ${week.weekNumber}</span>${renderSemanticBadge(week.planningMode === "calendar" ? "VASTE DAGEN" : "FLEXIBEL")}</div>
+          <h2>${escapeHtml(phase.name)}</h2>
+          <p>${escapeHtml(phase.description)}</p>
+          <dl><div><dt>Periode</dt><dd>${escapeHtml(week.periodLabel)}</dd></div><div><dt>Volume</dt><dd>${escapeHtml(getWeekPlannedLabel(week))}</dd></div><div><dt>Planning</dt><dd>${week.planningMode === "calendar" ? "Vaste dagen inclusief rust" : "Flexibele sessievolgorde"}</dd></div></dl>
+          <button type="button" data-open-week="${weeks.indexOf(week)}">Bekijk week</button>
+        </article>`;
+      }).join("")}</section>`;
+  }
+
+  function renderStatistics() {
+    const metrics = dashboardMetrics();
+    app.innerHTML = `<header class="page-header"><span>Voortgang FINAL V3</span><h1>Statistiek</h1><p>Rustdagen en krachttraining tellen niet mee als looptraining of kilometers.</p></header>
+      <section class="target-summary stats-summary">
+        <div><span>Gepland vóór race</span><strong>${formatNumber(metrics.totalPlannedKm, 2)} km</strong></div>
+        <div><span>Voltooid</span><strong>${formatNumber(metrics.totalCompletedKm, 2)} km</strong></div>
+        <div><span>MP gepland</span><strong>${plan.config.programmedMpMinutes} min</strong></div>
+      </section>
+      ${renderWeeklyDistanceChart(metrics)}
+      ${renderCumulativeDistanceChart(metrics)}
+      ${renderTestAndConfidenceHistory()}`;
   }
 
   function renderInfo() {
@@ -1939,7 +1798,7 @@
       ["Tempo en afkortingen", [
         "km/u: snelheid in kilometer per uur.",
         "RPE: ervaren inspanning op een schaal van 1 tot 10.",
-        "MP: marathontempo; in dit schema praktisch rond 12,0 km/u.",
+        "MP: marathontempo; in FINAL V3 praktisch 12,1 km/u.",
         "Herstel: het rustige stuk tussen twee snellere delen.",
         "Helling: stijgingspercentage van de loopband.",
       ]],
@@ -1952,7 +1811,7 @@
       ["Pijn en aanpassen", plan.guidance.painRules],
       ["Voeding tijdens trainingen", plan.guidance.fueling.map((item) => typeof item === "string" ? item : `${item.duration}: ${item.carbs}`)],
       ["Wanneer is 3:30 geloofwaardig?", plan.guidance.targetConfirmation],
-      ["Test- en confidence-tijdlijn", (plan.guidance.testTimeline || []).concat(plan.guidance.officialTests.map((item) => `Week ${item.week}, ${item.training === "extra" ? "extra sessie" : `Training ${item.training}`}: ${item.title}. Vraag: ${item.question}`))],
+      ["Confidence-ladder", plan.guidance.testTimeline || []],
       ["Wedstrijdstrategie", plan.guidance.raceStrategy.map((item) => `${item.distance}: ${item.pace}. ${item.instruction}`)],
     ];
     app.innerHTML = `
@@ -1994,14 +1853,17 @@
     if (state.view === VIEWS.TREADMILL) renderTreadmillMode();
     else if (state.view === VIEWS.MARATHON) renderMarathonOverview();
     else if (state.view === VIEWS.PLAN) renderPlan();
+    else if (state.view === VIEWS.PHASES) renderPhases();
+    else if (state.view === VIEWS.STATS) renderStatistics();
     else if (state.view === VIEWS.INFO) renderInfo();
-    else renderWeek();
+    else if (state.view === VIEWS.WEEK) renderWeek();
+    else renderToday();
   }
 
   function toggleWorkoutDetails(workoutId) {
     if (state.expandedWorkoutIds.has(workoutId)) state.expandedWorkoutIds.delete(workoutId);
     else state.expandedWorkoutIds.add(workoutId);
-    renderWeek();
+    render();
   }
 
   document.addEventListener("click", (event) => {
@@ -2029,7 +1891,7 @@
     }
 
     if (event.target.closest("[data-close-treadmill]")) {
-      return setView(state.treadmillReturnView || VIEWS.WEEK);
+      return setView(state.treadmillReturnView || VIEWS.TODAY);
     }
 
     if (event.target.closest("[data-back-week]")) {
@@ -2140,10 +2002,6 @@
       renderTreadmillMode();
       return;
     }
-    if (event.target.matches("[data-test-workout][data-test-field]")) {
-      saveTestField(event.target.dataset.testWorkout, event.target.dataset.testField, event.target.value);
-      return;
-    }
     if (event.target.matches("[data-week-select]")) {
       state.viewedWeekIndex = Number(event.target.value);
       state.expandedWorkoutIds.clear();
@@ -2155,9 +2013,6 @@
     if (event.target.matches("[data-fuel-workout][data-fuel-field]")) {
       saveFuelField(event.target.dataset.fuelWorkout, event.target.dataset.fuelField, event.target.value);
       return;
-    }
-    if (event.target.matches("[data-test-workout][data-test-field]")) {
-      saveTestField(event.target.dataset.testWorkout, event.target.dataset.testField, event.target.value);
     }
   });
 
@@ -2211,7 +2066,7 @@
     const workoutId = plan.workoutAliases?.[event.data.workoutId] || event.data.workoutId;
     if (!workoutById(workoutId)) return;
     state.treadmillWorkoutId = workoutId;
-    state.treadmillReturnView = VIEWS.WEEK;
+    state.treadmillReturnView = VIEWS.TODAY;
     state.notificationsPanelOpen = false;
     state.showPushSetup = false;
     state.focusQueueUserBrowsing = false;
@@ -2233,7 +2088,6 @@
     saveAppData,
     currentPlanWeekIndex,
     render,
-    saveTestField,
     notificationSettings,
     saveNotificationSetting,
     getTreadmillTimer: () => ({ ...treadmillTimer }),

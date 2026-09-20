@@ -9,10 +9,10 @@
     <meta name="apple-mobile-web-app-title" content="Marathon 3:30" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="format-detection" content="telephone=no" />
-    <link rel="manifest" href="./manifest.json?v=2026.09.04-1" />
+    <link rel="manifest" href="./manifest.json?v=2026.09.20-1" />
     <link rel="icon" href="./icon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=2026.09.04-1" />
-    <link rel="stylesheet" href="./style.css?v=2026.09.04-1" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=2026.09.20-1" />
+    <link rel="stylesheet" href="./style.css?v=2026.09.20-1" />
     <title>Marathon 3:30</title>
   </head>
   <body>
@@ -28,13 +28,25 @@
       <main id="app" class="content" aria-live="polite"></main>
 
       <nav class="bottom-nav" aria-label="Hoofdnavigatie">
-        <button class="is-active" type="button" data-view="week" aria-current="page">
+        <button class="is-active" type="button" data-view="today" aria-current="page">
+          <span class="nav-icon" aria-hidden="true">●</span>
+          <span>Vandaag</span>
+        </button>
+        <button type="button" data-view="week">
           <span class="nav-icon" aria-hidden="true">▤</span>
           <span>Week</span>
         </button>
         <button type="button" data-view="plan">
           <span class="nav-icon" aria-hidden="true">≡</span>
           <span>Schema</span>
+        </button>
+        <button type="button" data-view="phases">
+          <span class="nav-icon" aria-hidden="true">◫</span>
+          <span>Fases</span>
+        </button>
+        <button type="button" data-view="stats">
+          <span class="nav-icon" aria-hidden="true">▥</span>
+          <span>Statistiek</span>
         </button>
         <button type="button" data-view="info">
           <span class="nav-icon" aria-hidden="true">i</span>
@@ -43,9 +55,9 @@
       </nav>
     </div>
 
-    <script src="./training-data.js?v=2026.09.04-1"></script>
-    <script src="./notification-model.js?v=2026.09.04-1"></script>
-    <script src="./push-config.js?v=2026.09.04-1"></script>
-    <script src="./app.js?v=2026.09.04-1"></script>
+    <script src="./training-data.js?v=2026.09.20-1"></script>
+    <script src="./notification-model.js?v=2026.09.20-1"></script>
+    <script src="./push-config.js?v=2026.09.20-1"></script>
+    <script src="./app.js?v=2026.09.20-1"></script>
   </body>
 </html>
