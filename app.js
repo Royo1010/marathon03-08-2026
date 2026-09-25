@@ -1,10 +1,10 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "2026.09.25-1";
+  const APP_VERSION = "2026.09.25-2";
   // Keep this key stable. Preserve existing logs; migrate additions and protocol changes.
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
-  const APP_DATA_VERSION = 7;
+  const APP_DATA_VERSION = 8;
   const plan = window.MARATHON_PLAN;
   const model = window.MARATHON_MODEL;
   const notifications = window.MARATHON_NOTIFICATIONS;
@@ -219,12 +219,45 @@
     }
   }
 
+  function migrateMaximaparkWorkouts(raw) {
+    const sourceSchema = raw.meta?.schemaVersion || "onbekend";
+    const currentById = new Map(workouts.map((workout) => [workout.workoutId, workout]));
+    const changedIds = new Set();
+    for (const [id, previous] of Object.entries(plan.previousWorkoutsV9 || {})) {
+      const current = currentById.get(id);
+      if (!current || previous.signature !== current.protocolSignature || previous.surface !== current.surface) changedIds.add(id);
+    }
+    for (const id of changedIds) {
+      const current = currentById.get(id);
+      const entry = {};
+      for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) {
+        if (isObject(raw[field]) && Object.hasOwn(raw[field], id)) entry[field] = raw[field][id];
+      }
+      const settings = raw.userSettings?.notificationSettings?.[id];
+      if (settings) entry.notificationSettings = settings;
+      if (Object.keys(entry).length) {
+        raw.legacyData = isObject(raw.legacyData) ? raw.legacyData : {};
+        raw.legacyData.maximaparkMigration ||= { sourceSchema, archivedAt: nowIso(), workouts: {} };
+        raw.legacyData.maximaparkMigration.workouts[id] ||= {
+          ...entry,
+          prescription: plan.previousWorkoutsV9?.[id] || null,
+          replacement: current || null,
+        };
+      }
+      for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) {
+        if (isObject(raw[field])) delete raw[field][id];
+      }
+      if (isObject(raw.userSettings?.notificationSettings)) delete raw.userSettings.notificationSettings[id];
+    }
+  }
+
   function migrateAppData(raw) {
     const empty = createEmptyAppData();
     if (!isObject(raw)) throw new Error("Opgeslagen data is geen app-object.");
     raw = JSON.parse(JSON.stringify(raw));
     if (Number(raw.appDataVersion || 0) < 6) migrateFinalV3Workouts(raw);
     if (Number(raw.appDataVersion || 0) < 7) migrateSpeedReserveWorkouts(raw);
+    if (Number(raw.appDataVersion || 0) < 8) migrateMaximaparkWorkouts(raw);
     const data = {
       ...empty,
       ...raw,
@@ -863,7 +896,7 @@
 
   function renderSemanticBadge(label) {
     const text = String(label || "");
-    const tone = /VOEDING|RACEVOEDING/.test(text) ? "fueling" : /STRENGTH/.test(text) ? "strength" : /BUITEN/.test(text) ? "outdoor" : /LOOPBAND/.test(text) ? "treadmill"
+    const tone = /VOEDING|RACEVOEDING/.test(text) ? "fueling" : /STRENGTH/.test(text) ? "strength" : /BUITEN|OUTDOOR|MÁXIMAPARK/.test(text) ? "outdoor" : /LOOPBAND/.test(text) ? "treadmill"
       : /CUTBACK|RECOVERY/.test(text) ? "recovery" : /RACE/.test(text) ? "race" : /TAPER/.test(text) ? "taper"
       : /TEST|BENCHMARK|FITNESS CHECK/.test(text) ? "test" : /LONG|CONFIDENCE|PEAK/.test(text) ? "long"
       : /MARATHON SPECIFIC|MARATHONSPECIFIEK|MP/.test(text) ? "mp" : /INTERVAL|STRIDES/.test(text) ? "interval"
@@ -916,7 +949,7 @@
         <button class="training-card-toggle" type="button" data-toggle-workout="${workout.workoutId}" aria-expanded="${open}" aria-controls="${detailsId}">
           <span class="card-topline"><span>${escapeHtml(workoutSequenceLabel(workout))}</span>${completed ? `<span class="completed-mark">✓ Voltooid</span>` : `<span class="training-type">${escapeHtml(trainingType(workout))}</span>`}<span class="expand-icon" aria-hidden="true">${open ? "−" : "+"}</span></span>
           ${(workout.labels || []).length ? `<span class="training-labels">${workout.labels.map(renderSemanticBadge).join("")}</span>` : ""}
-          <span class="training-metadata"><span class="recovery-${escapeAttr(workout.recoveryStatus || "none")}">${escapeHtml(workout.recoveryLabel || "")}</span></span>
+          <span class="training-metadata"><span class="recovery-${escapeAttr(workout.recoveryStatus || "none")}">${escapeHtml(workout.recoveryLabel || "")}</span>${workout.surface === "buiten" ? `<span>${escapeHtml(workout.locationStatus || "Buiten")}</span>` : ""}</span>
           <span class="training-name">${escapeHtml(capitalize(workout.title))}</span>
           <span class="training-primary">${escapeHtml(workoutPrimarySummary(workout))}</span>
           ${workout.strength ? `<span class="strength-inline">Daarna kracht · Sessie ${escapeHtml(workout.strength.type)} · ${escapeHtml(workout.strength.duration)}</span>` : ""}
@@ -1800,8 +1833,14 @@
   }
 
   function renderPhases() {
+    const strategy = plan.guidance.surfaceStrategy;
     app.innerHTML = `<header class="page-header"><span>Opbouw FINAL V3</span><h1>Fases</h1><p>De volume-piek ligt in week 43; de zwaarste marathonspecifieke long run volgt in week 44.</p></header>
-      <section class="phase-list">${plan.phases.map((phase) => {
+      <section class="phase-list">${strategy ? `<article class="phase-card phase-strategy-card">
+        <div><span>Trainingscontext</span>${renderSemanticBadge("OUTDOOR TRANSFER")}</div>
+        <h2>${escapeHtml(strategy.title)}</h2>
+        <p>${escapeHtml(strategy.explanation)}</p>
+        <dl><div><dt>Loopband</dt><dd>${escapeHtml(strategy.treadmill.join(" · "))}</dd></div><div><dt>Buiten</dt><dd>${escapeHtml(strategy.outside.join(" · "))}</dd></div></dl>
+      </article>` : ""}${plan.phases.map((phase) => {
         const week = weeks.find((item) => item.phaseId === phase.phaseId);
         return `<article class="phase-card">
           <div><span>Week ${week.weekNumber}</span>${renderSemanticBadge(week.planningMode === "calendar" ? "VASTE DAGEN" : "FLEXIBEL")}</div>

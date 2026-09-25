@@ -69,7 +69,7 @@ test("Vandaag gebruikt in flexibele weken de eerstvolgende open sessie", () => {
   harness.click({ "[data-toggle-complete]": { dataset: { toggleComplete: workout.workoutId } } });
   assert.match(harness.app.innerHTML, /2 × 12 min MP/);
   const saved = JSON.parse(storage.get("marathon330TrainingAppData_v1"));
-  assert.equal(saved.appDataVersion, 7);
+  assert.equal(saved.appDataVersion, 8);
   assert.equal(saved.workoutLogs[workout.workoutId].completed, true);
 });
 
@@ -117,9 +117,12 @@ test("Schema, Fases, Statistiek, Informatie en Marathonoverzicht gebruiken FINAL
   assert.match(harness.app.innerHTML, /3 trainingen \+ marathon · 3 rustdagen/);
 
   harness.click({ "[data-view]": { dataset: { view: "phases" } } });
-  assert.equal((harness.app.innerHTML.match(/class="phase-card"/g) || []).length, 9);
+  assert.equal((harness.app.innerHTML.match(/class="phase-card/g) || []).length, 10);
   assert.match(harness.app.innerHTML, /volume-piek ligt in week 43/i);
   assert.match(harness.app.innerHTML, /zwaarste marathonspecifieke long run volgt in week 44/i);
+  assert.match(harness.app.innerHTML, /Loopbandstrategie \/ Buitenlopen/);
+  assert.match(harness.app.innerHTML, /Eén easy-run per week in W40–W44/i);
+  assert.match(harness.app.innerHTML, /Máximapark/);
 
   harness.click({ "[data-view]": { dataset: { view: "stats" } } });
   assert.match(harness.app.innerHTML, /Statistiek/);
@@ -130,7 +133,7 @@ test("Schema, Fases, Statistiek, Informatie en Marathonoverzicht gebruiken FINAL
   harness.click({ "[data-view]": { dataset: { view: "info" } } });
   assert.match(harness.app.innerHTML, /12,1 km\/u/);
   assert.match(harness.app.innerHTML, /Confidence-ladder/);
-  assert.match(harness.app.innerHTML, /Versie 2026\.09\.25-1/);
+  assert.match(harness.app.innerHTML, /Versie 2026\.09\.25-2/);
   assert.doesNotMatch(harness.app.innerHTML, /Fitness Check/i);
 
   harness.brandHome.click();
@@ -146,8 +149,10 @@ test("Week en trainingsdetails tonen de nieuwe W40- en W41-prikkels met hun voor
   const w40 = w40Harness.context.window.MARATHON_PLAN.weeks.find((week) => week.weekNumber === 40).workouts[2];
   w40Harness.click({ "[data-view]": { dataset: { view: "week" } } });
   assert.match(w40Harness.app.innerHTML, /Easy \+ optionele strides/);
-  assert.match(w40Harness.app.innerHTML, /OPTIONEEL — ALLEEN BIJ VOLLEDIG HERSTEL/);
+  assert.match(w40Harness.app.innerHTML, /OPTIONEEL · ALLEEN BIJ VOLLEDIG HERSTEL|OPTIONEEL — ALLEEN BIJ VOLLEDIG HERSTEL/);
   assert.match(w40Harness.app.innerHTML, /55 min · ±9,20 km/);
+  assert.match(w40Harness.app.innerHTML, /Buiten · Máximapark/);
+  assert.match(w40Harness.app.innerHTML, /Afstand leidend · tempo op gevoel/);
   w40Harness.click({ "[data-toggle-workout]": { dataset: { toggleWorkout: w40.workoutId } } });
   assert.match(w40Harness.app.innerHTML, /geen sprint en geen conditietest/i);
   assert.match(w40Harness.app.innerHTML, /Deze strides tellen niet als marathonpace-minuten/i);
@@ -160,6 +165,10 @@ test("Week en trainingsdetails tonen de nieuwe W40- en W41-prikkels met hun voor
   w41Harness.click({ "[data-toggle-workout]": { dataset: { toggleWorkout: w41.workoutId } } });
   assert.match(w41Harness.app.innerHTML, /gebruik dan 12,6 km\/u/i);
   assert.match(w41Harness.app.innerHTML, /De 9 minuten tellen niet mee als marathonpace-minuten/i);
+
+  const w41Easy = w41Harness.context.window.MARATHON_PLAN.weeks.find((week) => week.weekNumber === 41).workouts[1];
+  assert.equal(w41Easy.surface, "buiten");
+  assert.equal(w41Easy.locationStatus, "Buiten · Máximapark");
 });
 
 test("Loopbandmodus gebruikt dezelfde W42-blokken en nul procent helling", () => {
@@ -203,7 +212,7 @@ test("migratie archiveert gewijzigde oude voorschriften zonder overige data te w
   }));
   const harness = createHarness(storage);
   const saved = JSON.parse(storage.get("marathon330TrainingAppData_v1"));
-  assert.equal(saved.appDataVersion, 7);
+  assert.equal(saved.appDataVersion, 8);
   assert.equal(saved.userSettings.customSetting, "bewaren");
   assert.equal(saved.workoutLogs["marathon-3u30-w39-t1"], undefined);
   assert.equal(saved.legacyData.finalV3Migration.workouts["marathon-3u30-w39-t1"].workoutLogs.completed, true);
@@ -217,18 +226,18 @@ test("speed-reserve-migratie archiveert alleen de twee gewijzigde protocollen", 
     workoutLogs: {
       "marathon-3u30-w40-t3": { completed: true, completedDate: "2026-10-02" },
       "marathon-3u30-w41-t3": { completed: true, completedDate: "2026-10-08" },
-      "marathon-3u30-w42-t2": { completed: true, completedDate: "2026-10-14" },
+      "marathon-3u30-w42-t3": { completed: true, completedDate: "2026-10-15" },
     },
     completedSessions: {
       "marathon-3u30-w40-t3": { completedAt: "2026-10-02" },
       "marathon-3u30-w41-t3": { completedAt: "2026-10-08" },
-      "marathon-3u30-w42-t2": { completedAt: "2026-10-14" },
+      "marathon-3u30-w42-t3": { completedAt: "2026-10-15" },
     },
     testResults: {}, nutritionLogs: {}, userSettings: { customSetting: "bewaren", notificationSettings: {}, notificationDefaults: {} }, uiState: {}, legacyData: {}, meta: { schemaVersion: "marathon-3u30-final-v3-2026.09.20-1" },
   }));
   const harness = createHarness(storage);
   const saved = JSON.parse(storage.get("marathon330TrainingAppData_v1"));
-  assert.equal(saved.appDataVersion, 7);
+  assert.equal(saved.appDataVersion, 8);
   assert.equal(saved.userSettings.customSetting, "bewaren");
   assert.equal(saved.workoutLogs["marathon-3u30-w40-t3"], undefined);
   assert.equal(saved.workoutLogs["marathon-3u30-w41-t3"], undefined);
@@ -236,15 +245,40 @@ test("speed-reserve-migratie archiveert alleen de twee gewijzigde protocollen", 
   assert.equal(saved.completedSessions["marathon-3u30-w41-t3"], undefined);
   assert.equal(saved.legacyData.speedReserveMigration.workouts["marathon-3u30-w40-t3"].workoutLogs.completed, true);
   assert.equal(saved.legacyData.speedReserveMigration.workouts["marathon-3u30-w41-t3"].workoutLogs.completed, true);
-  assert.equal(saved.workoutLogs["marathon-3u30-w42-t2"].completed, true);
-  assert.equal(harness.context.window.MarathonApp.isCompleted("marathon-3u30-w42-t2"), true);
+  assert.equal(saved.workoutLogs["marathon-3u30-w42-t3"].completed, true);
+  assert.equal(harness.context.window.MarathonApp.isCompleted("marathon-3u30-w42-t3"), true);
+});
+
+test("Máximapark-migratie archiveert alleen de vijf gewijzigde easy-voorschriften", () => {
+  const storage = new Map();
+  storage.set("marathon330TrainingAppData_v1", JSON.stringify({
+    appDataVersion: 7, createdAt: "2026-09-20T00:00:00.000Z", updatedAt: "2026-09-25T00:00:00.000Z",
+    workoutLogs: {
+      "marathon-3u30-w41-t2": { completed: true, completedDate: "2026-10-07" },
+      "marathon-3u30-w42-t3": { completed: true, completedDate: "2026-10-15" },
+    },
+    completedSessions: {
+      "marathon-3u30-w41-t2": { completedAt: "2026-10-07" },
+      "marathon-3u30-w42-t3": { completedAt: "2026-10-15" },
+    },
+    testResults: {}, nutritionLogs: {}, userSettings: { customSetting: "bewaren", notificationSettings: {}, notificationDefaults: {} }, uiState: {}, legacyData: {}, meta: { schemaVersion: "marathon-3u30-final-v3-2026.09.25-1" },
+  }));
+  const harness = createHarness(storage);
+  const saved = JSON.parse(storage.get("marathon330TrainingAppData_v1"));
+  assert.equal(saved.appDataVersion, 8);
+  assert.equal(saved.userSettings.customSetting, "bewaren");
+  assert.equal(saved.workoutLogs["marathon-3u30-w41-t2"], undefined);
+  assert.equal(saved.completedSessions["marathon-3u30-w41-t2"], undefined);
+  assert.equal(saved.legacyData.maximaparkMigration.workouts["marathon-3u30-w41-t2"].workoutLogs.completed, true);
+  assert.equal(saved.workoutLogs["marathon-3u30-w42-t3"].completed, true);
+  assert.equal(harness.context.window.MarathonApp.isCompleted("marathon-3u30-w42-t3"), true);
 });
 
 test("lege opslag initialiseert gezond en corrupte opslag wordt niet overschreven", () => {
   const empty = new Map();
   createHarness(empty);
   const initialized = JSON.parse(empty.get("marathon330TrainingAppData_v1"));
-  assert.equal(initialized.appDataVersion, 7);
+  assert.equal(initialized.appDataVersion, 8);
   assert.equal(initialized.meta.storageInitialized, true);
 
   const corrupt = new Map([["marathon330TrainingAppData_v1", "{kapot"]]);

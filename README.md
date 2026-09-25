@@ -5,12 +5,12 @@ zondag 22 november 2026.
 
 ## Actieve versie
 
-- App-versie: `2026.09.25-1`
-- Schemaversie: `marathon-3u30-final-v3-2026.09.25-1`
+- App-versie: `2026.09.25-2`
+- Schemaversie: `marathon-3u30-final-v3-2026.09.25-2`
 - Enige inhoudelijke bron: `marathonschema_Roy_FINAL_V3_3u30_2026.md`
 - Gegenereerde appdata: `training-data.js`
 - Opslagkey: `marathon330TrainingAppData_v1`
-- Dataversie: `7`
+- Dataversie: `8`
 
 Genereer de trainingsdata opnieuw met:
 
@@ -60,7 +60,9 @@ Wijzig `marathon330TrainingAppData_v1` nooit zonder migratie. Bij de overgang
 naar FINAL V3 worden registraties van gewijzigde of verwijderde voorschriften
 niet aan een andere training gekoppeld. Ze worden bewaard onder
 `legacyData.finalV3Migration`. De gerichte W40/W41-protocolwijziging gebruikt
-dezelfde bescherming via `legacyData.speedReserveMigration`. Ongewijzigde
+dezelfde bescherming via `legacyData.speedReserveMigration`. De vijf naar het
+Máximapark verplaatste easy-runs gebruiken `legacyData.maximaparkMigration`.
+Ongewijzigde
 trainingen, instellingen en overige lokale data blijven intact. De app gebruikt
 nergens `localStorage.clear()`.
 

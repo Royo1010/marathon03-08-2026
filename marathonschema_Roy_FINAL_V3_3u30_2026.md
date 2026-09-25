@@ -65,6 +65,14 @@ De loopband wordt als voordeel gebruikt voor:
 
 De loopband geeft geen automatische kilometerkorting. Het hogere volume moet worden verdiend door goed herstel.
 
+## Buiten-easy in W40–W44
+
+De loopband blijft het belangrijkste instrument voor zeer gecontroleerde Zone 2, marathonpace, lange continue belasting en nauwkeurige progressie. Tegelijk wordt in W40–W44 bewust één normale easy-run per week buiten in het Máximapark uitgevoerd.
+
+Deze buiten-easy-runs voegen zonder extra trainingsbelasting regelmatige blootstelling toe aan echt wegdek, wind, bochten, natuurlijke tempovariatie en zelfstandig pacing. De combinatie is bewust: **loopband voor controle en precisie, buiten voor transfer en specificiteit**.
+
+Voor deze runs zijn de geplande afstand en RPE 3–4 leidend. Kies ter plekke een route door het Máximapark die bij de nominale afstand past; een volledig park-rondje is geen doel op zichzelf. Loop op comfortabel praattempo en ga nooit harder om zowel exact de afstand als exact de oorspronkelijke tijd te halen.
+
 ---
 
 # 4. Flexibele weken versus vaste taper
@@ -354,22 +362,24 @@ Zo niet:
 
 **Kracht:** A-light na het lopen.
 
-### Training 3 — Easy + optionele strides
-**9,20 km · 55 min**
+### Training 3 — Easy + optionele strides — BUITEN / MÁXIMAPARK
+**9,20 km · 55 min · buiten**
 
-- 5 min @9,5;
-- 33 min @10,2;
+- 5 min rustig inlopen;
+- 33 min easy / praattempo;
 - daarna 4 ×:
-  - 20 sec @ circa 13,0;
-  - 70 sec @9,5;
-- 6 min @10,2;
-- 5 min @9,0.
+  - 20 sec ontspannen snelle pas rond 13,0 km/u-equivalent;
+  - 70 sec rustig easy herstel;
+- 6 min easy / praattempo;
+- 5 min rustig uitlopen.
 
 **OPTIONEEL — alleen bij volledig herstel.**
 
-Strides alleen uitvoeren als de benen volledig hersteld voelen van de Halve Marathon Texel. Het zijn ontspannen versnellingen, geen sprint en geen conditietest. Als herstel niet volledig normaal is: voer de oorspronkelijke 45 minuten easy @10,2 km/u uit en sla de strides over.
+Strides alleen uitvoeren als de benen volledig hersteld voelen van de Halve Marathon Texel. Het zijn ontspannen versnellingen, geen sprint en geen conditietest. Als herstel niet volledig normaal is: voer de easy-run zonder strides uit en blijf op comfortabel praattempo.
 
 **RPE / bedoeling:** soepel en technisch, zonder verzuring of maximale inspanning. Doel: beenomzet, techniek en een kleine snelheidsprikkel. De strides tellen niet als marathonpace-minuten en zijn geen volwaardige intervaltraining.
+
+**Route:** kies in het Máximapark een route die uitkomt rond 9,20 km. De afstand blijft leidend; een volledig park-rondje is niet verplicht en buiten hoeft 13,0 km/u niet exact geraakt te worden.
 
 ### Training 4 — Lange easy
 **18,71 km · 110 min**
@@ -404,12 +414,14 @@ Deze week blijft bewust relatief rustig. De echte overload begint pas nadat Texe
 **RPE-doel:** eerste helft 5–6, einde bij voorkeur maximaal 7.  
 **Kracht:** **Sessie A** na het lopen.
 
-### Training 2 — Easy
-**7,55 km · 45 min**
+### Training 2 — Easy — BUITEN / MÁXIMAPARK
+**7,55 km · 45 min · buiten**
 
-- 5 min @9,5;
-- 35 min @10,3;
-- 5 min @9,0.
+- 5 min rustig inlopen;
+- 35 min easy / comfortabel praattempo;
+- 5 min rustig uitlopen.
+
+**Afstand leidend, tempo op gevoel.** Kies een route door het Máximapark van ongeveer 7,55 km. Geen tempo-element, strides of extra afstand toevoegen; deze training houdt de herstelkosten na MP Confidence #1 laag.
 
 ### Training 3 — Middellange Zone 2 + controlled fast
 **15,81 km · 90 min**
@@ -470,12 +482,14 @@ Deze week blijft bewust relatief rustig. De echte overload begint pas nadat Texe
 **Helling:** 0%.  
 **Kracht:** **Sessie A** na het lopen.
 
-### Training 2 — Easy
-**7,55 km · 45 min**
+### Training 2 — Easy — BUITEN / MÁXIMAPARK
+**7,55 km · 45 min · buiten**
 
-- 5 min @9,5;
-- 35 min @10,3;
-- 5 min @9,0.
+- 5 min rustig inlopen;
+- 35 min easy / comfortabel praattempo;
+- 5 min rustig uitlopen.
+
+**Afstand leidend, tempo op gevoel.** Kies een route door het Máximapark van ongeveer 7,55 km. Geen extra snelheid, kilometers of strides toevoegen; de rest van W42 bevat al voldoende belasting.
 
 ### Training 3 — Middellange Zone 2 — VERLENGD
 **17,29 km · 100 min**
@@ -531,12 +545,14 @@ Dit is de hoogste volumeweek van het schema. Niet verder verhogen.
 **Schoenen:** **beoogde marathonschoenen**.  
 **Kracht:** **A-light** na het lopen.
 
-### Training 2 — Easy
-**8,41 km · 50 min**
+### Training 2 — Easy — BUITEN / MÁXIMAPARK
+**8,41 km · 50 min · buiten**
 
-- 5 min @9,5;
-- 40 min @10,3;
-- 5 min @9,0.
+- 5 min rustig inlopen;
+- 40 min easy / comfortabel praattempo;
+- 5 min rustig uitlopen.
+
+**Afstand leidend, tempo op gevoel.** Kies een route door het Máximapark van ongeveer 8,41 km. Dit zijn rustige aerobe kilometers op echt wegdek; geen extra snelheid toevoegen naast Outdoor MP Confidence #3 en de 30K Confidence Run.
 
 ### Training 3 — Middellange Zone 2 — VERLENGD
 **18,17 km · 105 min**
@@ -600,12 +616,14 @@ Geen hogere piek dan W43; wel de zwaarste marathonspecifieke long run.
 **Kracht:** **A-light** na het lopen.  
 **Helling:** 0%.
 
-### Training 2 — Easy
-**7,55 km · 45 min**
+### Training 2 — Easy — BUITEN / MÁXIMAPARK
+**7,55 km · 45 min · buiten**
 
-- 5 min @9,5;
-- 35 min @10,3;
-- 5 min @9,0.
+- 5 min rustig inlopen;
+- 35 min zeer gecontroleerd easy / praattempo;
+- 5 min rustig uitlopen.
+
+**Afstand leidend, tempo op gevoel.** Kies een route door het Máximapark van ongeveer 7,55 km. Geen uitbreiding, strides of fast finish; de Key Marathon Confidence later in de week blijft de hoofdprikkel.
 
 ### Training 3 — Middellange aerobe duur
 **15,54 km · 90 min**
