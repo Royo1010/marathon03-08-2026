@@ -5,12 +5,12 @@ zondag 22 november 2026.
 
 ## Actieve versie
 
-- App-versie: `2026.09.25-2`
-- Schemaversie: `marathon-3u30-final-v3-2026.09.25-2`
-- Enige inhoudelijke bron: `marathonschema_Roy_FINAL_V3_3u30_2026.md`
+- App-versie: `2026.09.25-3`
+- Schemaversie: `marathon-3u30-final-v3-2026.09.25-3`
+- Enige inhoudelijke bron: `marathonschema_Roy_FINAL_V3_UPDATED_2026-09-25.md`
 - Gegenereerde appdata: `training-data.js`
 - Opslagkey: `marathon330TrainingAppData_v1`
-- Dataversie: `8`
+- Dataversie: `9`
 
 Genereer de trainingsdata opnieuw met:
 
@@ -54,16 +54,25 @@ De timer ondersteunt pauzeren, hervatten en stoppen. Screen Wake Lock wordt als
 progressive enhancement gebruikt. Trainingsmeldingen en de bestaande pushserver
 blijven gekoppeld aan dezelfde berekende tijdlijn.
 
+Pure Easy- en Recovery-sessies openen standaard als een rustige buitenuitvoering
+voor het Máximapark. Afstand, RPE en praattempo zijn daar leidend. Wanneer de
+FINAL V3-bron exacte snelheden geeft, blijft dezelfde sessie via
+`Loopbandvariant` beschikbaar met de oorspronkelijke minuten en snelheden.
+Marathonpace, controlled fast, gestructureerde strides en ander precisiewerk
+blijven standaard op de loopband. Expliciet buiten geplande sleutelruns blijven
+buiten.
+
 ## Opslag en migratie
 
 Wijzig `marathon330TrainingAppData_v1` nooit zonder migratie. Bij de overgang
 naar FINAL V3 worden registraties van gewijzigde of verwijderde voorschriften
 niet aan een andere training gekoppeld. Ze worden bewaard onder
 `legacyData.finalV3Migration`. De gerichte W40/W41-protocolwijziging gebruikt
-dezelfde bescherming via `legacyData.speedReserveMigration`. De vijf naar het
-Máximapark verplaatste easy-runs gebruiken `legacyData.maximaparkMigration`.
-Ongewijzigde
-trainingen, instellingen en overige lokale data blijven intact. De app gebruikt
+dezelfde bescherming via `legacyData.speedReserveMigration`. De eerdere vijf
+Máximapark-wijzigingen gebruiken `legacyData.maximaparkMigration`. De huidige
+wijziging van alleen uitvoeringsvorm en presentatie bewaart alle actieve
+gebruikersdata en registreert dat onder `legacyData.executionModeMigration`.
+Ongewijzigde trainingen, instellingen en overige lokale data blijven intact. De app gebruikt
 nergens `localStorage.clear()`.
 
 Onleesbare opslag wordt niet overschreven. In dat geval blokkeert de app nieuwe

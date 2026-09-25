@@ -1,10 +1,10 @@
-// Generated from marathonschema_Roy_FINAL_V3_3u30_2026.md. Edit the source and generator, then regenerate.
+// Generated from marathonschema_Roy_FINAL_V3_UPDATED_2026-09-25.md. Edit the source and generator, then regenerate.
 window.MARATHON_PLAN = {
   "config": {
     "planId": "marathon-3u30-final-v3-2026",
-    "planVersion": 10,
-    "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
-    "sourceFile": "marathonschema_Roy_FINAL_V3_3u30_2026.md",
+    "planVersion": 11,
+    "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+    "sourceFile": "marathonschema_Roy_FINAL_V3_UPDATED_2026-09-25.md",
     "planName": "Marathonschema 3:30",
     "planSubtitle": "FINAL V3 · maximaal progressief, maar rationeel",
     "startDate": "2026-09-21",
@@ -15,7 +15,7 @@ window.MARATHON_PLAN = {
     "targetSpeedKmh": 12.0557,
     "practicalMarathonSpeedKmh": 12.1,
     "trainingFrequency": "4–5",
-    "primarySurface": "loopband en doelgerichte buitenruns",
+    "primarySurface": "loopbandprecisie en rustige buitenruns",
     "plannedKmBeforeRace": 483.65,
     "plannedKmIncludingRace": 525.845,
     "programmedMpMinutes": 328
@@ -215,6 +215,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -365,6 +368,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -393,7 +399,10 @@ window.MARATHON_PLAN = {
           "tone": "easy",
           "labels": [
             "EASY",
-            "BUITEN"
+            "BUITEN",
+            "EASY / PRAATTEMPO",
+            "OUTDOOR",
+            "MÁXIMAPARK"
           ],
           "surface": "buiten",
           "date": null,
@@ -451,11 +460,14 @@ window.MARATHON_PLAN = {
           "detailsSections": [],
           "notes": [],
           "recoveryStatus": "none",
-          "recoveryLabel": "Easy blijft easy",
+          "recoveryLabel": "Afstand leidend · tempo op gevoel",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten",
-          "outsideVariant": "Buiten uitvoeren zoals beschreven.",
+          "locationStatus": "Buiten · Máximapark aanbevolen",
+          "outsideVariant": "Loop ongeveer 8,41 km buiten op comfortabel praattempo. Het FINAL V3-bronbestand bevat voor deze bewust buiten geplande run geen aparte numerieke loopbandvariant.",
+          "outdoorSimpleMode": true,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "Loop ontspannen. Tempo op gevoel en volledige zinnen kunnen spreken.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -547,6 +559,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Buiten",
           "outsideVariant": "Buiten uitvoeren zoals beschreven.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": true,
           "fullFuelRehearsal": false,
           "nutrition": "Gebruik de marathonproducten en oefen timing en tolerantie.",
@@ -577,6 +592,9 @@ window.MARATHON_PLAN = {
           "MARATHONPACE",
           "EASY",
           "BUITEN",
+          "EASY / PRAATTEMPO",
+          "OUTDOOR",
+          "MÁXIMAPARK",
           "CONFIDENCE",
           "BUITENWEDSTRIJD"
         ],
@@ -620,9 +638,10 @@ window.MARATHON_PLAN = {
           "tone": "recovery",
           "labels": [
             "RECOVERY",
-            "LOOPBAND"
+            "OUTDOOR",
+            "MÁXIMAPARK"
           ],
-          "surface": "loopband",
+          "surface": "buiten",
           "date": null,
           "weekday": null,
           "fixedDay": false,
@@ -678,11 +697,14 @@ window.MARATHON_PLAN = {
           "detailsSections": [],
           "notes": [],
           "recoveryStatus": "none",
-          "recoveryLabel": "Easy blijft easy",
+          "recoveryLabel": "Zeer rustig · herstel boven tempo",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Buiten · Máximapark aanbevolen",
+          "outsideVariant": "Kies een route die uitkomt rond 7,14 km; een volledige parkronde is niet verplicht. Herstel is leidend, niet een exacte loopbandsnelheid.",
+          "outdoorSimpleMode": true,
+          "treadmillVariantAvailable": true,
+          "outdoorSimpleInstruction": "Zeer rustig lopen. Herstel is belangrijker dan tempo.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -711,10 +733,12 @@ window.MARATHON_PLAN = {
           "tone": "easy",
           "labels": [
             "ZONE 2",
-            "LOOPBAND",
+            "EASY / PRAATTEMPO",
+            "OUTDOOR",
+            "MÁXIMAPARK",
             "STRENGTH"
           ],
-          "surface": "loopband",
+          "surface": "buiten",
           "date": null,
           "weekday": null,
           "fixedDay": false,
@@ -770,11 +794,14 @@ window.MARATHON_PLAN = {
           "detailsSections": [],
           "notes": [],
           "recoveryStatus": "none",
-          "recoveryLabel": "Easy blijft easy",
+          "recoveryLabel": "Afstand leidend · tempo op gevoel",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Buiten · Máximapark aanbevolen",
+          "outsideVariant": "Kies een route die uitkomt rond 10,89 km; een volledige parkronde is niet verplicht. Afstand en praattempo zijn leidend, niet een exacte loopbandsnelheid.",
+          "outdoorSimpleMode": true,
+          "treadmillVariantAvailable": true,
+          "outdoorSimpleInstruction": "Loop ontspannen. Tempo op gevoel en volledige zinnen kunnen spreken.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -821,13 +848,12 @@ window.MARATHON_PLAN = {
           "category": "rustige-duur",
           "tone": "easy",
           "labels": [
-            "EASY / PRAATTEMPO",
-            "OUTDOOR",
-            "MÁXIMAPARK",
-            "OPTIONEEL — ALLEEN BIJ VOLLEDIG HERSTEL",
+            "EASY",
+            "LOOPBAND",
+            "OPTIONEEL · ALLEEN BIJ VOLLEDIG HERSTEL",
             "STRIDES"
           ],
-          "surface": "buiten",
+          "surface": "loopband",
           "date": null,
           "weekday": null,
           "fixedDay": false,
@@ -842,120 +868,120 @@ window.MARATHON_PLAN = {
                   "basis": "time",
                   "durationSeconds": 300,
                   "display": "5 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 9.5,
+                  "inclinePercent": 0,
                   "type": "warming-up",
-                  "instruction": "Rustig inlopen op gevoel.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w40-t3-s01"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 1980,
                   "display": "33 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 10.2,
+                  "inclinePercent": 0,
                   "type": "easy",
-                  "instruction": "Easy op comfortabel praattempo.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w40-t3-s02"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 20,
                   "display": "20 sec",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 13,
+                  "inclinePercent": 0,
                   "type": "strides",
-                  "instruction": "Ontspannen snelle pas rond 13,0 km/u-equivalent; niet sprinten en niet exact op snelheid sturen.",
+                  "instruction": "Ontspannen versnellen; niet sprinten.",
                   "segmentId": "marathon-3u30-w40-t3-s03"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 70,
                   "display": "1 min 10 sec",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 9.5,
+                  "inclinePercent": 0,
                   "type": "herstel",
-                  "instruction": "Zeer rustig herstellen.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w40-t3-s04"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 20,
                   "display": "20 sec",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 13,
+                  "inclinePercent": 0,
                   "type": "strides",
-                  "instruction": "Ontspannen snelle pas rond 13,0 km/u-equivalent; niet sprinten en niet exact op snelheid sturen.",
+                  "instruction": "Ontspannen versnellen; niet sprinten.",
                   "segmentId": "marathon-3u30-w40-t3-s05"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 70,
                   "display": "1 min 10 sec",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 9.5,
+                  "inclinePercent": 0,
                   "type": "herstel",
-                  "instruction": "Zeer rustig herstellen.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w40-t3-s06"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 20,
                   "display": "20 sec",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 13,
+                  "inclinePercent": 0,
                   "type": "strides",
-                  "instruction": "Ontspannen snelle pas rond 13,0 km/u-equivalent; niet sprinten en niet exact op snelheid sturen.",
+                  "instruction": "Ontspannen versnellen; niet sprinten.",
                   "segmentId": "marathon-3u30-w40-t3-s07"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 70,
                   "display": "1 min 10 sec",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 9.5,
+                  "inclinePercent": 0,
                   "type": "herstel",
-                  "instruction": "Zeer rustig herstellen.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w40-t3-s08"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 20,
                   "display": "20 sec",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 13,
+                  "inclinePercent": 0,
                   "type": "strides",
-                  "instruction": "Ontspannen snelle pas rond 13,0 km/u-equivalent; niet sprinten en niet exact op snelheid sturen.",
+                  "instruction": "Ontspannen versnellen; niet sprinten.",
                   "segmentId": "marathon-3u30-w40-t3-s09"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 70,
                   "display": "1 min 10 sec",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 9.5,
+                  "inclinePercent": 0,
                   "type": "herstel",
-                  "instruction": "Zeer rustig herstellen.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w40-t3-s10"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 360,
                   "display": "6 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 10.2,
+                  "inclinePercent": 0,
                   "type": "easy",
-                  "instruction": "Easy op praattempo.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w40-t3-s11"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 300,
                   "display": "5 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 9,
+                  "inclinePercent": 0,
                   "type": "cooling-down",
-                  "instruction": "Rustig uitlopen.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w40-t3-s12"
                 }
               ]
@@ -977,18 +1003,20 @@ window.MARATHON_PLAN = {
                 "Alleen uitvoeren bij volledig normaal herstel van Texel.",
                 "Geen sprint, geen conditietest en geen maximale inspanning.",
                 "Doel: beenomzet, techniek en een kleine snelheidsprikkel.",
-                "Deze strides tellen niet als marathonpace-minuten en zijn geen volwaardige intervaltraining.",
-                "Buiten is gevoel leidend: forceer geen exact tempo en maak de route passend bij ongeveer 9,2 km."
+                "Deze strides tellen niet als marathonpace-minuten en zijn geen volwaardige intervaltraining."
               ]
             }
           ],
           "notes": [],
           "recoveryStatus": "none",
-          "recoveryLabel": "Afstand leidend · tempo op gevoel",
+          "recoveryLabel": "Easy blijft easy",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
-          "orderWarning": "Strides alleen uitvoeren als de benen volledig hersteld voelen van de Halve Marathon Texel. Het zijn ontspannen versnellingen, geen sprint en geen conditietest. Als herstel niet volledig normaal is: loop de easy-delen door op praattempo en sla de strides over.",
-          "locationStatus": "Buiten · Máximapark",
-          "outsideVariant": "Kies in het Máximapark een route van ongeveer 9,2 km; een volledige ronde is niet verplicht. Afstand en ontspannen RPE zijn leidend, tijd is een richtlijn. Stuur niet op een exact loopbandtempo.",
+          "orderWarning": "Strides alleen uitvoeren als de benen volledig hersteld voelen van de Halve Marathon Texel. Het zijn ontspannen versnellingen, geen sprint en geen conditietest. Als herstel niet volledig normaal is: voer de oorspronkelijke 45 minuten easy @10,2 km/u uit en sla de strides over.",
+          "locationStatus": "Loopband",
+          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -1001,7 +1029,7 @@ window.MARATHON_PLAN = {
           "isTest": false,
           "testNumber": null,
           "evaluation": null,
-          "protocolSignature": "[[300,null,null,null],[1980,null,null,null],[20,null,null,null],[70,null,null,null],[20,null,null,null],[70,null,null,null],[20,null,null,null],[70,null,null,null],[20,null,null,null],[70,null,null,null],[360,null,null,null],[300,null,null,null]]",
+          "protocolSignature": "[[300,null,9.5,0],[1980,null,10.2,0],[20,null,13,0],[70,null,9.5,0],[20,null,13,0],[70,null,9.5,0],[20,null,13,0],[70,null,9.5,0],[20,null,13,0],[70,null,9.5,0],[360,null,10.2,0],[300,null,9,0]]",
           "weekId": "marathon-3u30-w40",
           "dateLabel": "28 september t/m 4 oktober 2026",
           "phaseId": "recovery-rebuild",
@@ -1080,6 +1108,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": true,
           "fullFuelRehearsal": false,
           "nutrition": "Voeding rustig oefenen; geen performance-test.",
@@ -1105,13 +1136,14 @@ window.MARATHON_PLAN = {
         "summary": "Texel verwerken en alleen bij volledig herstel korte strides toevoegen",
         "adaptations": [
           "RECOVERY",
-          "LOOPBAND",
-          "ZONE 2",
-          "STRENGTH",
-          "EASY / PRAATTEMPO",
           "OUTDOOR",
           "MÁXIMAPARK",
-          "OPTIONEEL — ALLEEN BIJ VOLLEDIG HERSTEL",
+          "ZONE 2",
+          "EASY / PRAATTEMPO",
+          "STRENGTH",
+          "EASY",
+          "LOOPBAND",
+          "OPTIONEEL · ALLEEN BIJ VOLLEDIG HERSTEL",
           "STRIDES",
           "LONG RUN"
         ],
@@ -1231,6 +1263,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -1277,6 +1312,7 @@ window.MARATHON_PLAN = {
           "category": "rustige-duur",
           "tone": "easy",
           "labels": [
+            "EASY",
             "EASY / PRAATTEMPO",
             "OUTDOOR",
             "MÁXIMAPARK"
@@ -1296,30 +1332,30 @@ window.MARATHON_PLAN = {
                   "basis": "time",
                   "durationSeconds": 300,
                   "display": "5 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 9.5,
+                  "inclinePercent": 0,
                   "type": "warming-up",
-                  "instruction": "Rustig inlopen.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w41-t2-s01"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 2100,
                   "display": "35 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 10.3,
+                  "inclinePercent": 0,
                   "type": "easy",
-                  "instruction": "Easy op comfortabel praattempo; stuur niet op exact loopbandtempo.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w41-t2-s02"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 300,
                   "display": "5 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 9,
+                  "inclinePercent": 0,
                   "type": "cooling-down",
-                  "instruction": "Rustig uitlopen.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w41-t2-s03"
                 }
               ]
@@ -1330,18 +1366,21 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": 7.55,
           "estimatedDistanceLabel": "±7,55 km",
           "sourceSummary": "45 min · ongeveer 7,55 km",
-          "goal": "Herstellen met ontspannen aerobe arbeid en buitenritme op laag risico onderhouden.",
-          "targetRpe": "3–4 · volledige zinnen mogelijk",
+          "goal": "Herstellen met ontspannen aerobe arbeid.",
+          "targetRpe": "3–4",
           "mentalGoal": "Beheerst uitvoeren en reserve bewaken.",
-          "rationale": "Herstellen met ontspannen aerobe arbeid en buitenritme op laag risico onderhouden.",
+          "rationale": "Herstellen met ontspannen aerobe arbeid.",
           "detailsSections": [],
           "notes": [],
           "recoveryStatus": "none",
           "recoveryLabel": "Afstand leidend · tempo op gevoel",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten · Máximapark",
-          "outsideVariant": "Kies een route van ongeveer 7,55 km in het Máximapark; een volledige ronde is niet verplicht. Afstand en praattempo zijn leidend, tijd is een richtlijn.",
+          "locationStatus": "Buiten · Máximapark aanbevolen",
+          "outsideVariant": "Kies een route die uitkomt rond 7,55 km; een volledige parkronde is niet verplicht. Afstand en praattempo zijn leidend, niet een exacte loopbandsnelheid.",
+          "outdoorSimpleMode": true,
+          "treadmillVariantAvailable": true,
+          "outdoorSimpleInstruction": "Loop ontspannen. Tempo op gevoel en volledige zinnen kunnen spreken.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -1354,7 +1393,7 @@ window.MARATHON_PLAN = {
           "isTest": false,
           "testNumber": null,
           "evaluation": null,
-          "protocolSignature": "[[300,null,null,null],[2100,null,null,null],[300,null,null,null]]",
+          "protocolSignature": "[[300,null,9.5,0],[2100,null,10.3,0],[300,null,9,0]]",
           "weekId": "marathon-3u30-w41",
           "dateLabel": "5 t/m 11 oktober 2026",
           "phaseId": "overload-1",
@@ -1505,6 +1544,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Als 12,7 km/u die dag duidelijk richting maximale inspanning gaat, gebruik dan 12,6 km/u. Controlled fast blijft ondersteunend: geen maximale intervaltraining en geen extra loopdag.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -1551,9 +1593,11 @@ window.MARATHON_PLAN = {
           "category": "herstel",
           "tone": "recovery",
           "labels": [
-            "RECOVERY"
+            "RECOVERY",
+            "OUTDOOR",
+            "MÁXIMAPARK"
           ],
-          "surface": "loopband",
+          "surface": "buiten",
           "date": null,
           "weekday": null,
           "fixedDay": false,
@@ -1609,11 +1653,14 @@ window.MARATHON_PLAN = {
           "detailsSections": [],
           "notes": [],
           "recoveryStatus": "none",
-          "recoveryLabel": "Easy blijft easy",
+          "recoveryLabel": "Zeer rustig · herstel boven tempo",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Buiten · Máximapark aanbevolen",
+          "outsideVariant": "Kies een route die uitkomt rond 4,74 km; een volledige parkronde is niet verplicht. Herstel is leidend, niet een exacte loopbandsnelheid.",
+          "outdoorSimpleMode": true,
+          "treadmillVariantAvailable": true,
+          "outdoorSimpleInstruction": "Zeer rustig lopen. Herstel is belangrijker dan tempo.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -1705,6 +1752,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": true,
           "fullFuelRehearsal": false,
           "nutrition": "Voeding oefenen; dit hoeft nog geen volledige 80 g/u-repetitie te zijn.",
@@ -1734,6 +1784,7 @@ window.MARATHON_PLAN = {
           "LOOPBAND",
           "CONFIDENCE",
           "STRENGTH",
+          "EASY",
           "EASY / PRAATTEMPO",
           "OUTDOOR",
           "MÁXIMAPARK",
@@ -1745,7 +1796,7 @@ window.MARATHON_PLAN = {
         ],
         "why": [
           "Training 1: 45 minuten onafgebroken op 12,1 km/u gecontroleerd dragen.",
-          "Training 2: Herstellen met ontspannen aerobe arbeid en buitenritme op laag risico onderhouden.",
+          "Training 2: Herstellen met ontspannen aerobe arbeid.",
           "Training 3: Een kleine hoeveelheid snelheidsreserve boven marathonpace toevoegen zonder een tweede zware kwaliteitstraining te creëren.",
           "Training 4: De benen losmaken vóór de lange duurloop.",
           "Training 5: Lange gecontroleerde duur zonder fast finish."
@@ -1928,6 +1979,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -1974,6 +2028,7 @@ window.MARATHON_PLAN = {
           "category": "rustige-duur",
           "tone": "easy",
           "labels": [
+            "EASY",
             "EASY / PRAATTEMPO",
             "OUTDOOR",
             "MÁXIMAPARK"
@@ -1993,30 +2048,30 @@ window.MARATHON_PLAN = {
                   "basis": "time",
                   "durationSeconds": 300,
                   "display": "5 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 9.5,
+                  "inclinePercent": 0,
                   "type": "warming-up",
-                  "instruction": "Rustig inlopen.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w42-t2-s01"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 2100,
                   "display": "35 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 10.3,
+                  "inclinePercent": 0,
                   "type": "easy",
-                  "instruction": "Easy op comfortabel praattempo; stuur niet op exact loopbandtempo.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w42-t2-s02"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 300,
                   "display": "5 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 9,
+                  "inclinePercent": 0,
                   "type": "cooling-down",
-                  "instruction": "Rustig uitlopen.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w42-t2-s03"
                 }
               ]
@@ -2027,18 +2082,21 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": 7.55,
           "estimatedDistanceLabel": "±7,55 km",
           "sourceSummary": "45 min · ongeveer 7,55 km",
-          "goal": "Herstellen en aerobe consistentie bewaren met ontspannen buitenritme.",
-          "targetRpe": "3–4 · volledige zinnen mogelijk",
+          "goal": "Herstellen en aerobe consistentie bewaren.",
+          "targetRpe": "3–4",
           "mentalGoal": "Beheerst uitvoeren en reserve bewaken.",
-          "rationale": "Herstellen en aerobe consistentie bewaren met ontspannen buitenritme.",
+          "rationale": "Herstellen en aerobe consistentie bewaren.",
           "detailsSections": [],
           "notes": [],
           "recoveryStatus": "none",
           "recoveryLabel": "Afstand leidend · tempo op gevoel",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten · Máximapark",
-          "outsideVariant": "Kies een route van ongeveer 7,55 km in het Máximapark; een volledige ronde is niet verplicht. Afstand en praattempo zijn leidend, tijd is een richtlijn.",
+          "locationStatus": "Buiten · Máximapark aanbevolen",
+          "outsideVariant": "Kies een route die uitkomt rond 7,55 km; een volledige parkronde is niet verplicht. Afstand en praattempo zijn leidend, niet een exacte loopbandsnelheid.",
+          "outdoorSimpleMode": true,
+          "treadmillVariantAvailable": true,
+          "outdoorSimpleInstruction": "Loop ontspannen. Tempo op gevoel en volledige zinnen kunnen spreken.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -2051,7 +2109,7 @@ window.MARATHON_PLAN = {
           "isTest": false,
           "testNumber": null,
           "evaluation": null,
-          "protocolSignature": "[[300,null,null,null],[2100,null,null,null],[300,null,null,null]]",
+          "protocolSignature": "[[300,null,9.5,0],[2100,null,10.3,0],[300,null,9,0]]",
           "weekId": "marathon-3u30-w42",
           "dateLabel": "12 t/m 18 oktober 2026",
           "phaseId": "overload-2",
@@ -2131,6 +2189,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -2177,9 +2238,11 @@ window.MARATHON_PLAN = {
           "category": "herstel",
           "tone": "recovery",
           "labels": [
-            "RECOVERY"
+            "RECOVERY",
+            "OUTDOOR",
+            "MÁXIMAPARK"
           ],
-          "surface": "loopband",
+          "surface": "buiten",
           "date": null,
           "weekday": null,
           "fixedDay": false,
@@ -2235,11 +2298,14 @@ window.MARATHON_PLAN = {
           "detailsSections": [],
           "notes": [],
           "recoveryStatus": "none",
-          "recoveryLabel": "Easy blijft easy",
+          "recoveryLabel": "Zeer rustig · herstel boven tempo",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Buiten · Máximapark aanbevolen",
+          "outsideVariant": "Kies een route die uitkomt rond 5,54 km; een volledige parkronde is niet verplicht. Herstel is leidend, niet een exacte loopbandsnelheid.",
+          "outdoorSimpleMode": true,
+          "treadmillVariantAvailable": true,
+          "outdoorSimpleInstruction": "Zeer rustig lopen. Herstel is belangrijker dan tempo.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -2353,6 +2419,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": true,
           "fullFuelRehearsal": true,
           "nutrition": "Volledige voedingsrepetitie: circa 80 g koolhydraten per uur. Gebruik SiS Beta Fuel Neutral en Bulk Electrolytes volgens het raceplan; bij 40 g per gel is dat ongeveer één gel per 30 minuten.",
@@ -2380,6 +2449,7 @@ window.MARATHON_PLAN = {
           "CONTROLLED FAST",
           "LOOPBAND",
           "STRENGTH",
+          "EASY",
           "EASY / PRAATTEMPO",
           "OUTDOOR",
           "MÁXIMAPARK",
@@ -2393,7 +2463,7 @@ window.MARATHON_PLAN = {
         ],
         "why": [
           "Training 1: Snelheidsreserve gecontroleerd onderhouden zonder maximaal werk.",
-          "Training 2: Herstellen en aerobe consistentie bewaren met ontspannen buitenritme.",
+          "Training 2: Herstellen en aerobe consistentie bewaren.",
           "Training 3: Meer aerobe arbeid toevoegen zonder meer hoge intensiteit.",
           "Training 4: Licht bewegen vóór de key-run.",
           "Training 5: Na 110 minuten lopen nog 40 minuten onafgebroken doeltempo dragen."
@@ -2508,6 +2578,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Buiten",
           "outsideVariant": "Buiten uitvoeren zoals beschreven.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -2554,6 +2627,7 @@ window.MARATHON_PLAN = {
           "category": "rustige-duur",
           "tone": "easy",
           "labels": [
+            "EASY",
             "EASY / PRAATTEMPO",
             "OUTDOOR",
             "MÁXIMAPARK"
@@ -2573,30 +2647,30 @@ window.MARATHON_PLAN = {
                   "basis": "time",
                   "durationSeconds": 300,
                   "display": "5 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 9.5,
+                  "inclinePercent": 0,
                   "type": "warming-up",
-                  "instruction": "Rustig inlopen.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w43-t2-s01"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 2400,
                   "display": "40 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 10.3,
+                  "inclinePercent": 0,
                   "type": "easy",
-                  "instruction": "Easy op comfortabel praattempo; stuur niet op exact loopbandtempo.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w43-t2-s02"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 300,
                   "display": "5 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 9,
+                  "inclinePercent": 0,
                   "type": "cooling-down",
-                  "instruction": "Rustig uitlopen.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w43-t2-s03"
                 }
               ]
@@ -2607,18 +2681,21 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": 8.41,
           "estimatedDistanceLabel": "±8,41 km",
           "sourceSummary": "50 min · ongeveer 8,41 km",
-          "goal": "Ontspannen omvang en buitenritme bewaren tussen de sleutelprikkels.",
-          "targetRpe": "3–4 · volledige zinnen mogelijk",
+          "goal": "Ontspannen omvang tussen de sleutelprikkels.",
+          "targetRpe": "3–4",
           "mentalGoal": "Beheerst uitvoeren en reserve bewaken.",
-          "rationale": "Ontspannen omvang en buitenritme bewaren tussen de sleutelprikkels.",
+          "rationale": "Ontspannen omvang tussen de sleutelprikkels.",
           "detailsSections": [],
           "notes": [],
           "recoveryStatus": "none",
           "recoveryLabel": "Afstand leidend · tempo op gevoel",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten · Máximapark",
-          "outsideVariant": "Kies een route van ongeveer 8,41 km in het Máximapark; een volledige ronde is niet verplicht. Afstand en praattempo zijn leidend, tijd is een richtlijn.",
+          "locationStatus": "Buiten · Máximapark aanbevolen",
+          "outsideVariant": "Kies een route die uitkomt rond 8,41 km; een volledige parkronde is niet verplicht. Afstand en praattempo zijn leidend, niet een exacte loopbandsnelheid.",
+          "outdoorSimpleMode": true,
+          "treadmillVariantAvailable": true,
+          "outdoorSimpleInstruction": "Loop ontspannen. Tempo op gevoel en volledige zinnen kunnen spreken.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -2631,7 +2708,7 @@ window.MARATHON_PLAN = {
           "isTest": false,
           "testNumber": null,
           "evaluation": null,
-          "protocolSignature": "[[300,null,null,null],[2400,null,null,null],[300,null,null,null]]",
+          "protocolSignature": "[[300,null,9.5,0],[2400,null,10.3,0],[300,null,9,0]]",
           "weekId": "marathon-3u30-w43",
           "dateLabel": "19 t/m 25 oktober 2026",
           "phaseId": "peak",
@@ -2711,6 +2788,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -2757,9 +2837,11 @@ window.MARATHON_PLAN = {
           "category": "herstel",
           "tone": "recovery",
           "labels": [
-            "RECOVERY"
+            "RECOVERY",
+            "OUTDOOR",
+            "MÁXIMAPARK"
           ],
-          "surface": "loopband",
+          "surface": "buiten",
           "date": null,
           "weekday": null,
           "fixedDay": false,
@@ -2815,11 +2897,14 @@ window.MARATHON_PLAN = {
           "detailsSections": [],
           "notes": [],
           "recoveryStatus": "none",
-          "recoveryLabel": "Easy blijft easy",
+          "recoveryLabel": "Zeer rustig · herstel boven tempo",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Buiten · Máximapark aanbevolen",
+          "outsideVariant": "Kies een route die uitkomt rond 5,54 km; een volledige parkronde is niet verplicht. Herstel is leidend, niet een exacte loopbandsnelheid.",
+          "outdoorSimpleMode": true,
+          "treadmillVariantAvailable": true,
+          "outdoorSimpleInstruction": "Zeer rustig lopen. Herstel is belangrijker dan tempo.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -2913,6 +2998,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Absolute grens: 180 minuten. Niet verlengen voor een rond getal.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": true,
           "fullFuelRehearsal": true,
           "nutrition": "Volledige voedingsrepetitie: circa 80 g koolhydraten per uur. Gebruik SiS Beta Fuel Neutral en Bulk Electrolytes volgens het raceplan; bij 40 g per gel is dat ongeveer één gel per 30 minuten.",
@@ -2942,6 +3030,7 @@ window.MARATHON_PLAN = {
           "MARATHONPACE",
           "CONFIDENCE",
           "STRENGTH",
+          "EASY",
           "EASY / PRAATTEMPO",
           "OUTDOOR",
           "MÁXIMAPARK",
@@ -2954,7 +3043,7 @@ window.MARATHON_PLAN = {
         ],
         "why": [
           "Training 1: Zelf pacing rond 4:58/km dragen zonder bandsturing.",
-          "Training 2: Ontspannen omvang en buitenritme bewaren tussen de sleutelprikkels.",
+          "Training 2: Ontspannen omvang tussen de sleutelprikkels.",
           "Training 3: De hoogste aerobe weekomvang rationeel ondersteunen.",
           "Training 4: Zeer lichte voorbereiding op de 30K Confidence Run.",
           "Training 5: Drie uur gecontroleerd lopen en 30 km+ als normale trainingsafstand ervaren."
@@ -3116,6 +3205,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -3162,6 +3254,7 @@ window.MARATHON_PLAN = {
           "category": "rustige-duur",
           "tone": "easy",
           "labels": [
+            "EASY",
             "EASY / PRAATTEMPO",
             "OUTDOOR",
             "MÁXIMAPARK"
@@ -3181,30 +3274,30 @@ window.MARATHON_PLAN = {
                   "basis": "time",
                   "durationSeconds": 300,
                   "display": "5 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 9.5,
+                  "inclinePercent": 0,
                   "type": "warming-up",
-                  "instruction": "Rustig inlopen.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w44-t2-s01"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 2100,
                   "display": "35 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 10.3,
+                  "inclinePercent": 0,
                   "type": "easy",
-                  "instruction": "Easy op comfortabel praattempo; stuur niet op exact loopbandtempo.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w44-t2-s02"
                 },
                 {
                   "basis": "time",
                   "durationSeconds": 300,
                   "display": "5 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 9,
+                  "inclinePercent": 0,
                   "type": "cooling-down",
-                  "instruction": "Rustig uitlopen; geen snelle finish.",
+                  "instruction": "",
                   "segmentId": "marathon-3u30-w44-t2-s03"
                 }
               ]
@@ -3215,18 +3308,21 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": 7.55,
           "estimatedDistanceLabel": "±7,55 km",
           "sourceSummary": "45 min · ongeveer 7,55 km",
-          "goal": "Herstellen na controlled fast met een rustige buitenprikkel.",
-          "targetRpe": "3–4 · volledige zinnen mogelijk",
+          "goal": "Herstellen na controlled fast.",
+          "targetRpe": "3–4",
           "mentalGoal": "Beheerst uitvoeren en reserve bewaken.",
-          "rationale": "Herstellen na controlled fast met een rustige buitenprikkel.",
+          "rationale": "Herstellen na controlled fast.",
           "detailsSections": [],
           "notes": [],
           "recoveryStatus": "none",
           "recoveryLabel": "Afstand leidend · tempo op gevoel",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten · Máximapark",
-          "outsideVariant": "Kies een route van ongeveer 7,55 km in het Máximapark; een volledige ronde is niet verplicht. Afstand en praattempo zijn leidend, tijd is een richtlijn. Geen snelle finish.",
+          "locationStatus": "Buiten · Máximapark aanbevolen",
+          "outsideVariant": "Kies een route die uitkomt rond 7,55 km; een volledige parkronde is niet verplicht. Afstand en praattempo zijn leidend, niet een exacte loopbandsnelheid.",
+          "outdoorSimpleMode": true,
+          "treadmillVariantAvailable": true,
+          "outdoorSimpleInstruction": "Loop ontspannen. Tempo op gevoel en volledige zinnen kunnen spreken.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -3239,7 +3335,7 @@ window.MARATHON_PLAN = {
           "isTest": false,
           "testNumber": null,
           "evaluation": null,
-          "protocolSignature": "[[300,null,null,null],[2100,null,null,null],[300,null,null,null]]",
+          "protocolSignature": "[[300,null,9.5,0],[2100,null,10.3,0],[300,null,9,0]]",
           "weekId": "marathon-3u30-w44",
           "dateLabel": "26 oktober t/m 1 november 2026",
           "phaseId": "key-specific",
@@ -3317,6 +3413,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -3344,9 +3443,11 @@ window.MARATHON_PLAN = {
           "category": "herstel",
           "tone": "recovery",
           "labels": [
-            "RECOVERY"
+            "RECOVERY",
+            "OUTDOOR",
+            "MÁXIMAPARK"
           ],
-          "surface": "loopband",
+          "surface": "buiten",
           "date": null,
           "weekday": null,
           "fixedDay": false,
@@ -3402,11 +3503,14 @@ window.MARATHON_PLAN = {
           "detailsSections": [],
           "notes": [],
           "recoveryStatus": "none",
-          "recoveryLabel": "Easy blijft easy",
+          "recoveryLabel": "Zeer rustig · herstel boven tempo",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Buiten · Máximapark aanbevolen",
+          "outsideVariant": "Kies een route die uitkomt rond 4,74 km; een volledige parkronde is niet verplicht. Herstel is leidend, niet een exacte loopbandsnelheid.",
+          "outdoorSimpleMode": true,
+          "treadmillVariantAvailable": true,
+          "outdoorSimpleInstruction": "Zeer rustig lopen. Herstel is belangrijker dan tempo.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -3540,6 +3644,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": true,
           "fullFuelRehearsal": true,
           "nutrition": "Volledige voedingsrepetitie: circa 80 g koolhydraten per uur. Gebruik SiS Beta Fuel Neutral en Bulk Electrolytes volgens het raceplan; bij 40 g per gel is dat ongeveer één gel per 30 minuten.",
@@ -3566,6 +3673,7 @@ window.MARATHON_PLAN = {
         "adaptations": [
           "CONTROLLED FAST",
           "STRENGTH",
+          "EASY",
           "EASY / PRAATTEMPO",
           "OUTDOOR",
           "MÁXIMAPARK",
@@ -3578,7 +3686,7 @@ window.MARATHON_PLAN = {
         ],
         "why": [
           "Training 1: Korte snelheidsreserve onderhouden zonder extra intervalvolume.",
-          "Training 2: Herstellen na controlled fast met een rustige buitenprikkel.",
+          "Training 2: Herstellen na controlled fast.",
           "Training 3: Aerobe omvang behouden vóór de belangrijkste specifieke training.",
           "Training 4: Licht bewegen en frisse benen bewaren.",
           "Training 5: 70 minuten totaal MP dragen nadat al 75 minuten is gelopen."
@@ -3701,6 +3809,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Laatste beenkrachtsessie van het schema. Geen spierpijn najagen.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -3747,9 +3858,12 @@ window.MARATHON_PLAN = {
           "category": "rustige-duur",
           "tone": "easy",
           "labels": [
-            "EASY"
+            "EASY",
+            "EASY / PRAATTEMPO",
+            "OUTDOOR",
+            "MÁXIMAPARK"
           ],
-          "surface": "loopband",
+          "surface": "buiten",
           "date": "2026-11-04",
           "weekday": "Woensdag",
           "fixedDay": true,
@@ -3805,11 +3919,14 @@ window.MARATHON_PLAN = {
           "detailsSections": [],
           "notes": [],
           "recoveryStatus": "none",
-          "recoveryLabel": "Easy blijft easy",
+          "recoveryLabel": "Afstand leidend · tempo op gevoel",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Buiten · Máximapark aanbevolen",
+          "outsideVariant": "Kies een route die uitkomt rond 6,69 km; een volledige parkronde is niet verplicht. Afstand en praattempo zijn leidend, niet een exacte loopbandsnelheid.",
+          "outdoorSimpleMode": true,
+          "treadmillVariantAvailable": true,
+          "outdoorSimpleInstruction": "Loop ontspannen. Tempo op gevoel en volledige zinnen kunnen spreken.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -3900,6 +4017,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -4004,6 +4124,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Buiten",
           "outsideVariant": "Buiten uitvoeren zoals beschreven.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": true,
           "fullFuelRehearsal": true,
           "nutrition": "Volledige voedingsrepetitie: circa 80 g koolhydraten per uur. Gebruik SiS Beta Fuel Neutral en Bulk Electrolytes volgens het raceplan; bij 40 g per gel is dat ongeveer één gel per 30 minuten.",
@@ -4075,6 +4198,9 @@ window.MARATHON_PLAN = {
           "LOOPBAND",
           "STRENGTH",
           "EASY",
+          "EASY / PRAATTEMPO",
+          "OUTDOOR",
+          "MÁXIMAPARK",
           "ZONE 2",
           "LONG RUN",
           "BUITEN",
@@ -4223,6 +4349,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -4250,9 +4379,12 @@ window.MARATHON_PLAN = {
           "category": "rustige-duur",
           "tone": "easy",
           "labels": [
-            "EASY"
+            "EASY",
+            "EASY / PRAATTEMPO",
+            "OUTDOOR",
+            "MÁXIMAPARK"
           ],
-          "surface": "loopband",
+          "surface": "buiten",
           "date": "2026-11-11",
           "weekday": "Woensdag",
           "fixedDay": true,
@@ -4308,11 +4440,14 @@ window.MARATHON_PLAN = {
           "detailsSections": [],
           "notes": [],
           "recoveryStatus": "none",
-          "recoveryLabel": "Easy blijft easy",
+          "recoveryLabel": "Afstand leidend · tempo op gevoel",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Buiten · Máximapark aanbevolen",
+          "outsideVariant": "Kies een route die uitkomt rond 5,75 km; een volledige parkronde is niet verplicht. Afstand en praattempo zijn leidend, niet een exacte loopbandsnelheid.",
+          "outdoorSimpleMode": true,
+          "treadmillVariantAvailable": true,
+          "outdoorSimpleInstruction": "Loop ontspannen. Tempo op gevoel en volledige zinnen kunnen spreken.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -4484,6 +4619,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Strides soepel en technisch; géén sprint.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -4584,6 +4722,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -4653,6 +4794,9 @@ window.MARATHON_PLAN = {
         "adaptations": [
           "MARATHONPACE",
           "EASY",
+          "EASY / PRAATTEMPO",
+          "OUTDOOR",
+          "MÁXIMAPARK",
           "STRIDES"
         ],
         "why": [
@@ -4694,9 +4838,12 @@ window.MARATHON_PLAN = {
           "category": "rustige-duur",
           "tone": "easy",
           "labels": [
-            "EASY"
+            "EASY",
+            "EASY / PRAATTEMPO",
+            "OUTDOOR",
+            "MÁXIMAPARK"
           ],
-          "surface": "loopband",
+          "surface": "buiten",
           "date": "2026-11-17",
           "weekday": "Dinsdag",
           "fixedDay": true,
@@ -4752,11 +4899,14 @@ window.MARATHON_PLAN = {
           "detailsSections": [],
           "notes": [],
           "recoveryStatus": "none",
-          "recoveryLabel": "Easy blijft easy",
+          "recoveryLabel": "Afstand leidend · tempo op gevoel",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Buiten · Máximapark aanbevolen",
+          "outsideVariant": "Kies een route die uitkomt rond 4,88 km; een volledige parkronde is niet verplicht. Afstand en praattempo zijn leidend, niet een exacte loopbandsnelheid.",
+          "outdoorSimpleMode": true,
+          "treadmillVariantAvailable": true,
+          "outdoorSimpleInstruction": "Loop ontspannen. Tempo op gevoel en volledige zinnen kunnen spreken.",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -4877,6 +5027,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -5027,6 +5180,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Loopband",
           "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
           "nutrition": "",
@@ -5098,6 +5254,9 @@ window.MARATHON_PLAN = {
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Buiten",
           "outsideVariant": "Buiten uitvoeren zoals beschreven.",
+          "outdoorSimpleMode": false,
+          "treadmillVariantAvailable": false,
+          "outdoorSimpleInstruction": "",
           "fueling": true,
           "fullFuelRehearsal": false,
           "nutrition": "Circa 80 g koolhydraten per uur met SiS Beta Fuel Neutral en Bulk Electrolytes volgens de geoefende timing. Niets nieuws op racedag.",
@@ -5166,6 +5325,9 @@ window.MARATHON_PLAN = {
         "summary": "Herstellen, losmaken en het geoefende raceplan uitvoeren",
         "adaptations": [
           "EASY",
+          "EASY / PRAATTEMPO",
+          "OUTDOOR",
+          "MÁXIMAPARK",
           "MARATHONPACE",
           "SHAKEOUT",
           "RACE",
@@ -6295,6 +6457,545 @@ window.MARATHON_PLAN = {
       ]
     }
   },
+  "previousWorkoutsV10": {
+    "marathon-3u30-w39-t1": {
+      "title": "Rustige duur",
+      "distanceKm": 11.08,
+      "durationSeconds": 3900,
+      "signature": "[[300,null,9.5,0],[3300,null,10.4,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "ZONE 2",
+        "LOOPBAND",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w39-t2": {
+      "title": "2 × 12 min MP",
+      "distanceKm": 10.65,
+      "durationSeconds": 3600,
+      "signature": "[[600,null,9.5,0],[300,null,10.5,0],[720,null,12.1,0],[180,null,9.5,0],[720,null,12.1,0],[480,null,10.3,0],[600,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "MARATHONPACE",
+        "LOOPBAND"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w39-t3": {
+      "title": "Easy buiten",
+      "distanceKm": 8.41,
+      "durationSeconds": 3000,
+      "signature": "[[300,null,null,null],[2400,null,null,null],[300,null,null,null]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "buiten",
+      "labels": [
+        "EASY",
+        "BUITEN"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w39-t4": {
+      "title": "Halve Marathon Texel",
+      "distanceKm": 23.1,
+      "durationSeconds": null,
+      "signature": "[[null,1,null,null],[null,21.1,null,null],[null,1,null,null]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "buiten",
+      "labels": [
+        "CONFIDENCE",
+        "BUITENWEDSTRIJD"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w40-t1": {
+      "title": "Herstel",
+      "distanceKm": 7.14,
+      "durationSeconds": 2700,
+      "signature": "[[300,null,9.5,0],[2100,null,9.6,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "RECOVERY",
+        "LOOPBAND"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w40-t2": {
+      "title": "Aerobe herstart",
+      "distanceKm": 10.89,
+      "durationSeconds": 3900,
+      "signature": "[[300,null,9.5,0],[3300,null,10.2,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "ZONE 2",
+        "LOOPBAND",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w40-t3": {
+      "title": "Easy + optionele strides",
+      "distanceKm": 9.2,
+      "durationSeconds": 3300,
+      "signature": "[[300,null,null,null],[1980,null,null,null],[20,null,null,null],[70,null,null,null],[20,null,null,null],[70,null,null,null],[20,null,null,null],[70,null,null,null],[20,null,null,null],[70,null,null,null],[360,null,null,null],[300,null,null,null]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "buiten",
+      "labels": [
+        "EASY / PRAATTEMPO",
+        "OUTDOOR",
+        "MÁXIMAPARK",
+        "OPTIONEEL — ALLEEN BIJ VOLLEDIG HERSTEL",
+        "STRIDES"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w40-t4": {
+      "title": "Lange easy",
+      "distanceKm": 18.71,
+      "durationSeconds": 6600,
+      "signature": "[[300,null,9.5,0],[6000,null,10.3,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "LONG RUN",
+        "ZONE 2"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w41-t1": {
+      "title": "MP Confidence #1",
+      "distanceKm": 13.03,
+      "durationSeconds": 4200,
+      "signature": "[[600,null,9.5,0],[300,null,10.5,0],[2700,null,12.1,0],[600,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "MP CONFIDENCE #1",
+        "MARATHONPACE",
+        "LOOPBAND",
+        "CONFIDENCE",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w41-t2": {
+      "title": "Easy",
+      "distanceKm": 7.55,
+      "durationSeconds": 2700,
+      "signature": "[[300,null,null,null],[2100,null,null,null],[300,null,null,null]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "buiten",
+      "labels": [
+        "EASY / PRAATTEMPO",
+        "OUTDOOR",
+        "MÁXIMAPARK"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w41-t3": {
+      "title": "Middellange Zone 2 + controlled fast",
+      "distanceKm": 15.81,
+      "durationSeconds": 5400,
+      "signature": "[[300,null,9.5,0],[2700,null,10.5,0],[180,null,12.7,0],[120,null,9.5,0],[180,null,12.7,0],[120,null,9.5,0],[180,null,12.7,0],[1320,null,10.5,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "ZONE 2",
+        "CONTROLLED FAST",
+        "BOVEN MP",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w41-t4": {
+      "title": "Recovery",
+      "distanceKm": 4.74,
+      "durationSeconds": 1800,
+      "signature": "[[300,null,9.5,0],[1200,null,9.6,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "RECOVERY"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w41-t5": {
+      "title": "Lange rustige duur",
+      "distanceKm": 24.29,
+      "durationSeconds": 8400,
+      "signature": "[[300,null,9.5,0],[7800,null,10.5,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "LONG RUN",
+        "ZONE 2"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w42-t1": {
+      "title": "4 × 6 min controlled fast",
+      "distanceKm": 12.52,
+      "durationSeconds": 4200,
+      "signature": "[[600,null,9.5,0],[300,null,10.5,0],[360,null,12.7,0],[180,null,9.5,0],[360,null,12.7,0],[180,null,9.5,0],[360,null,12.7,0],[180,null,9.5,0],[360,null,12.7,0],[720,null,10.3,0],[600,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "CONTROLLED FAST",
+        "LOOPBAND",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w42-t2": {
+      "title": "Easy",
+      "distanceKm": 7.55,
+      "durationSeconds": 2700,
+      "signature": "[[300,null,null,null],[2100,null,null,null],[300,null,null,null]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "buiten",
+      "labels": [
+        "EASY / PRAATTEMPO",
+        "OUTDOOR",
+        "MÁXIMAPARK"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w42-t3": {
+      "title": "Middellange Zone 2",
+      "distanceKm": 17.29,
+      "durationSeconds": 6000,
+      "signature": "[[300,null,9.5,0],[5400,null,10.5,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "ZONE 2",
+        "VERLENGD",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w42-t4": {
+      "title": "Recovery",
+      "distanceKm": 5.54,
+      "durationSeconds": 2100,
+      "signature": "[[300,null,9.5,0],[1500,null,9.6,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "RECOVERY"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w42-t5": {
+      "title": "MP-under-fatigue Confidence #2",
+      "distanceKm": 29.32,
+      "durationSeconds": 9900,
+      "signature": "[[600,null,9.5,0],[6000,null,10.4,0],[2400,null,12.1,0],[300,null,10,0],[600,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "MP-UNDER-FATIGUE CONFIDENCE #2",
+        "MARATHONPACE",
+        "CONFIDENCE",
+        "RACEVOEDING"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w43-t1": {
+      "title": "Outdoor MP Confidence #3",
+      "distanceKm": 14.04,
+      "durationSeconds": 4500,
+      "signature": "[[600,null,null,null],[300,null,null,null],[3000,null,12.1,null],[600,null,null,null]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "buiten",
+      "labels": [
+        "OUTDOOR MP CONFIDENCE #3",
+        "BUITEN",
+        "MARATHONPACE",
+        "CONFIDENCE",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w43-t2": {
+      "title": "Easy",
+      "distanceKm": 8.41,
+      "durationSeconds": 3000,
+      "signature": "[[300,null,null,null],[2400,null,null,null],[300,null,null,null]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "buiten",
+      "labels": [
+        "EASY / PRAATTEMPO",
+        "OUTDOOR",
+        "MÁXIMAPARK"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w43-t3": {
+      "title": "Middellange Zone 2",
+      "distanceKm": 18.17,
+      "durationSeconds": 6300,
+      "signature": "[[300,null,9.5,0],[5700,null,10.5,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "ZONE 2",
+        "VERLENGD",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w43-t4": {
+      "title": "Recovery",
+      "distanceKm": 5.54,
+      "durationSeconds": 2100,
+      "signature": "[[300,null,9.5,0],[1500,null,9.6,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "RECOVERY"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w43-t5": {
+      "title": "30K Confidence Run",
+      "distanceKm": 31.58,
+      "durationSeconds": 10800,
+      "signature": "[[300,null,9.5,0],[10200,null,10.6,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "30K CONFIDENCE RUN",
+        "LONG RUN",
+        "CONFIDENCE",
+        "RACEVOEDING"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w44-t1": {
+      "title": "3 × 4 min controlled fast",
+      "distanceKm": 9.51,
+      "durationSeconds": 3300,
+      "signature": "[[600,null,9.5,0],[300,null,10.5,0],[240,null,12.7,0],[180,null,9.5,0],[240,null,12.7,0],[180,null,9.5,0],[240,null,12.7,0],[720,null,10.3,0],[600,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "CONTROLLED FAST",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w44-t2": {
+      "title": "Easy",
+      "distanceKm": 7.55,
+      "durationSeconds": 2700,
+      "signature": "[[300,null,null,null],[2100,null,null,null],[300,null,null,null]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "buiten",
+      "labels": [
+        "EASY / PRAATTEMPO",
+        "OUTDOOR",
+        "MÁXIMAPARK"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w44-t3": {
+      "title": "Middellange aerobe duur",
+      "distanceKm": 15.54,
+      "durationSeconds": 5400,
+      "signature": "[[300,null,9.5,0],[4800,null,10.5,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "ZONE 2"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w44-t4": {
+      "title": "Recovery",
+      "distanceKm": 4.74,
+      "durationSeconds": 1800,
+      "signature": "[[300,null,9.5,0],[1200,null,9.6,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "RECOVERY"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w44-t5": {
+      "title": "Key Marathon Confidence",
+      "distanceKm": 30.94,
+      "durationSeconds": 10200,
+      "signature": "[[600,null,9.5,0],[3900,null,10.4,0],[2100,null,12.1,0],[480,null,9.8,0],[2100,null,12.1,0],[420,null,10,0],[600,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "KEY MARATHON CONFIDENCE",
+        "MARATHONPACE",
+        "CONFIDENCE",
+        "RACEVOEDING"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w45-t1": {
+      "title": "35 min continue MP",
+      "distanceKm": 11.88,
+      "durationSeconds": 3900,
+      "signature": "[[600,null,9.5,0],[300,null,10.5,0],[2100,null,12.1,0],[300,null,10.3,0],[600,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "MARATHONPACE",
+        "LOOPBAND",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w45-t2": {
+      "title": "Easy",
+      "distanceKm": 6.69,
+      "durationSeconds": 2400,
+      "signature": "[[300,null,9.5,0],[1800,null,10.3,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "EASY"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w45-t3": {
+      "title": "Aerobe duur",
+      "distanceKm": 11.94,
+      "durationSeconds": 4200,
+      "signature": "[[300,null,9.5,0],[3600,null,10.4,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "ZONE 2"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w45-t4": {
+      "title": "Buiten long run met MP",
+      "distanceKm": 21.24,
+      "durationSeconds": 7200,
+      "signature": "[[600,null,null,null],[4800,null,10.4,null],[1500,null,12.1,null],[300,null,null,null]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "buiten",
+      "labels": [
+        "LONG RUN",
+        "BUITEN",
+        "MARATHONPACE",
+        "CONFIDENCE",
+        "RACEVOEDING"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w46-t1": {
+      "title": "2 × 8 min MP",
+      "distanceKm": 8.69,
+      "durationSeconds": 3000,
+      "signature": "[[600,null,9.5,0],[300,null,10.5,0],[480,null,12.1,0],[180,null,9.5,0],[480,null,12.1,0],[360,null,10.3,0],[600,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "MARATHONPACE"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w46-t2": {
+      "title": "Easy",
+      "distanceKm": 5.75,
+      "durationSeconds": 2100,
+      "signature": "[[300,null,9.5,0],[1500,null,10.1,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "EASY"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w46-t3": {
+      "title": "Easy + strides",
+      "distanceKm": 6.69,
+      "durationSeconds": 2400,
+      "signature": "[[300,null,9.5,0],[1380,null,10.2,0],[30,null,13,0],[90,null,9.5,0],[30,null,13,0],[90,null,9.5,0],[30,null,13,0],[90,null,9.5,0],[30,null,13,0],[90,null,9.5,0],[240,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "EASY",
+        "STRIDES"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w46-t4": {
+      "title": "Korte duur + MP",
+      "distanceKm": 13.94,
+      "durationSeconds": 4800,
+      "signature": "[[600,null,9.5,0],[3000,null,10.3,0],[900,null,12.1,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "MARATHONPACE"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w47-t1": {
+      "title": "Easy",
+      "distanceKm": 4.88,
+      "durationSeconds": 1800,
+      "signature": "[[300,null,9.5,0],[1200,null,10,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "EASY"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w47-t2": {
+      "title": "2 × 4 min MP",
+      "distanceKm": 5.89,
+      "durationSeconds": 2100,
+      "signature": "[[600,null,9.5,0],[300,null,10.5,0],[240,null,12.1,0],[120,null,9.5,0],[240,null,12.1,0],[600,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "MARATHONPACE"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w47-t3": {
+      "title": "Shakeout",
+      "distanceKm": 3.24,
+      "durationSeconds": 1200,
+      "signature": "[[300,null,9.5,0],[420,null,9.8,0],[20,null,13,0],[100,null,9.5,0],[20,null,13,0],[100,null,9.5,0],[20,null,13,0],[100,null,9.5,0],[120,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "loopband",
+      "labels": [
+        "SHAKEOUT"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w47-t4": {
+      "title": "Marathon",
+      "distanceKm": 42.195,
+      "durationSeconds": 12600,
+      "signature": "[[null,42.195,12.0557,null]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-2",
+      "surface": "buiten",
+      "labels": [
+        "RACE",
+        "MARATHON"
+      ],
+      "outdoorSimpleMode": false
+    }
+  },
   "workoutAliases": {},
   "strengthDefinitions": {
     "A": {
@@ -6385,19 +7086,20 @@ window.MARATHON_PLAN = {
       "Controlled-fast werk wordt spaarzaam ingezet om enige snelheidsreserve boven marathonpace te behouden en te ontwikkelen. Het doel is niet om van het marathonblok een 10 km- of VO2max-programma te maken. Marathonfitness blijft primair voortkomen uit veel gecontroleerde aerobe arbeid, marathonpace onder toenemende vermoeidheid en succesvolle verwerking van de lange trainingen.",
       "Boven-MP-werk is ondersteunend en mag niet ten koste gaan van key long runs of herstel. Er wordt bewust geen zesde loopdag toegevoegd.",
       "Long runs zijn groot genoeg; er worden geen geforceerde 32–35 km-trainingen toegevoegd.",
-      "De loopband blijft leidend voor precisie, gecontroleerde Zone 2, marathonpace, lange continue belasting en voedingsrepetities. Eén easy-run per week in W40–W44 gaat bewust naar buiten in het Máximapark voor regelmatige laag-risico overdracht naar buitenlopen. Bij die runs zijn afstand, praattempo en RPE leidend; een exacte loopbandsnelheid en volledige parkronde zijn niet verplicht.",
+      "Pure Easy- en Recovery-sessies worden bij voorkeur ontspannen buiten in het Máximapark gelopen. Afstand, RPE en praattempo zijn daar leidend; de exacte loopbandblokken blijven als variant beschikbaar wanneer de bron die numeriek voorschrijft.",
+      "Marathonpace, controlled-fast werk, intervalblokken, gestructureerde strides en andere precisieprikkels blijven op de loopband. Expliciet buiten geplande sleuteltrainingen blijven buiten.",
       "Vanaf W45 is de taper kalendergestuurd en zijn rustdagen een verplicht onderdeel van het schema."
     ],
     "surfaceStrategy": {
       "title": "Loopbandstrategie / Buitenlopen",
-      "explanation": "De precisieprikkels blijven op de loopband. Eén easy-run per week in W40–W44 gaat naar het Máximapark, zodat buitenritme en ondergrond regelmatig worden geoefend zonder een extra zware prikkel toe te voegen. Easy blijft easy: afstand en praattempo zijn leidend.",
+      "explanation": "Pure Easy- en Recovery-sessies zijn eenvoudige buitenruns in het Máximapark: afstand, RPE en ontspannen uitvoering zijn leidend. De loopband blijft de voorkeursplek voor trainingen waarin snelheid, helling en bloktiming precies moeten kloppen. Een expliciet buiten geplande sleutelrun blijft buiten.",
       "treadmill": [
-        "Precieze snelheid en gecontroleerde Zone 2",
-        "Marathonpace en controlled-fast werk",
-        "Key long runs, continue belasting en voedingsrepetities"
+        "Marathonpace, controlled-fast werk en intervallen",
+        "Easy met gestructureerde strides",
+        "Middellange en lange loopbandtrainingen volgens het bronschema"
       ],
       "outside": [
-        "Eén easy-run per week in W40–W44",
+        "Pure Easy- en Recovery-sessies in het Máximapark",
         "Halve Marathon Texel",
         "Outdoor MP Confidence #3",
         "Laatste buiten-long run met marathonpace"

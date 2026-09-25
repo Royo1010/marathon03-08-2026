@@ -14,16 +14,16 @@ const weeks = plan.weeks;
 const all = weeks.flatMap((week) => week.workouts);
 const get = (week, training) => all.find((workout) => workout.weekNumber === week && workout.trainingNumber === training);
 const flat = (workout) => Array.from(model.flattenWorkoutSegments(workout));
-const source = fs.readFileSync(new URL("../marathonschema_Roy_FINAL_V3_3u30_2026.md", import.meta.url), "utf8");
-const previousWorkoutsV9 = JSON.parse(fs.readFileSync(new URL("../scripts/previous-workouts-v9.json", import.meta.url), "utf8"));
+const source = fs.readFileSync(new URL("../marathonschema_Roy_FINAL_V3_UPDATED_2026-09-25.md", import.meta.url), "utf8");
+const previousWorkoutsV10 = JSON.parse(fs.readFileSync(new URL("../scripts/previous-workouts-v10.json", import.meta.url), "utf8"));
 
 test("FINAL V3 bevat exact W39-W47 en veertig unieke sessies", () => {
   assert.deepEqual(Array.from(weeks, (week) => week.weekNumber), [39, 40, 41, 42, 43, 44, 45, 46, 47]);
   assert.equal(all.length, 40);
   assert.equal(new Set(all.map((workout) => workout.workoutId)).size, 40);
   assert.equal(all.filter((workout) => workout.category !== "wedstrijd").length, 39);
-  assert.equal(plan.config.schemaVersion, "marathon-3u30-final-v3-2026.09.25-2");
-  assert.equal(plan.config.sourceFile, "marathonschema_Roy_FINAL_V3_3u30_2026.md");
+  assert.equal(plan.config.schemaVersion, "marathon-3u30-final-v3-2026.09.25-3");
+  assert.equal(plan.config.sourceFile, "marathonschema_Roy_FINAL_V3_UPDATED_2026-09-25.md");
   assert.equal(plan.config.startDate, "2026-09-21");
   assert.equal(plan.config.marathonDate, "2026-11-22");
   assert.equal(plan.config.practicalMarathonSpeedKmh, 12.1);
@@ -43,20 +43,26 @@ test("week- en programmatotalen volgen de afgeronde FINAL V3-bron", () => {
   assert.equal(plan.config.plannedKmIncludingRace, 525.845);
 });
 
-test("alleen de vijf bedoelde easy-runs verschillen van de vorige build", () => {
+test("alleen de bedoelde uitvoeringsmodi verschillen van de vorige build", () => {
   const changed = Array.from(all
     .filter((workout) => {
-      const previous = previousWorkoutsV9[workout.workoutId];
+      const previous = previousWorkoutsV10[workout.workoutId];
       return !previous
         || previous.title !== workout.title
         || previous.distanceKm !== workout.estimatedDistanceKm
         || previous.durationSeconds !== workout.totalPlannedSeconds
         || previous.signature !== workout.protocolSignature
         || previous.surface !== workout.surface
-        || JSON.stringify(previous.labels) !== JSON.stringify(workout.labels);
+        || JSON.stringify(previous.labels) !== JSON.stringify(workout.labels)
+        || Boolean(previous.outdoorSimpleMode) !== Boolean(workout.outdoorSimpleMode);
     })
     .map((workout) => workout.workoutId));
-  assert.deepEqual(changed, ["marathon-3u30-w40-t3", "marathon-3u30-w41-t2", "marathon-3u30-w42-t2", "marathon-3u30-w43-t2", "marathon-3u30-w44-t2"]);
+  assert.deepEqual(changed, [
+    "marathon-3u30-w39-t3", "marathon-3u30-w40-t1", "marathon-3u30-w40-t2", "marathon-3u30-w40-t3",
+    "marathon-3u30-w41-t2", "marathon-3u30-w41-t4", "marathon-3u30-w42-t2", "marathon-3u30-w42-t4",
+    "marathon-3u30-w43-t2", "marathon-3u30-w43-t4", "marathon-3u30-w44-t2", "marathon-3u30-w44-t4",
+    "marathon-3u30-w45-t2", "marathon-3u30-w46-t2", "marathon-3u30-w47-t1",
+  ]);
 });
 
 test("W40 strides en W41 controlled fast vervangen minuten zonder sessieduur of MP-volume te verhogen", () => {
@@ -67,12 +73,13 @@ test("W40 strides en W41 controlled fast vervangen minuten zonder sessieduur of 
   assert.equal(w40.title, "Easy + optionele strides");
   assert.equal(w40.totalPlannedSeconds, 55 * 60);
   assert.deepEqual(flat(w40).map((segment) => segment.durationSeconds), [300,1980,20,70,20,70,20,70,20,70,360,300]);
-  assert.equal(flat(w40).filter((segment) => segment.type === "strides" && /13,0 km\/u-equivalent/.test(segment.instruction)).length, 4);
-  assert.ok(flat(w40).every((segment) => segment.speedKmh == null));
+  assert.equal(flat(w40).filter((segment) => segment.type === "strides" && segment.speedKmh === 13).length, 4);
+  assert.equal(calculatedDistance(w40).toFixed(3), "9.199");
   assert.equal(w40.estimatedDistanceKm, 9.2);
   assert.match(w40.orderWarning, /alleen uitvoeren als de benen volledig hersteld/i);
   assert.equal(w40.category, "rustige-duur");
-  assert.equal(w40.surface, "buiten");
+  assert.equal(w40.surface, "loopband");
+  assert.equal(w40.outdoorSimpleMode, false);
 
   assert.equal(w41.title, "Middellange Zone 2 + controlled fast");
   assert.equal(w41.totalPlannedSeconds, 90 * 60);
@@ -88,21 +95,27 @@ test("W40 strides en W41 controlled fast vervangen minuten zonder sessieduur of 
   assert.equal(mpSeconds / 60, 328);
 });
 
-test("W40-W44 hebben precies één bedoelde Máximapark-easy per week", () => {
-  const expected = [[40,3,9.2,55],[41,2,7.55,45],[42,2,7.55,45],[43,2,8.41,50],[44,2,7.55,45]];
-  for (const [weekNumber, trainingNumber, distanceKm, minutes] of expected) {
+test("pure Easy- en Recovery-sessies gebruiken Outdoor Simple Mode met brongetrouwe loopbandvariant", () => {
+  const expected = [[39,3,8.41,50,false],[40,1,7.14,45,true],[40,2,10.89,65,true],[41,2,7.55,45,true],[41,4,4.74,30,true],[42,2,7.55,45,true],[42,4,5.54,35,true],[43,2,8.41,50,true],[43,4,5.54,35,true],[44,2,7.55,45,true],[44,4,4.74,30,true],[45,2,6.69,40,true],[46,2,5.75,35,true],[47,1,4.88,30,true]];
+  for (const [weekNumber, trainingNumber, distanceKm, minutes, hasTreadmillVariant] of expected) {
     const workout = get(weekNumber, trainingNumber);
     assert.equal(workout.surface, "buiten");
-    assert.equal(workout.locationStatus, "Buiten · Máximapark");
+    assert.equal(workout.locationStatus, "Buiten · Máximapark aanbevolen");
+    assert.equal(workout.outdoorSimpleMode, true);
+    assert.equal(workout.treadmillVariantAvailable, hasTreadmillVariant);
     assert.equal(workout.estimatedDistanceKm, distanceKm);
     assert.equal(workout.totalPlannedSeconds, minutes * 60);
-    assert.match(workout.recoveryLabel, /Afstand leidend · tempo op gevoel/);
+    assert.match(workout.recoveryLabel, /Afstand leidend · tempo op gevoel|Zeer rustig · herstel boven tempo/);
     assert.ok(workout.labels.includes("OUTDOOR"));
     assert.ok(workout.labels.includes("MÁXIMAPARK"));
-    assert.ok(flat(workout).every((segment) => segment.speedKmh == null && segment.inclinePercent == null));
+    if (hasTreadmillVariant) assert.ok(flat(workout).every((segment) => segment.speedKmh > 0 && segment.inclinePercent === 0));
+    else assert.ok(flat(workout).every((segment) => segment.speedKmh == null && segment.inclinePercent == null));
   }
   assert.equal(JSON.stringify(all.filter((workout) => workout.labels.includes("MÁXIMAPARK")).map((workout) => [workout.weekNumber, workout.trainingNumber])), JSON.stringify(expected.map(([weekNumber, trainingNumber]) => [weekNumber, trainingNumber])));
-  assert.match(plan.guidance.surfaceStrategy.explanation, /Eén easy-run per week in W40–W44/i);
+  assert.match(plan.guidance.surfaceStrategy.explanation, /Pure Easy- en Recovery-sessies/i);
+  assert.equal(get(40, 3).surface, "loopband");
+  assert.equal(get(41, 3).surface, "loopband");
+  assert.equal(get(42, 5).surface, "loopband");
 });
 
 test("alle loopbandblokken hebben expliciet 0 procent; buitenblokken krijgen geen verzonnen helling", () => {
@@ -111,7 +124,7 @@ test("alle loopbandblokken hebben expliciet 0 procent; buitenblokken krijgen gee
   for (const workout of all) {
     for (const segment of flat(workout)) {
       assert.ok(segment.durationSeconds > 0 || segment.distanceKm > 0, segment.segmentId);
-      if (workout.surface === "loopband") {
+      if (workout.surface === "loopband" || workout.treadmillVariantAvailable) {
         assert.equal(segment.inclinePercent, 0, segment.segmentId);
         treadmillBlocks++;
       } else {
@@ -174,7 +187,7 @@ test("de FINAL V3-bron reproduceert training-data.js exact", () => {
   const folder = fs.mkdtempSync(path.join(os.tmpdir(), "marathon-v3-test-"));
   try {
     const generated = path.join(folder, "training-data.js");
-    execFileSync(process.execPath, [new URL("../scripts/generate-marathon-plan.mjs", import.meta.url).pathname, new URL("../marathonschema_Roy_FINAL_V3_3u30_2026.md", import.meta.url).pathname, generated]);
+    execFileSync(process.execPath, [new URL("../scripts/generate-marathon-plan.mjs", import.meta.url).pathname, new URL("../marathonschema_Roy_FINAL_V3_UPDATED_2026-09-25.md", import.meta.url).pathname, generated]);
     assert.equal(fs.readFileSync(generated, "utf8"), fs.readFileSync(new URL("../training-data.js", import.meta.url), "utf8"));
   } finally {
     fs.rmSync(folder, { recursive: true });

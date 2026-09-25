@@ -1,10 +1,10 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "2026.09.25-2";
+  const APP_VERSION = "2026.09.25-3";
   // Keep this key stable. Preserve existing logs; migrate additions and protocol changes.
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
-  const APP_DATA_VERSION = 8;
+  const APP_DATA_VERSION = 9;
   const plan = window.MARATHON_PLAN;
   const model = window.MARATHON_MODEL;
   const notifications = window.MARATHON_NOTIFICATIONS;
@@ -251,6 +251,25 @@
     }
   }
 
+  function migrateExecutionModes(raw) {
+    const currentById = new Map(workouts.map((workout) => [workout.workoutId, workout]));
+    const changedWorkoutIds = Object.entries(plan.previousWorkoutsV10 || {}).flatMap(([id, previous]) => {
+      const current = currentById.get(id);
+      const changed = !current
+        || previous.signature !== current.protocolSignature
+        || previous.surface !== current.surface
+        || Boolean(previous.outdoorSimpleMode) !== Boolean(current.outdoorSimpleMode);
+      return changed ? [id] : [];
+    });
+    raw.legacyData = isObject(raw.legacyData) ? raw.legacyData : {};
+    raw.legacyData.executionModeMigration ||= {
+      sourceSchema: raw.meta?.schemaVersion || "onbekend",
+      migratedAt: nowIso(),
+      changedWorkoutIds,
+      userDataPreserved: true,
+    };
+  }
+
   function migrateAppData(raw) {
     const empty = createEmptyAppData();
     if (!isObject(raw)) throw new Error("Opgeslagen data is geen app-object.");
@@ -258,6 +277,7 @@
     if (Number(raw.appDataVersion || 0) < 6) migrateFinalV3Workouts(raw);
     if (Number(raw.appDataVersion || 0) < 7) migrateSpeedReserveWorkouts(raw);
     if (Number(raw.appDataVersion || 0) < 8) migrateMaximaparkWorkouts(raw);
+    if (Number(raw.appDataVersion || 0) < 9) migrateExecutionModes(raw);
     const data = {
       ...empty,
       ...raw,
@@ -617,6 +637,7 @@
   }
 
   function speedSummary(workout) {
+    if (workout.outdoorSimpleMode) return "Buiten · tempo op gevoel";
     const values = relevantSegments(workout).map((segment) => Number(segment.speedKmh)).filter((value) => Number.isFinite(value) && value > 0);
     if (!values.length) return workout.surface === "buiten" ? "Buiten" : "Tempo op gevoel";
     const min = Math.min(...values);
@@ -625,6 +646,7 @@
   }
 
   function keyBlockSummary(workout) {
+    if (workout.outdoorSimpleMode) return workout.outdoorSimpleInstruction || "Loop ontspannen op gevoel.";
     const repeat = (workout.groups || []).find((group) => group.kind === "repeat");
     if (repeat?.segments?.length) {
       const work = repeat.segments[0];
@@ -940,6 +962,26 @@
     </details>`;
   }
 
+  function trainingModeLabel(workout) {
+    if (workout.outdoorSimpleMode && workout.treadmillVariantAvailable) return "Loopbandvariant";
+    if (workout.outdoorSimpleMode) return "Buitenmodus";
+    return workout.surface === "buiten" ? "Trainingsmodus" : "Loopbandmodus";
+  }
+
+  function renderOutdoorSimpleOverview(workout) {
+    const kind = workout.category === "herstel" ? "Recovery" : "Easy";
+    return `<section class="outdoor-simple-card" aria-label="Eenvoudige buitenuitvoering">
+      <div class="outdoor-simple-heading"><span>${escapeHtml(kind)}</span><strong>Outdoor · Máximapark</strong></div>
+      <div class="outdoor-simple-metrics">
+        <div><strong>${escapeHtml(workout.estimatedDistanceLabel)}</strong><span>Afstand</span></div>
+        <div><strong>RPE ${escapeHtml(workout.targetRpe)}</strong><span>${workout.category === "herstel" ? "Zeer rustig" : "Praattempo"}</span></div>
+      </div>
+      <p>${escapeHtml(workout.outdoorSimpleInstruction || workout.goal)}</p>
+      <small>${escapeHtml(workout.outsideVariant)}</small>
+      ${workout.treadmillVariantAvailable ? `<p class="outdoor-variant-note">Exacte minuten en snelheden staan onder <strong>Loopbandvariant</strong>.</p>` : `<p class="outdoor-variant-note">Het bronschema bevat voor deze bewust buiten geplande sessie geen numerieke loopbandvariant.</p>`}
+    </section>`;
+  }
+
   function renderTrainingCard(workout) {
     const open = state.expandedWorkoutIds.has(workout.workoutId);
     const completed = isCompleted(workout.workoutId);
@@ -960,7 +1002,7 @@
         ${open ? `<div class="training-details" id="${detailsId}">${renderTrainingDetails(workout)}</div>` : ""}
         <div class="completion-row">
           <button class="treadmill-button" type="button" data-open-treadmill="${workout.workoutId}">
-            <span aria-hidden="true">▶</span>${workout.surface === "buiten" ? "Trainingsmodus" : "Loopbandmodus"}
+            <span aria-hidden="true">▶</span>${trainingModeLabel(workout)}
           </button>
           <button class="completion-button ${completed ? "is-completed" : ""}" type="button" data-toggle-complete="${workout.workoutId}" aria-pressed="${completed}">
             <span aria-hidden="true">${completed ? "✓" : "○"}</span>${completed ? "Voltooid" : "Markeer als voltooid"}
@@ -972,7 +1014,7 @@
   function renderTrainingDetails(workout) {
     return `
       <p class="detail-context">Week ${workout.weekNumber} · ${escapeHtml(workout.dateLabel)} · ${escapeHtml(workoutSequenceLabel(workout))} · ${escapeHtml(workout.phaseName)}</p>
-      <div class="detail-section"><h3>Exacte opbouw</h3><div class="segment-groups">${(workout.groups || []).map(renderSegmentGroup).join("")}</div></div>
+      ${workout.outdoorSimpleMode ? renderOutdoorSimpleOverview(workout) : `<div class="detail-section"><h3>Exacte opbouw</h3><div class="segment-groups">${(workout.groups || []).map(renderSegmentGroup).join("")}</div></div>`}
       <div class="detail-section"><h3>Doel en belasting</h3><p><strong>Trainingsdoel:</strong> ${escapeHtml(workout.goal)}</p><p><strong>Gewenste RPE:</strong> ${escapeHtml(workout.targetRpe)}</p><p><strong>Mentale doelstelling:</strong> ${escapeHtml(workout.mentalGoal || "De training gecontroleerd uitvoeren zoals beschreven.")}</p></div>
       <div class="detail-section rationale-section"><h3>Waarom deze training hier staat</h3><p>${escapeHtml(workout.rationale || workout.goal)}</p></div>
       <div class="detail-section"><h3>Planning en herstel</h3><p><strong>${escapeHtml(workout.recoveryLabel || "Herstel volgens weekbelasting")}:</strong> ${escapeHtml(workout.recoveryAdvice || workout.orderWarning || "Bewaak herstel tussen de sessies.")}</p>${workout.orderWarning ? `<p>${escapeHtml(workout.orderWarning)}</p>` : ""}</div>
@@ -1235,10 +1277,11 @@
     }
     document.body?.classList?.toggle("treadmill-focus-active", false);
     const snapshot = treadmillTimer.workoutId === workout.workoutId && treadmillTimer.status !== "idle" ? timerSnapshot(timeline) : { currentIndex: -1 };
+    const modeLabel = trainingModeLabel(workout);
     app.innerHTML = `<section class="treadmill-view" data-treadmill-view="${workout.workoutId}">
       <header class="treadmill-header">
         <button class="treadmill-back" type="button" data-close-treadmill>← Terug</button>
-        <div><span>Week ${workout.weekNumber} · ${escapeHtml(workoutSequenceLabel(workout))}</span><h1>${escapeHtml(capitalize(workout.title))}</h1><p>${escapeHtml(timeline.totalLabel)} totaal · ${timeline.blocks.length} blokken</p></div>
+        <div><span>${escapeHtml(modeLabel)} · Week ${workout.weekNumber} · ${escapeHtml(workoutSequenceLabel(workout))}</span><h1>${escapeHtml(capitalize(workout.title))}</h1><p>${escapeHtml(timeline.totalLabel)} totaal · ${timeline.blocks.length} blokken</p></div>
       </header>
       ${workout.recoveryStatus === "required" ? `<div class="treadmill-recovery-warning"><strong>${escapeHtml(workout.recoveryLabel)}</strong><span>${escapeHtml(workout.recoveryAdvice)}</span></div>` : ""}
       ${renderTreadmillTimer(workout, timeline)}
