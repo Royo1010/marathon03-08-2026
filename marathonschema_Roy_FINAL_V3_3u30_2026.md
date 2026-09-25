@@ -259,8 +259,8 @@ Zo niet:
 | Week | Type | Km | Looptijd | Geprogrammeerde MP-min | Belangrijkste prikkel |
 |---:|---|---:|---:|---:|---|
 | 39 | Texel / build | **53,23** | ~5:02 | 24 | Texel HM |
-| 40 | Recovery / rebuild | **45,93** | 4:35 | 0 | herstel + rustige duur |
-| 41 | Overload 1 | **65,16** | **6:15** | **45** | MP Confidence #1 + extra Z2 |
+| 40 | Recovery / rebuild | **45,94** | 4:35 | 0 | herstel + rustige duur + optionele strides |
+| 41 | Overload 1 | **65,42** | **6:15** | **45** | MP Confidence #1 + extra Z2 + controlled fast |
 | 42 | Overload 2 | **72,22** | **6:55** | **40** | MP under fatigue + extra Z2 |
 | 43 | **Piekweek** | **77,73** | **7:25** | **50** | outdoor MP + 30K + extra Z2 |
 | 44 | Key marathon specific | **68,28** | 6:30 | **70** | 2 × 35 min MP under fatigue |
@@ -268,8 +268,8 @@ Zo niet:
 | 46 | Taper 2 | **35,07** | 3:25 | **31** | frisheid + ritme |
 | 47 vóór race | Raceweek | **14,01** | **1:25** | **8** | frisheid + zaterdag-shakeout |
 
-**Totaal W39–W47 vóór marathon:** circa **483,38 km**  
-**Inclusief marathon:** circa **525,58 km**
+**Totaal W39–W47 vóór marathon:** circa **483,65 km**  
+**Inclusief marathon:** circa **525,85 km**
 
 > MP-minuten in deze tabel tellen alleen expliciet geprogrammeerde MP-blokken. Wedstrijdtempo tijdens Texel telt niet mee.
 
@@ -334,7 +334,7 @@ Zo niet:
 # 11. WEEK 40 — Recovery + aerobe herstart
 ## 28 september t/m 4 oktober
 
-**Weekvolume:** 45,93 km  
+**Weekvolume:** 45,94 km  
 **Looptrainingen:** 4
 
 ### Training 1 — Herstel
@@ -354,12 +354,22 @@ Zo niet:
 
 **Kracht:** A-light na het lopen.
 
-### Training 3 — Easy
-**9,19 km · 55 min**
+### Training 3 — Easy + optionele strides
+**9,20 km · 55 min**
 
 - 5 min @9,5;
-- 45 min @10,2;
+- 33 min @10,2;
+- daarna 4 ×:
+  - 20 sec @ circa 13,0;
+  - 70 sec @9,5;
+- 6 min @10,2;
 - 5 min @9,0.
+
+**OPTIONEEL — alleen bij volledig herstel.**
+
+Strides alleen uitvoeren als de benen volledig hersteld voelen van de Halve Marathon Texel. Het zijn ontspannen versnellingen, geen sprint en geen conditietest. Als herstel niet volledig normaal is: voer de oorspronkelijke 45 minuten easy @10,2 km/u uit en sla de strides over.
+
+**RPE / bedoeling:** soepel en technisch, zonder verzuring of maximale inspanning. Doel: beenomzet, techniek en een kleine snelheidsprikkel. De strides tellen niet als marathonpace-minuten en zijn geen volwaardige intervaltraining.
 
 ### Training 4 — Lange easy
 **18,71 km · 110 min**
@@ -377,7 +387,7 @@ Deze week blijft bewust relatief rustig. De echte overload begint pas nadat Texe
 # 12. WEEK 41 — Overload 1 + MP Confidence #1
 ## 5 t/m 11 oktober
 
-**Weekvolume:** **65,16 km**  
+**Weekvolume:** **65,42 km**  
 **Looptrainingen:** 5  
 **Aanbevolen patroon:** di – wo – do – za – zo
 
@@ -401,12 +411,22 @@ Deze week blijft bewust relatief rustig. De echte overload begint pas nadat Texe
 - 35 min @10,3;
 - 5 min @9,0.
 
-### Training 3 — Middellange Zone 2 — VERLENGD
-**15,54 km · 90 min**
+### Training 3 — Middellange Zone 2 + controlled fast
+**15,81 km · 90 min**
 
 - 5 min @9,5;
-- **80 min @10,5**;
+- 45 min @10,5;
+- 3 min @12,7;
+- 2 min @9,5;
+- 3 min @12,7;
+- 2 min @9,5;
+- 3 min @12,7;
+- 22 min @10,5;
 - 5 min @9,0.
+
+**Doel:** 9 minuten controlled-fast werk boven marathonpace toevoegen zonder een tweede zware kwaliteitstraining te creëren.
+
+**RPE controlled fast:** circa 7, maximaal circa 8 aan het einde. Als 12,7 km/u die dag duidelijk richting maximale inspanning gaat, gebruik dan 12,6 km/u. Dit is controlled fast, geen marathonpace en geen maximale intervaltraining.
 
 **Kracht:** **Sessie B** na het lopen.
 
@@ -835,7 +855,7 @@ Geprogrammeerde MP vóór de marathon:
 
 **Totaal: circa 328 minuten MP = 5 uur 28 min.**
 
-De extra V3-belasting komt dus **niet** uit nóg meer MP, maar uit extra gecontroleerde Zone 2.
+De extra V3-belasting komt dus **niet** uit nóg meer MP. Het zwaartepunt blijft extra gecontroleerde Zone 2, aangevuld met een kleine ondersteunende prikkel boven marathonpace in W40 en W41.
 
 ---
 
@@ -844,8 +864,8 @@ De extra V3-belasting komt dus **niet** uit nóg meer MP, maar uit extra gecontr
 | Week | Work | FINAL V3 | Verschil |
 |---:|---:|---:|---:|
 | 39 | 53,23 | **53,23** | 0,00 |
-| 40 | 45,93 | **45,93** | 0,00 |
-| 41 | 59,14 | **65,16** | **+6,02 km** |
+| 40 | 45,93 | **45,94** | +0,01 km |
+| 41 | 59,14 | **65,42** | **+6,28 km** |
 | 42 | 66,77 | **72,22** | **+5,45 km** |
 | 43 | 73,63 | **77,73** | **+4,10 km** |
 | 44 | 65,39 | **68,28** | **+2,89 km** |
@@ -854,8 +874,8 @@ De extra V3-belasting komt dus **niet** uit nóg meer MP, maar uit extra gecontr
 | 47 vóór race | 14,76 | **14,01** | -0,75 km |
 
 **Work totaal W39–W47 vóór marathon (som van de afgeronde weektotalen hierboven):** circa **465,33 km**  
-**FINAL V3:** circa **483,38 km**  
-**Toename:** circa **+18,05 km / +3,9%**
+**FINAL V3:** circa **483,65 km**  
+**Toename:** circa **+18,32 km / +3,9%**
 
 De verhoging is dus nog steeds beperkt in totaalvolume, maar zit doelgericht op de plekken waar hij het meeste marathonnut heeft.
 
@@ -871,18 +891,22 @@ De verhoging is dus nog steeds beperkt in totaalvolume, maar zit doelgericht op 
 
 Resultaat:
 
-- W41: 63,41 → **65,16 km**
+- W41: 63,41 → **65,42 km**
 - W42: 70,47 → **72,22 km**
 - W43: 75,98 → **77,73 km**
 
-## 2. Geen extra interval
+## 2. Boven-marathonpace blijft ondersteunend
 
-Controlled-fast werk blijft beperkt tot:
+Controlled-fast werk en korte versnellingen worden spaarzaam ingezet:
 
+- W40: alleen bij volledig herstel 4 × 20 sec ontspannen strides binnen de bestaande 55 minuten;
+- W41: 3 × 3 min controlled fast binnen de bestaande 90 minuten;
 - W42: 4 × 6 min @12,7;
 - W44: 3 × 4 min @12,7.
 
-Er wordt geen extra VO2max- of thresholdsessie toegevoegd.
+Controlled-fast werk wordt spaarzaam ingezet om enige snelheidsreserve boven marathonpace te behouden en te ontwikkelen. Het doel is niet om van het marathonblok een 10 km- of VO2max-programma te maken. Marathonfitness blijft primair voortkomen uit veel gecontroleerde aerobe arbeid, marathonpace onder toenemende vermoeidheid en succesvolle verwerking van de lange trainingen.
+
+Boven-MP-werk blijft ondersteunend en mag nooit ten koste gaan van key long runs of herstel. Er wordt bewust geen zesde loopdag toegevoegd; de hoogste effectieve belasting die goed verwerkt kan worden blijft belangrijker dan maximale trainingsbelasting.
 
 ## 3. Geen extra MP
 

@@ -5,12 +5,12 @@ zondag 22 november 2026.
 
 ## Actieve versie
 
-- App-versie: `2026.09.20-1`
-- Schemaversie: `marathon-3u30-final-v3-2026.09.20-1`
+- App-versie: `2026.09.25-1`
+- Schemaversie: `marathon-3u30-final-v3-2026.09.25-1`
 - Enige inhoudelijke bron: `marathonschema_Roy_FINAL_V3_3u30_2026.md`
 - Gegenereerde appdata: `training-data.js`
 - Opslagkey: `marathon330TrainingAppData_v1`
-- Dataversie: `6`
+- Dataversie: `7`
 
 Genereer de trainingsdata opnieuw met:
 
@@ -28,8 +28,8 @@ loopdag en telt niet mee als extra looptraining of kilometers.
 De centrale bronwaarden zijn:
 
 - 39 trainingen vóór de marathon, plus de marathon;
-- circa 483,38 km vóór de marathon;
-- circa 525,58 km inclusief de marathon;
+- circa 483,65 km vóór de marathon;
+- circa 525,85 km inclusief de marathon;
 - 328 geprogrammeerde marathonpace-minuten vóór de race;
 - 0% als standaard loopbandhelling, tenzij de bron expliciet anders vermeldt;
 - geen Fitness Checks uit oudere versies.
@@ -59,8 +59,10 @@ blijven gekoppeld aan dezelfde berekende tijdlijn.
 Wijzig `marathon330TrainingAppData_v1` nooit zonder migratie. Bij de overgang
 naar FINAL V3 worden registraties van gewijzigde of verwijderde voorschriften
 niet aan een andere training gekoppeld. Ze worden bewaard onder
-`legacyData.finalV3Migration`. Ongewijzigde instellingen en overige lokale data
-blijven intact. De app gebruikt nergens `localStorage.clear()`.
+`legacyData.finalV3Migration`. De gerichte W40/W41-protocolwijziging gebruikt
+dezelfde bescherming via `legacyData.speedReserveMigration`. Ongewijzigde
+trainingen, instellingen en overige lokale data blijven intact. De app gebruikt
+nergens `localStorage.clear()`.
 
 Onleesbare opslag wordt niet overschreven. In dat geval blokkeert de app nieuwe
 saves en blijft de ruwe browserdata behouden.

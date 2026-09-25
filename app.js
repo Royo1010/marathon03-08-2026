@@ -1,10 +1,10 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "2026.09.20-1";
+  const APP_VERSION = "2026.09.25-1";
   // Keep this key stable. Preserve existing logs; migrate additions and protocol changes.
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
-  const APP_DATA_VERSION = 6;
+  const APP_DATA_VERSION = 7;
   const plan = window.MARATHON_PLAN;
   const model = window.MARATHON_MODEL;
   const notifications = window.MARATHON_NOTIFICATIONS;
@@ -187,11 +187,44 @@
     }
   }
 
+  function migrateSpeedReserveWorkouts(raw) {
+    const sourceSchema = raw.meta?.schemaVersion || "onbekend";
+    const currentById = new Map(workouts.map((workout) => [workout.workoutId, workout]));
+    const changedIds = new Set();
+    for (const [id, previous] of Object.entries(plan.previousWorkoutsV8 || {})) {
+      const current = currentById.get(id);
+      if (!current || previous.signature !== current.protocolSignature) changedIds.add(id);
+    }
+    for (const id of changedIds) {
+      const current = currentById.get(id);
+      const entry = {};
+      for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) {
+        if (isObject(raw[field]) && Object.hasOwn(raw[field], id)) entry[field] = raw[field][id];
+      }
+      const settings = raw.userSettings?.notificationSettings?.[id];
+      if (settings) entry.notificationSettings = settings;
+      if (Object.keys(entry).length) {
+        raw.legacyData = isObject(raw.legacyData) ? raw.legacyData : {};
+        raw.legacyData.speedReserveMigration ||= { sourceSchema, archivedAt: nowIso(), workouts: {} };
+        raw.legacyData.speedReserveMigration.workouts[id] ||= {
+          ...entry,
+          prescription: plan.previousWorkoutsV8?.[id] || null,
+          replacement: current || null,
+        };
+      }
+      for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) {
+        if (isObject(raw[field])) delete raw[field][id];
+      }
+      if (isObject(raw.userSettings?.notificationSettings)) delete raw.userSettings.notificationSettings[id];
+    }
+  }
+
   function migrateAppData(raw) {
     const empty = createEmptyAppData();
     if (!isObject(raw)) throw new Error("Opgeslagen data is geen app-object.");
     raw = JSON.parse(JSON.stringify(raw));
     if (Number(raw.appDataVersion || 0) < 6) migrateFinalV3Workouts(raw);
+    if (Number(raw.appDataVersion || 0) < 7) migrateSpeedReserveWorkouts(raw);
     const data = {
       ...empty,
       ...raw,
@@ -1562,7 +1595,7 @@
   function dashboardMetrics() {
     const programWorkouts = regularProgramWorkouts();
     const completedWorkouts = programWorkouts.filter((workout) => isCompleted(workout.workoutId));
-    const totalPlannedKm = weeks.reduce((total, week) => total + getWeekPlannedKm(week, false), 0);
+    const totalPlannedKm = Number(weeks.reduce((total, week) => total + getWeekPlannedKm(week, false), 0).toFixed(3));
     const totalCompletedKm = weeks.reduce((total, week) => total + getWeekCompletedKm(week, false), 0);
     const currentWeek = weeks[currentPlanWeekIndex()] || weeks[0];
     const weekly = weeks.map((week) => {
@@ -1591,7 +1624,7 @@
       distanceProgress: totalPlannedKm ? Math.min(100, Math.round((totalCompletedKm / totalPlannedKm) * 100)) : 0,
       averageCompletedKm: completedWorkouts.length ? totalCompletedKm / completedWorkouts.length : 0,
       activeCompletedWeeks: weekly.filter((week) => week.completedKm > 0).length,
-      scheduledPlannedKm: weekly.reduce((total, week) => total + week.plannedKm, 0),
+      scheduledPlannedKm: Number(weekly.reduce((total, week) => total + week.plannedKm, 0).toFixed(3)),
       scheduledCompletedKm: weekly.reduce((total, week) => total + week.completedKm, 0),
       weekly,
       currentWeek,
