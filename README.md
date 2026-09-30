@@ -5,12 +5,12 @@ zondag 22 november 2026.
 
 ## Actieve versie
 
-- App-versie: `2026.09.25-3`
-- Schemaversie: `marathon-3u30-final-v3-2026.09.25-3`
-- Enige inhoudelijke bron: `marathonschema_Roy_FINAL_V3_UPDATED_2026-09-25.md`
+- App-versie: `2026.09.30-1`
+- Schemaversie: `marathon-3u30-final-v4-garmin-outdoor-2026.09.30-1`
+- Enige inhoudelijke bron: `marathonschema_Roy_FINAL_V4_GARMIN_OUTDOOR_2026-09-30.md`
 - Gegenereerde appdata: `training-data.js`
 - Opslagkey: `marathon330TrainingAppData_v1`
-- Dataversie: `9`
+- Dataversie: `10`
 
 Genereer de trainingsdata opnieuw met:
 
@@ -18,10 +18,12 @@ Genereer de trainingsdata opnieuw met:
 node scripts/generate-marathon-plan.mjs
 ```
 
-## FINAL V3
+## FINAL V4 Garmin / Outdoor
 
-Het actieve schema bevat week 39 tot en met week 47. Week 39–44 gebruikt een
-flexibele sessievolgorde; week 45–47 volgt vaste kalenderdagen en toont ook
+Het actieve schema bevat week 39 tot en met week 47. Week 39 blijft als
+historische week staan. Vanaf week 40 is Outdoor / Garmin de standaarduitvoering
+en blijft Loopband als gelijkwaardig alternatief beschikbaar. Week 40–44 gebruikt
+een flexibele sessievolgorde; week 45–47 volgt vaste kalenderdagen en toont ook
 rustdagen. Krachttraining A, B, A-light en B-light is onderdeel van de relevante
 loopdag en telt niet mee als extra looptraining of kilometers.
 
@@ -54,18 +56,17 @@ De timer ondersteunt pauzeren, hervatten en stoppen. Screen Wake Lock wordt als
 progressive enhancement gebruikt. Trainingsmeldingen en de bestaande pushserver
 blijven gekoppeld aan dezelfde berekende tijdlijn.
 
-Pure Easy- en Recovery-sessies openen standaard als een rustige buitenuitvoering
-voor het Máximapark. Afstand, RPE en praattempo zijn daar leidend. Wanneer de
-FINAL V3-bron exacte snelheden geeft, blijft dezelfde sessie via
-`Loopbandvariant` beschikbaar met de oorspronkelijke minuten en snelheden.
-Marathonpace, controlled fast, gestructureerde strides en ander precisiewerk
-blijven standaard op de loopband. Expliciet buiten geplande sleutelruns blijven
-buiten.
+Workoutdetails openen vanaf week 40 standaard met een rechtstreeks
+programmeerbare Garmin Setup. Easy-, recovery- en lange rustige sessies gebruiken
+hartslagzones zonder verzonnen numerieke grenzen. Marathonpace en controlled fast
+gebruiken de pace-ranges uit FINAL V4; korte strides blijven Open / Free. Via de
+segmented control blijft dezelfde sessie beschikbaar als volledige
+loopbandvariant met de bestaande Focus Mode, timer en meldingen.
 
 ## Opslag en migratie
 
 Wijzig `marathon330TrainingAppData_v1` nooit zonder migratie. Bij de overgang
-naar FINAL V3 worden registraties van gewijzigde of verwijderde voorschriften
+naar FINAL V3 werden registraties van gewijzigde of verwijderde voorschriften
 niet aan een andere training gekoppeld. Ze worden bewaard onder
 `legacyData.finalV3Migration`. De gerichte W40/W41-protocolwijziging gebruikt
 dezelfde bescherming via `legacyData.speedReserveMigration`. De eerdere vijf
@@ -94,7 +95,7 @@ Publiceer samen: `index.html`, `style.css`, `app.js`, `training-data.js`,
 node --test tests/*.test.mjs push-server/tests/*.test.mjs
 ```
 
-De tests controleren de FINAL V3-bron, alle weken en sessies, week- en
+De tests controleren de FINAL V4-bron, alle weken en sessies, week- en
 programmatotalen, flexibele versus kalenderplanning, krachtkoppelingen, voeding,
 schoenen, confidence-sessies, Today/Week/Schema/Fases/Statistiek, opslagmigratie,
-Loopbandmodus, meldingen en PWA-paden.
+Loopbandmodus, Garmin Setup, repeatlogica, meldingen en PWA-paden.

@@ -655,6 +655,281 @@ button:disabled {
   font-size: 11px;
 }
 
+.execution-mode-switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  margin-bottom: 10px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #0c1118;
+}
+
+.execution-mode-switch button {
+  min-height: 44px;
+  padding: 9px 8px;
+  border: 1px solid transparent;
+  border-radius: calc(var(--radius) - 2px);
+  color: var(--muted);
+  background: transparent;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.execution-mode-switch button.is-active {
+  border-color: rgba(77, 145, 229, 0.58);
+  color: #eef7ff;
+  background: rgba(40, 104, 176, 0.42);
+}
+
+.garmin-setup,
+.treadmill-detail-panel {
+  overflow: hidden;
+  margin-bottom: 4px;
+  border: 1px solid rgba(77, 145, 229, 0.36);
+  border-radius: var(--radius);
+  background: var(--panel-soft);
+}
+
+.garmin-setup-heading,
+.treadmill-detail-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 13px;
+  border-bottom: 1px solid var(--border);
+}
+
+.garmin-setup-heading span,
+.treadmill-detail-heading span {
+  color: var(--accent);
+  font-size: 9px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.garmin-setup-heading strong,
+.treadmill-detail-heading strong {
+  color: var(--text);
+  font-size: 14px;
+}
+
+.garmin-setup-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  padding: 11px 12px 0;
+}
+
+.garmin-setup-metrics > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  background: #10161e;
+}
+
+.garmin-race-setup .garmin-setup-metrics > div:last-child {
+  grid-column: 1 / -1;
+}
+
+.garmin-setup-metrics span,
+.garmin-program-summary span {
+  color: var(--muted-soft);
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.garmin-setup-metrics strong {
+  color: var(--text);
+  font-size: 17px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.garmin-purpose,
+.garmin-zone-note,
+.garmin-reference-note {
+  margin: 0;
+  padding: 11px 13px 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.garmin-purpose strong,
+.garmin-zone-note strong {
+  color: var(--text);
+}
+
+.garmin-zone-note {
+  margin: 10px 12px 0;
+  padding: 9px 10px;
+  border-left: 2px solid rgba(77, 145, 229, 0.7);
+  background: rgba(29, 40, 54, 0.5);
+}
+
+.garmin-steps {
+  display: grid;
+  gap: 7px;
+  padding: 12px;
+}
+
+.garmin-step {
+  display: grid;
+  grid-template-columns: 28px minmax(76px, 0.8fr) minmax(118px, 1.2fr);
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  padding: 9px;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  background: #10161e;
+}
+
+.garmin-step-number {
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+}
+
+.garmin-step-main,
+.garmin-step-target {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.garmin-step-main strong,
+.garmin-step-target strong {
+  color: var(--text);
+  font-size: 11px;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.garmin-step-main span,
+.garmin-step p {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.garmin-step p {
+  grid-column: 2 / -1;
+  margin: 0;
+}
+
+.garmin-target {
+  width: fit-content;
+  max-width: 100%;
+  padding: 3px 6px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  color: var(--muted);
+  background: var(--panel-raised);
+  font-size: 8px;
+  font-weight: 850;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.garmin-target.tone-pace { border-color: rgba(77, 145, 229, 0.58); color: #acd2ff; }
+.garmin-target.tone-hr { border-color: rgba(82, 165, 139, 0.46); color: #a8d8c8; }
+
+.garmin-repeat {
+  overflow: hidden;
+  border: 1px solid rgba(77, 145, 229, 0.42);
+  border-radius: calc(var(--radius) - 1px);
+}
+
+.garmin-repeat .garmin-step {
+  margin: 7px;
+}
+
+.garmin-repeat-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.garmin-repeat-heading strong { color: var(--accent); font-size: 12px; }
+
+.garmin-repeat-note {
+  margin: 0;
+  padding: 0 9px 9px;
+  color: var(--muted-soft);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.garmin-program-summary {
+  display: grid;
+  gap: 5px;
+  margin: 0 12px 12px;
+  padding: 10px;
+  border-left: 2px solid var(--accent);
+  background: rgba(29, 40, 54, 0.62);
+}
+
+.garmin-program-summary strong {
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.garmin-reference-note { padding: 0 13px 12px; }
+
+.garmin-race-guidance {
+  margin: 12px 13px;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.garmin-race-guidance li + li { margin-top: 5px; }
+
+.treadmill-detail-panel { padding-bottom: 12px; }
+.treadmill-detail-panel .segment-groups { padding: 12px; }
+
+.open-focus-mode {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: calc(100% - 24px);
+  min-height: 44px;
+  margin: 0 12px;
+  padding: 9px 11px;
+  border: 1px solid rgba(77, 145, 229, 0.58);
+  border-radius: var(--radius);
+  color: #e9f3ff;
+  background: rgba(40, 104, 176, 0.38);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
 .detail-section {
   padding: 13px 0;
   border-bottom: 1px solid rgba(43, 53, 66, 0.72);

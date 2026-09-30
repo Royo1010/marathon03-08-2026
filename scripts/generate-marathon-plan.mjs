@@ -1,15 +1,16 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const input = process.argv[2] || "marathonschema_Roy_FINAL_V3_UPDATED_2026-09-25.md";
+const input = process.argv[2] || "marathonschema_Roy_FINAL_V4_GARMIN_OUTDOOR_2026-09-30.md";
 const output = process.argv[3] || "training-data.js";
 const source = fs.readFileSync(input, "utf8").replace(/\r/g, "");
 const previousWorkoutsV7 = JSON.parse(fs.readFileSync(new URL("./previous-workouts-v7.json", import.meta.url), "utf8"));
 const previousWorkoutsV8 = JSON.parse(fs.readFileSync(new URL("./previous-workouts-v8.json", import.meta.url), "utf8"));
 const previousWorkoutsV9 = JSON.parse(fs.readFileSync(new URL("./previous-workouts-v9.json", import.meta.url), "utf8"));
 const previousWorkoutsV10 = JSON.parse(fs.readFileSync(new URL("./previous-workouts-v10.json", import.meta.url), "utf8"));
-const SCHEMA_VERSION = "marathon-3u30-final-v3-2026.09.25-3";
-const PLAN_ID = "marathon-3u30-final-v3-2026";
+const previousWorkoutsV11 = JSON.parse(fs.readFileSync(new URL("./previous-workouts-v11.json", import.meta.url), "utf8"));
+const SCHEMA_VERSION = "marathon-3u30-final-v4-garmin-outdoor-2026.09.30-1";
+const PLAN_ID = "marathon-3u30-final-v4-2026";
 const nl = (value, digits = 2) => Number(value).toLocaleString("nl-NL", { minimumFractionDigits: digits, maximumFractionDigits: digits });
 const displayDuration = (minutes) => {
   const seconds = Math.round(minutes * 60);
@@ -17,6 +18,190 @@ const displayDuration = (minutes) => {
   if (seconds < 60) return `${seconds} sec`;
   return `${Math.floor(seconds / 60)} min ${seconds % 60} sec`;
 };
+
+const cleanMarkdown = (value) => String(value || "")
+  .replace(/\*\*/g, "")
+  .replace(/`/g, "")
+  .replace(/<br\s*\/?\s*>/gi, " ")
+  .replace(/\s+/g, " ")
+  .trim();
+
+const parseDutchNumber = (value) => Number(String(value).replace(",", "."));
+
+function parseStepDuration(stepText) {
+  const text = cleanMarkdown(stepText);
+  const repeat = text.match(/^(\d+)\s*[×x]\s*(\d+(?:[.,]\d+)?)\s*(min|sec)\b/i);
+  const clock = text.match(/(\d+):(\d{2})\b/);
+  const plain = text.match(/(\d+(?:[.,]\d+)?)\s*(min|sec)\b/i);
+  const value = repeat ? parseDutchNumber(repeat[2]) : plain ? parseDutchNumber(plain[1]) : null;
+  const unit = repeat ? repeat[3].toLowerCase() : plain ? plain[2].toLowerCase() : null;
+  const durationSeconds = clock
+    ? Number(clock[1]) * 60 + Number(clock[2])
+    : value != null
+      ? Math.round(value * (unit === "min" ? 60 : 1))
+      : null;
+  return {
+    durationSeconds,
+    repetitions: repeat ? Number(repeat[1]) : 1,
+    relation: /^tussen blokken/i.test(text) ? "between" : /^na elke/i.test(text) ? "after-each" : "single",
+    display: text,
+  };
+}
+
+function parseMarkdownTable(section, heading, columns) {
+  const start = section.indexOf(heading);
+  if (start === -1) return [];
+  const tail = section.slice(start + heading.length);
+  const nextHeading = tail.search(/^### |^---$/m);
+  const block = nextHeading === -1 ? tail : tail.slice(0, nextHeading);
+  return block.split("\n")
+    .filter((line) => /^\|.*\|\s*$/.test(line.trim()))
+    .map((line) => line.trim().slice(1, -1).split("|").map(cleanMarkdown))
+    .filter((cells) => cells.length >= columns && cells[0] !== "Stap" && !/^[-:]+$/.test(cells[0]));
+}
+
+function parseGarminTarget(rawTarget) {
+  const target = cleanMarkdown(rawTarget);
+  if (/^HR\b/i.test(target)) {
+    return { targetType: "Heart Rate", targetValue: target.replace(/^HR\s*/i, "") };
+  }
+  if (/^Pace\b/i.test(target)) {
+    return { targetType: "Pace", targetValue: target.replace(/^Pace\s*/i, "") };
+  }
+  if (/geen pace-target/i.test(target)) {
+    return { targetType: "Open / Free", targetValue: "Geen pace-alert" };
+  }
+  return { targetType: "Open / Free", targetValue: target.replace(/^Vrij\s*\/?\s*/i, "") || "Vrij" };
+}
+
+function garminStepName(target, cue, relation = "single") {
+  const text = `${target} ${cue}`.toLowerCase();
+  if (relation !== "single" || /herstel/.test(text)) return "Herstel";
+  if (/warming-up|rustig starten/.test(text)) return "Warming-up";
+  if (/uitlopen|cooldown/.test(text)) return "Cooling-down";
+  if (/stride|versnell/.test(text)) return "Stride";
+  if (/controlled fast/.test(text)) return "Controlled fast";
+  if (/marathonpace|\bmp\b|4:53/.test(text)) return "Marathonpace";
+  if (/opbouw|geleidelijk/.test(text)) return "Opbouw";
+  if (/zone 1/.test(text)) return "Recovery";
+  if (/zone 2/.test(text)) return "Zone 2";
+  return "Vrij lopen";
+}
+
+function workoutSectionsFromV4(markdown) {
+  const sections = new Map();
+  for (let weekNumber = 40; weekNumber <= 47; weekNumber += 1) {
+    const weekStart = markdown.search(new RegExp(`^# WEEK ${weekNumber}\\b`, "m"));
+    if (weekStart === -1) throw new Error(`W${weekNumber} ontbreekt in FINAL V4`);
+    const afterStart = markdown.slice(weekStart + 1);
+    const nextWeekOffset = afterStart.search(/^# (?:WEEK|MARATHON)\b/m);
+    const weekBlock = nextWeekOffset === -1 ? markdown.slice(weekStart) : markdown.slice(weekStart, weekStart + 1 + nextWeekOffset);
+    const headings = [...weekBlock.matchAll(/^## ([^\n]+)\n/gm)];
+    let trainingNumber = 0;
+    for (let index = 0; index < headings.length; index += 1) {
+      const bodyStart = headings[index].index + headings[index][0].length;
+      const bodyEnd = index + 1 < headings.length ? headings[index + 1].index : weekBlock.length;
+      const body = weekBlock.slice(bodyStart, bodyEnd);
+      if (!body.includes("### Outdoor / Garmin — standaard")) continue;
+      trainingNumber += 1;
+      sections.set(`marathon-3u30-w${weekNumber}-t${trainingNumber}`, { heading: cleanMarkdown(headings[index][1]), body });
+    }
+  }
+  return sections;
+}
+
+const v4WorkoutSections = workoutSectionsFromV4(source);
+
+function makeGarminSegment(workoutId, index, row) {
+  const duration = parseStepDuration(row[0]);
+  const target = parseGarminTarget(row[1]);
+  return {
+    segmentId: `${workoutId}-garmin-s${String(index + 1).padStart(2, "0")}`,
+    name: garminStepName(row[1], row[2], duration.relation),
+    // A repeat header already shows the repetition count. Keep each nested
+    // Garmin step to its per-repetition duration so it can be copied directly.
+    display: duration.repetitions > 1
+      ? duration.display.replace(/^\d+\s*[x×]\s*/i, "")
+      : duration.display,
+    durationSeconds: duration.durationSeconds,
+    targetType: target.targetType,
+    targetValue: target.targetValue,
+    cue: cleanMarkdown(row[2]),
+    isRecovery: duration.relation !== "single",
+  };
+}
+
+function buildGarminGroups(workoutId, rows) {
+  const groups = [];
+  let segmentIndex = 0;
+  for (let index = 0; index < rows.length; index += 1) {
+    const row = rows[index];
+    const duration = parseStepDuration(row[0]);
+    const work = makeGarminSegment(workoutId, segmentIndex++, row);
+    if (duration.repetitions > 1) {
+      const recoveryRow = rows[index + 1];
+      const recoveryDuration = recoveryRow ? parseStepDuration(recoveryRow[0]) : null;
+      const hasRecovery = recoveryDuration && recoveryDuration.relation !== "single";
+      const segments = [work];
+      if (hasRecovery) {
+        segments.push(makeGarminSegment(workoutId, segmentIndex++, recoveryRow));
+        index += 1;
+      }
+      groups.push({
+        groupId: `${workoutId}-garmin-g${groups.length + 1}`,
+        kind: "repeat",
+        label: `${duration.repetitions}× ${work.name}`,
+        repetitions: duration.repetitions,
+        omitRecoveryAfterLast: hasRecovery && recoveryDuration.relation === "between",
+        segments,
+      });
+    } else {
+      groups.push({ groupId: `${workoutId}-garmin-g${groups.length + 1}`, kind: "sequence", label: work.name, repetitions: 1, segments: [work] });
+    }
+  }
+  return groups;
+}
+
+function garminDurationSeconds(groups) {
+  return groups.reduce((sum, group) => {
+    if (group.kind !== "repeat") return sum + (group.segments[0]?.durationSeconds || 0);
+    const repeated = group.segments.reduce((subtotal, segment) => subtotal + (segment.durationSeconds || 0), 0) * group.repetitions;
+    const omitted = group.omitRecoveryAfterLast ? group.segments.at(-1)?.durationSeconds || 0 : 0;
+    return sum + repeated - omitted;
+  }, 0);
+}
+
+function parseTreadmillSpeed(raw) {
+  const values = [...cleanMarkdown(raw).matchAll(/\d+(?:[.,]\d+)?/g)].map((match) => parseDutchNumber(match[0]));
+  if (!values.length) return null;
+  return { min: Math.min(...values), max: Math.max(...values) };
+}
+
+function expandedTreadmillRows(rows) {
+  const result = [];
+  for (let index = 0; index < rows.length; index += 1) {
+    const duration = parseStepDuration(rows[index][0]);
+    const speed = parseTreadmillSpeed(rows[index][1]);
+    const incline = parseDutchNumber(cleanMarkdown(rows[index][2]).replace("%", ""));
+    const entry = { durationSeconds: duration.durationSeconds, speed, incline };
+    if (duration.repetitions > 1) {
+      const recoveryRow = rows[index + 1];
+      const recoveryDuration = recoveryRow ? parseStepDuration(recoveryRow[0]) : null;
+      const hasRecovery = recoveryDuration && recoveryDuration.relation !== "single";
+      const recovery = hasRecovery ? {
+        durationSeconds: recoveryDuration.durationSeconds,
+        speed: parseTreadmillSpeed(recoveryRow[1]),
+        incline: parseDutchNumber(cleanMarkdown(recoveryRow[2]).replace("%", "")),
+      } : null;
+      if (hasRecovery) index += 1;
+      for (let repeat = 1; repeat <= duration.repetitions; repeat += 1) {
+        result.push(entry);
+        if (recovery && (recoveryDuration.relation === "after-each" || repeat < duration.repetitions)) result.push(recovery);
+      }
+    } else result.push(entry);
+  }
+  return result;
+}
 const T = (minutes, speedKmh, type, instruction = "") => ({ basis: "time", durationSeconds: Math.round(minutes * 60), display: displayDuration(minutes), speedKmh, inclinePercent: 0, type, instruction });
 const O = (minutes, type, instruction = "", speedKmh = null) => ({ basis: "time", durationSeconds: Math.round(minutes * 60), display: displayDuration(minutes), speedKmh, inclinePercent: null, type, instruction });
 const D = (distanceKm, type, instruction = "", speedKmh = null) => ({ basis: "distance", distanceKm, display: `${nl(distanceKm, distanceKm === 21.1 ? 1 : distanceKm === 42.195 ? 3 : 2)} km`, speedKmh, inclinePercent: null, type, instruction });
@@ -83,7 +268,7 @@ const weekSpecs = [
   { number: 39, dates: ["2026-09-21", "2026-09-27"], period: "21 t/m 27 september 2026", type: "TEXEL / BUILD", phase: "texel-build", focus: "Texel integreren, ritme houden en gecontroleerd marathonpace trainen", km: 53.23, planningMode: "flexible", pattern: "Praktisch: ma – wo – vr – zo vanwege Texel", workouts: [
     { title: "Rustige duur", category: "rustige-duur", tone: "easy", labels: ["ZONE 2", "LOOPBAND"], distanceKm: 11.08, durationLabel: "65 min", strength: "A-light", goal: "Rustige aerobe duur opbouwen zonder de Texel-week onnodig zwaar te maken.", rpe: "3–4", segments: [T(5,9.5,"warming-up"),T(55,10.4,"easy"),T(5,9,"cooling-down")] },
     { title: "2 × 12 min MP", category: "kwaliteit", tone: "mp", labels: ["MARATHONPACE", "LOOPBAND"], distanceKm: 10.65, durationLabel: "60 min", goal: "Twee beheerste marathonpaceblokken lopen met volledig herstel onder controle.", rpe: "5–7", segments: [T(10,9.5,"warming-up"),T(5,10.5,"steady"),T(12,12.1,"marathonpace"),T(3,9.5,"herstel"),T(12,12.1,"marathonpace"),T(8,10.3,"easy"),T(10,9,"cooling-down")] },
-    outdoorSimple({ title: "Easy buiten", category: "rustige-duur", tone: "easy", labels: ["EASY", "BUITEN"], distanceKm: 8.41, durationLabel: "50 min", goal: "Praattempo en ontspannen buitenritme bewaren.", rpe: "3–4", segments: [O(5,"warming-up","Rustig inlopen"),O(40,"easy","Easy op praattempo"),O(5,"cooling-down","Rustig uitlopen")] }, { treadmillVariantAvailable: false, locationNote: "Loop ongeveer 8,41 km buiten op comfortabel praattempo. Het FINAL V3-bronbestand bevat voor deze bewust buiten geplande run geen aparte numerieke loopbandvariant." }),
+    outdoorSimple({ title: "Easy buiten", category: "rustige-duur", tone: "easy", labels: ["EASY", "BUITEN"], distanceKm: 8.41, durationLabel: "50 min", goal: "Praattempo en ontspannen buitenritme bewaren.", rpe: "3–4", segments: [O(5,"warming-up","Rustig inlopen"),O(40,"easy","Easy op praattempo"),O(5,"cooling-down","Rustig uitlopen")] }, { treadmillVariantAvailable: false, locationNote: "Loop ongeveer 8,41 km buiten op comfortabel praattempo. Het historische bronschema bevat voor deze bewust buiten geplande run geen aparte numerieke loopbandvariant." }),
     { title: "Halve Marathon Texel", category: "lange-duur", tone: "race", labels: ["CONFIDENCE", "BUITENWEDSTRIJD"], surface: "buiten", date: "2026-09-27", weekday: "Zondag", distanceKm: 23.10, durationLabel: "afstandsgestuurd", confidence: true, fueling: true, goal: "Pacing, voeding en weggevoel oefenen zonder verplichte maximale sprint.", rpe: "5–6 start · 6–7 midden · maximaal 7–8 slot", mental: "Wedstrijdgevoel benutten zonder de rest van de cyclus te slopen.", nutrition: "Gebruik de marathonproducten en oefen timing en tolerantie.", segments: [D(1,"warming-up","Rustig inlopen"),D(21.1,"wedstrijd","Halve marathon volgens RPE-opbouw"),D(1,"cooling-down","Alleen uitlopen als de benen normaal voelen")] },
   ]},
   { number: 40, dates: ["2026-09-28", "2026-10-04"], period: "28 september t/m 4 oktober 2026", type: "RECOVERY / REBUILD", phase: "recovery-rebuild", focus: "Texel verwerken en alleen bij volledig herstel korte strides toevoegen", km: 45.94, planningMode: "flexible", pattern: "Volgorde en herstel zijn belangrijker dan vaste dagen", workouts: [
@@ -107,7 +292,7 @@ const weekSpecs = [
     { title: "MP-under-fatigue Confidence #2", category: "lange-duur", tone: "long", labels: ["MP-UNDER-FATIGUE CONFIDENCE #2", "MARATHONPACE"], distanceKm: 29.32, durationLabel: "165 min", confidence: true, fueling: true, fullFuelRehearsal: true, goal: "Na 110 minuten lopen nog 40 minuten onafgebroken doeltempo dragen.", rpe: "MP beheerst · geen maximale test", mental: "Onder vermoeidheid bewijs verzamelen zonder de cyclus te slopen.", segments: [T(10,9.5,"warming-up"),T(100,10.4,"easy"),T(40,12.1,"marathonpace"),T(5,10,"easy"),T(10,9,"cooling-down")] },
   ]},
   { number: 43, dates: ["2026-10-19", "2026-10-25"], period: "19 t/m 25 oktober 2026", type: "PIEKWEEK", phase: "peak", focus: "Volume-piek, buiten-MP en drie uur gecontroleerde duur", km: 77.73, mpMinutes: 50, planningMode: "flexible", pattern: "Aanbevolen: di – wo – do – za – zo", workouts: [
-    { title: "Outdoor MP Confidence #3", category: "kwaliteit", tone: "mp", labels: ["OUTDOOR MP CONFIDENCE #3", "BUITEN", "MARATHONPACE"], surface: "buiten", distanceKm: 14.04, durationLabel: "75 min", confidence: true, strength: "A-light", shoes: "Beoogde marathonschoenen", goal: "Zelf pacing rond 4:58/km dragen zonder bandsturing.", rpe: "einde idealiter maximaal 7", mental: "Marathonpace buiten beheersen zonder er een maximale test van te maken.", segments: [O(10,"warming-up","Rustig inlopen"),O(5,"steady","Geleidelijk opbouwen"),O(50,"marathonpace","Rond 4:58/km",12.1),O(10,"cooling-down","Rustig uitlopen")] },
+    { title: "Outdoor MP Confidence #3", category: "kwaliteit", tone: "mp", labels: ["OUTDOOR MP CONFIDENCE #3", "MARATHONPACE"], distanceKm: 14.04, durationLabel: "75 min", confidence: true, strength: "A-light", shoes: "Beoogde marathonschoenen", goal: "Zelf pacing rond 4:58/km dragen zonder bandsturing.", rpe: "einde idealiter maximaal 7", mental: "Marathonpace buiten beheersen zonder er een maximale test van te maken.", segments: [T(10,9.5,"warming-up","Rustig inlopen"),T(5,10.5,"steady","Geleidelijk opbouwen"),T(50,12.1,"marathonpace","Rond 4:58/km"),T(10,9,"cooling-down","Rustig uitlopen")] },
     outdoorSimple({ title: "Easy", category: "rustige-duur", tone: "easy", labels: ["EASY"], distanceKm: 8.41, durationLabel: "50 min", goal: "Ontspannen omvang tussen de sleutelprikkels.", rpe: "3–4", segments: [T(5,9.5,"warming-up"),T(40,10.3,"easy"),T(5,9,"cooling-down")] }),
     { title: "Middellange Zone 2", category: "rustige-duur", tone: "steady", labels: ["ZONE 2", "VERLENGD"], distanceKm: 18.17, durationLabel: "105 min", strength: "B-light", goal: "De hoogste aerobe weekomvang rationeel ondersteunen.", rpe: "3–4", segments: [T(5,9.5,"warming-up"),T(95,10.5,"easy"),T(5,9,"cooling-down")] },
     outdoorSimple({ title: "Recovery", category: "herstel", tone: "recovery", labels: ["RECOVERY"], distanceKm: 5.54, durationLabel: "35 min", goal: "Zeer lichte voorbereiding op de 30K Confidence Run.", rpe: "2–3", segments: [T(5,9.5,"warming-up"),T(25,9.6,"herstel"),T(5,9,"cooling-down")] }),
@@ -124,7 +309,7 @@ const weekSpecs = [
     { title: "35 min continue MP", category: "kwaliteit", tone: "mp", labels: ["MARATHONPACE", "LOOPBAND"], date: "2026-11-03", weekday: "Dinsdag", distanceKm: 11.88, durationLabel: "65 min", strength: "A-light", goal: "Laatste continue loopbandbevestiging van marathonpace.", rpe: "5–7", orderWarning: "Laatste beenkrachtsessie van het schema. Geen spierpijn najagen.", segments: [T(10,9.5,"warming-up"),T(5,10.5,"steady"),T(35,12.1,"marathonpace"),T(5,10.3,"easy"),T(10,9,"cooling-down")] },
     outdoorSimple({ title: "Easy", category: "rustige-duur", tone: "easy", labels: ["EASY"], date: "2026-11-04", weekday: "Woensdag", distanceKm: 6.69, durationLabel: "40 min", goal: "Ontspannen bewegen tijdens de taper.", rpe: "3–4", segments: [T(5,9.5,"warming-up"),T(30,10.3,"easy"),T(5,9,"cooling-down")] }),
     { title: "Aerobe duur", category: "rustige-duur", tone: "steady", labels: ["ZONE 2"], date: "2026-11-05", weekday: "Donderdag", distanceKm: 11.94, durationLabel: "70 min", goal: "Aerobe prikkel behouden zonder nieuwe vermoeidheid op te bouwen.", rpe: "3–4", segments: [T(5,9.5,"warming-up"),T(60,10.4,"easy"),T(5,9,"cooling-down")] },
-    { title: "Buiten long run met MP", category: "lange-duur", tone: "long", labels: ["LONG RUN", "BUITEN", "MARATHONPACE"], surface: "buiten", date: "2026-11-08", weekday: "Zondag", distanceKm: 21.24, durationLabel: "120 min", confidence: true, fueling: true, fullFuelRehearsal: true, shoes: "Trainingsschoenen; raceschoenen alleen als nog een laatste specifieke check nodig is", goal: "Laatste substantiële wegprikkel en duidelijke MP-bevestiging buiten.", rpe: "easy beheerst · MP rond doelritme", segments: [O(10,"warming-up","Rustig"),O(80,"easy","Easy rond 10,4 km/u-equivalent / praattempo",10.4),O(25,"marathonpace","Rond 4:58/km",12.1),O(5,"cooling-down","Uitlopen")] },
+    { title: "Buiten long run met MP", category: "lange-duur", tone: "long", labels: ["LONG RUN", "MARATHONPACE"], date: "2026-11-08", weekday: "Zondag", distanceKm: 21.24, durationLabel: "120 min", confidence: true, fueling: true, fullFuelRehearsal: true, shoes: "Trainingsschoenen; raceschoenen alleen als nog een laatste specifieke check nodig is", goal: "Laatste substantiële wegprikkel en duidelijke MP-bevestiging buiten.", rpe: "easy beheerst · MP rond doelritme", segments: [T(10,9.5,"warming-up","Rustig"),T(80,10.4,"easy","Praattempo"),T(25,12.1,"marathonpace","Rond 4:58/km"),T(5,9,"cooling-down","Uitlopen")] },
   ], rest: { "2026-11-02": "Herstellen van W44 heeft prioriteit. Wandelen en mobiliteit alleen ontspannen.", "2026-11-06": "Volledige looprust.", "2026-11-07": "Volledige looprust. Geen training toevoegen omdat de benen goed voelen." }},
   { number: 46, dates: ["2026-11-09", "2026-11-15"], period: "9 t/m 15 november 2026", type: "TAPER 2", phase: "taper-2", focus: "Volume verder verlagen en marathonritme scherp houden", km: 35.07, mpMinutes: 31, planningMode: "calendar", workouts: [
     { title: "2 × 8 min MP", category: "kwaliteit", tone: "mp", labels: ["MARATHONPACE"], date: "2026-11-10", weekday: "Dinsdag", distanceKm: 8.69, durationLabel: "50 min", goal: "Marathonpace kort en gecontroleerd onderhouden.", rpe: "5–6", segments: [T(10,9.5,"warming-up"),T(5,10.5,"steady"),T(8,12.1,"marathonpace"),T(3,9.5,"herstel"),T(8,12.1,"marathonpace"),T(6,10.3,"easy"),T(10,9,"cooling-down")] },
@@ -139,6 +324,71 @@ const weekSpecs = [
     { title: "Marathon", category: "wedstrijd", tone: "race", labels: ["RACE", "MARATHON"], surface: "buiten", date: "2026-11-22", weekday: "Zondag", distanceKm: 42.195, durationLabel: "doel 3:30:00", totalSeconds: 12600, goal: "3:30:00 of sneller met een gecontroleerde start en het volledig geoefende raceplan.", rpe: "wedstrijdinspanning", mental: "Geen tijd bankieren; pas in de slotfase versnellen als benen, ademhaling en techniek dat toelaten.", fueling: true, nutrition: "Circa 80 g koolhydraten per uur met SiS Beta Fuel Neutral en Bulk Electrolytes volgens de geoefende timing. Niets nieuws op racedag.", segments: [D(42.195,"wedstrijd","Buitenmarathon; gemiddeld 12,0557 km/u = 4:58,61/km",12.0557)] },
   ], rest: { "2026-11-16": "Volledige looprust.", "2026-11-18": "Geen looptraining.", "2026-11-20": "Volledige looprust." }},
 ];
+
+function attachV4Execution(workout) {
+  if (workout.weekNumber === 39) return workout;
+  workout.labels = [...new Set(workout.labels.filter((label) => !["LOOPBAND", "OUTDOOR", "BUITEN", "MÁXIMAPARK", "EASY / PRAATTEMPO"].includes(label)).concat("GARMIN"))];
+  workout.defaultExecutionMode = "garmin";
+  workout.outdoorSimpleMode = false;
+  workout.locationStatus = "Outdoor / Garmin standaard";
+  workout.outsideVariant = "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.";
+
+  if (workout.category === "wedstrijd") {
+    const raceStart = source.indexOf("# MARATHON — zondag 22 november 2026");
+    const raceEnd = source.indexOf("# 10. Marathonpace-volume", raceStart);
+    const raceBlock = source.slice(raceStart, raceEnd === -1 ? undefined : raceEnd);
+    const raceGuidance = [...raceBlock.matchAll(/^- (.+)$/gm)].map((match) => cleanMarkdown(match[1]));
+    workout.treadmillAvailable = false;
+    workout.treadmillVariantAvailable = false;
+    workout.garmin = {
+      isRacePlan: true,
+      totalSeconds: workout.totalPlannedSeconds,
+      referenceDistanceLabel: workout.estimatedDistanceLabel,
+      programSummary: "Lap pace / gemiddelde pace rond 4:58–4:59/km · gecontroleerd starten · geen tijd bankieren",
+      groups: [],
+      raceGuidance,
+    };
+    return workout;
+  }
+
+  const section = v4WorkoutSections.get(workout.workoutId);
+  if (!section) throw new Error(`Outdoor/Garmin-sectie ontbreekt: ${workout.workoutId}`);
+  const garminRows = parseMarkdownTable(section.body, "### Outdoor / Garmin — standaard", 3);
+  const treadmillRows = parseMarkdownTable(section.body, "### Loopband — alternatief", 3);
+  const summaryMatch = section.body.match(/\*\*Programmeer in Garmin als:\*\*\s*`([^`]+)`/);
+  if (!garminRows.length || !treadmillRows.length || !summaryMatch) throw new Error(`Onvolledige V4-uitvoering: ${workout.workoutId}`);
+
+  const garminGroups = buildGarminGroups(workout.workoutId, garminRows);
+  const garminSeconds = garminDurationSeconds(garminGroups);
+  if (garminSeconds !== workout.totalPlannedSeconds) {
+    throw new Error(`Garmin-duur wijkt af voor ${workout.workoutId}: ${garminSeconds} versus ${workout.totalPlannedSeconds}`);
+  }
+
+  const expectedTreadmill = expandedTreadmillRows(treadmillRows);
+  const actualTreadmill = workout.groups.flatMap((group) => group.segments || []);
+  if (expectedTreadmill.length !== actualTreadmill.length) {
+    throw new Error(`Aantal loopbandblokken wijkt af voor ${workout.workoutId}: ${expectedTreadmill.length} versus ${actualTreadmill.length}`);
+  }
+  expectedTreadmill.forEach((expected, index) => {
+    const actual = actualTreadmill[index];
+    const speedMatches = expected.speed && actual.speedKmh >= expected.speed.min - 0.0001 && actual.speedKmh <= expected.speed.max + 0.0001;
+    if (expected.durationSeconds !== actual.durationSeconds || !speedMatches || expected.incline !== actual.inclinePercent) {
+      throw new Error(`Loopbandblok ${index + 1} wijkt af voor ${workout.workoutId}`);
+    }
+    if (expected.speed.min !== expected.speed.max) actual.speedRangeKmh = [expected.speed.min, expected.speed.max];
+  });
+
+  workout.treadmillAvailable = true;
+  workout.treadmillVariantAvailable = true;
+  workout.garmin = {
+    sourceHeading: section.heading,
+    totalSeconds: garminSeconds,
+    referenceDistanceLabel: workout.estimatedDistanceLabel,
+    programSummary: cleanMarkdown(summaryMatch[1]),
+    groups: garminGroups,
+  };
+  return workout;
+}
 
 const weekday = (iso) => new Date(`${iso}T12:00:00`).toLocaleDateString("nl-NL", { weekday: "long" });
 const titleCase = (value) => value.charAt(0).toUpperCase() + value.slice(1);
@@ -155,7 +405,7 @@ const dateRange = (start, end) => {
 };
 
 const weeks = weekSpecs.map((spec) => {
-  const workouts = spec.workouts.map((workout, index) => makeWorkout(spec.number, index + 1, workout));
+  const workouts = spec.workouts.map((workout, index) => attachV4Execution(makeWorkout(spec.number, index + 1, workout)));
   workouts.forEach((workout) => {
     workout.weekId = `marathon-3u30-w${spec.number}`;
     workout.dateLabel = workout.date ? `${titleCase(weekday(workout.date))} ${Number(workout.date.slice(-2))} ${new Date(`${workout.date}T12:00:00`).toLocaleDateString("nl-NL", { month: "long" })}` : spec.period;
@@ -177,22 +427,22 @@ const weeks = weekSpecs.map((spec) => {
 });
 
 const phases = weekSpecs.map((spec, index) => ({ phaseId: spec.phase, name: spec.type, shortName: spec.type, number: index + 1, startWeek: spec.number, endWeek: spec.number, startDate: spec.dates[0], endDate: spec.dates[1], description: spec.focus }));
-const sourceWeekTotals = Object.fromEntries([...source.matchAll(/^\|\s*(39|40|41|42|43|44|45|46|47 vóór race)\s*\|[^\n]*?\*\*([\d,]+)\*\*/gm)].map((match) => [Number(match[1].match(/\d+/)[0]), Number(match[2].replace(",", "."))]));
-for (const week of weeks) if (sourceWeekTotals[week.weekNumber] !== week.plannedDistanceKm) throw new Error(`Weektotaal wijkt af van FINAL V3: W${week.weekNumber}`);
-if (!source.includes("# Marathonschema Roy — FINAL V3") || !source.includes("Totaal: circa 328 minuten MP")) throw new Error("Onverwachte FINAL V3-bron");
+const sourceWeekTotals = Object.fromEntries([...source.matchAll(/^\|\s*(39|40|41|42|43|44|45|46|47)\s*\|[^|]*\|\s*(?:\*\*)?([\d,]+)/gm)].map((match) => [Number(match[1]), Number(match[2].replace(",", "."))]));
+for (const week of weeks) if (sourceWeekTotals[week.weekNumber] !== week.plannedDistanceKm) throw new Error(`Weektotaal wijkt af van FINAL V4: W${week.weekNumber}`);
+if (!source.includes("# Marathonschema Roy — FINAL V4 — Garmin / Outdoor Edition") || !source.includes("Totaal: circa 328 minuten MP")) throw new Error("Onverwachte FINAL V4-bron");
 const preRaceTotal = weeks.reduce((sum, week) => sum + week.plannedDistanceBeforeRaceKm, 0);
 if (preRaceTotal.toFixed(2) !== "483.65") throw new Error(`Onjuist programmatotaal: ${preRaceTotal}`);
 
 const plan = {
-  config: { planId: PLAN_ID, planVersion: 11, schemaVersion: SCHEMA_VERSION, sourceFile: path.basename(input), planName: "Marathonschema 3:30", planSubtitle: "FINAL V3 · maximaal progressief, maar rationeel", startDate: "2026-09-21", endDate: "2026-11-22", marathonDate: "2026-11-22", targetTime: "3:30:00", targetPace: "4:58,61/km", targetSpeedKmh: 12.0557, practicalMarathonSpeedKmh: 12.1, trainingFrequency: "4–5", primarySurface: "loopbandprecisie en rustige buitenruns", plannedKmBeforeRace: 483.65, plannedKmIncludingRace: 525.845, programmedMpMinutes: 328 },
-  phases, weeks, sourceDiscrepancies: [], previousWorkoutsV7, previousWorkoutsV8, previousWorkoutsV9, previousWorkoutsV10, workoutAliases: {}, strengthDefinitions,
+  config: { planId: PLAN_ID, planVersion: 12, schemaVersion: SCHEMA_VERSION, sourceFile: path.basename(input), planName: "Marathonschema 3:30", planSubtitle: "FINAL V4 · Garmin / Outdoor Edition", startDate: "2026-09-21", endDate: "2026-11-22", marathonDate: "2026-11-22", targetTime: "3:30:00", targetPace: "4:58,61/km", targetSpeedKmh: 12.0557, practicalMarathonSpeedKmh: 12.1, trainingFrequency: "4–5", primarySurface: "Outdoor / Garmin, met volledige loopbandvariant", plannedKmBeforeRace: 483.65, plannedKmIncludingRace: 525.845, programmedMpMinutes: 328 },
+  phases, weeks, sourceDiscrepancies: [], previousWorkoutsV7, previousWorkoutsV8, previousWorkoutsV9, previousWorkoutsV10, previousWorkoutsV11, workoutAliases: {}, strengthDefinitions,
   guidance: {
-    philosophy: ["De hoogste effectieve trainingsbelasting die daadwerkelijk verwerkt kan worden, niet de hoogste belasting die op papier mogelijk is.", "Het zwaartepunt blijft liggen op aerobe duur, marathonpace en vermoeidheidsbestendigheid; marathonpace is met circa 328 minuten al ruim vertegenwoordigd.", "Controlled-fast werk wordt spaarzaam ingezet om enige snelheidsreserve boven marathonpace te behouden en te ontwikkelen. Het doel is niet om van het marathonblok een 10 km- of VO2max-programma te maken. Marathonfitness blijft primair voortkomen uit veel gecontroleerde aerobe arbeid, marathonpace onder toenemende vermoeidheid en succesvolle verwerking van de lange trainingen.", "Boven-MP-werk is ondersteunend en mag niet ten koste gaan van key long runs of herstel. Er wordt bewust geen zesde loopdag toegevoegd.", "Long runs zijn groot genoeg; er worden geen geforceerde 32–35 km-trainingen toegevoegd.", "Pure Easy- en Recovery-sessies worden bij voorkeur ontspannen buiten in het Máximapark gelopen. Afstand, RPE en praattempo zijn daar leidend; de exacte loopbandblokken blijven als variant beschikbaar wanneer de bron die numeriek voorschrijft.", "Marathonpace, controlled-fast werk, intervalblokken, gestructureerde strides en andere precisieprikkels blijven op de loopband. Expliciet buiten geplande sleuteltrainingen blijven buiten.", "Vanaf W45 is de taper kalendergestuurd en zijn rustdagen een verplicht onderdeel van het schema."],
+    philosophy: ["De hoogste effectieve trainingsbelasting die daadwerkelijk verwerkt kan worden, niet de hoogste belasting die op papier mogelijk is.", "Het zwaartepunt blijft liggen op aerobe duur, marathonpace en vermoeidheidsbestendigheid; marathonpace is met circa 328 minuten al ruim vertegenwoordigd.", "Controlled-fast werk wordt spaarzaam ingezet om enige snelheidsreserve boven marathonpace te behouden en te ontwikkelen. Het doel is niet om van het marathonblok een 10 km- of VO2max-programma te maken. Marathonfitness blijft primair voortkomen uit veel gecontroleerde aerobe arbeid, marathonpace onder toenemende vermoeidheid en succesvolle verwerking van de lange trainingen.", "Boven-MP-werk is ondersteunend en mag niet ten koste gaan van key long runs of herstel. Er wordt bewust geen zesde loopdag toegevoegd.", "Long runs zijn groot genoeg; er worden geen geforceerde 32–35 km-trainingen toegevoegd.", "Outdoor / Garmin is vanaf W40 de standaarduitvoering. Easy, recovery en lange easy worden primair op hartslagzone en gevoel gestuurd; marathonpace en controlled fast op pace.", "De volledige loopbandvariant blijft bij iedere niet-raceworkout beschikbaar met dezelfde duur, belasting en blokvolgorde.", "Vanaf W45 is de taper kalendergestuurd en zijn rustdagen een verplicht onderdeel van het schema."],
     surfaceStrategy: {
-      title: "Loopbandstrategie / Buitenlopen",
-      explanation: "Pure Easy- en Recovery-sessies zijn eenvoudige buitenruns in het Máximapark: afstand, RPE en ontspannen uitvoering zijn leidend. De loopband blijft de voorkeursplek voor trainingen waarin snelheid, helling en bloktiming precies moeten kloppen. Een expliciet buiten geplande sleutelrun blijft buiten.",
-      treadmill: ["Marathonpace, controlled-fast werk en intervallen", "Easy met gestructureerde strides", "Middellange en lange loopbandtrainingen volgens het bronschema"],
-      outside: ["Pure Easy- en Recovery-sessies in het Máximapark", "Halve Marathon Texel", "Outdoor MP Confidence #3", "Laatste buiten-long run met marathonpace"],
+      title: "Outdoor / Garmin en loopband",
+      explanation: "Outdoor / Garmin is de standaard. Easy, recovery en Zone 2 volgen buiten de bedoelde hartslagzone met praat- en RPE-check; MP en controlled fast volgen pace. De loopband blijft een volledig gelijkwaardige variant met concrete km/u, duur en 0% helling.",
+      treadmill: ["Bij iedere niet-raceworkout beschikbaar", "Exact dezelfde duur en blokvolgorde", "Concrete snelheid en helling per stap"],
+      outside: ["Heart Rate voor easy, recovery en Zone 2", "Pace voor marathonpace en controlled fast", "Open / Free voor warming-up, cooldown en korte strides"],
     },
     paces: [{ type: "Herstel", speed: "9,4–9,8 km/u", incline: "0%", rpe: "2–3" }, { type: "Easy / Zone 2", speed: "10,0–10,5 km/u", incline: "0%", rpe: "3–4" }, { type: "Lange easy", speed: "10,3–10,8 km/u", incline: "0%", rpe: "3–4, laat eventueel 5" }, { type: "Marathonpace", speed: "12,1 km/u", incline: "0%", rpe: "5–7" }, { type: "Controlled fast", speed: "12,4–12,8 km/u", incline: "0%", rpe: "7–8" }, { type: "Korte versnelling", speed: "circa 13,0 km/u", incline: "0%", rpe: "kort en soepel" }],
     rpeScale: [{ type: "Herstel", rpe: "2–3", feeling: "Zeer ontspannen." }, { type: "Easy / Zone 2", rpe: "3–4", feeling: "Volledige zinnen mogelijk; praattest is leidend." }, { type: "Marathonpace", rpe: "5–7", feeling: "Doelritme zonder vroeg forceren." }, { type: "Controlled fast", rpe: "7–8", feeling: "Stevig, niet maximaal." }],

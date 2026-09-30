@@ -1,12 +1,12 @@
-// Generated from marathonschema_Roy_FINAL_V3_UPDATED_2026-09-25.md. Edit the source and generator, then regenerate.
+// Generated from marathonschema_Roy_FINAL_V4_GARMIN_OUTDOOR_2026-09-30.md. Edit the source and generator, then regenerate.
 window.MARATHON_PLAN = {
   "config": {
-    "planId": "marathon-3u30-final-v3-2026",
-    "planVersion": 11,
-    "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
-    "sourceFile": "marathonschema_Roy_FINAL_V3_UPDATED_2026-09-25.md",
+    "planId": "marathon-3u30-final-v4-2026",
+    "planVersion": 12,
+    "schemaVersion": "marathon-3u30-final-v4-garmin-outdoor-2026.09.30-1",
+    "sourceFile": "marathonschema_Roy_FINAL_V4_GARMIN_OUTDOOR_2026-09-30.md",
     "planName": "Marathonschema 3:30",
-    "planSubtitle": "FINAL V3 · maximaal progressief, maar rationeel",
+    "planSubtitle": "FINAL V4 · Garmin / Outdoor Edition",
     "startDate": "2026-09-21",
     "endDate": "2026-11-22",
     "marathonDate": "2026-11-22",
@@ -15,7 +15,7 @@ window.MARATHON_PLAN = {
     "targetSpeedKmh": 12.0557,
     "practicalMarathonSpeedKmh": 12.1,
     "trainingFrequency": "4–5",
-    "primarySurface": "loopbandprecisie en rustige buitenruns",
+    "primarySurface": "Outdoor / Garmin, met volledige loopbandvariant",
     "plannedKmBeforeRace": 483.65,
     "plannedKmIncludingRace": 525.845,
     "programmedMpMinutes": 328
@@ -464,7 +464,7 @@ window.MARATHON_PLAN = {
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
           "locationStatus": "Buiten · Máximapark aanbevolen",
-          "outsideVariant": "Loop ongeveer 8,41 km buiten op comfortabel praattempo. Het FINAL V3-bronbestand bevat voor deze bewust buiten geplande run geen aparte numerieke loopbandvariant.",
+          "outsideVariant": "Loop ongeveer 8,41 km buiten op comfortabel praattempo. Het historische bronschema bevat voor deze bewust buiten geplande run geen aparte numerieke loopbandvariant.",
           "outdoorSimpleMode": true,
           "treadmillVariantAvailable": false,
           "outdoorSimpleInstruction": "Loop ontspannen. Tempo op gevoel en volledige zinnen kunnen spreken.",
@@ -638,8 +638,7 @@ window.MARATHON_PLAN = {
           "tone": "recovery",
           "labels": [
             "RECOVERY",
-            "OUTDOOR",
-            "MÁXIMAPARK"
+            "GARMIN"
           ],
           "surface": "buiten",
           "date": null,
@@ -700,9 +699,9 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Zeer rustig · herstel boven tempo",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten · Máximapark aanbevolen",
-          "outsideVariant": "Kies een route die uitkomt rond 7,14 km; een volledige parkronde is niet verplicht. Herstel is leidend, niet een exacte loopbandsnelheid.",
-          "outdoorSimpleMode": true,
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
+          "outdoorSimpleMode": false,
           "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "Zeer rustig lopen. Herstel is belangrijker dan tempo.",
           "fueling": false,
@@ -718,6 +717,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[2100,null,9.6,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 1 — Herstel",
+            "totalSeconds": 2700,
+            "referenceDistanceLabel": "±7,14 km",
+            "programSummary": "5 min [Vrij / zeer rustig] → 35 min [HR Zone 1–lage Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w40-t1-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w40-t1-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "zeer rustig",
+                    "cue": "RPE 2–3; hartslag rustig laten oplopen",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w40-t1-garmin-g2",
+                "kind": "sequence",
+                "label": "Recovery",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w40-t1-garmin-s02",
+                    "name": "Recovery",
+                    "display": "35 min",
+                    "durationSeconds": 2100,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 1–lage Zone 2",
+                    "cue": "zeer ontspannen; geen pace-doel",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w40-t1-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w40-t1-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "zeer rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w40",
           "dateLabel": "28 september t/m 4 oktober 2026",
           "phaseId": "recovery-rebuild",
@@ -733,10 +796,8 @@ window.MARATHON_PLAN = {
           "tone": "easy",
           "labels": [
             "ZONE 2",
-            "EASY / PRAATTEMPO",
-            "OUTDOOR",
-            "MÁXIMAPARK",
-            "STRENGTH"
+            "STRENGTH",
+            "GARMIN"
           ],
           "surface": "buiten",
           "date": null,
@@ -797,9 +858,9 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Afstand leidend · tempo op gevoel",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten · Máximapark aanbevolen",
-          "outsideVariant": "Kies een route die uitkomt rond 10,89 km; een volledige parkronde is niet verplicht. Afstand en praattempo zijn leidend, niet een exacte loopbandsnelheid.",
-          "outdoorSimpleMode": true,
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
+          "outdoorSimpleMode": false,
           "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "Loop ontspannen. Tempo op gevoel en volledige zinnen kunnen spreken.",
           "fueling": false,
@@ -834,6 +895,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[3300,null,10.2,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 2 — Aerobe herstart",
+            "totalSeconds": 3900,
+            "referenceDistanceLabel": "±10,89 km",
+            "programSummary": "5 min [Vrij / easy] → 55 min [HR Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w40-t2-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w40-t2-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "RPE 2–3",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w40-t2-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w40-t2-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "55 min",
+                    "durationSeconds": 3300,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "volledige zinnen; pace secundair",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w40-t2-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w40-t2-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w40",
           "dateLabel": "28 september t/m 4 oktober 2026",
           "phaseId": "recovery-rebuild",
@@ -849,9 +974,9 @@ window.MARATHON_PLAN = {
           "tone": "easy",
           "labels": [
             "EASY",
-            "LOOPBAND",
             "OPTIONEEL · ALLEEN BIJ VOLLEDIG HERSTEL",
-            "STRIDES"
+            "STRIDES",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": null,
@@ -1012,10 +1137,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Easy blijft easy",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Strides alleen uitvoeren als de benen volledig hersteld voelen van de Halve Marathon Texel. Het zijn ontspannen versnellingen, geen sprint en geen conditietest. Als herstel niet volledig normaal is: voer de oorspronkelijke 45 minuten easy @10,2 km/u uit en sla de strides over.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
@@ -1030,6 +1155,117 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[1980,null,10.2,0],[20,null,13,0],[70,null,9.5,0],[20,null,13,0],[70,null,9.5,0],[20,null,13,0],[70,null,9.5,0],[20,null,13,0],[70,null,9.5,0],[360,null,10.2,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 3 — Easy + optionele strides",
+            "totalSeconds": 3300,
+            "referenceDistanceLabel": "±9,20 km",
+            "programSummary": "5 min easy → 33 min HR Z2 → REPEAT 4× [20 sec stride OPEN + 70 sec easy herstel] → 6 min HR Z2 → 5 min cooldown",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w40-t3-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w40-t3-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w40-t3-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w40-t3-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "33 min",
+                    "durationSeconds": 1980,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "RPE 3–4",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w40-t3-garmin-g3",
+                "kind": "repeat",
+                "label": "4× Stride",
+                "repetitions": 4,
+                "omitRecoveryAfterLast": false,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w40-t3-garmin-s03",
+                    "name": "Stride",
+                    "display": "20 sec",
+                    "durationSeconds": 20,
+                    "targetType": "Open / Free",
+                    "targetValue": "Geen pace-alert",
+                    "cue": "ontspannen versnellen; techniek en souplesse",
+                    "isRecovery": false
+                  },
+                  {
+                    "segmentId": "marathon-3u30-w40-t3-garmin-s04",
+                    "name": "Herstel",
+                    "display": "na elke stride 70 sec",
+                    "durationSeconds": 70,
+                    "targetType": "Open / Free",
+                    "targetValue": "herstel",
+                    "cue": "zeer rustig joggen",
+                    "isRecovery": true
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w40-t3-garmin-g4",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w40-t3-garmin-s05",
+                    "name": "Zone 2",
+                    "display": "6 min",
+                    "durationSeconds": 360,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "easy",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w40-t3-garmin-g5",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w40-t3-garmin-s06",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w40",
           "dateLabel": "28 september t/m 4 oktober 2026",
           "phaseId": "recovery-rebuild",
@@ -1045,7 +1281,8 @@ window.MARATHON_PLAN = {
           "tone": "long",
           "labels": [
             "LONG RUN",
-            "ZONE 2"
+            "ZONE 2",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": null,
@@ -1106,10 +1343,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Herstelruimte bewaken",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": true,
           "fullFuelRehearsal": false,
@@ -1124,6 +1361,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[6000,null,10.3,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 4 — Lange easy",
+            "totalSeconds": 6600,
+            "referenceDistanceLabel": "±18,71 km",
+            "programSummary": "5 min [Vrij / easy] → 100 min [HR Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w40-t4-garmin-g1",
+                "kind": "sequence",
+                "label": "Warming-up",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w40-t4-garmin-s01",
+                    "name": "Warming-up",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig starten",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w40-t4-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w40-t4-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "100 min",
+                    "durationSeconds": 6000,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "gecontroleerd; volledige zinnen; pace vrij",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w40-t4-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w40-t4-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w40",
           "dateLabel": "28 september t/m 4 oktober 2026",
           "phaseId": "recovery-rebuild",
@@ -1136,13 +1437,10 @@ window.MARATHON_PLAN = {
         "summary": "Texel verwerken en alleen bij volledig herstel korte strides toevoegen",
         "adaptations": [
           "RECOVERY",
-          "OUTDOOR",
-          "MÁXIMAPARK",
+          "GARMIN",
           "ZONE 2",
-          "EASY / PRAATTEMPO",
           "STRENGTH",
           "EASY",
-          "LOOPBAND",
           "OPTIONEEL · ALLEEN BIJ VOLLEDIG HERSTEL",
           "STRIDES",
           "LONG RUN"
@@ -1188,9 +1486,9 @@ window.MARATHON_PLAN = {
           "labels": [
             "MP CONFIDENCE #1",
             "MARATHONPACE",
-            "LOOPBAND",
             "CONFIDENCE",
-            "STRENGTH"
+            "STRENGTH",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": null,
@@ -1261,10 +1559,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Herstelruimte bewaken",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
@@ -1298,6 +1596,88 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[600,null,9.5,0],[300,null,10.5,0],[2700,null,12.1,0],[600,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 1 — MP CONFIDENCE #1",
+            "totalSeconds": 4200,
+            "referenceDistanceLabel": "±13,03 km",
+            "programSummary": "10 min [Vrij / easy] → 5 min [Pace 5:20–5:45/km] → 45 min [Pace 4:53–5:03/km] → 10 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w41-t1-garmin-g1",
+                "kind": "sequence",
+                "label": "Warming-up",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w41-t1-garmin-s01",
+                    "name": "Warming-up",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "warming-up",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w41-t1-garmin-g2",
+                "kind": "sequence",
+                "label": "Opbouw",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w41-t1-garmin-s02",
+                    "name": "Opbouw",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Pace",
+                    "targetValue": "5:20–5:45/km",
+                    "cue": "geleidelijk opbouwen",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w41-t1-garmin-g3",
+                "kind": "sequence",
+                "label": "Marathonpace",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w41-t1-garmin-s03",
+                    "name": "Marathonpace",
+                    "display": "45 min",
+                    "durationSeconds": 2700,
+                    "targetType": "Pace",
+                    "targetValue": "4:53–5:03/km",
+                    "cue": "marathonpace; mik rond 4:58–4:59/km",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w41-t1-garmin-g4",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w41-t1-garmin-s04",
+                    "name": "Cooling-down",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w41",
           "dateLabel": "5 t/m 11 oktober 2026",
           "phaseId": "overload-1",
@@ -1313,9 +1693,7 @@ window.MARATHON_PLAN = {
           "tone": "easy",
           "labels": [
             "EASY",
-            "EASY / PRAATTEMPO",
-            "OUTDOOR",
-            "MÁXIMAPARK"
+            "GARMIN"
           ],
           "surface": "buiten",
           "date": null,
@@ -1376,9 +1754,9 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Afstand leidend · tempo op gevoel",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten · Máximapark aanbevolen",
-          "outsideVariant": "Kies een route die uitkomt rond 7,55 km; een volledige parkronde is niet verplicht. Afstand en praattempo zijn leidend, niet een exacte loopbandsnelheid.",
-          "outdoorSimpleMode": true,
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
+          "outdoorSimpleMode": false,
           "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "Loop ontspannen. Tempo op gevoel en volledige zinnen kunnen spreken.",
           "fueling": false,
@@ -1394,6 +1772,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[2100,null,10.3,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 2 — Easy",
+            "totalSeconds": 2700,
+            "referenceDistanceLabel": "±7,55 km",
+            "programSummary": "5 min [Vrij / easy] → 35 min [HR Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w41-t2-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w41-t2-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w41-t2-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w41-t2-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "35 min",
+                    "durationSeconds": 2100,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "praattempo; pace vrij",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w41-t2-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w41-t2-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w41",
           "dateLabel": "5 t/m 11 oktober 2026",
           "phaseId": "overload-1",
@@ -1411,7 +1853,8 @@ window.MARATHON_PLAN = {
             "ZONE 2",
             "CONTROLLED FAST",
             "BOVEN MP",
-            "STRENGTH"
+            "STRENGTH",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": null,
@@ -1452,7 +1895,11 @@ window.MARATHON_PLAN = {
                   "inclinePercent": 0,
                   "type": "controlled-fast",
                   "instruction": "RPE circa 7; gebruik 12,6 km/u als 12,7 te zwaar voelt.",
-                  "segmentId": "marathon-3u30-w41-t3-s03"
+                  "segmentId": "marathon-3u30-w41-t3-s03",
+                  "speedRangeKmh": [
+                    12.6,
+                    12.7
+                  ]
                 },
                 {
                   "basis": "time",
@@ -1472,7 +1919,11 @@ window.MARATHON_PLAN = {
                   "inclinePercent": 0,
                   "type": "controlled-fast",
                   "instruction": "RPE circa 7; gebruik 12,6 km/u als 12,7 te zwaar voelt.",
-                  "segmentId": "marathon-3u30-w41-t3-s05"
+                  "segmentId": "marathon-3u30-w41-t3-s05",
+                  "speedRangeKmh": [
+                    12.6,
+                    12.7
+                  ]
                 },
                 {
                   "basis": "time",
@@ -1492,7 +1943,11 @@ window.MARATHON_PLAN = {
                   "inclinePercent": 0,
                   "type": "controlled-fast",
                   "instruction": "RPE circa 7; maximaal circa 8 aan het einde.",
-                  "segmentId": "marathon-3u30-w41-t3-s07"
+                  "segmentId": "marathon-3u30-w41-t3-s07",
+                  "speedRangeKmh": [
+                    12.6,
+                    12.7
+                  ]
                 },
                 {
                   "basis": "time",
@@ -1542,10 +1997,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Easy blijft easy",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Als 12,7 km/u die dag duidelijk richting maximale inspanning gaat, gebruik dan 12,6 km/u. Controlled fast blijft ondersteunend: geen maximale intervaltraining en geen extra loopdag.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
@@ -1579,6 +2034,117 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[2700,null,10.5,0],[180,null,12.7,0],[120,null,9.5,0],[180,null,12.7,0],[120,null,9.5,0],[180,null,12.7,0],[1320,null,10.5,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 3 — Middellange Zone 2 + controlled fast",
+            "totalSeconds": 5400,
+            "referenceDistanceLabel": "±15,81 km",
+            "programSummary": "5 min easy → 45 min HR Z2 → 2× [3 min @4:41–4:48/km + 2 min easy] → 3 min @4:41–4:48/km → 22 min HR Z2 → 5 min cooldown",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w41-t3-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w41-t3-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w41-t3-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w41-t3-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "45 min",
+                    "durationSeconds": 2700,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "aeroob; pace vrij",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w41-t3-garmin-g3",
+                "kind": "repeat",
+                "label": "3× Controlled fast",
+                "repetitions": 3,
+                "omitRecoveryAfterLast": true,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w41-t3-garmin-s03",
+                    "name": "Controlled fast",
+                    "display": "3 min",
+                    "durationSeconds": 180,
+                    "targetType": "Pace",
+                    "targetValue": "4:41–4:48/km",
+                    "cue": "controlled fast; stevig, niet maximaal",
+                    "isRecovery": false
+                  },
+                  {
+                    "segmentId": "marathon-3u30-w41-t3-garmin-s04",
+                    "name": "Herstel",
+                    "display": "tussen blokken 2 min",
+                    "durationSeconds": 120,
+                    "targetType": "Open / Free",
+                    "targetValue": "herstel",
+                    "cue": "zeer rustig joggen",
+                    "isRecovery": true
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w41-t3-garmin-g4",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w41-t3-garmin-s05",
+                    "name": "Zone 2",
+                    "display": "22 min",
+                    "durationSeconds": 1320,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "terug naar gecontroleerd aeroob",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w41-t3-garmin-g5",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w41-t3-garmin-s06",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w41",
           "dateLabel": "5 t/m 11 oktober 2026",
           "phaseId": "overload-1",
@@ -1594,8 +2160,7 @@ window.MARATHON_PLAN = {
           "tone": "recovery",
           "labels": [
             "RECOVERY",
-            "OUTDOOR",
-            "MÁXIMAPARK"
+            "GARMIN"
           ],
           "surface": "buiten",
           "date": null,
@@ -1656,9 +2221,9 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Zeer rustig · herstel boven tempo",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten · Máximapark aanbevolen",
-          "outsideVariant": "Kies een route die uitkomt rond 4,74 km; een volledige parkronde is niet verplicht. Herstel is leidend, niet een exacte loopbandsnelheid.",
-          "outdoorSimpleMode": true,
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
+          "outdoorSimpleMode": false,
           "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "Zeer rustig lopen. Herstel is belangrijker dan tempo.",
           "fueling": false,
@@ -1674,6 +2239,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[1200,null,9.6,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 4 — Recovery",
+            "totalSeconds": 1800,
+            "referenceDistanceLabel": "±4,74 km",
+            "programSummary": "5 min [Vrij / zeer rustig] → 20 min [HR Zone 1–lage Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w41-t4-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w41-t4-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "zeer rustig",
+                    "cue": "RPE 2",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w41-t4-garmin-g2",
+                "kind": "sequence",
+                "label": "Herstel",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w41-t4-garmin-s02",
+                    "name": "Herstel",
+                    "display": "20 min",
+                    "durationSeconds": 1200,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 1–lage Zone 2",
+                    "cue": "herstel; geen pace-doel",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w41-t4-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w41-t4-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w41",
           "dateLabel": "5 t/m 11 oktober 2026",
           "phaseId": "overload-1",
@@ -1689,7 +2318,8 @@ window.MARATHON_PLAN = {
           "tone": "long",
           "labels": [
             "LONG RUN",
-            "ZONE 2"
+            "ZONE 2",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": null,
@@ -1750,10 +2380,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Herstelruimte bewaken",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": true,
           "fullFuelRehearsal": false,
@@ -1768,6 +2398,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[7800,null,10.5,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 5 — Lange rustige duur",
+            "totalSeconds": 8400,
+            "referenceDistanceLabel": "±24,29 km",
+            "programSummary": "5 min [Vrij / easy] → 130 min [HR Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w41-t5-garmin-g1",
+                "kind": "sequence",
+                "label": "Warming-up",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w41-t5-garmin-s01",
+                    "name": "Warming-up",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig starten",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w41-t5-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w41-t5-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "130 min",
+                    "durationSeconds": 7800,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "gelijkmatig; geen fast finish",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w41-t5-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w41-t5-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w41",
           "dateLabel": "5 t/m 11 oktober 2026",
           "phaseId": "overload-1",
@@ -1781,13 +2475,10 @@ window.MARATHON_PLAN = {
         "adaptations": [
           "MP CONFIDENCE #1",
           "MARATHONPACE",
-          "LOOPBAND",
           "CONFIDENCE",
           "STRENGTH",
+          "GARMIN",
           "EASY",
-          "EASY / PRAATTEMPO",
-          "OUTDOOR",
-          "MÁXIMAPARK",
           "ZONE 2",
           "CONTROLLED FAST",
           "BOVEN MP",
@@ -1835,8 +2526,8 @@ window.MARATHON_PLAN = {
           "tone": "threshold",
           "labels": [
             "CONTROLLED FAST",
-            "LOOPBAND",
-            "STRENGTH"
+            "STRENGTH",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": null,
@@ -1977,10 +2668,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Herstelruimte bewaken",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
@@ -2014,6 +2705,117 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[600,null,9.5,0],[300,null,10.5,0],[360,null,12.7,0],[180,null,9.5,0],[360,null,12.7,0],[180,null,9.5,0],[360,null,12.7,0],[180,null,9.5,0],[360,null,12.7,0],[720,null,10.3,0],[600,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 1 — 4 × 6 min controlled fast",
+            "totalSeconds": 4200,
+            "referenceDistanceLabel": "±12,52 km",
+            "programSummary": "10 min easy → 5 min opbouw → 3× [6 min @4:41–4:48/km + 3 min easy] → 6 min @4:41–4:48/km → 12 min HR Z2 → 10 min cooldown",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w42-t1-garmin-g1",
+                "kind": "sequence",
+                "label": "Warming-up",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t1-garmin-s01",
+                    "name": "Warming-up",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "warming-up",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w42-t1-garmin-g2",
+                "kind": "sequence",
+                "label": "Opbouw",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t1-garmin-s02",
+                    "name": "Opbouw",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Pace",
+                    "targetValue": "5:20–5:45/km",
+                    "cue": "opbouw",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w42-t1-garmin-g3",
+                "kind": "repeat",
+                "label": "4× Controlled fast",
+                "repetitions": 4,
+                "omitRecoveryAfterLast": true,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t1-garmin-s03",
+                    "name": "Controlled fast",
+                    "display": "6 min",
+                    "durationSeconds": 360,
+                    "targetType": "Pace",
+                    "targetValue": "4:41–4:48/km",
+                    "cue": "controlled fast",
+                    "isRecovery": false
+                  },
+                  {
+                    "segmentId": "marathon-3u30-w42-t1-garmin-s04",
+                    "name": "Herstel",
+                    "display": "tussen blokken 3 min",
+                    "durationSeconds": 180,
+                    "targetType": "Open / Free",
+                    "targetValue": "herstel",
+                    "cue": "zeer rustig joggen",
+                    "isRecovery": true
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w42-t1-garmin-g4",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t1-garmin-s05",
+                    "name": "Zone 2",
+                    "display": "12 min",
+                    "durationSeconds": 720,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "easy/aeroob",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w42-t1-garmin-g5",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t1-garmin-s06",
+                    "name": "Cooling-down",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w42",
           "dateLabel": "12 t/m 18 oktober 2026",
           "phaseId": "overload-2",
@@ -2029,9 +2831,7 @@ window.MARATHON_PLAN = {
           "tone": "easy",
           "labels": [
             "EASY",
-            "EASY / PRAATTEMPO",
-            "OUTDOOR",
-            "MÁXIMAPARK"
+            "GARMIN"
           ],
           "surface": "buiten",
           "date": null,
@@ -2092,9 +2892,9 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Afstand leidend · tempo op gevoel",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten · Máximapark aanbevolen",
-          "outsideVariant": "Kies een route die uitkomt rond 7,55 km; een volledige parkronde is niet verplicht. Afstand en praattempo zijn leidend, niet een exacte loopbandsnelheid.",
-          "outdoorSimpleMode": true,
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
+          "outdoorSimpleMode": false,
           "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "Loop ontspannen. Tempo op gevoel en volledige zinnen kunnen spreken.",
           "fueling": false,
@@ -2110,6 +2910,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[2100,null,10.3,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 2 — Easy",
+            "totalSeconds": 2700,
+            "referenceDistanceLabel": "±7,55 km",
+            "programSummary": "5 min [Vrij / easy] → 35 min [HR Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w42-t2-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t2-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w42-t2-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t2-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "35 min",
+                    "durationSeconds": 2100,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "praattempo",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w42-t2-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t2-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w42",
           "dateLabel": "12 t/m 18 oktober 2026",
           "phaseId": "overload-2",
@@ -2126,7 +2990,8 @@ window.MARATHON_PLAN = {
           "labels": [
             "ZONE 2",
             "VERLENGD",
-            "STRENGTH"
+            "STRENGTH",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": null,
@@ -2187,10 +3052,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Easy blijft easy",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
@@ -2224,6 +3089,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[5400,null,10.5,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 3 — Middellange Zone 2 — VERLENGD",
+            "totalSeconds": 6000,
+            "referenceDistanceLabel": "±17,29 km",
+            "programSummary": "5 min [Vrij / easy] → 90 min [HR Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w42-t3-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t3-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w42-t3-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t3-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "90 min",
+                    "durationSeconds": 5400,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "stabiel aeroob; pace vrij",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w42-t3-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t3-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w42",
           "dateLabel": "12 t/m 18 oktober 2026",
           "phaseId": "overload-2",
@@ -2239,8 +3168,7 @@ window.MARATHON_PLAN = {
           "tone": "recovery",
           "labels": [
             "RECOVERY",
-            "OUTDOOR",
-            "MÁXIMAPARK"
+            "GARMIN"
           ],
           "surface": "buiten",
           "date": null,
@@ -2301,9 +3229,9 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Zeer rustig · herstel boven tempo",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten · Máximapark aanbevolen",
-          "outsideVariant": "Kies een route die uitkomt rond 5,54 km; een volledige parkronde is niet verplicht. Herstel is leidend, niet een exacte loopbandsnelheid.",
-          "outdoorSimpleMode": true,
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
+          "outdoorSimpleMode": false,
           "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "Zeer rustig lopen. Herstel is belangrijker dan tempo.",
           "fueling": false,
@@ -2319,6 +3247,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[1500,null,9.6,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 4 — Recovery",
+            "totalSeconds": 2100,
+            "referenceDistanceLabel": "±5,54 km",
+            "programSummary": "5 min [Vrij / zeer rustig] → 25 min [HR Zone 1–lage Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w42-t4-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t4-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "zeer rustig",
+                    "cue": "RPE 2",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w42-t4-garmin-g2",
+                "kind": "sequence",
+                "label": "Herstel",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t4-garmin-s02",
+                    "name": "Herstel",
+                    "display": "25 min",
+                    "durationSeconds": 1500,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 1–lage Zone 2",
+                    "cue": "herstel",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w42-t4-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t4-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w42",
           "dateLabel": "12 t/m 18 oktober 2026",
           "phaseId": "overload-2",
@@ -2336,7 +3328,8 @@ window.MARATHON_PLAN = {
             "MP-UNDER-FATIGUE CONFIDENCE #2",
             "MARATHONPACE",
             "CONFIDENCE",
-            "RACEVOEDING"
+            "RACEVOEDING",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": null,
@@ -2417,10 +3410,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Herstelruimte bewaken",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": true,
           "fullFuelRehearsal": true,
@@ -2435,6 +3428,106 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[600,null,9.5,0],[6000,null,10.4,0],[2400,null,12.1,0],[300,null,10,0],[600,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 5 — MP-UNDER-FATIGUE CONFIDENCE #2",
+            "totalSeconds": 9900,
+            "referenceDistanceLabel": "±29,32 km",
+            "programSummary": "10 min [Vrij / easy] → 100 min [HR Zone 2] → 40 min [Pace 4:53–5:03/km] → 5 min [HR Zone 2 / easy] → 10 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w42-t5-garmin-g1",
+                "kind": "sequence",
+                "label": "Warming-up",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t5-garmin-s01",
+                    "name": "Warming-up",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "warming-up",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w42-t5-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t5-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "100 min",
+                    "durationSeconds": 6000,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "lange easy voorbelasting",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w42-t5-garmin-g3",
+                "kind": "sequence",
+                "label": "Marathonpace",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t5-garmin-s03",
+                    "name": "Marathonpace",
+                    "display": "40 min",
+                    "durationSeconds": 2400,
+                    "targetType": "Pace",
+                    "targetValue": "4:53–5:03/km",
+                    "cue": "marathonpace; mik rond 4:58–4:59/km",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w42-t5-garmin-g4",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t5-garmin-s04",
+                    "name": "Zone 2",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2 / easy",
+                    "cue": "afronden",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w42-t5-garmin-g5",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w42-t5-garmin-s05",
+                    "name": "Cooling-down",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w42",
           "dateLabel": "12 t/m 18 oktober 2026",
           "phaseId": "overload-2",
@@ -2447,12 +3540,9 @@ window.MARATHON_PLAN = {
         "summary": "Controlled fast, meer Zone 2 en marathonpace na 110 minuten",
         "adaptations": [
           "CONTROLLED FAST",
-          "LOOPBAND",
           "STRENGTH",
+          "GARMIN",
           "EASY",
-          "EASY / PRAATTEMPO",
-          "OUTDOOR",
-          "MÁXIMAPARK",
           "ZONE 2",
           "VERLENGD",
           "RECOVERY",
@@ -2502,12 +3592,12 @@ window.MARATHON_PLAN = {
           "tone": "mp",
           "labels": [
             "OUTDOOR MP CONFIDENCE #3",
-            "BUITEN",
             "MARATHONPACE",
             "CONFIDENCE",
-            "STRENGTH"
+            "STRENGTH",
+            "GARMIN"
           ],
-          "surface": "buiten",
+          "surface": "loopband",
           "date": null,
           "weekday": null,
           "fixedDay": false,
@@ -2522,8 +3612,8 @@ window.MARATHON_PLAN = {
                   "basis": "time",
                   "durationSeconds": 600,
                   "display": "10 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 9.5,
+                  "inclinePercent": 0,
                   "type": "warming-up",
                   "instruction": "Rustig inlopen",
                   "segmentId": "marathon-3u30-w43-t1-s01"
@@ -2532,8 +3622,8 @@ window.MARATHON_PLAN = {
                   "basis": "time",
                   "durationSeconds": 300,
                   "display": "5 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 10.5,
+                  "inclinePercent": 0,
                   "type": "steady",
                   "instruction": "Geleidelijk opbouwen",
                   "segmentId": "marathon-3u30-w43-t1-s02"
@@ -2543,7 +3633,7 @@ window.MARATHON_PLAN = {
                   "durationSeconds": 3000,
                   "display": "50 min",
                   "speedKmh": 12.1,
-                  "inclinePercent": null,
+                  "inclinePercent": 0,
                   "type": "marathonpace",
                   "instruction": "Rond 4:58/km",
                   "segmentId": "marathon-3u30-w43-t1-s03"
@@ -2552,8 +3642,8 @@ window.MARATHON_PLAN = {
                   "basis": "time",
                   "durationSeconds": 600,
                   "display": "10 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 9,
+                  "inclinePercent": 0,
                   "type": "cooling-down",
                   "instruction": "Rustig uitlopen",
                   "segmentId": "marathon-3u30-w43-t1-s04"
@@ -2576,10 +3666,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Herstelruimte bewaken",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten",
-          "outsideVariant": "Buiten uitvoeren zoals beschreven.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
@@ -2612,7 +3702,89 @@ window.MARATHON_PLAN = {
           "isTest": false,
           "testNumber": null,
           "evaluation": null,
-          "protocolSignature": "[[600,null,null,null],[300,null,null,null],[3000,null,12.1,null],[600,null,null,null]]",
+          "protocolSignature": "[[600,null,9.5,0],[300,null,10.5,0],[3000,null,12.1,0],[600,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 1 — OUTDOOR MP CONFIDENCE #3",
+            "totalSeconds": 4500,
+            "referenceDistanceLabel": "±14,04 km",
+            "programSummary": "10 min [Vrij / easy] → 5 min [Pace 5:20–5:45/km] → 50 min [Pace 4:53–5:03/km] → 10 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w43-t1-garmin-g1",
+                "kind": "sequence",
+                "label": "Warming-up",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w43-t1-garmin-s01",
+                    "name": "Warming-up",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "warming-up",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w43-t1-garmin-g2",
+                "kind": "sequence",
+                "label": "Opbouw",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w43-t1-garmin-s02",
+                    "name": "Opbouw",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Pace",
+                    "targetValue": "5:20–5:45/km",
+                    "cue": "opbouw",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w43-t1-garmin-g3",
+                "kind": "sequence",
+                "label": "Marathonpace",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w43-t1-garmin-s03",
+                    "name": "Marathonpace",
+                    "display": "50 min",
+                    "durationSeconds": 3000,
+                    "targetType": "Pace",
+                    "targetValue": "4:53–5:03/km",
+                    "cue": "MP; zelfstandig ritme dragen",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w43-t1-garmin-g4",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w43-t1-garmin-s04",
+                    "name": "Cooling-down",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w43",
           "dateLabel": "19 t/m 25 oktober 2026",
           "phaseId": "peak",
@@ -2628,9 +3800,7 @@ window.MARATHON_PLAN = {
           "tone": "easy",
           "labels": [
             "EASY",
-            "EASY / PRAATTEMPO",
-            "OUTDOOR",
-            "MÁXIMAPARK"
+            "GARMIN"
           ],
           "surface": "buiten",
           "date": null,
@@ -2691,9 +3861,9 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Afstand leidend · tempo op gevoel",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten · Máximapark aanbevolen",
-          "outsideVariant": "Kies een route die uitkomt rond 8,41 km; een volledige parkronde is niet verplicht. Afstand en praattempo zijn leidend, niet een exacte loopbandsnelheid.",
-          "outdoorSimpleMode": true,
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
+          "outdoorSimpleMode": false,
           "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "Loop ontspannen. Tempo op gevoel en volledige zinnen kunnen spreken.",
           "fueling": false,
@@ -2709,6 +3879,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[2400,null,10.3,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 2 — Easy",
+            "totalSeconds": 3000,
+            "referenceDistanceLabel": "±8,41 km",
+            "programSummary": "5 min [Vrij / easy] → 40 min [HR Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w43-t2-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w43-t2-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w43-t2-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w43-t2-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "40 min",
+                    "durationSeconds": 2400,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "praattempo",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w43-t2-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w43-t2-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w43",
           "dateLabel": "19 t/m 25 oktober 2026",
           "phaseId": "peak",
@@ -2725,7 +3959,8 @@ window.MARATHON_PLAN = {
           "labels": [
             "ZONE 2",
             "VERLENGD",
-            "STRENGTH"
+            "STRENGTH",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": null,
@@ -2786,10 +4021,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Easy blijft easy",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
@@ -2823,6 +4058,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[5700,null,10.5,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 3 — Middellange Zone 2 — VERLENGD",
+            "totalSeconds": 6300,
+            "referenceDistanceLabel": "±18,17 km",
+            "programSummary": "5 min [Vrij / easy] → 95 min [HR Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w43-t3-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w43-t3-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w43-t3-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w43-t3-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "95 min",
+                    "durationSeconds": 5700,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "stabiel aeroob",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w43-t3-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w43-t3-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w43",
           "dateLabel": "19 t/m 25 oktober 2026",
           "phaseId": "peak",
@@ -2838,8 +4137,7 @@ window.MARATHON_PLAN = {
           "tone": "recovery",
           "labels": [
             "RECOVERY",
-            "OUTDOOR",
-            "MÁXIMAPARK"
+            "GARMIN"
           ],
           "surface": "buiten",
           "date": null,
@@ -2900,9 +4198,9 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Zeer rustig · herstel boven tempo",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten · Máximapark aanbevolen",
-          "outsideVariant": "Kies een route die uitkomt rond 5,54 km; een volledige parkronde is niet verplicht. Herstel is leidend, niet een exacte loopbandsnelheid.",
-          "outdoorSimpleMode": true,
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
+          "outdoorSimpleMode": false,
           "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "Zeer rustig lopen. Herstel is belangrijker dan tempo.",
           "fueling": false,
@@ -2918,6 +4216,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[1500,null,9.6,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 4 — Recovery",
+            "totalSeconds": 2100,
+            "referenceDistanceLabel": "±5,54 km",
+            "programSummary": "5 min [Vrij / zeer rustig] → 25 min [HR Zone 1–lage Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w43-t4-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w43-t4-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "zeer rustig",
+                    "cue": "RPE 2",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w43-t4-garmin-g2",
+                "kind": "sequence",
+                "label": "Herstel",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w43-t4-garmin-s02",
+                    "name": "Herstel",
+                    "display": "25 min",
+                    "durationSeconds": 1500,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 1–lage Zone 2",
+                    "cue": "herstel",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w43-t4-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w43-t4-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w43",
           "dateLabel": "19 t/m 25 oktober 2026",
           "phaseId": "peak",
@@ -2935,7 +4297,8 @@ window.MARATHON_PLAN = {
             "30K CONFIDENCE RUN",
             "LONG RUN",
             "CONFIDENCE",
-            "RACEVOEDING"
+            "RACEVOEDING",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": null,
@@ -2996,10 +4359,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Herstelruimte bewaken",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Absolute grens: 180 minuten. Niet verlengen voor een rond getal.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": true,
           "fullFuelRehearsal": true,
@@ -3014,6 +4377,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[10200,null,10.6,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 5 — 30K CONFIDENCE RUN",
+            "totalSeconds": 10800,
+            "referenceDistanceLabel": "±31,58 km",
+            "programSummary": "5 min [Vrij / easy] → 170 min [HR Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w43-t5-garmin-g1",
+                "kind": "sequence",
+                "label": "Warming-up",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w43-t5-garmin-s01",
+                    "name": "Warming-up",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig starten",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w43-t5-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w43-t5-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "170 min",
+                    "durationSeconds": 10200,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "drie uur gecontroleerd; geen snelle finish",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w43-t5-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w43-t5-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w43",
           "dateLabel": "19 t/m 25 oktober 2026",
           "phaseId": "peak",
@@ -3026,14 +4453,11 @@ window.MARATHON_PLAN = {
         "summary": "Volume-piek, buiten-MP en drie uur gecontroleerde duur",
         "adaptations": [
           "OUTDOOR MP CONFIDENCE #3",
-          "BUITEN",
           "MARATHONPACE",
           "CONFIDENCE",
           "STRENGTH",
+          "GARMIN",
           "EASY",
-          "EASY / PRAATTEMPO",
-          "OUTDOOR",
-          "MÁXIMAPARK",
           "ZONE 2",
           "VERLENGD",
           "RECOVERY",
@@ -3082,7 +4506,8 @@ window.MARATHON_PLAN = {
           "tone": "threshold",
           "labels": [
             "CONTROLLED FAST",
-            "STRENGTH"
+            "STRENGTH",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": null,
@@ -3203,10 +4628,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Herstelruimte bewaken",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
@@ -3240,6 +4665,117 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[600,null,9.5,0],[300,null,10.5,0],[240,null,12.7,0],[180,null,9.5,0],[240,null,12.7,0],[180,null,9.5,0],[240,null,12.7,0],[720,null,10.3,0],[600,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 1 — 3 × 4 min controlled fast",
+            "totalSeconds": 3300,
+            "referenceDistanceLabel": "±9,51 km",
+            "programSummary": "10 min easy → 5 min opbouw → 2× [4 min @4:41–4:48/km + 3 min easy] → 4 min @4:41–4:48/km → 12 min HR Z2 → 10 min cooldown",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w44-t1-garmin-g1",
+                "kind": "sequence",
+                "label": "Warming-up",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t1-garmin-s01",
+                    "name": "Warming-up",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "warming-up",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w44-t1-garmin-g2",
+                "kind": "sequence",
+                "label": "Opbouw",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t1-garmin-s02",
+                    "name": "Opbouw",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Pace",
+                    "targetValue": "5:20–5:45/km",
+                    "cue": "opbouw",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w44-t1-garmin-g3",
+                "kind": "repeat",
+                "label": "3× Controlled fast",
+                "repetitions": 3,
+                "omitRecoveryAfterLast": true,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t1-garmin-s03",
+                    "name": "Controlled fast",
+                    "display": "4 min",
+                    "durationSeconds": 240,
+                    "targetType": "Pace",
+                    "targetValue": "4:41–4:48/km",
+                    "cue": "controlled fast",
+                    "isRecovery": false
+                  },
+                  {
+                    "segmentId": "marathon-3u30-w44-t1-garmin-s04",
+                    "name": "Herstel",
+                    "display": "tussen blokken 3 min",
+                    "durationSeconds": 180,
+                    "targetType": "Open / Free",
+                    "targetValue": "herstel",
+                    "cue": "zeer rustig joggen",
+                    "isRecovery": true
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w44-t1-garmin-g4",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t1-garmin-s05",
+                    "name": "Zone 2",
+                    "display": "12 min",
+                    "durationSeconds": 720,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "easy",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w44-t1-garmin-g5",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t1-garmin-s06",
+                    "name": "Cooling-down",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w44",
           "dateLabel": "26 oktober t/m 1 november 2026",
           "phaseId": "key-specific",
@@ -3255,9 +4791,7 @@ window.MARATHON_PLAN = {
           "tone": "easy",
           "labels": [
             "EASY",
-            "EASY / PRAATTEMPO",
-            "OUTDOOR",
-            "MÁXIMAPARK"
+            "GARMIN"
           ],
           "surface": "buiten",
           "date": null,
@@ -3318,9 +4852,9 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Afstand leidend · tempo op gevoel",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten · Máximapark aanbevolen",
-          "outsideVariant": "Kies een route die uitkomt rond 7,55 km; een volledige parkronde is niet verplicht. Afstand en praattempo zijn leidend, niet een exacte loopbandsnelheid.",
-          "outdoorSimpleMode": true,
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
+          "outdoorSimpleMode": false,
           "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "Loop ontspannen. Tempo op gevoel en volledige zinnen kunnen spreken.",
           "fueling": false,
@@ -3336,6 +4870,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[2100,null,10.3,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 2 — Easy",
+            "totalSeconds": 2700,
+            "referenceDistanceLabel": "±7,55 km",
+            "programSummary": "5 min [Vrij / easy] → 35 min [HR Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w44-t2-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t2-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w44-t2-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t2-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "35 min",
+                    "durationSeconds": 2100,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "praattempo",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w44-t2-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t2-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w44",
           "dateLabel": "26 oktober t/m 1 november 2026",
           "phaseId": "key-specific",
@@ -3350,7 +4948,8 @@ window.MARATHON_PLAN = {
           "category": "rustige-duur",
           "tone": "steady",
           "labels": [
-            "ZONE 2"
+            "ZONE 2",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": null,
@@ -3411,10 +5010,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Easy blijft easy",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
@@ -3429,6 +5028,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[4800,null,10.5,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 3 — Middellange aerobe duur",
+            "totalSeconds": 5400,
+            "referenceDistanceLabel": "±15,54 km",
+            "programSummary": "5 min [Vrij / easy] → 80 min [HR Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w44-t3-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t3-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w44-t3-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t3-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "80 min",
+                    "durationSeconds": 4800,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "stabiel aeroob",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w44-t3-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t3-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w44",
           "dateLabel": "26 oktober t/m 1 november 2026",
           "phaseId": "key-specific",
@@ -3444,8 +5107,7 @@ window.MARATHON_PLAN = {
           "tone": "recovery",
           "labels": [
             "RECOVERY",
-            "OUTDOOR",
-            "MÁXIMAPARK"
+            "GARMIN"
           ],
           "surface": "buiten",
           "date": null,
@@ -3506,9 +5168,9 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Zeer rustig · herstel boven tempo",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten · Máximapark aanbevolen",
-          "outsideVariant": "Kies een route die uitkomt rond 4,74 km; een volledige parkronde is niet verplicht. Herstel is leidend, niet een exacte loopbandsnelheid.",
-          "outdoorSimpleMode": true,
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
+          "outdoorSimpleMode": false,
           "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "Zeer rustig lopen. Herstel is belangrijker dan tempo.",
           "fueling": false,
@@ -3524,6 +5186,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[1200,null,9.6,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 4 — Recovery",
+            "totalSeconds": 1800,
+            "referenceDistanceLabel": "±4,74 km",
+            "programSummary": "5 min [Vrij / zeer rustig] → 20 min [HR Zone 1–lage Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w44-t4-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t4-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "zeer rustig",
+                    "cue": "RPE 2",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w44-t4-garmin-g2",
+                "kind": "sequence",
+                "label": "Herstel",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t4-garmin-s02",
+                    "name": "Herstel",
+                    "display": "20 min",
+                    "durationSeconds": 1200,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 1–lage Zone 2",
+                    "cue": "herstel",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w44-t4-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t4-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w44",
           "dateLabel": "26 oktober t/m 1 november 2026",
           "phaseId": "key-specific",
@@ -3541,7 +5267,8 @@ window.MARATHON_PLAN = {
             "KEY MARATHON CONFIDENCE",
             "MARATHONPACE",
             "CONFIDENCE",
-            "RACEVOEDING"
+            "RACEVOEDING",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": null,
@@ -3642,10 +5369,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Herstelruimte bewaken",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": true,
           "fullFuelRehearsal": true,
@@ -3660,6 +5387,142 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[600,null,9.5,0],[3900,null,10.4,0],[2100,null,12.1,0],[480,null,9.8,0],[2100,null,12.1,0],[420,null,10,0],[600,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Training 5 — KEY MARATHON CONFIDENCE — 2 × 35 min MP under fatigue",
+            "totalSeconds": 10200,
+            "referenceDistanceLabel": "±30,94 km",
+            "programSummary": "10 min [Vrij / easy] → 65 min [HR Zone 2] → 35 min [Pace 4:53–5:03/km] → 8 min [Vrij / easy] → 35 min [Pace 4:53–5:03/km] → 7 min [HR Zone 2 / easy] → 10 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w44-t5-garmin-g1",
+                "kind": "sequence",
+                "label": "Warming-up",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t5-garmin-s01",
+                    "name": "Warming-up",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "warming-up",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w44-t5-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t5-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "65 min",
+                    "durationSeconds": 3900,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "easy voorbelasting",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w44-t5-garmin-g3",
+                "kind": "sequence",
+                "label": "Marathonpace",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t5-garmin-s03",
+                    "name": "Marathonpace",
+                    "display": "35 min",
+                    "durationSeconds": 2100,
+                    "targetType": "Pace",
+                    "targetValue": "4:53–5:03/km",
+                    "cue": "MP blok 1",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w44-t5-garmin-g4",
+                "kind": "sequence",
+                "label": "Herstel",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t5-garmin-s04",
+                    "name": "Herstel",
+                    "display": "8 min",
+                    "durationSeconds": 480,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "herstel jog",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w44-t5-garmin-g5",
+                "kind": "sequence",
+                "label": "Marathonpace",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t5-garmin-s05",
+                    "name": "Marathonpace",
+                    "display": "35 min",
+                    "durationSeconds": 2100,
+                    "targetType": "Pace",
+                    "targetValue": "4:53–5:03/km",
+                    "cue": "MP blok 2",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w44-t5-garmin-g6",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t5-garmin-s06",
+                    "name": "Zone 2",
+                    "display": "7 min",
+                    "durationSeconds": 420,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2 / easy",
+                    "cue": "afronden",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w44-t5-garmin-g7",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w44-t5-garmin-s07",
+                    "name": "Cooling-down",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w44",
           "dateLabel": "26 oktober t/m 1 november 2026",
           "phaseId": "key-specific",
@@ -3673,10 +5536,8 @@ window.MARATHON_PLAN = {
         "adaptations": [
           "CONTROLLED FAST",
           "STRENGTH",
+          "GARMIN",
           "EASY",
-          "EASY / PRAATTEMPO",
-          "OUTDOOR",
-          "MÁXIMAPARK",
           "ZONE 2",
           "RECOVERY",
           "KEY MARATHON CONFIDENCE",
@@ -3725,8 +5586,8 @@ window.MARATHON_PLAN = {
           "tone": "mp",
           "labels": [
             "MARATHONPACE",
-            "LOOPBAND",
-            "STRENGTH"
+            "STRENGTH",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": "2026-11-03",
@@ -3807,10 +5668,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Herstelruimte bewaken",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Laatste beenkrachtsessie van het schema. Geen spierpijn najagen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
@@ -3844,6 +5705,106 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[600,null,9.5,0],[300,null,10.5,0],[2100,null,12.1,0],[300,null,10.3,0],[600,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Dinsdag 03-11 — 35 min continue MP",
+            "totalSeconds": 3900,
+            "referenceDistanceLabel": "±11,88 km",
+            "programSummary": "10 min [Vrij / easy] → 5 min [Pace 5:20–5:45/km] → 35 min [Pace 4:53–5:03/km] → 5 min [HR Zone 2 / easy] → 10 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w45-t1-garmin-g1",
+                "kind": "sequence",
+                "label": "Warming-up",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w45-t1-garmin-s01",
+                    "name": "Warming-up",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "warming-up",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w45-t1-garmin-g2",
+                "kind": "sequence",
+                "label": "Opbouw",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w45-t1-garmin-s02",
+                    "name": "Opbouw",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Pace",
+                    "targetValue": "5:20–5:45/km",
+                    "cue": "opbouw",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w45-t1-garmin-g3",
+                "kind": "sequence",
+                "label": "Marathonpace",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w45-t1-garmin-s03",
+                    "name": "Marathonpace",
+                    "display": "35 min",
+                    "durationSeconds": 2100,
+                    "targetType": "Pace",
+                    "targetValue": "4:53–5:03/km",
+                    "cue": "MP",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w45-t1-garmin-g4",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w45-t1-garmin-s04",
+                    "name": "Zone 2",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2 / easy",
+                    "cue": "afronden",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w45-t1-garmin-g5",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w45-t1-garmin-s05",
+                    "name": "Cooling-down",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w45",
           "dateLabel": "Dinsdag 3 november",
           "phaseId": "taper-1",
@@ -3859,9 +5820,7 @@ window.MARATHON_PLAN = {
           "tone": "easy",
           "labels": [
             "EASY",
-            "EASY / PRAATTEMPO",
-            "OUTDOOR",
-            "MÁXIMAPARK"
+            "GARMIN"
           ],
           "surface": "buiten",
           "date": "2026-11-04",
@@ -3922,9 +5881,9 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Afstand leidend · tempo op gevoel",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten · Máximapark aanbevolen",
-          "outsideVariant": "Kies een route die uitkomt rond 6,69 km; een volledige parkronde is niet verplicht. Afstand en praattempo zijn leidend, niet een exacte loopbandsnelheid.",
-          "outdoorSimpleMode": true,
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
+          "outdoorSimpleMode": false,
           "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "Loop ontspannen. Tempo op gevoel en volledige zinnen kunnen spreken.",
           "fueling": false,
@@ -3940,6 +5899,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[1800,null,10.3,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Woensdag 04-11 — Easy",
+            "totalSeconds": 2400,
+            "referenceDistanceLabel": "±6,69 km",
+            "programSummary": "5 min [Vrij / easy] → 30 min [HR Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w45-t2-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w45-t2-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w45-t2-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w45-t2-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "30 min",
+                    "durationSeconds": 1800,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "praattempo",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w45-t2-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w45-t2-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w45",
           "dateLabel": "Woensdag 4 november",
           "phaseId": "taper-1",
@@ -3954,7 +5977,8 @@ window.MARATHON_PLAN = {
           "category": "rustige-duur",
           "tone": "steady",
           "labels": [
-            "ZONE 2"
+            "ZONE 2",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": "2026-11-05",
@@ -4015,10 +6039,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Easy blijft easy",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
@@ -4033,6 +6057,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[3600,null,10.4,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Donderdag 05-11 — Aerobe duur",
+            "totalSeconds": 4200,
+            "referenceDistanceLabel": "±11,94 km",
+            "programSummary": "5 min [Vrij / easy] → 60 min [HR Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w45-t3-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w45-t3-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w45-t3-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w45-t3-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "60 min",
+                    "durationSeconds": 3600,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "stabiel aeroob",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w45-t3-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w45-t3-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w45",
           "dateLabel": "Donderdag 5 november",
           "phaseId": "taper-1",
@@ -4048,12 +6136,12 @@ window.MARATHON_PLAN = {
           "tone": "long",
           "labels": [
             "LONG RUN",
-            "BUITEN",
             "MARATHONPACE",
             "CONFIDENCE",
-            "RACEVOEDING"
+            "RACEVOEDING",
+            "GARMIN"
           ],
-          "surface": "buiten",
+          "surface": "loopband",
           "date": "2026-11-08",
           "weekday": "Zondag",
           "fixedDay": true,
@@ -4068,8 +6156,8 @@ window.MARATHON_PLAN = {
                   "basis": "time",
                   "durationSeconds": 600,
                   "display": "10 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 9.5,
+                  "inclinePercent": 0,
                   "type": "warming-up",
                   "instruction": "Rustig",
                   "segmentId": "marathon-3u30-w45-t4-s01"
@@ -4079,9 +6167,9 @@ window.MARATHON_PLAN = {
                   "durationSeconds": 4800,
                   "display": "80 min",
                   "speedKmh": 10.4,
-                  "inclinePercent": null,
+                  "inclinePercent": 0,
                   "type": "easy",
-                  "instruction": "Easy rond 10,4 km/u-equivalent / praattempo",
+                  "instruction": "Praattempo",
                   "segmentId": "marathon-3u30-w45-t4-s02"
                 },
                 {
@@ -4089,7 +6177,7 @@ window.MARATHON_PLAN = {
                   "durationSeconds": 1500,
                   "display": "25 min",
                   "speedKmh": 12.1,
-                  "inclinePercent": null,
+                  "inclinePercent": 0,
                   "type": "marathonpace",
                   "instruction": "Rond 4:58/km",
                   "segmentId": "marathon-3u30-w45-t4-s03"
@@ -4098,8 +6186,8 @@ window.MARATHON_PLAN = {
                   "basis": "time",
                   "durationSeconds": 300,
                   "display": "5 min",
-                  "speedKmh": null,
-                  "inclinePercent": null,
+                  "speedKmh": 9,
+                  "inclinePercent": 0,
                   "type": "cooling-down",
                   "instruction": "Uitlopen",
                   "segmentId": "marathon-3u30-w45-t4-s04"
@@ -4122,10 +6210,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Herstelruimte bewaken",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten",
-          "outsideVariant": "Buiten uitvoeren zoals beschreven.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": true,
           "fullFuelRehearsal": true,
@@ -4139,7 +6227,89 @@ window.MARATHON_PLAN = {
           "isTest": false,
           "testNumber": null,
           "evaluation": null,
-          "protocolSignature": "[[600,null,null,null],[4800,null,10.4,null],[1500,null,12.1,null],[300,null,null,null]]",
+          "protocolSignature": "[[600,null,9.5,0],[4800,null,10.4,0],[1500,null,12.1,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Zondag 08-11 — Buiten long run met MP",
+            "totalSeconds": 7200,
+            "referenceDistanceLabel": "±21,24 km",
+            "programSummary": "10 min [Vrij / easy] → 80 min [HR Zone 2] → 25 min [Pace 4:53–5:03/km] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w45-t4-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w45-t4-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w45-t4-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w45-t4-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "80 min",
+                    "durationSeconds": 4800,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "easy / praattempo",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w45-t4-garmin-g3",
+                "kind": "sequence",
+                "label": "Marathonpace",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w45-t4-garmin-s03",
+                    "name": "Marathonpace",
+                    "display": "25 min",
+                    "durationSeconds": 1500,
+                    "targetType": "Pace",
+                    "targetValue": "4:53–5:03/km",
+                    "cue": "laatste duidelijke MP-bevestiging buiten",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w45-t4-garmin-g4",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w45-t4-garmin-s04",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w45",
           "dateLabel": "Zondag 8 november",
           "phaseId": "taper-1",
@@ -4195,15 +6365,11 @@ window.MARATHON_PLAN = {
         "summary": "Taper starten, kwaliteit behouden en herstelmomenten vastzetten",
         "adaptations": [
           "MARATHONPACE",
-          "LOOPBAND",
           "STRENGTH",
+          "GARMIN",
           "EASY",
-          "EASY / PRAATTEMPO",
-          "OUTDOOR",
-          "MÁXIMAPARK",
           "ZONE 2",
           "LONG RUN",
-          "BUITEN",
           "CONFIDENCE",
           "RACEVOEDING"
         ],
@@ -4246,7 +6412,8 @@ window.MARATHON_PLAN = {
           "category": "kwaliteit",
           "tone": "mp",
           "labels": [
-            "MARATHONPACE"
+            "MARATHONPACE",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": "2026-11-10",
@@ -4347,10 +6514,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Herstelruimte bewaken",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
@@ -4365,6 +6532,117 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[600,null,9.5,0],[300,null,10.5,0],[480,null,12.1,0],[180,null,9.5,0],[480,null,12.1,0],[360,null,10.3,0],[600,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Dinsdag 10-11 — 2 × 8 min MP",
+            "totalSeconds": 3000,
+            "referenceDistanceLabel": "±8,69 km",
+            "programSummary": "10 min easy → 5 min opbouw → 8 min @4:53–5:03/km → 3 min easy → 8 min @4:53–5:03/km → 6 min HR Z2 → 10 min cooldown",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w46-t1-garmin-g1",
+                "kind": "sequence",
+                "label": "Warming-up",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w46-t1-garmin-s01",
+                    "name": "Warming-up",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "warming-up",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w46-t1-garmin-g2",
+                "kind": "sequence",
+                "label": "Opbouw",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w46-t1-garmin-s02",
+                    "name": "Opbouw",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Pace",
+                    "targetValue": "5:20–5:45/km",
+                    "cue": "opbouw",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w46-t1-garmin-g3",
+                "kind": "repeat",
+                "label": "2× Marathonpace",
+                "repetitions": 2,
+                "omitRecoveryAfterLast": true,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w46-t1-garmin-s03",
+                    "name": "Marathonpace",
+                    "display": "8 min",
+                    "durationSeconds": 480,
+                    "targetType": "Pace",
+                    "targetValue": "4:53–5:03/km",
+                    "cue": "MP",
+                    "isRecovery": false
+                  },
+                  {
+                    "segmentId": "marathon-3u30-w46-t1-garmin-s04",
+                    "name": "Herstel",
+                    "display": "tussen blokken 3 min",
+                    "durationSeconds": 180,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "herstel jog",
+                    "isRecovery": true
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w46-t1-garmin-g4",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w46-t1-garmin-s05",
+                    "name": "Zone 2",
+                    "display": "6 min",
+                    "durationSeconds": 360,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "easy",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w46-t1-garmin-g5",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w46-t1-garmin-s06",
+                    "name": "Cooling-down",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w46",
           "dateLabel": "Dinsdag 10 november",
           "phaseId": "taper-2",
@@ -4380,9 +6658,7 @@ window.MARATHON_PLAN = {
           "tone": "easy",
           "labels": [
             "EASY",
-            "EASY / PRAATTEMPO",
-            "OUTDOOR",
-            "MÁXIMAPARK"
+            "GARMIN"
           ],
           "surface": "buiten",
           "date": "2026-11-11",
@@ -4443,9 +6719,9 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Afstand leidend · tempo op gevoel",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten · Máximapark aanbevolen",
-          "outsideVariant": "Kies een route die uitkomt rond 5,75 km; een volledige parkronde is niet verplicht. Afstand en praattempo zijn leidend, niet een exacte loopbandsnelheid.",
-          "outdoorSimpleMode": true,
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
+          "outdoorSimpleMode": false,
           "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "Loop ontspannen. Tempo op gevoel en volledige zinnen kunnen spreken.",
           "fueling": false,
@@ -4461,6 +6737,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[1500,null,10.1,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Woensdag 11-11 — Easy",
+            "totalSeconds": 2100,
+            "referenceDistanceLabel": "±5,75 km",
+            "programSummary": "5 min [Vrij / easy] → 25 min [HR Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w46-t2-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w46-t2-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w46-t2-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w46-t2-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "25 min",
+                    "durationSeconds": 1500,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "licht en ontspannen",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w46-t2-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w46-t2-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w46",
           "dateLabel": "Woensdag 11 november",
           "phaseId": "taper-2",
@@ -4476,7 +6816,8 @@ window.MARATHON_PLAN = {
           "tone": "interval",
           "labels": [
             "EASY",
-            "STRIDES"
+            "STRIDES",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": "2026-11-13",
@@ -4617,10 +6958,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Easy blijft easy",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Strides soepel en technisch; géén sprint.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
@@ -4635,6 +6976,99 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[1380,null,10.2,0],[30,null,13,0],[90,null,9.5,0],[30,null,13,0],[90,null,9.5,0],[30,null,13,0],[90,null,9.5,0],[30,null,13,0],[90,null,9.5,0],[240,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Vrijdag 13-11 — Easy + strides",
+            "totalSeconds": 2400,
+            "referenceDistanceLabel": "±6,69 km",
+            "programSummary": "5 min easy → 23 min HR Z2 → REPEAT 4× [30 sec stride OPEN + 90 sec easy herstel] → 4 min cooldown",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w46-t3-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w46-t3-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w46-t3-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w46-t3-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "23 min",
+                    "durationSeconds": 1380,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "licht",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w46-t3-garmin-g3",
+                "kind": "repeat",
+                "label": "4× Vrij lopen",
+                "repetitions": 4,
+                "omitRecoveryAfterLast": false,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w46-t3-garmin-s03",
+                    "name": "Vrij lopen",
+                    "display": "30 sec",
+                    "durationSeconds": 30,
+                    "targetType": "Open / Free",
+                    "targetValue": "Geen pace-alert",
+                    "cue": "soepel en technisch; geen sprint",
+                    "isRecovery": false
+                  },
+                  {
+                    "segmentId": "marathon-3u30-w46-t3-garmin-s04",
+                    "name": "Herstel",
+                    "display": "na elke stride 90 sec",
+                    "durationSeconds": 90,
+                    "targetType": "Open / Free",
+                    "targetValue": "herstel",
+                    "cue": "zeer rustig joggen",
+                    "isRecovery": true
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w46-t3-garmin-g4",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w46-t3-garmin-s05",
+                    "name": "Cooling-down",
+                    "display": "4 min",
+                    "durationSeconds": 240,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w46",
           "dateLabel": "Vrijdag 13 november",
           "phaseId": "taper-2",
@@ -4649,7 +7083,8 @@ window.MARATHON_PLAN = {
           "category": "lange-duur",
           "tone": "long",
           "labels": [
-            "MARATHONPACE"
+            "MARATHONPACE",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": "2026-11-15",
@@ -4720,10 +7155,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Herstelruimte bewaken",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
@@ -4738,6 +7173,88 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[600,null,9.5,0],[3000,null,10.3,0],[900,null,12.1,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Zondag 15-11 — Korte duur + MP",
+            "totalSeconds": 4800,
+            "referenceDistanceLabel": "±13,94 km",
+            "programSummary": "10 min [Vrij / easy] → 50 min [HR Zone 2] → 15 min [Pace 4:53–5:03/km] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w46-t4-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w46-t4-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w46-t4-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w46-t4-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "50 min",
+                    "durationSeconds": 3000,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "easy",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w46-t4-garmin-g3",
+                "kind": "sequence",
+                "label": "Marathonpace",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w46-t4-garmin-s03",
+                    "name": "Marathonpace",
+                    "display": "15 min",
+                    "durationSeconds": 900,
+                    "targetType": "Pace",
+                    "targetValue": "4:53–5:03/km",
+                    "cue": "MP",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w46-t4-garmin-g4",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w46-t4-garmin-s04",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w46",
           "dateLabel": "Zondag 15 november",
           "phaseId": "taper-2",
@@ -4793,10 +7310,8 @@ window.MARATHON_PLAN = {
         "summary": "Volume verder verlagen en marathonritme scherp houden",
         "adaptations": [
           "MARATHONPACE",
+          "GARMIN",
           "EASY",
-          "EASY / PRAATTEMPO",
-          "OUTDOOR",
-          "MÁXIMAPARK",
           "STRIDES"
         ],
         "why": [
@@ -4839,9 +7354,7 @@ window.MARATHON_PLAN = {
           "tone": "easy",
           "labels": [
             "EASY",
-            "EASY / PRAATTEMPO",
-            "OUTDOOR",
-            "MÁXIMAPARK"
+            "GARMIN"
           ],
           "surface": "buiten",
           "date": "2026-11-17",
@@ -4902,9 +7415,9 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Afstand leidend · tempo op gevoel",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten · Máximapark aanbevolen",
-          "outsideVariant": "Kies een route die uitkomt rond 4,88 km; een volledige parkronde is niet verplicht. Afstand en praattempo zijn leidend, niet een exacte loopbandsnelheid.",
-          "outdoorSimpleMode": true,
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
+          "outdoorSimpleMode": false,
           "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "Loop ontspannen. Tempo op gevoel en volledige zinnen kunnen spreken.",
           "fueling": false,
@@ -4920,6 +7433,70 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[1200,null,10,0],[300,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Dinsdag 17-11 — Easy",
+            "totalSeconds": 1800,
+            "referenceDistanceLabel": "±4,88 km",
+            "programSummary": "5 min [Vrij / easy] → 20 min [HR Zone 2] → 5 min [Vrij / uitlopen]",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w47-t1-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w47-t1-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w47-t1-garmin-g2",
+                "kind": "sequence",
+                "label": "Zone 2",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w47-t1-garmin-s02",
+                    "name": "Zone 2",
+                    "display": "20 min",
+                    "durationSeconds": 1200,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 2",
+                    "cue": "licht; liever onderin Zone 2",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w47-t1-garmin-g3",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w47-t1-garmin-s03",
+                    "name": "Cooling-down",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w47",
           "dateLabel": "Dinsdag 17 november",
           "phaseId": "marathonweek",
@@ -4934,7 +7511,8 @@ window.MARATHON_PLAN = {
           "category": "kwaliteit",
           "tone": "mp",
           "labels": [
-            "MARATHONPACE"
+            "MARATHONPACE",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": "2026-11-19",
@@ -5025,10 +7603,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Herstelruimte bewaken",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
@@ -5043,6 +7621,99 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[600,null,9.5,0],[300,null,10.5,0],[240,null,12.1,0],[120,null,9.5,0],[240,null,12.1,0],[600,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Donderdag 19-11 — 2 × 4 min MP",
+            "totalSeconds": 2100,
+            "referenceDistanceLabel": "±5,89 km",
+            "programSummary": "10 min easy → 5 min opbouw → 4 min @4:53–5:03/km → 2 min easy → 4 min @4:53–5:03/km → 10 min cooldown",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w47-t2-garmin-g1",
+                "kind": "sequence",
+                "label": "Warming-up",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w47-t2-garmin-s01",
+                    "name": "Warming-up",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "warming-up",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w47-t2-garmin-g2",
+                "kind": "sequence",
+                "label": "Opbouw",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w47-t2-garmin-s02",
+                    "name": "Opbouw",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Pace",
+                    "targetValue": "5:20–5:45/km",
+                    "cue": "opbouw",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w47-t2-garmin-g3",
+                "kind": "repeat",
+                "label": "2× Marathonpace",
+                "repetitions": 2,
+                "omitRecoveryAfterLast": true,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w47-t2-garmin-s03",
+                    "name": "Marathonpace",
+                    "display": "4 min",
+                    "durationSeconds": 240,
+                    "targetType": "Pace",
+                    "targetValue": "4:53–5:03/km",
+                    "cue": "MP",
+                    "isRecovery": false
+                  },
+                  {
+                    "segmentId": "marathon-3u30-w47-t2-garmin-s04",
+                    "name": "Herstel",
+                    "display": "tussen blokken 2 min",
+                    "durationSeconds": 120,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "herstel",
+                    "isRecovery": true
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w47-t2-garmin-g4",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w47-t2-garmin-s05",
+                    "name": "Cooling-down",
+                    "display": "10 min",
+                    "durationSeconds": 600,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w47",
           "dateLabel": "Donderdag 19 november",
           "phaseId": "marathonweek",
@@ -5057,7 +7728,8 @@ window.MARATHON_PLAN = {
           "category": "interval",
           "tone": "interval",
           "labels": [
-            "SHAKEOUT"
+            "SHAKEOUT",
+            "GARMIN"
           ],
           "surface": "loopband",
           "date": "2026-11-21",
@@ -5178,10 +7850,10 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Easy blijft easy",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Loopband",
-          "outsideVariant": "Loopband uitvoeren met 0% helling, tenzij het schema expliciet anders zegt.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
-          "treadmillVariantAvailable": false,
+          "treadmillVariantAvailable": true,
           "outdoorSimpleInstruction": "",
           "fueling": false,
           "fullFuelRehearsal": false,
@@ -5196,6 +7868,99 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[300,null,9.5,0],[420,null,9.8,0],[20,null,13,0],[100,null,9.5,0],[20,null,13,0],[100,null,9.5,0],[20,null,13,0],[100,null,9.5,0],[120,null,9,0]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": true,
+          "garmin": {
+            "sourceHeading": "Zaterdag 21-11 — SHAKEOUT",
+            "totalSeconds": 1200,
+            "referenceDistanceLabel": "±3,24 km",
+            "programSummary": "5 min easy → 7 min zeer licht → REPEAT 3× [20 sec stride OPEN + 1:40 easy herstel] → 2 min cooldown",
+            "groups": [
+              {
+                "groupId": "marathon-3u30-w47-t3-garmin-g1",
+                "kind": "sequence",
+                "label": "Vrij lopen",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w47-t3-garmin-s01",
+                    "name": "Vrij lopen",
+                    "display": "5 min",
+                    "durationSeconds": 300,
+                    "targetType": "Open / Free",
+                    "targetValue": "easy",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w47-t3-garmin-g2",
+                "kind": "sequence",
+                "label": "Recovery",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w47-t3-garmin-s02",
+                    "name": "Recovery",
+                    "display": "7 min",
+                    "durationSeconds": 420,
+                    "targetType": "Heart Rate",
+                    "targetValue": "Zone 1–lage Zone 2",
+                    "cue": "heel licht",
+                    "isRecovery": false
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w47-t3-garmin-g3",
+                "kind": "repeat",
+                "label": "3× Stride",
+                "repetitions": 3,
+                "omitRecoveryAfterLast": false,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w47-t3-garmin-s03",
+                    "name": "Stride",
+                    "display": "20 sec",
+                    "durationSeconds": 20,
+                    "targetType": "Open / Free",
+                    "targetValue": "Geen pace-alert",
+                    "cue": "ontspannen versnelling",
+                    "isRecovery": false
+                  },
+                  {
+                    "segmentId": "marathon-3u30-w47-t3-garmin-s04",
+                    "name": "Herstel",
+                    "display": "na elke versnelling 1:40",
+                    "durationSeconds": 100,
+                    "targetType": "Open / Free",
+                    "targetValue": "herstel",
+                    "cue": "zeer rustig",
+                    "isRecovery": true
+                  }
+                ]
+              },
+              {
+                "groupId": "marathon-3u30-w47-t3-garmin-g4",
+                "kind": "sequence",
+                "label": "Cooling-down",
+                "repetitions": 1,
+                "segments": [
+                  {
+                    "segmentId": "marathon-3u30-w47-t3-garmin-s05",
+                    "name": "Cooling-down",
+                    "display": "2 min",
+                    "durationSeconds": 120,
+                    "targetType": "Open / Free",
+                    "targetValue": "uitlopen",
+                    "cue": "rustig",
+                    "isRecovery": false
+                  }
+                ]
+              }
+            ]
+          },
           "weekId": "marathon-3u30-w47",
           "dateLabel": "Zaterdag 21 november",
           "phaseId": "marathonweek",
@@ -5211,7 +7976,8 @@ window.MARATHON_PLAN = {
           "tone": "race",
           "labels": [
             "RACE",
-            "MARATHON"
+            "MARATHON",
+            "GARMIN"
           ],
           "surface": "buiten",
           "date": "2026-11-22",
@@ -5252,8 +8018,8 @@ window.MARATHON_PLAN = {
           "recoveryLabel": "Easy blijft easy",
           "recoveryAdvice": "Na een grote zondagse key-run volgt maandag volledige rust. Dinsdagse kwaliteit gaat alleen door bij normaal herstel; anders 24 uur opschuiven en de easy-run laten vervallen of verplaatsen. Niet comprimeren.",
           "orderWarning": "Bij scherpe of oplopende lokale pijn, aangepast looppatroon of vroeg geforceerd marathonpace: stoppen of naar easy omzetten. Gemiste kilometers niet inhalen.",
-          "locationStatus": "Buiten",
-          "outsideVariant": "Buiten uitvoeren zoals beschreven.",
+          "locationStatus": "Outdoor / Garmin standaard",
+          "outsideVariant": "Voer buiten uit volgens Garmin Setup. De schema-afstand is een referentie; bij tijd- en hartslaggestuurde blokken zijn duur en intensiteit leidend.",
           "outdoorSimpleMode": false,
           "treadmillVariantAvailable": false,
           "outdoorSimpleInstruction": "",
@@ -5270,6 +8036,26 @@ window.MARATHON_PLAN = {
           "testNumber": null,
           "evaluation": null,
           "protocolSignature": "[[null,42.195,12.0557,null]]",
+          "defaultExecutionMode": "garmin",
+          "treadmillAvailable": false,
+          "garmin": {
+            "isRacePlan": true,
+            "totalSeconds": 12600,
+            "referenceDistanceLabel": "42,195 km",
+            "programSummary": "Lap pace / gemiddelde pace rond 4:58–4:59/km · gecontroleerd starten · geen tijd bankieren",
+            "groups": [],
+            "raceGuidance": [
+              "Primair: lap pace / gemiddelde pace gebruiken om rond 4:58–4:59/km te stabiliseren.",
+              "Geen agressieve instant-pace-reacties op GPS-schommelingen; kijk naar lap/average pace en gevoel.",
+              "Eerste kilometers bewust gecontroleerd; geen tijd bankieren.",
+              "HR is ondersteunende informatie en een drift-/belastingcheck, geen harde racecap zolang de trainingsdata geen gevalideerde cap hebben opgeleverd.",
+              "Alleen in de slotfase versnellen als benen, ademhaling en techniek dat toelaten.",
+              "circa 80 g koolhydraten/u;",
+              "SiS Beta Fuel Neutral volgens geoefende timing;",
+              "Bulk Electrolytes volgens geoefend drinkplan;",
+              "niets nieuws op racedag."
+            ]
+          },
           "weekId": "marathon-3u30-w47",
           "dateLabel": "Zondag 22 november",
           "phaseId": "marathonweek",
@@ -5325,9 +8111,7 @@ window.MARATHON_PLAN = {
         "summary": "Herstellen, losmaken en het geoefende raceplan uitvoeren",
         "adaptations": [
           "EASY",
-          "EASY / PRAATTEMPO",
-          "OUTDOOR",
-          "MÁXIMAPARK",
+          "GARMIN",
           "MARATHONPACE",
           "SHAKEOUT",
           "RACE",
@@ -6996,6 +9780,571 @@ window.MARATHON_PLAN = {
       "outdoorSimpleMode": false
     }
   },
+  "previousWorkoutsV11": {
+    "marathon-3u30-w39-t1": {
+      "title": "Rustige duur",
+      "distanceKm": 11.08,
+      "durationSeconds": 3900,
+      "signature": "[[300,null,9.5,0],[3300,null,10.4,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "ZONE 2",
+        "LOOPBAND",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w39-t2": {
+      "title": "2 × 12 min MP",
+      "distanceKm": 10.65,
+      "durationSeconds": 3600,
+      "signature": "[[600,null,9.5,0],[300,null,10.5,0],[720,null,12.1,0],[180,null,9.5,0],[720,null,12.1,0],[480,null,10.3,0],[600,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "MARATHONPACE",
+        "LOOPBAND"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w39-t3": {
+      "title": "Easy buiten",
+      "distanceKm": 8.41,
+      "durationSeconds": 3000,
+      "signature": "[[300,null,null,null],[2400,null,null,null],[300,null,null,null]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "buiten",
+      "labels": [
+        "EASY",
+        "BUITEN",
+        "EASY / PRAATTEMPO",
+        "OUTDOOR",
+        "MÁXIMAPARK"
+      ],
+      "outdoorSimpleMode": true
+    },
+    "marathon-3u30-w39-t4": {
+      "title": "Halve Marathon Texel",
+      "distanceKm": 23.1,
+      "durationSeconds": null,
+      "signature": "[[null,1,null,null],[null,21.1,null,null],[null,1,null,null]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "buiten",
+      "labels": [
+        "CONFIDENCE",
+        "BUITENWEDSTRIJD"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w40-t1": {
+      "title": "Herstel",
+      "distanceKm": 7.14,
+      "durationSeconds": 2700,
+      "signature": "[[300,null,9.5,0],[2100,null,9.6,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "buiten",
+      "labels": [
+        "RECOVERY",
+        "OUTDOOR",
+        "MÁXIMAPARK"
+      ],
+      "outdoorSimpleMode": true
+    },
+    "marathon-3u30-w40-t2": {
+      "title": "Aerobe herstart",
+      "distanceKm": 10.89,
+      "durationSeconds": 3900,
+      "signature": "[[300,null,9.5,0],[3300,null,10.2,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "buiten",
+      "labels": [
+        "ZONE 2",
+        "EASY / PRAATTEMPO",
+        "OUTDOOR",
+        "MÁXIMAPARK",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": true
+    },
+    "marathon-3u30-w40-t3": {
+      "title": "Easy + optionele strides",
+      "distanceKm": 9.2,
+      "durationSeconds": 3300,
+      "signature": "[[300,null,9.5,0],[1980,null,10.2,0],[20,null,13,0],[70,null,9.5,0],[20,null,13,0],[70,null,9.5,0],[20,null,13,0],[70,null,9.5,0],[20,null,13,0],[70,null,9.5,0],[360,null,10.2,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "EASY",
+        "LOOPBAND",
+        "OPTIONEEL · ALLEEN BIJ VOLLEDIG HERSTEL",
+        "STRIDES"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w40-t4": {
+      "title": "Lange easy",
+      "distanceKm": 18.71,
+      "durationSeconds": 6600,
+      "signature": "[[300,null,9.5,0],[6000,null,10.3,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "LONG RUN",
+        "ZONE 2"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w41-t1": {
+      "title": "MP Confidence #1",
+      "distanceKm": 13.03,
+      "durationSeconds": 4200,
+      "signature": "[[600,null,9.5,0],[300,null,10.5,0],[2700,null,12.1,0],[600,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "MP CONFIDENCE #1",
+        "MARATHONPACE",
+        "LOOPBAND",
+        "CONFIDENCE",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w41-t2": {
+      "title": "Easy",
+      "distanceKm": 7.55,
+      "durationSeconds": 2700,
+      "signature": "[[300,null,9.5,0],[2100,null,10.3,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "buiten",
+      "labels": [
+        "EASY",
+        "EASY / PRAATTEMPO",
+        "OUTDOOR",
+        "MÁXIMAPARK"
+      ],
+      "outdoorSimpleMode": true
+    },
+    "marathon-3u30-w41-t3": {
+      "title": "Middellange Zone 2 + controlled fast",
+      "distanceKm": 15.81,
+      "durationSeconds": 5400,
+      "signature": "[[300,null,9.5,0],[2700,null,10.5,0],[180,null,12.7,0],[120,null,9.5,0],[180,null,12.7,0],[120,null,9.5,0],[180,null,12.7,0],[1320,null,10.5,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "ZONE 2",
+        "CONTROLLED FAST",
+        "BOVEN MP",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w41-t4": {
+      "title": "Recovery",
+      "distanceKm": 4.74,
+      "durationSeconds": 1800,
+      "signature": "[[300,null,9.5,0],[1200,null,9.6,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "buiten",
+      "labels": [
+        "RECOVERY",
+        "OUTDOOR",
+        "MÁXIMAPARK"
+      ],
+      "outdoorSimpleMode": true
+    },
+    "marathon-3u30-w41-t5": {
+      "title": "Lange rustige duur",
+      "distanceKm": 24.29,
+      "durationSeconds": 8400,
+      "signature": "[[300,null,9.5,0],[7800,null,10.5,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "LONG RUN",
+        "ZONE 2"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w42-t1": {
+      "title": "4 × 6 min controlled fast",
+      "distanceKm": 12.52,
+      "durationSeconds": 4200,
+      "signature": "[[600,null,9.5,0],[300,null,10.5,0],[360,null,12.7,0],[180,null,9.5,0],[360,null,12.7,0],[180,null,9.5,0],[360,null,12.7,0],[180,null,9.5,0],[360,null,12.7,0],[720,null,10.3,0],[600,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "CONTROLLED FAST",
+        "LOOPBAND",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w42-t2": {
+      "title": "Easy",
+      "distanceKm": 7.55,
+      "durationSeconds": 2700,
+      "signature": "[[300,null,9.5,0],[2100,null,10.3,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "buiten",
+      "labels": [
+        "EASY",
+        "EASY / PRAATTEMPO",
+        "OUTDOOR",
+        "MÁXIMAPARK"
+      ],
+      "outdoorSimpleMode": true
+    },
+    "marathon-3u30-w42-t3": {
+      "title": "Middellange Zone 2",
+      "distanceKm": 17.29,
+      "durationSeconds": 6000,
+      "signature": "[[300,null,9.5,0],[5400,null,10.5,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "ZONE 2",
+        "VERLENGD",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w42-t4": {
+      "title": "Recovery",
+      "distanceKm": 5.54,
+      "durationSeconds": 2100,
+      "signature": "[[300,null,9.5,0],[1500,null,9.6,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "buiten",
+      "labels": [
+        "RECOVERY",
+        "OUTDOOR",
+        "MÁXIMAPARK"
+      ],
+      "outdoorSimpleMode": true
+    },
+    "marathon-3u30-w42-t5": {
+      "title": "MP-under-fatigue Confidence #2",
+      "distanceKm": 29.32,
+      "durationSeconds": 9900,
+      "signature": "[[600,null,9.5,0],[6000,null,10.4,0],[2400,null,12.1,0],[300,null,10,0],[600,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "MP-UNDER-FATIGUE CONFIDENCE #2",
+        "MARATHONPACE",
+        "CONFIDENCE",
+        "RACEVOEDING"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w43-t1": {
+      "title": "Outdoor MP Confidence #3",
+      "distanceKm": 14.04,
+      "durationSeconds": 4500,
+      "signature": "[[600,null,null,null],[300,null,null,null],[3000,null,12.1,null],[600,null,null,null]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "buiten",
+      "labels": [
+        "OUTDOOR MP CONFIDENCE #3",
+        "BUITEN",
+        "MARATHONPACE",
+        "CONFIDENCE",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w43-t2": {
+      "title": "Easy",
+      "distanceKm": 8.41,
+      "durationSeconds": 3000,
+      "signature": "[[300,null,9.5,0],[2400,null,10.3,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "buiten",
+      "labels": [
+        "EASY",
+        "EASY / PRAATTEMPO",
+        "OUTDOOR",
+        "MÁXIMAPARK"
+      ],
+      "outdoorSimpleMode": true
+    },
+    "marathon-3u30-w43-t3": {
+      "title": "Middellange Zone 2",
+      "distanceKm": 18.17,
+      "durationSeconds": 6300,
+      "signature": "[[300,null,9.5,0],[5700,null,10.5,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "ZONE 2",
+        "VERLENGD",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w43-t4": {
+      "title": "Recovery",
+      "distanceKm": 5.54,
+      "durationSeconds": 2100,
+      "signature": "[[300,null,9.5,0],[1500,null,9.6,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "buiten",
+      "labels": [
+        "RECOVERY",
+        "OUTDOOR",
+        "MÁXIMAPARK"
+      ],
+      "outdoorSimpleMode": true
+    },
+    "marathon-3u30-w43-t5": {
+      "title": "30K Confidence Run",
+      "distanceKm": 31.58,
+      "durationSeconds": 10800,
+      "signature": "[[300,null,9.5,0],[10200,null,10.6,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "30K CONFIDENCE RUN",
+        "LONG RUN",
+        "CONFIDENCE",
+        "RACEVOEDING"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w44-t1": {
+      "title": "3 × 4 min controlled fast",
+      "distanceKm": 9.51,
+      "durationSeconds": 3300,
+      "signature": "[[600,null,9.5,0],[300,null,10.5,0],[240,null,12.7,0],[180,null,9.5,0],[240,null,12.7,0],[180,null,9.5,0],[240,null,12.7,0],[720,null,10.3,0],[600,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "CONTROLLED FAST",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w44-t2": {
+      "title": "Easy",
+      "distanceKm": 7.55,
+      "durationSeconds": 2700,
+      "signature": "[[300,null,9.5,0],[2100,null,10.3,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "buiten",
+      "labels": [
+        "EASY",
+        "EASY / PRAATTEMPO",
+        "OUTDOOR",
+        "MÁXIMAPARK"
+      ],
+      "outdoorSimpleMode": true
+    },
+    "marathon-3u30-w44-t3": {
+      "title": "Middellange aerobe duur",
+      "distanceKm": 15.54,
+      "durationSeconds": 5400,
+      "signature": "[[300,null,9.5,0],[4800,null,10.5,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "ZONE 2"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w44-t4": {
+      "title": "Recovery",
+      "distanceKm": 4.74,
+      "durationSeconds": 1800,
+      "signature": "[[300,null,9.5,0],[1200,null,9.6,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "buiten",
+      "labels": [
+        "RECOVERY",
+        "OUTDOOR",
+        "MÁXIMAPARK"
+      ],
+      "outdoorSimpleMode": true
+    },
+    "marathon-3u30-w44-t5": {
+      "title": "Key Marathon Confidence",
+      "distanceKm": 30.94,
+      "durationSeconds": 10200,
+      "signature": "[[600,null,9.5,0],[3900,null,10.4,0],[2100,null,12.1,0],[480,null,9.8,0],[2100,null,12.1,0],[420,null,10,0],[600,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "KEY MARATHON CONFIDENCE",
+        "MARATHONPACE",
+        "CONFIDENCE",
+        "RACEVOEDING"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w45-t1": {
+      "title": "35 min continue MP",
+      "distanceKm": 11.88,
+      "durationSeconds": 3900,
+      "signature": "[[600,null,9.5,0],[300,null,10.5,0],[2100,null,12.1,0],[300,null,10.3,0],[600,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "MARATHONPACE",
+        "LOOPBAND",
+        "STRENGTH"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w45-t2": {
+      "title": "Easy",
+      "distanceKm": 6.69,
+      "durationSeconds": 2400,
+      "signature": "[[300,null,9.5,0],[1800,null,10.3,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "buiten",
+      "labels": [
+        "EASY",
+        "EASY / PRAATTEMPO",
+        "OUTDOOR",
+        "MÁXIMAPARK"
+      ],
+      "outdoorSimpleMode": true
+    },
+    "marathon-3u30-w45-t3": {
+      "title": "Aerobe duur",
+      "distanceKm": 11.94,
+      "durationSeconds": 4200,
+      "signature": "[[300,null,9.5,0],[3600,null,10.4,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "ZONE 2"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w45-t4": {
+      "title": "Buiten long run met MP",
+      "distanceKm": 21.24,
+      "durationSeconds": 7200,
+      "signature": "[[600,null,null,null],[4800,null,10.4,null],[1500,null,12.1,null],[300,null,null,null]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "buiten",
+      "labels": [
+        "LONG RUN",
+        "BUITEN",
+        "MARATHONPACE",
+        "CONFIDENCE",
+        "RACEVOEDING"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w46-t1": {
+      "title": "2 × 8 min MP",
+      "distanceKm": 8.69,
+      "durationSeconds": 3000,
+      "signature": "[[600,null,9.5,0],[300,null,10.5,0],[480,null,12.1,0],[180,null,9.5,0],[480,null,12.1,0],[360,null,10.3,0],[600,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "MARATHONPACE"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w46-t2": {
+      "title": "Easy",
+      "distanceKm": 5.75,
+      "durationSeconds": 2100,
+      "signature": "[[300,null,9.5,0],[1500,null,10.1,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "buiten",
+      "labels": [
+        "EASY",
+        "EASY / PRAATTEMPO",
+        "OUTDOOR",
+        "MÁXIMAPARK"
+      ],
+      "outdoorSimpleMode": true
+    },
+    "marathon-3u30-w46-t3": {
+      "title": "Easy + strides",
+      "distanceKm": 6.69,
+      "durationSeconds": 2400,
+      "signature": "[[300,null,9.5,0],[1380,null,10.2,0],[30,null,13,0],[90,null,9.5,0],[30,null,13,0],[90,null,9.5,0],[30,null,13,0],[90,null,9.5,0],[30,null,13,0],[90,null,9.5,0],[240,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "EASY",
+        "STRIDES"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w46-t4": {
+      "title": "Korte duur + MP",
+      "distanceKm": 13.94,
+      "durationSeconds": 4800,
+      "signature": "[[600,null,9.5,0],[3000,null,10.3,0],[900,null,12.1,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "MARATHONPACE"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w47-t1": {
+      "title": "Easy",
+      "distanceKm": 4.88,
+      "durationSeconds": 1800,
+      "signature": "[[300,null,9.5,0],[1200,null,10,0],[300,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "buiten",
+      "labels": [
+        "EASY",
+        "EASY / PRAATTEMPO",
+        "OUTDOOR",
+        "MÁXIMAPARK"
+      ],
+      "outdoorSimpleMode": true
+    },
+    "marathon-3u30-w47-t2": {
+      "title": "2 × 4 min MP",
+      "distanceKm": 5.89,
+      "durationSeconds": 2100,
+      "signature": "[[600,null,9.5,0],[300,null,10.5,0],[240,null,12.1,0],[120,null,9.5,0],[240,null,12.1,0],[600,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "MARATHONPACE"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w47-t3": {
+      "title": "Shakeout",
+      "distanceKm": 3.24,
+      "durationSeconds": 1200,
+      "signature": "[[300,null,9.5,0],[420,null,9.8,0],[20,null,13,0],[100,null,9.5,0],[20,null,13,0],[100,null,9.5,0],[20,null,13,0],[100,null,9.5,0],[120,null,9,0]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "loopband",
+      "labels": [
+        "SHAKEOUT"
+      ],
+      "outdoorSimpleMode": false
+    },
+    "marathon-3u30-w47-t4": {
+      "title": "Marathon",
+      "distanceKm": 42.195,
+      "durationSeconds": 12600,
+      "signature": "[[null,42.195,12.0557,null]]",
+      "schemaVersion": "marathon-3u30-final-v3-2026.09.25-3",
+      "surface": "buiten",
+      "labels": [
+        "RACE",
+        "MARATHON"
+      ],
+      "outdoorSimpleMode": false
+    }
+  },
   "workoutAliases": {},
   "strengthDefinitions": {
     "A": {
@@ -7086,23 +10435,22 @@ window.MARATHON_PLAN = {
       "Controlled-fast werk wordt spaarzaam ingezet om enige snelheidsreserve boven marathonpace te behouden en te ontwikkelen. Het doel is niet om van het marathonblok een 10 km- of VO2max-programma te maken. Marathonfitness blijft primair voortkomen uit veel gecontroleerde aerobe arbeid, marathonpace onder toenemende vermoeidheid en succesvolle verwerking van de lange trainingen.",
       "Boven-MP-werk is ondersteunend en mag niet ten koste gaan van key long runs of herstel. Er wordt bewust geen zesde loopdag toegevoegd.",
       "Long runs zijn groot genoeg; er worden geen geforceerde 32–35 km-trainingen toegevoegd.",
-      "Pure Easy- en Recovery-sessies worden bij voorkeur ontspannen buiten in het Máximapark gelopen. Afstand, RPE en praattempo zijn daar leidend; de exacte loopbandblokken blijven als variant beschikbaar wanneer de bron die numeriek voorschrijft.",
-      "Marathonpace, controlled-fast werk, intervalblokken, gestructureerde strides en andere precisieprikkels blijven op de loopband. Expliciet buiten geplande sleuteltrainingen blijven buiten.",
+      "Outdoor / Garmin is vanaf W40 de standaarduitvoering. Easy, recovery en lange easy worden primair op hartslagzone en gevoel gestuurd; marathonpace en controlled fast op pace.",
+      "De volledige loopbandvariant blijft bij iedere niet-raceworkout beschikbaar met dezelfde duur, belasting en blokvolgorde.",
       "Vanaf W45 is de taper kalendergestuurd en zijn rustdagen een verplicht onderdeel van het schema."
     ],
     "surfaceStrategy": {
-      "title": "Loopbandstrategie / Buitenlopen",
-      "explanation": "Pure Easy- en Recovery-sessies zijn eenvoudige buitenruns in het Máximapark: afstand, RPE en ontspannen uitvoering zijn leidend. De loopband blijft de voorkeursplek voor trainingen waarin snelheid, helling en bloktiming precies moeten kloppen. Een expliciet buiten geplande sleutelrun blijft buiten.",
+      "title": "Outdoor / Garmin en loopband",
+      "explanation": "Outdoor / Garmin is de standaard. Easy, recovery en Zone 2 volgen buiten de bedoelde hartslagzone met praat- en RPE-check; MP en controlled fast volgen pace. De loopband blijft een volledig gelijkwaardige variant met concrete km/u, duur en 0% helling.",
       "treadmill": [
-        "Marathonpace, controlled-fast werk en intervallen",
-        "Easy met gestructureerde strides",
-        "Middellange en lange loopbandtrainingen volgens het bronschema"
+        "Bij iedere niet-raceworkout beschikbaar",
+        "Exact dezelfde duur en blokvolgorde",
+        "Concrete snelheid en helling per stap"
       ],
       "outside": [
-        "Pure Easy- en Recovery-sessies in het Máximapark",
-        "Halve Marathon Texel",
-        "Outdoor MP Confidence #3",
-        "Laatste buiten-long run met marathonpace"
+        "Heart Rate voor easy, recovery en Zone 2",
+        "Pace voor marathonpace en controlled fast",
+        "Open / Free voor warming-up, cooldown en korte strides"
       ]
     },
     "paces": [
