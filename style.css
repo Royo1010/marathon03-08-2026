@@ -382,6 +382,9 @@ button:disabled {
 .tone-race { --training-color: var(--color-race); }
 .tone-fueling { --training-color: var(--color-fueling); }
 .tone-treadmill { --training-color: #9fc8ff; }
+.tone-green { --training-color: #83bda2; }
+.tone-orange { --training-color: #c7a96e; }
+.tone-red { --training-color: #d38a8a; }
 
 .training-list { gap: 16px; }
 .training-card .card-topline { color: var(--training-color); }
@@ -410,6 +413,152 @@ button:disabled {
 .training-card.is-completed {
   background: #131922;
 }
+
+.training-card.is-suspended {
+  opacity: .78;
+  box-shadow: inset 3px 0 0 #8d5b5b;
+}
+
+.suspended-note {
+  margin-top: 10px;
+  padding: 9px 10px;
+  border: 1px solid rgba(211, 138, 138, .35);
+  border-radius: var(--radius);
+  color: #e0aaaa;
+  background: rgba(117, 54, 54, .12);
+  font-size: 11px;
+  font-weight: 720;
+  line-height: 1.45;
+}
+
+.week-decision-card {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 16px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--status-color, var(--border-strong));
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+
+.week-decision-card.status-green { --status-color: #83bda2; }
+.week-decision-card.status-orange { --status-color: #c7a96e; }
+.week-decision-card.status-red { --status-color: #d38a8a; }
+
+.week-decision-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.week-decision-heading > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.week-decision-heading span {
+  color: var(--muted-soft);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.week-decision-heading h2 {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+.week-decision-heading > strong {
+  flex: 0 0 auto;
+  max-width: 46%;
+  color: var(--status-color);
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: right;
+}
+
+.week-decision-card > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.status-choice {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.status-choice button {
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--muted);
+  background: var(--panel-soft);
+  font-size: 11px;
+  font-weight: 820;
+}
+
+.status-choice button.is-active {
+  border-color: currentColor;
+  color: var(--status-button-color);
+  background: rgba(255, 255, 255, .035);
+}
+
+.status-choice .status-green { --status-button-color: #83bda2; }
+.status-choice .status-orange { --status-button-color: #c7a96e; }
+.status-choice .status-red { --status-button-color: #d38a8a; }
+
+.status-checklist {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel-soft);
+}
+
+.status-checklist summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 48px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 760;
+  list-style: none;
+}
+
+.status-checklist summary::-webkit-details-marker { display: none; }
+.status-checklist summary span { color: var(--accent); font-size: 10px; }
+.status-checklist > div { display: grid; gap: 2px; padding: 3px 10px 11px; border-top: 1px solid var(--border); }
+.status-checklist label { display: grid; grid-template-columns: 22px minmax(0, 1fr); align-items: start; gap: 8px; min-height: 42px; padding: 8px 2px; border-bottom: 1px solid rgba(43, 53, 66, .55); color: var(--muted); font-size: 12px; line-height: 1.45; }
+.status-checklist input { width: 20px; height: 20px; margin: 0; accent-color: var(--accent); }
+.missing-criteria { margin: 8px 2px 0; color: var(--muted-soft); font-size: 11px; line-height: 1.45; }
+
+.taper-basis {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel-soft);
+}
+
+.rhythm-choice {
+  display: grid;
+  gap: 6px;
+}
+
+.rhythm-choice > span { color: var(--text); font-size: 12px; font-weight: 760; }
+.rhythm-choice select { min-height: 44px; padding: 9px 10px; border: 1px solid var(--border-strong); border-radius: var(--radius); color: var(--text); background: var(--panel-soft); font-size: 16px; }
+.rhythm-choice small { color: var(--muted-soft); font-size: 10px; line-height: 1.45; }
+.workout-log-card { margin-top: 14px; }
 
 .training-card-toggle {
   display: grid;

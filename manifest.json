@@ -1,7 +1,7 @@
 {
-  "name": "Marathon 3:30 — Loopbandschema",
-  "short_name": "Marathon 3:30",
-  "description": "Mobiele weekplanner voor het definitieve Marathon 3:30-loopbandschema van week 36 tot en met marathonweek.",
+  "name": "Marathon 2026 — herstelgestuurd schema",
+  "short_name": "Marathon 2026",
+  "description": "Mobiele herstelgestuurde Garmin- en outdoorplanner voor week 41 tot en met marathonweek.",
   "id": "./",
   "start_url": "./",
   "scope": "./",

@@ -15,16 +15,16 @@ test("manifest en assets gebruiken GitHub Pages-veilige relatieve paden", () => 
   assert.equal(manifest.display, "standalone");
   assert.ok(manifest.icons.every((icon) => icon.src.startsWith("./")));
   assert.match(html, /apple-mobile-web-app-capable/);
-  assert.match(html, /apple-touch-icon\.png\?v=2026\.09\.30-1/);
-  assert.match(html, /manifest\.json\?v=2026\.09\.30-1/);
-  assert.match(html, /training-data\.js\?v=2026\.09\.30-1/);
-  assert.match(html, /notification-model\.js\?v=2026\.09\.30-1/);
-  assert.match(html, /push-config\.js\?v=2026\.09\.30-1/);
-  assert.match(read("app.js"), /APP_VERSION = "2026\.09\.30-1"/);
-  assert.match(read("service-worker.js"), /APP_VERSION = "2026\.09\.30-1"/);
+  assert.match(html, /apple-touch-icon\.png\?v=2026\.10\.03-1/);
+  assert.match(html, /manifest\.json\?v=2026\.10\.03-1/);
+  assert.match(html, /training-data\.js\?v=2026\.10\.03-1/);
+  assert.match(html, /notification-model\.js\?v=2026\.10\.03-1/);
+  assert.match(html, /push-config\.js\?v=2026\.10\.03-1/);
+  assert.match(read("app.js"), /APP_VERSION = "2026\.10\.03-1"/);
+  assert.match(read("service-worker.js"), /APP_VERSION = "2026\.10\.03-1"/);
   assert.doesNotMatch(html, /(?:href|src)="\//);
-  assert.match(html, /<strong>Marathon 3:30<\/strong>/);
-  assert.doesNotMatch(html, /header-brand[\s\S]*?<strong>Marathon 3:30\s*<i/);
+  assert.match(html, /<strong>Marathon 2026<\/strong>/);
+  assert.doesNotMatch(html, /header-brand[\s\S]*?<strong>Marathon 2026\s*<i/);
 });
 
 test("service worker blijft netwerkgestuurd en ondersteunt push", () => {
@@ -108,14 +108,16 @@ test("nieuwe pushworker verwijdert oude appcaches, blijft actief en gebruikt net
   assert.equal(messages[0].workoutId, "week36-training2");
 });
 
-test("FINAL V4 is de actieve bron zonder oude fitnesschecks", () => {
-  const markdown = read("marathonschema_Roy_FINAL_V4_GARMIN_OUTDOOR_2026-09-30.md");
+test("FINAL V5 is de actieve bron zonder oude actieve V4-doelen", () => {
+  const markdown = read("marathonschema_Roy_FINAL_V5_GARMIN_OUTDOOR_2026-10-03.md");
   const data = read("training-data.js");
-  assert.match(markdown, /Marathonschema Roy — FINAL V4 — Garmin \/ Outdoor Edition/);
-  assert.match(markdown, /WEEK 47 — Marathonweek/i);
-  assert.match(data, /"sourceFile": "marathonschema_Roy_FINAL_V4_GARMIN_OUTDOOR_2026-09-30\.md"/);
-  assert.match(data, /"schemaVersion": "marathon-3u30-final-v4-garmin-outdoor-2026\.09\.30-1"/);
+  assert.match(markdown, /Marathonschema Roy — FINAL V5 — Garmin \/ Outdoor/);
+  assert.match(markdown, /## Week 47/i);
+  assert.match(data, /"sourceFile": "marathonschema_Roy_FINAL_V5_GARMIN_OUTDOOR_2026-10-03\.md"/);
+  assert.match(data, /"schemaVersion": "marathon-final-v5-garmin-outdoor-2026\.10\.03-1"/);
   assert.match(data, /"defaultExecutionMode": "garmin"/);
-  assert.doesNotMatch(data, /FITNESS CHECK/);
-  assert.doesNotMatch(read("index.html"), /training-plan-v5/);
+  assert.match(data, /"targetTime": null/);
+  assert.doesNotMatch(data, /"strength"\s*:\s*\{/);
+  assert.doesNotMatch(data, /Sessie A|Sessie B|A-light|B-light/);
+  assert.doesNotMatch(read("index.html"), /Marathon 3:30/);
 });

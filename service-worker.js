@@ -1,4 +1,4 @@
-const APP_VERSION = "2026.09.30-1";
+const APP_VERSION = "2026.10.03-1";
 const APP_CACHE_PREFIXES = ["marathon-330-", "marathon-app-"];
 
 // Blijvende netwerk-eerst worker: oude appcaches worden opgeruimd, maar de worker
@@ -25,9 +25,9 @@ self.addEventListener("push", (event) => {
   event.waitUntil((async () => {
     let payload = {};
     try { payload = event.data?.json?.() || {}; }
-    catch (_) { payload = { title: "Marathon 3:30", body: event.data?.text?.() || "Nieuwe trainingsmelding" }; }
+    catch (_) { payload = { title: "Marathon 2026", body: event.data?.text?.() || "Nieuwe trainingsmelding" }; }
 
-    const title = String(payload.title || "Marathon 3:30");
+    const title = String(payload.title || "Marathon 2026");
     await self.registration.showNotification(title, {
       body: String(payload.body || ""),
       tag: String(payload.tag || `marathon-${Date.now()}`),
