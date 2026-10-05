@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "2026.10.03-1";
+  const APP_VERSION = "2026.10.05-1";
   // Keep this key stable. Preserve existing logs; migrate additions and protocol changes.
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
   const APP_DATA_VERSION = 11;
@@ -685,11 +685,7 @@
   }
 
   function workoutSequenceLabel(workout) {
-    const week = weeks.find((item) => item.weekNumber === workout?.weekNumber);
-    if (week?.planningMode === "calendar" && workout?.fixedDay && workout.date) {
-      return `${workout.weekday || formatDate(workout.date, { weekday: "long" })} ${formatDate(workout.date, { day: "numeric", month: "long" })}`;
-    }
-    return workout?.trainingLabel || (workout?.trainingNumber ? `Training ${workout.trainingNumber}` : "Extra sessie");
+    return workout?.trainingNumber ? `Training ${workout.trainingNumber}` : workout?.trainingLabel || "Extra sessie";
   }
 
   function relevantSegments(workout) {
@@ -707,7 +703,7 @@
       if (types.includes("Heart Rate") && types.includes("Pace")) return "Garmin · Heart Rate + Pace";
       if (types.includes("Pace")) return "Garmin · Pace";
       if (types.includes("Heart Rate")) return "Garmin · Heart Rate";
-      return "Garmin · Open / Free";
+      return workout.activityType === "bike" ? "Fietsen op tijd · rustig" : "Garmin · Geen doel";
     }
     if (workout.outdoorSimpleMode) return "Buiten · tempo op gevoel";
     const values = relevantSegments(workout).map((segment) => Number(segment.speedKmh)).filter((value) => Number.isFinite(value) && value > 0);
@@ -856,7 +852,7 @@
   function buildTreadmillTimeline(workout) {
     let elapsedSeconds = 0;
     let cumulativeTimeKnown = true;
-    const blocks = model.flattenWorkoutSegments(workout).map((segment, index) => {
+    const blocks = model.flattenWorkoutSegments({ ...workout, groups: model.treadmillGroups(workout) }).map((segment, index) => {
       const explicitDuration = Number(segment.durationSeconds);
       const calculatedDuration = Number(model.segmentDurationSeconds(segment));
       const durationSeconds = calculatedDuration > 0 ? calculatedDuration : null;
@@ -970,59 +966,25 @@
     return appData.userSettings?.weekDecisions?.[weekNumber] || { status: "orange", criteria: {} };
   }
 
-  function saveWeekDecision(weekNumber, field, value) {
-    appData.userSettings.weekDecisions ||= {};
-    const current = weekDecision(weekNumber);
-    if (field.startsWith("criteria.")) {
-      const key = field.split(".")[1];
-      current.criteria = { ...(current.criteria || {}), [key]: Boolean(value) };
-    } else current[field] = value;
-    current.updatedAt = nowIso();
-    appData.userSettings.weekDecisions[weekNumber] = current;
-    saveAppData();
-    const viewedWeek = weeks[state.viewedWeekIndex]?.weekNumber || weekNumber;
-    refreshResolvedPlan();
-    state.viewedWeekIndex = Math.max(0, weeks.findIndex((week) => week.weekNumber === viewedWeek));
-    render();
+  function weekVariantLabel(week) {
+    if (week.variant === "no-basis") return "Kalenderreferentie · taperbasis nog open";
+    if (week.status === "red") return "Lopen pauzeren";
+    if (week.variant === "scaled-taper" || week.variant === "scaled") return "Taper op verdragen basis";
+    return week.variant === "recovery-max" || week.status === "green" ? "Kalendermaximum" : "Kortere herstelvariant";
   }
 
-  function renderWeekDecision(week) {
+  function renderWeekRecoveryInfo(week) {
     const decision = weekDecision(week.weekNumber);
-    const effective = week.status || model.effectiveStatus?.(appData, week.weekNumber) || "orange";
-    const checks = decision.criteria || {};
-    const criteria = [
-      ["noPain", "Geen lokale/toenemende pijn of techniekverandering"],
-      ["normalRecovery", "Benen binnen 24–36 uur terug normaal"],
-      ["easyImproved", "Easy-runs duidelijk verbeterd"],
-      ["continuousEvidence", "Comfortabele continue outdoorbasis aangetoond"],
-      ["notStoppedEarly", "Niet voortijdig gestopt door vermoeidheid"],
-    ];
-    if (week.weekNumber === 42) criteria.push(["w41NinetyPercent", "Minimaal 90% van W41 uitgevoerd en verdragen"]);
-    if (week.weekNumber === 45) criteria.push(
-      ["twoContinuousOutdoor", "Twee comfortabele continue outdoorlopen van minimaal 60 min in de laatste 14 dagen"],
-      ["longRunWalkOutdoor", "Een goed verdragen outdoor run-walk van 80–95 min met normaal herstel"],
-      ["nutritionTolerated", "Voedingsmomenten goed verdragen"],
-      ["noRecentSetback", "Geen recente terugval of aanhoudend zware benen"]
-    );
-    const missing = criteria.filter(([key]) => checks[key] !== true).map(([, label]) => label);
-    if (decision.recoveryConfirmed !== true) missing.push("Zondagherstel uiterlijk dinsdag bevestigd");
     const taper = model.deriveTaperBasis?.(appData) || { basisMinutes: 0, scale: 0 };
     const rhythmUnlocked = week.weekNumber === 45 && taper.scale === 1 && model.greenCriteria?.(decision, 45, appData);
-    return `<section class="week-decision-card status-${escapeAttr(effective)}" aria-labelledby="week-status-title">
-      <div class="week-decision-heading"><div><span>Herstelbesluit</span><h2 id="week-status-title">${effective.toUpperCase()} · ${escapeHtml(week.variant || "herstelgestuurd")}</h2></div><strong>${week.plannedSessionMinutes} min loopsessies${week.plannedBikeMinutes ? ` + ${week.plannedBikeMinutes} min fiets` : ""}</strong></div>
-      <p>${effective === "green" ? "Alle vastgelegde voorwaarden zijn bevestigd. De getoonde duur blijft een maximum." : effective === "red" ? "Lopen is opgeschort. Fietsen alleen volledig klachtenvrij en zonder nadelige reactie." : "Ontbrekende of onvolledige hersteldata betekenen ORANGE: niet verhogen en geen snelheid."}</p>
-      <div class="status-choice" role="radiogroup" aria-label="Kies herstelstatus">
-        ${["green", "orange", "red"].map((status) => `<button type="button" role="radio" aria-checked="${decision.status === status}" class="status-${status} ${decision.status === status ? "is-active" : ""}" data-week-status="${status}" data-week-number="${week.weekNumber}">${status.toUpperCase()}</button>`).join("")}
-      </div>
-      <details class="status-checklist"><summary>Voorwaarden en bevestiging <span>${missing.length ? `${missing.length} open` : "compleet"}</span></summary><div>
-        ${criteria.map(([key, label]) => `<label><input type="checkbox" data-week-decision="criteria.${key}" data-week-number="${week.weekNumber}" ${checks[key] ? "checked" : ""}><span>${escapeHtml(label)}</span></label>`).join("")}
-        <label><input type="checkbox" data-week-decision="recoveryConfirmed" data-week-number="${week.weekNumber}" ${decision.recoveryConfirmed ? "checked" : ""}><span>Zondagherstel uiterlijk dinsdag bevestigd</span></label>
-        <label><input type="checkbox" data-week-decision="wellTolerated" data-week-number="${week.weekNumber}" ${decision.wellTolerated ? "checked" : ""}><span>Deze week werkelijk goed verdragen</span></label>
-        ${missing.length ? `<p class="missing-criteria"><strong>Nog open:</strong> ${escapeHtml(missing.join(" · "))}</p>` : ""}
-      </div></details>
-      ${week.weekNumber >= 45 ? `<p class="taper-basis"><strong>Taperbasis B:</strong> ${taper.basisMinutes || 0} min · schaal ${formatNumber(taper.scale * 100, 0)}%. ${taper.scale ? `Elke sessie is naar beneden afgerond en begrensd op de laatst verdragen vergelijkbare duur${week.taperReferenceWeek ? ` uit week ${week.taperReferenceWeek}` : ""}.` : "Zonder goed verdragen basis wordt geen automatische taper voorgeschreven."}</p>` : ""}
-      ${week.weekNumber === 45 ? `<label class="rhythm-choice"><span>Training 5 november</span><select data-optional-workout="45" ${rhythmUnlocked ? "" : "disabled"}><option value="easy">55 min easy</option><option value="rhythm" ${appData.userSettings.optionalWorkoutChoices?.[45] === "rhythm" ? "selected" : ""}>Optionele ritmeproef (vervangt easy)</option></select><small>${rhythmUnlocked ? "Alle voorwaarden zijn voldaan; dit blijft een vervanging, geen extra sessie." : "Ritmeproef vergrendeld: B=240, GREEN en alle checkpointvoorwaarden zijn vereist."}</small></label>` : ""}
-    </section>`;
+    return `<details class="info-accordion week-recovery-info"><summary><span>Herstel en progressie</span><span aria-hidden="true">+</span></summary><div>
+      <p><strong>${escapeHtml(weekVariantLabel(week))}.</strong> De getoonde tijden zijn bovengrenzen. Trainingdetails zijn altijd te bekijken; herstel bepaalt wat je uitvoert.</p>
+      <p>Alleen een kleine duurstap bij normale benen binnen 24–36 uur, verbeterde easy-runs, een comfortabele continue outdoorbasis en geen pijn, techniekverandering of vermoeidheidsstop. Beoordeel zondagherstel uiterlijk dinsdag.</p>
+      <p>Bij onvolledig herstel: dezelfde of kortere duur en geen snelheid. Bij lokale/toenemende pijn of veranderde techniek: lopen pauzeren. Gemiste minuten niet inhalen.</p>
+      ${week.weekNumber >= 42 && week.weekNumber <= 44 ? `<p>Een duurstap blijft begrensd op de werkelijk verdragen vorige week: maximaal 10% meer loopsessietijd, 15% meer rentijd, 5 minuten per korte/continue run en 15 minuten bij run-walk. Voor W42 is minimaal 90% van W41 uitvoeren én verdragen nodig. Zonder voldoende gegevens blijft de kortere variant staan.</p>` : ""}
+      ${week.weekNumber >= 45 ? `<p class="taper-basis"><strong>Taperbasis B:</strong> ${taper.basisMinutes || 0} min · schaal ${formatNumber(taper.scale * 100, 0)}%. ${taper.scale ? `Elke sessie is naar beneden afgerond en begrensd op de laatst verdragen vergelijkbare duur${week.taperReferenceWeek ? ` uit week ${week.taperReferenceWeek}` : ""}.` : "De kalenderduren blijven als referentie zichtbaar; zonder goed verdragen basis wordt geen automatische taper voorgeschreven."}</p>` : ""}
+      ${week.weekNumber === 45 ? rhythmUnlocked ? `<label class="rhythm-choice"><span>Training 3 · 5 november</span><select data-optional-workout="45"><option value="easy">Easy-uitvoering</option><option value="rhythm" ${appData.userSettings.optionalWorkoutChoices?.[45] === "rhythm" ? "selected" : ""}>Optionele ritmeproef (vervangt easy)</option></select><small>Dit blijft een vervanging, geen extra sessie.</small></label>` : `<p>De easy-uitvoering van 5 november blijft de standaard. Een ritmeproef mag uitsluitend na alle V5-checkpoints en een volledig verdragen basis van 240 minuten; nooit toevoegen als extra training.</p>` : ""}
+    </div></details>`;
   }
 
   function renderRestDay(day) {
@@ -1090,7 +1052,6 @@
         <p class="week-pattern">${escapeHtml(week.planningMode === "calendar" ? "Vaste kalenderplanning · rustdagen horen bij het schema" : week.suggestedPattern)}</p>
       </section>
 
-      ${renderWeekDecision(week)}
       ${renderWeekPhilosophy(week)}
 
       <div class="week-navigation" aria-label="Weeknavigatie">
@@ -1105,13 +1066,13 @@
       </section>
 
       ${week.planningMode === "calendar" ? renderCalendarWeek(week) : `<section class="training-list" aria-label="Trainingen in week ${week.weekNumber}">${week.workouts.map((workout) => renderTrainingCard(workout)).join("")}</section>`}
+      ${renderWeekRecoveryInfo(week)}
     `;
   }
 
   function renderSemanticBadge(label) {
     const text = String(label || "");
-    const tone = /^GREEN$/.test(text) ? "green" : /^ORANGE$/.test(text) ? "orange" : /^RED$/.test(text) ? "red"
-      : /VOEDING|RACEVOEDING/.test(text) ? "fueling" : /STRENGTH/.test(text) ? "strength" : /BUITEN|OUTDOOR|MÁXIMAPARK|GARMIN/.test(text) ? "outdoor" : /LOOPBAND/.test(text) ? "treadmill"
+    const tone = /VOEDING|RACEVOEDING/.test(text) ? "fueling" : /STRENGTH/.test(text) ? "strength" : /BUITEN|OUTDOOR|MÁXIMAPARK|GARMIN/.test(text) ? "outdoor" : /LOOPBAND/.test(text) ? "treadmill"
       : /CUTBACK|RECOVERY/.test(text) ? "recovery" : /RACE/.test(text) ? "race" : /TAPER/.test(text) ? "taper"
       : /TEST|BENCHMARK|FITNESS CHECK/.test(text) ? "test" : /LONG|CONFIDENCE|PEAK/.test(text) ? "long"
       : /MARATHON SPECIFIC|MARATHONSPECIFIEK|MP/.test(text) ? "mp" : /INTERVAL|STRIDES/.test(text) ? "interval"
@@ -1157,7 +1118,7 @@
 
   function trainingModeLabel(workout) {
     if (workout.garmin?.isRacePlan) return "Garmin-raceplan";
-    if (workout.activityType === "bike") return "Garmin-fietsopbouw";
+    if (workout.activityType === "bike") return "Fietsopbouw";
     if (workout.treadmillAvailable) return "Loopbandmodus";
     if (workout.outdoorSimpleMode && workout.treadmillVariantAvailable) return "Loopbandvariant";
     if (workout.outdoorSimpleMode) return "Buitenmodus";
@@ -1192,30 +1153,33 @@
     </div>`;
   }
 
-  function garminTargetTone(targetType) {
-    if (targetType === "Heart Rate") return "hr";
-    if (targetType === "Pace") return "pace";
-    return "open";
-  }
-
   function renderGarminStep(segment, stepLabel) {
-    return `<div class="garmin-step">
-      <div class="garmin-step-number">${escapeHtml(stepLabel)}</div>
-      <div class="garmin-step-main"><strong>${escapeHtml(segment.name)}</strong><span>${escapeHtml(segment.display)}</span></div>
-      <div class="garmin-step-target"><span class="garmin-target tone-${garminTargetTone(segment.targetType)}">${escapeHtml(segment.targetType)}</span><strong>${escapeHtml(segment.targetValue)}</strong></div>
-      <p>${escapeHtml(segment.cue)}</p>
-    </div>`;
+    const fields = model.garminStepFields(segment);
+    return `<article class="garmin-step" aria-label="Garmin-stap ${escapeAttr(stepLabel)}">
+      <div class="garmin-step-heading"><span class="garmin-step-number">${escapeHtml(stepLabel)}</span><strong>${escapeHtml(segment.name)}</strong></div>
+      <dl class="garmin-step-fields">
+        <div><dt>Staptype</dt><dd>${escapeHtml(fields.stepType)}</dd></div>
+        <div><dt>Type duur</dt><dd>${escapeHtml(fields.durationType)}</dd></div>
+        <div class="garmin-duration"><dt>${fields.durationType === "Tijd" ? "Tijdsduur" : "In te vullen waarde"}</dt><dd><strong>${escapeHtml(fields.durationValue)}</strong>${fields.durationLabel ? `<span> — ${escapeHtml(fields.durationLabel)}</span>` : ""}</dd></div>
+        <div><dt>Type doel</dt><dd>${escapeHtml(fields.targetType)}</dd></div>
+        ${fields.targetValue ? `<div><dt>Doelwaarde</dt><dd>${escapeHtml(fields.targetValue)}</dd></div>` : ""}
+        <div class="garmin-step-notes"><dt>Voeg notities toe</dt><dd>${escapeHtml(fields.note)}</dd></div>
+      </dl>
+    </article>`;
   }
 
   function renderGarminGroups(workout) {
     let stepNumber = 0;
     return (workout.garmin.groups || []).map((group) => {
+      if (group.kind !== "repeat") return (group.segments || []).map((segment) => renderGarminStep(segment, String(++stepNumber))).join("");
       stepNumber += 1;
-      if (group.kind !== "repeat") return renderGarminStep(group.segments[0], String(stepNumber));
+      const groupSeconds = (group.segments || []).reduce((total, segment) => total + Number(segment.durationSeconds || 0), 0);
+      const recovery = group.segments.find((segment) => segment.isRecovery);
       return `<section class="garmin-repeat">
-        <div class="garmin-repeat-heading"><span>Stap ${stepNumber}</span><strong>Herhaal ${group.repetitions}×</strong></div>
+        <div class="garmin-repeat-heading"><span>Groep ${stepNumber}</span><strong>Herhaalgroep: ${group.repetitions} keer</strong></div>
+        <p class="garmin-repeat-note">Voer de onderstaande ${group.segments.length} stappen samen ${group.repetitions} keer uit. Voeg geen losse eerste herhaling toe. De stappen erbuiten voer je één keer uit.</p>
         ${(group.segments || []).map((segment, index) => renderGarminStep(segment, `${stepNumber}${String.fromCharCode(97 + index)}`)).join("")}
-        ${group.omitRecoveryAfterLast ? `<p class="garmin-repeat-note">Herstel alleen tussen de snelle blokken. Kies in Garmin, indien beschikbaar, <strong>Laatste herstel overslaan</strong>.</p>` : `<p class="garmin-repeat-note">Het herstel hoort na iedere herhaling bij deze workout.</p>`}
+        <p class="garmin-repeat-note">${recovery ? group.omitRecoveryAfterLast ? "Herstel alleen tussen de werkblokken; na de laatste herhaling vervalt het herstel." : `${model.garminStepFields(recovery).stepType === "Wandelen" ? "De wandelpauze" : "De hersteljog"} blijft ook na de laatste herhaling aanwezig.` : ""} Totale groep: ${escapeHtml(model.garminDurationLabel(groupSeconds * group.repetitions - (group.omitRecoveryAfterLast ? Number(recovery?.durationSeconds || 0) : 0)))}.</p>
       </section>`;
     }).join("");
   }
@@ -1231,25 +1195,37 @@
 
   function renderGarminSetup(workout) {
     if (workout.garmin?.isRacePlan) return renderGarminRaceSetup(workout);
-    const usesHeartRate = garminSegments(workout).some((segment) => segment.targetType === "Heart Rate");
-    return `<section class="garmin-setup" aria-label="Garmin Setup">
-      <div class="garmin-setup-heading"><span>Outdoor / Garmin</span><strong>Garmin Setup</strong></div>
+    if (workout.activityType === "bike") return renderBikeSetup(workout);
+    return `<section class="garmin-setup" aria-label="Dit vul je in Garmin Connect in">
+      <div class="garmin-setup-heading"><span>Outdoor / Garmin</span><strong>Dit vul je in Garmin Connect in</strong></div>
       <div class="garmin-setup-metrics">
         <div><span>Totale duur</span><strong>${escapeHtml(workout.totalPlannedLabel)}</strong></div>
         <div><span>Afstand</span><strong>${escapeHtml(workout.garmin.referenceDistanceLabel)}</strong></div>
       </div>
       <p class="garmin-purpose"><strong>Doel:</strong> ${escapeHtml(workout.goal)}</p>
-      ${usesHeartRate ? `<p class="garmin-zone-note"><strong>Polar H9 / hartslagzone.</strong> Gebruik geen zelfbedachte hartslaggrens. Tot je Garmin-zones gevalideerd zijn, blijven praattest en RPE de veiligheidscheck.</p>` : ""}
+      ${workout.role === "strides" ? `<p class="garmin-reference-note"><strong>Strides zijn optioneel.</strong> Alleen bij normale benen; ontspannen versnellen, geen sprint. Bij zware benen vervang je de volledige herhaalgroep door 6 minuten easy, met dezelfde totale trainingsduur. Op de loopband is de easy-variant standaard.</p>` : ""}
       <div class="garmin-steps" aria-label="Stappen voor Garmin Connect">${renderGarminGroups(workout)}</div>
       <div class="garmin-program-summary"><span>Programmeer in Garmin als:</span><strong>${escapeHtml(workout.garmin.programSummary)}</strong></div>
-      <p class="garmin-reference-note">Open / Vrij betekent geen tempo- of hartslagdoel. Praattest, RPE en stabiele techniek zijn leidend; afstand wordt achteraf gemeten.</p>
+      <p class="garmin-reference-note"><strong>Totaal: ${escapeHtml(model.garminDurationLabel(workout.totalPlannedSeconds))}${workout.plannedWalkMinutes ? `, waarvan ${formatNumber(workout.plannedRunMinutes, 0)} minuten hardlopen en ${formatNumber(workout.plannedWalkMinutes, 0)} minuten wandelen` : ""}.</strong></p>
+      <p class="garmin-reference-note">Selecteer bij iedere tijdgestuurde stap <strong>Tijd</strong>, ook bij Warm-up en Cooldown. Selecteer <strong>Geen doel</strong>; een aanvullende doelwaarde is niet nodig. Praattest, RPE en techniek staan bij de notities. Loopbandsnelheden zijn geen Garmin-tempodoel.</p>
+    </section>`;
+  }
+
+  function renderBikeSetup(workout) {
+    const segments = garminSegments(workout);
+    return `<section class="garmin-setup bike-setup" aria-label="Fietsopbouw op tijd">
+      <div class="garmin-setup-heading"><span>Fietstraining</span><strong>Fietsopbouw op tijd</strong></div>
+      <div class="garmin-setup-metrics"><div><span>Totale duur</span><strong>${escapeHtml(workout.totalPlannedLabel)}</strong></div><div><span>Inspanning</span><strong>RPE ${escapeHtml(workout.targetRpe)}</strong></div></div>
+      <p class="garmin-purpose">De exacte Garmin-velden voor een fietsworkout zijn nog niet vastgesteld. De beschikbare screenshots horen bij hardlopen. Hieronder staat de uitvoering op tijd; kies geen hardloopstap voor een fietsblok.</p>
+      <div class="garmin-steps">${segments.map((segment, index) => `<article class="garmin-step"><div class="garmin-step-heading"><span class="garmin-step-number">${index + 1}</span><strong>${escapeHtml(segment.name)}</strong></div><dl class="garmin-step-fields"><div class="garmin-duration"><dt>Duur</dt><dd><strong>${escapeHtml(model.garminStepFields(segment).durationValue)}</strong><span> — ${escapeHtml(model.garminDurationLabel(segment.durationSeconds))}</span></dd></div><div class="garmin-step-notes"><dt>Uitvoering</dt><dd>${escapeHtml(index === 0 ? "Rustig opstarten, lichte versnelling." : index === segments.length - 1 ? "Rustig uittrappen." : "Rustig fietsen, RPE 2–3. Volledige zinnen kunnen praten.")} ${escapeHtml(segment.cue)}</dd></div></dl></article>`).join("")}</div>
+      <p class="garmin-reference-note">Totaal: ${escapeHtml(model.garminDurationLabel(workout.totalPlannedSeconds))}. Fietsminuten blijven apart van hardloopminuten en hardloopkilometers.</p>
     </section>`;
   }
 
   function renderTreadmillDetails(workout) {
     return `<section class="treadmill-detail-panel" aria-label="Loopbandalternatief">
       <div class="treadmill-detail-heading"><span>Gelijkwaardig alternatief</span><strong>Loopband</strong></div>
-      <div class="segment-groups">${(workout.groups || []).map(renderSegmentGroup).join("")}</div>
+      <div class="segment-groups">${model.treadmillGroups(workout).map(renderSegmentGroup).join("")}</div>
       <button class="open-focus-mode" type="button" data-open-treadmill="${escapeAttr(workout.workoutId)}"><span aria-hidden="true">▶</span> Open volledige Loopband Focus Mode</button>
     </section>`;
   }
@@ -1263,14 +1239,14 @@
         <button class="training-card-toggle" type="button" data-toggle-workout="${workout.workoutId}" aria-expanded="${open}" aria-controls="${detailsId}">
           <span class="card-topline"><span>${escapeHtml(workoutSequenceLabel(workout))}</span>${completed ? `<span class="completed-mark">✓ Voltooid</span>` : `<span class="training-type">${escapeHtml(trainingType(workout))}</span>`}<span class="expand-icon" aria-hidden="true">${open ? "−" : "+"}</span></span>
           ${(workout.labels || []).length ? `<span class="training-labels">${workout.labels.map(renderSemanticBadge).join("")}</span>` : ""}
-          <span class="training-metadata"><span class="recovery-${escapeAttr(workout.recoveryStatus || "none")}">${escapeHtml(workout.recoveryLabel || "")}</span>${workout.garmin || workout.surface === "buiten" ? `<span>${escapeHtml(workout.locationStatus || "Buiten")}</span>` : ""}</span>
+          <span class="training-metadata"><span>${escapeHtml(formatDate(workout.date, { weekday: "long", day: "numeric", month: "long" }))}</span><span class="recovery-${escapeAttr(workout.recoveryStatus || "none")}">${escapeHtml(workout.recoveryLabel || "")}</span>${workout.garmin || workout.surface === "buiten" ? `<span>${escapeHtml(workout.locationStatus || "Buiten")}</span>` : ""}</span>
           <span class="training-name">${escapeHtml(capitalize(workout.title))}</span>
           <span class="training-primary">${escapeHtml(workoutPrimarySummary(workout))}</span>
           ${workout.strength ? `<span class="strength-inline">Daarna kracht · Sessie ${escapeHtml(workout.strength.type)} · ${escapeHtml(workout.strength.duration)}</span>` : ""}
           <span class="training-speed">${escapeHtml(joinText([speedSummary(workout), workout.targetRpe ? `RPE ${workout.targetRpe}` : ""]))}</span>
           <span class="key-block"><strong>Belangrijkste blok</strong>${escapeHtml(keyBlockSummary(workout))}</span>
           <span class="practical-hint">${escapeHtml(workout.goal)}</span>
-          ${workout.isSuspended ? `<span class="suspended-note">RED / geen taperbasis: lopen is opgeschort. Beoordeel herstel vóór hervatten.</span>` : ""}
+          ${workout.isSuspended ? `<span class="suspended-note">${(weeks.find((week) => week.weekNumber === workout.weekNumber))?.variant === "no-basis" ? "Kalenderreferentie: een goed verdragen taperbasis is nog niet vastgesteld." : "Lopen pauzeren en herstel beoordelen vóór hervatten."} De opbouw blijft te bekijken.</span>` : ""}
         </button>
         ${open ? `<div class="training-details" id="${detailsId}">${renderTrainingDetails(workout)}</div>` : ""}
         <div class="completion-row">
@@ -2123,7 +2099,7 @@
         <article class="dashboard-card"><span>Langste kalendermaximum</span><strong>${metrics.longestPlanned ? `${metrics.longestPlanned.plannedSessionMinutes} min` : "-"}</strong><p>${metrics.longestPlanned ? `Week ${metrics.longestPlanned.weekNumber} · run-walk` : "Geen langere sessie"}</p></article>
         <article class="dashboard-card"><span>Langste werkelijk gelogd</span><strong>${metrics.longestCompleted ? `${formatNumber(workoutLog(metrics.longestCompleted.workoutId)?.actualTotalMinutes || 0, 0)} min` : "0 min"}</strong><p>${metrics.longestCompleted ? escapeHtml(capitalize(metrics.longestCompleted.title)) : "Nog geen duur gelogd"}</p></article>
         <article class="dashboard-card"><span>Taperbasis</span><strong>${taper.basisMinutes} min</strong><p>s = ${formatNumber(taper.scale * 100, 0)}%</p></article>
-        <article class="dashboard-card"><span>Startstatus</span><strong>${String(finalDecision.status || "orange").toUpperCase()}</strong><p>${finalDecision.recoveryConfirmed ? "herstel bevestigd" : "nog niet definitief bevestigd"}</p></article>
+        <article class="dashboard-card"><span>Startbesluit</span><strong>${finalDecision.status === "red" ? "Deelname heroverwegen" : finalDecision.recoveryConfirmed ? "Herstel beoordeeld" : "Nog open"}</strong><p>Actuele belastbaarheid en de finale beoordeling zijn leidend.</p></article>
       </section>
       <section class="dashboard-card detail-status-card">
         <div><span>Actief tijdsdoel</span><strong>${escapeHtml(raceTarget?.finishWindow || "Nog niet vastgesteld")}</strong></div>
@@ -2160,7 +2136,7 @@
           return `<button class="plan-row${completed === week.workouts.length ? " is-completed" : ""}" type="button" data-open-week="${index}" aria-label="Open week ${week.weekNumber}">
             <span class="plan-row-top"><span class="plan-week">Week ${week.weekNumber}</span><span class="plan-status">${completed}/${week.workouts.length}<i aria-hidden="true">›</i></span></span>
             <span class="plan-main">
-              <strong>${escapeHtml(overview.theme)} · ${escapeHtml(String(week.status || "orange").toUpperCase())}</strong>
+              <strong>${escapeHtml(overview.theme)}</strong>
               <span class="plan-volume">${escapeHtml(getWeekPlannedLabel(week))}</span>
               <small>${runCount} runs${bikeCount ? ` + ${bikeCount} fietsrit` : ""}${marathonWeek ? " + marathon apart" : ""} · ${restCount} rustdagen</small>
               <span class="plan-goal"><b>Doel</b>${escapeHtml(overview.goal)}</span>
@@ -2182,10 +2158,10 @@
       </article>` : ""}${plan.phases.map((phase) => {
         const week = weeks.find((item) => item.phaseId === phase.phaseId);
         return `<article class="phase-card">
-          <div><span>Week ${week.weekNumber}</span>${renderSemanticBadge(String(week.status || "orange").toUpperCase())}</div>
+          <div><span>Week ${week.weekNumber}</span></div>
           <h2>${escapeHtml(phase.name)}</h2>
           <p>${escapeHtml(phase.description)}</p>
-          <dl><div><dt>Periode</dt><dd>${escapeHtml(week.periodLabel)}</dd></div><div><dt>Getoond plan</dt><dd>${escapeHtml(getWeekPlannedLabel(week))}</dd></div><div><dt>Variant</dt><dd>${escapeHtml(week.variant || "herstelgestuurd")}</dd></div></dl>
+          <dl><div><dt>Periode</dt><dd>${escapeHtml(week.periodLabel)}</dd></div><div><dt>Getoond plan</dt><dd>${escapeHtml(getWeekPlannedLabel(week))}</dd></div><div><dt>Variant</dt><dd>${escapeHtml(weekVariantLabel(week))}</dd></div></dl>
           <button type="button" data-open-week="${weeks.indexOf(week)}">Bekijk week</button>
         </article>`;
       }).join("")}</section>`;
@@ -2292,12 +2268,6 @@
     if (complete) {
       event.stopPropagation();
       toggleCompleted(complete.dataset.toggleComplete);
-      return;
-    }
-
-    const weekStatus = event.target.closest("[data-week-status][data-week-number]");
-    if (weekStatus) {
-      saveWeekDecision(Number(weekStatus.dataset.weekNumber), "status", weekStatus.dataset.weekStatus);
       return;
     }
 
@@ -2444,10 +2414,6 @@
     }
     if (event.target.matches("[data-workout-log][data-workout-field]")) {
       saveWorkoutField(event.target.dataset.workoutLog, event.target.dataset.workoutField, event.target.value);
-      return;
-    }
-    if (event.target.matches("[data-week-decision][data-week-number]")) {
-      saveWeekDecision(Number(event.target.dataset.weekNumber), event.target.dataset.weekDecision, Boolean(event.target.checked));
       return;
     }
     if (event.target.matches("[data-optional-workout]")) {

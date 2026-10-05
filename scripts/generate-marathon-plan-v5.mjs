@@ -40,7 +40,7 @@ function parseDuration(text) {
 
 function parseTreadmill(text) {
   const value = clean(text);
-  const speeds = [...value.split(";")[0].matchAll(/\d+(?:[.,]\d+)?/g)].map((match) => numberNl(match[0]));
+  const speeds = /km\/u/.test(value) ? [...value.split(";")[0].matchAll(/\d+(?:[.,]\d+)?/g)].map((match) => numberNl(match[0])) : [];
   const incline = value.match(/;\s*(\d+(?:[.,]\d+)?)%/);
   return { speedRangeKmh: speeds.length ? [Math.min(...speeds), Math.max(...speeds)] : null, inclinePercent: incline ? numberNl(incline[1]) : null };
 }
@@ -169,7 +169,7 @@ function parseWorkout(weekNumber, variant, heading, block) {
 
 const weekMeta = {
   41: { dates: ["2026-10-05", "2026-10-11"], phase: "active-recovery", type: "Actief herstel", focus: "Herstellen, vier rustige loopcontacten en één fietsrit; geen echte lange duurloop." },
-  42: { dates: ["2026-10-12", "2026-10-18"], phase: "rebuild", type: "Heropbouw", focus: "Alleen na bevestigde GREEN een kleine duurstap; anders de ORANGE-fallback." },
+  42: { dates: ["2026-10-12", "2026-10-18"], phase: "rebuild", type: "Heropbouw", focus: "Alleen bij volledig herstelde en goed verdragen belasting een kleine duurstap; anders de kortere herstelvariant." },
   43: { dates: ["2026-10-19", "2026-10-25"], phase: "consolidate", type: "Basis consolideren", focus: "Rustige outdoorbelasting consolideren zonder kwaliteit toe te voegen." },
   44: { dates: ["2026-10-26", "2026-11-01"], phase: "last-progression", type: "Laatste kleine duurstap", focus: "Laatste mogelijke langere opbouw vóór de taper; herstel en caps blijven leidend." },
   45: { dates: ["2026-11-02", "2026-11-08"], phase: "taper-1", type: "Taper 1", focus: "Belasting terugbrengen vanaf de werkelijk verdragen basis; geen gemiste piek inhalen." },
@@ -237,19 +237,21 @@ for (const weekNumber of Object.keys(weekMeta).map(Number)) {
 }
 
 function finalizeWorkout(workout, trainingNumber) {
+  const dates = [...new Set(allWorkouts.filter((item) => item.weekNumber === workout.weekNumber).map((item) => item.date))].sort();
+  const number = trainingNumber ?? dates.indexOf(workout.date) + 1;
   const meta = weekMeta[workout.weekNumber];
-  return { ...workout, trainingNumber,
-    trainingLabel: workout.activityType === "bike" ? "Fiets" : workout.activityType === "race" ? "Marathon" : `Training ${trainingNumber}`,
+  return { ...workout, trainingNumber: number,
+    trainingLabel: `Training ${number}`,
     weekId: `marathon-v5-w${workout.weekNumber}`, dateLabel: dateLabel(meta.dates[0], meta.dates[1]), phaseId: meta.phase, phaseName: meta.type };
 }
 
 function sortAndNumber(items) {
-  let runIndex = 0;
-  return [...items].sort((a, b) => a.date.localeCompare(b.date) || a.activityType.localeCompare(b.activityType)).map((workout) => {
-    if (workout.activityType === "run") runIndex += 1;
-    return finalizeWorkout(workout, workout.activityType === "race" ? 4 : workout.activityType === "run" ? runIndex : null);
-  });
+  return [...items].sort((a, b) => a.date.localeCompare(b.date) || a.activityType.localeCompare(b.activityType))
+    .map((workout, index) => finalizeWorkout(workout, index + 1));
 }
+
+// Variants of one calendar session share a display number, never a new storage ID.
+for (const workout of allWorkouts) Object.assign(workout, finalizeWorkout(workout, null));
 
 function makeDays(weekNumber, workouts) {
   const start = localDate(weekMeta[weekNumber].dates[0]);
@@ -301,13 +303,13 @@ const plan = {
   phases, weeks: initialWeeks, allWorkouts: allWorkouts.map((workout) => finalizeWorkout(workout, workout.trainingNumber)), weekVariants,
   workoutAliases: {}, sourceDiscrepancies: [],
   guidance: {
-    philosophy: ["Herstel, ontspannen buiten lopen en hardloopspecifieke belastbaarheid gaan vóór kalendermaxima.", "Easy betekent RPE 2–3 en volledige zinnen. Polar H9 is observatie, geen verplichte zone.", "Geen gemiste kilometers inhalen, geen krachttraining en geen zwaar marathonpace- of confidence-werk in de actieve V5-planning.", "GREEN staat maximaal één kleine duurstap toe; ORANGE verhoogt niet; RED schort lopen op.", "De marathon blijft een doel, maar de historische 3:30-ambitie is geen actief trainingsvoorschrift of startgarantie."],
+    philosophy: ["Herstel, ontspannen buiten lopen en hardloopspecifieke belastbaarheid gaan vóór kalendermaxima.", "Easy betekent RPE 2–3 en volledige zinnen. Polar H9 is observatie, geen verplichte zone.", "Geen gemiste kilometers inhalen, geen krachttraining en geen zwaar marathonpace- of confidence-werk in de actieve V5-planning.", "Alleen na volledig herstel is maximaal één kleine duurstap passend. Bij onvolledig herstel niet verhogen en geen snelheid; bij pijn of techniekverandering lopen pauzeren.", "De marathon blijft een doel, maar de historische 3:30-ambitie is geen actief trainingsvoorschrift of startgarantie."],
     surfaceStrategy: { title: "Outdoor standaard · loopband als alternatief", explanation: "Outdoor is leidend voor herstelchecks. De loopband gebruikt dezelfde duur en structuur met 0% en aanpasbare startbereiken.", treadmill: ["0% helling", "Easy 7–9 km/u", "Praattest en RPE leidend"], outside: ["Open / Vrij", "Vlakke bekende route", "Polar H9 alleen observeren"] },
     paces: [{ type: "Easy", speed: "Vrij buiten · 7–9 km/u als bandstartbereik", incline: "0%", rpe: "2–3" }, { type: "Wandelen", speed: "Vrij buiten · 4–5,5 km/u als bandstartbereik", incline: "0%", rpe: "zeer rustig" }, { type: "Optionele ritmeproef", speed: "Zelf gekozen gecontroleerd ritme", incline: "0%", rpe: "maximaal 4" }],
     rpeScale: [{ type: "Easy", rpe: "2–3", feeling: "Volledige zinnen en duidelijke reserve." }, { type: "Ritmeproef", rpe: "maximaal 4", feeling: "Alleen na alle checkpoints, nooit als extra training." }],
     scheduling: ["W41–44 gebruiken voorkeursdagen; behoud rust en volgorde bij verschuiven.", "W45–47 hebben vaste dagen. Herstelproblemen mogen altijd tot inkorten of overslaan leiden."],
     suggestedSequences: ["Dinsdag easy · donderdag continuous · vrijdag fiets · zaterdag easy · zondag run-walk."], incline: ["Alle loopbandstappen gebruiken 0%.", "Geen automatische 1%-correctie."],
-    painRules: ["GREEN: alleen na alle herstelcriteria.", "ORANGE: niet verhogen en geen snelheid.", "RED: lopen pauzeren en oorzaak beoordelen."],
+    painRules: ["Verhoog alleen wanneer benen binnen 24–36 uur normaal zijn, easy-runs verbeteren, een comfortabele continue outdoorbasis is aangetoond en er geen pijn, techniekverandering of voortijdige vermoeidheidsstop is.", "Bij onvolledig herstel: niet verhogen, geen snelheid en zo nodig korter lopen of wandelen.", "Bij lokale/toenemende pijn of veranderde techniek: lopen pauzeren en de oorzaak beoordelen."],
     fueling: ["Tot en met 60 min: normaal gevoed starten; geen verplichte gel.", "65–70 min: eventueel één vertrouwd voedingsmoment, zonder 80 g/u-plicht.", "80–95 min: oefen 30–60 g koolhydraten per uur naar tolerantie.", "Eventuele marathon: doorgaans alleen een bewezen 60–80 g/u; 80 g/u is geen verplichting en 90 g/u alleen als eerder verdragen.", "SiS Beta Fuel Neutral en Bulk Electrolytes blijven opties als etiket, waterinname en tolerantie kloppen. Sportdrank telt mee; tel koolhydraten niet dubbel.", "Niets nieuws op racedag, inclusief cafeïne. Controleer waterposten en tijdslimiet vóór het definitieve racebesluit."],
     raceStrategy: [{ distance: "Startbesluit", pace: "nog open", instruction: "Checkpoint 4 en actuele belastbaarheid zijn leidend." }, { distance: "Race", pace: "nog niet vastgesteld", instruction: "Geen oude 3:30-pace afdwingen." }],
     targetConfirmation: ["Er is momenteel geen actieve eindtijd of racepace.", "Een comfortabele 95-minuten-sessie laat nog een groot ongetest gat naar 42,195 km."],
@@ -327,6 +329,44 @@ function installModel() {
       }
     }
     return result;
+  }
+  function treadmillGroups(workout) {
+    if (workout?.role !== "strides") return workout?.groups || [];
+    const easySegment = (workout.groups || []).flatMap((group) => group.segments).find((segment) => segment.type === "easy" && !segment.isRecovery);
+    return (workout.groups || []).map((group) => {
+      if (group.kind !== "repeat" || !group.segments.some((segment) => segment.type === "stride") || !easySegment) return group;
+      const durationSeconds = group.segments.reduce((sum, segment) => sum + segmentDurationSeconds(segment), 0) * group.repetitions;
+      return { ...group, kind: "sequence", label: "Easy in plaats van strides", repetitions: 1,
+        segments: [{ ...easySegment, segmentId: `${group.groupId}-easy`, name: "Easy", durationSeconds, display: `${durationSeconds / 60} min`, instruction: "De volledige stridegroep is vervangen door easy, met dezelfde totale duur." }] };
+    });
+  }
+  function garminDurationLabel(seconds) {
+    const total = Math.round(Number(seconds || 0));
+    const hours = Math.floor(total / 3600);
+    const minutes = Math.floor((total % 3600) / 60);
+    const remainder = total % 60;
+    return [hours ? `${hours} uur` : "", minutes ? `${minutes} ${minutes === 1 ? "minuut" : "minuten"}` : "", remainder ? `${remainder} ${remainder === 1 ? "seconde" : "seconden"}` : ""].filter(Boolean).join(" en ") || "0 seconden";
+  }
+  function garminStepFields(segment) {
+    const name = String(segment?.name || "").toLowerCase();
+    const walking = segment?.type === "wandelen";
+    const stepType = /warming|warm-up/.test(name) ? "Warm-up" : /cooldown|cooling-down/.test(name) ? "Cooldown"
+      : walking ? "Wandelen" : segment?.isRecovery ? "Herstel" : "Hardlopen";
+    const seconds = Math.round(segmentDurationSeconds(segment));
+    const clock = [Math.floor(seconds / 3600), Math.floor((seconds % 3600) / 60), seconds % 60].map((value) => String(value).padStart(2, "0")).join(":");
+    const durationType = segment?.basis === "distance" ? "Afstand" : "Tijd";
+    const durationValue = durationType === "Afstand" ? `${Number(segment.distanceKm).toLocaleString("nl-NL")} km` : clock;
+    const durationLabel = durationType === "Afstand" ? "" : garminDurationLabel(seconds);
+    const openTarget = /^(?:open\s*\/\s*(?:vrij|free)|open|free|vrij|geen doel)$/i.test(String(segment?.targetType || ""));
+    const targetType = openTarget ? "Geen doel" : "Nog niet vastgesteld";
+    let movement = walking ? "Wandelen, niet joggen." : segment?.isRecovery ? "Zeer rustig joggen."
+      : stepType === "Warm-up" ? "Zeer rustig joggen." : stepType === "Cooldown" ? "Zeer rustig uitlopen."
+      : segment?.type === "stride" ? "Ontspannen versnellen; geen sprint en geen GPS-tempodoel." : "Ontspannen lopen.";
+    const effort = String(segment?.targetValue || "").replace(/^vrij[,\s]*/i, "").trim();
+    const cue = String(segment?.cue || segment?.instruction || "").trim();
+    const note = [movement, walking || !effort ? "" : `${effort}.`, cue ? `${cue.replace(/[.!]+$/, "")}.` : "",
+      !walking && /easy/i.test(effort) && stepType === "Hardlopen" ? "Volledige zinnen kunnen praten." : ""].filter(Boolean).join(" ");
+    return { stepType, durationType, durationValue, durationLabel, targetType, targetValue: null, note };
   }
   function calculateWorkoutDistanceKm(_workout, log) {
     const value = Number(log?.actualDistanceKm ?? log?.distanceKm);
@@ -438,8 +478,16 @@ function installModel() {
     result.totalPlannedSeconds = result.plannedSessionMinutes * 60;
     result.totalPlannedLabel = `${result.plannedSessionMinutes} min`;
     result.sourceSummary = `${result.plannedSessionMinutes} min · afstand vrij`;
+    for (const segment of result.groups.flatMap((group) => group.segments)) {
+      const seconds = Number(segment.durationSeconds || 0);
+      segment.display = seconds % 60 === 0 ? `${seconds / 60} min` : garminDurationLabel(seconds);
+    }
     result.garmin.totalSeconds = result.totalPlannedSeconds;
     result.garmin.groups = clone(result.groups).map((group) => ({ ...group, segments: group.segments.map(({ speedKmh, speedRangeKmh, inclinePercent, ...segment }) => ({ ...segment, targetType: "Open / Vrij" })) }));
+    result.garmin.programSummary = result.garmin.groups.map((group) => {
+      const steps = group.segments.map((segment) => `${segment.display} [${segment.targetValue}; Vrij]`).join(" + ");
+      return group.kind === "repeat" ? `REPEAT ${group.repetitions}× [${steps}]` : steps;
+    }).join(" → ");
     return result;
   }
   function scaleTaperWorkout(workout, scale) {
@@ -496,11 +544,9 @@ function installModel() {
   function decorateWeek(weekNumber, workouts, status, variant, appData, extra = {}) {
     const sourceWeek = window.MARATHON_PLAN.weeks.find((week) => week.weekNumber === weekNumber);
     const sorted = workouts.filter((workout) => !workout.isSkipped).sort((a, b) => a.date.localeCompare(b.date) || a.activityType.localeCompare(b.activityType));
-    let runIndex = 0;
-    for (const workout of sorted) {
-      if (workout.activityType === "run") runIndex += 1;
-      workout.trainingNumber = workout.activityType === "race" ? 4 : workout.activityType === "run" ? runIndex : null;
-      workout.trainingLabel = workout.activityType === "race" ? "Marathon" : workout.activityType === "run" ? `Training ${runIndex}` : "Fiets";
+    for (const [index, workout] of sorted.entries()) {
+      workout.trainingNumber = index + 1;
+      workout.trainingLabel = `Training ${workout.trainingNumber}`;
       workout.weekId = sourceWeek.weekId; workout.phaseId = sourceWeek.phaseId; workout.phaseName = sourceWeek.phaseName; workout.dateLabel = sourceWeek.periodLabel;
     }
     const load = sumLoad(sorted.filter((workout) => workout.activityType !== "race"));
@@ -551,7 +597,7 @@ function installModel() {
     }
     return resolved;
   }
-  window.MARATHON_MODEL = { segmentDurationSeconds, flattenWorkoutSegments, calculateWorkoutDistanceKm, calculateWeekDistanceKm, sumLoad, completedLoad, greenCriteria, effectiveStatus, deriveTaperBasis, deriveTaperReference, rebuildTimedWorkout, scaleTaperWorkout, capProgressionWorkouts, resolvePlan };
+  window.MARATHON_MODEL = { segmentDurationSeconds, flattenWorkoutSegments, treadmillGroups, garminDurationLabel, garminStepFields, calculateWorkoutDistanceKm, calculateWeekDistanceKm, sumLoad, completedLoad, greenCriteria, effectiveStatus, deriveTaperBasis, deriveTaperReference, rebuildTimedWorkout, scaleTaperWorkout, capProgressionWorkouts, resolvePlan };
   window.APP_CONFIG = window.MARATHON_PLAN.config;
   window.TRAINING_WEEKS = window.MARATHON_PLAN.weeks;
   window.TRAINING_PLAN = window.MARATHON_PLAN.phases.map((phase) => ({ ...phase, weeks: window.TRAINING_WEEKS.filter((week) => week.phaseId === phase.phaseId) }));

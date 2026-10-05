@@ -41,7 +41,7 @@ window.MARATHON_PLAN = {
       "endWeek": 42,
       "startDate": "2026-10-12",
       "endDate": "2026-10-18",
-      "description": "Alleen na bevestigde GREEN een kleine duurstap; anders de ORANGE-fallback."
+      "description": "Alleen bij volledig herstelde en goed verdragen belasting een kleine duurstap; anders de kortere herstelvariant."
     },
     {
       "phaseId": "consolidate",
@@ -568,8 +568,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 41,
           "variant": "max",
           "role": "bike",
-          "trainingNumber": null,
-          "trainingLabel": "Fiets",
+          "trainingNumber": 3,
+          "trainingLabel": "Training 3",
           "title": "Rustig fietsen",
           "category": "fiets",
           "activityType": "bike",
@@ -780,8 +780,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 41,
           "variant": "max",
           "role": "strides",
-          "trainingNumber": 3,
-          "trainingLabel": "Training 3",
+          "trainingNumber": 4,
+          "trainingLabel": "Training 4",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -870,11 +870,8 @@ window.MARATHON_PLAN = {
                   "cue": "geen sprint; geen GPS-pace-alert",
                   "instruction": "geen sprint; geen GPS-pace-alert",
                   "repetitions": 1,
-                  "speedRangeKmh": [
-                    6,
-                    6
-                  ],
-                  "speedKmh": 6,
+                  "speedRangeKmh": null,
+                  "speedKmh": null,
                   "inclinePercent": 0,
                   "isRecovery": false
                 },
@@ -966,7 +963,7 @@ window.MARATHON_PLAN = {
           "isFitnessCheck": false,
           "isTest": false,
           "evaluation": null,
-          "protocolSignature": "[[300,\"Zeer easy, RPE 2\",[7,8.5],0],[840,\"Easy, RPE 2–3\",[7,9],0],[20,\"Vrij, soepel\",[6,6],0],[70,\"Easy jog\",[7,8.5],0],[20,\"Vrij, soepel\",[6,6],0],[70,\"Easy jog\",[7,8.5],0],[20,\"Vrij, soepel\",[6,6],0],[70,\"Easy jog\",[7,8.5],0],[20,\"Vrij, soepel\",[6,6],0],[70,\"Easy jog\",[7,8.5],0],[300,\"Zeer easy, RPE 2\",[7,8.5],0]]",
+          "protocolSignature": "[[300,\"Zeer easy, RPE 2\",[7,8.5],0],[840,\"Easy, RPE 2–3\",[7,9],0],[20,\"Vrij, soepel\",null,0],[70,\"Easy jog\",[7,8.5],0],[20,\"Vrij, soepel\",null,0],[70,\"Easy jog\",[7,8.5],0],[20,\"Vrij, soepel\",null,0],[70,\"Easy jog\",[7,8.5],0],[20,\"Vrij, soepel\",null,0],[70,\"Easy jog\",[7,8.5],0],[300,\"Zeer easy, RPE 2\",[7,8.5],0]]",
           "garmin": {
             "sourceHeading": "10-10-2026 — Easy herstel · 30 min",
             "totalSeconds": 1800,
@@ -1089,8 +1086,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 41,
           "variant": "max",
           "role": "runwalk",
-          "trainingNumber": 4,
-          "trainingLabel": "Training 4",
+          "trainingNumber": 5,
+          "trainingLabel": "Training 5",
           "title": "Rustige duur met geplande run-walk",
           "category": "lange-duur",
           "activityType": "run",
@@ -1426,7 +1423,7 @@ window.MARATHON_PLAN = {
       "endDate": "2026-10-18",
       "periodLabel": "12 oktober t/m 18 oktober 2026",
       "weekType": "Heropbouw",
-      "focus": "Alleen na bevestigde GREEN een kleine duurstap; anders de ORANGE-fallback.",
+      "focus": "Alleen bij volledig herstelde en goed verdragen belasting een kleine duurstap; anders de kortere herstelvariant.",
       "includesMarathon": false,
       "planningMode": "calendar",
       "suggestedPattern": "Voorkeursdagen met rust ertussen; bij verschuiven niet samenpersen.",
@@ -1885,8 +1882,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 42,
           "variant": "max",
           "role": "bike",
-          "trainingNumber": null,
-          "trainingLabel": "Fiets",
+          "trainingNumber": 3,
+          "trainingLabel": "Training 3",
           "title": "Rustig fietsen",
           "category": "fiets",
           "activityType": "bike",
@@ -2097,8 +2094,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 42,
           "variant": "orange",
           "role": "short",
-          "trainingNumber": 3,
-          "trainingLabel": "Training 3",
+          "trainingNumber": 4,
+          "trainingLabel": "Training 4",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -2318,8 +2315,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 42,
           "variant": "orange",
           "role": "runwalk",
-          "trainingNumber": 4,
-          "trainingLabel": "Training 4",
+          "trainingNumber": 5,
+          "trainingLabel": "Training 5",
           "title": "Rustige duur met geplande run-walk",
           "category": "lange-duur",
           "activityType": "run",
@@ -2631,14 +2628,14 @@ window.MARATHON_PLAN = {
       ],
       "weekPhilosophy": {
         "theme": "Heropbouw",
-        "summary": "Alleen na bevestigde GREEN een kleine duurstap; anders de ORANGE-fallback.",
+        "summary": "Alleen bij volledig herstelde en goed verdragen belasting een kleine duurstap; anders de kortere herstelvariant.",
         "adaptations": [
           "OPEN / VRIJ",
           "OUTDOOR",
           "HERSTELGESTUURD"
         ],
         "why": [
-          "Alleen na bevestigde GREEN een kleine duurstap; anders de ORANGE-fallback.",
+          "Alleen bij volledig herstelde en goed verdragen belasting een kleine duurstap; anders de kortere herstelvariant.",
           "RPE, praatcomfort, techniek en herstel bepalen of de kalendermaxima passend zijn."
         ],
         "targetLink": "De historische ambitie 3:30 blijft context, maar is geen actief tempo- of tijdsvoorschrift.",
@@ -3114,8 +3111,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 43,
           "variant": "max",
           "role": "bike",
-          "trainingNumber": null,
-          "trainingLabel": "Fiets",
+          "trainingNumber": 3,
+          "trainingLabel": "Training 3",
           "title": "Rustig fietsen",
           "category": "fiets",
           "activityType": "bike",
@@ -3326,8 +3323,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 43,
           "variant": "orange",
           "role": "short",
-          "trainingNumber": 3,
-          "trainingLabel": "Training 3",
+          "trainingNumber": 4,
+          "trainingLabel": "Training 4",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -3547,8 +3544,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 43,
           "variant": "orange",
           "role": "runwalk",
-          "trainingNumber": 4,
-          "trainingLabel": "Training 4",
+          "trainingNumber": 5,
+          "trainingLabel": "Training 5",
           "title": "Rustige duur met geplande run-walk",
           "category": "lange-duur",
           "activityType": "run",
@@ -4343,8 +4340,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 44,
           "variant": "max",
           "role": "bike",
-          "trainingNumber": null,
-          "trainingLabel": "Fiets",
+          "trainingNumber": 3,
+          "trainingLabel": "Training 3",
           "title": "Rustig fietsen",
           "category": "fiets",
           "activityType": "bike",
@@ -4555,8 +4552,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 44,
           "variant": "orange",
           "role": "short",
-          "trainingNumber": 3,
-          "trainingLabel": "Training 3",
+          "trainingNumber": 4,
+          "trainingLabel": "Training 4",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -4776,8 +4773,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 44,
           "variant": "orange",
           "role": "runwalk",
-          "trainingNumber": 4,
-          "trainingLabel": "Training 4",
+          "trainingNumber": 5,
+          "trainingLabel": "Training 5",
           "title": "Rustige duur met geplande run-walk",
           "category": "lange-duur",
           "activityType": "run",
@@ -5793,8 +5790,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 45,
           "variant": "max",
           "role": "bike",
-          "trainingNumber": null,
-          "trainingLabel": "Fiets",
+          "trainingNumber": 4,
+          "trainingLabel": "Training 4",
           "title": "Rustig fietsen",
           "category": "fiets",
           "activityType": "bike",
@@ -6005,8 +6002,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 45,
           "variant": "max",
           "role": "runwalk",
-          "trainingNumber": 4,
-          "trainingLabel": "Training 4",
+          "trainingNumber": 5,
+          "trainingLabel": "Training 5",
           "title": "Rustige duur met geplande run-walk",
           "category": "lange-duur",
           "activityType": "run",
@@ -6801,8 +6798,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 46,
           "variant": "max",
           "role": "bike",
-          "trainingNumber": null,
-          "trainingLabel": "Fiets",
+          "trainingNumber": 3,
+          "trainingLabel": "Training 3",
           "title": "Rustig fietsen",
           "category": "fiets",
           "activityType": "bike",
@@ -7013,8 +7010,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 46,
           "variant": "max",
           "role": "short",
-          "trainingNumber": 3,
-          "trainingLabel": "Training 3",
+          "trainingNumber": 4,
+          "trainingLabel": "Training 4",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -7234,8 +7231,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 46,
           "variant": "max",
           "role": "runwalk",
-          "trainingNumber": 4,
-          "trainingLabel": "Training 4",
+          "trainingNumber": 5,
+          "trainingLabel": "Training 5",
           "title": "Rustige duur met geplande run-walk",
           "category": "lange-duur",
           "activityType": "run",
@@ -8252,7 +8249,7 @@ window.MARATHON_PLAN = {
           "variant": "race",
           "role": "race",
           "trainingNumber": 4,
-          "trainingLabel": "Marathon",
+          "trainingLabel": "Training 4",
           "title": "Marathon",
           "category": "wedstrijd",
           "activityType": "race",
@@ -8405,8 +8402,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 41,
       "variant": "max",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 1,
+      "trainingLabel": "Training 1",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -8626,8 +8623,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 41,
       "variant": "max",
       "role": "continuous",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 2,
+      "trainingLabel": "Training 2",
       "title": "Continu ontspannen lopen",
       "category": "easy",
       "activityType": "run",
@@ -8847,8 +8844,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 41,
       "variant": "max",
       "role": "strides",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 4,
+      "trainingLabel": "Training 4",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -8937,11 +8934,8 @@ window.MARATHON_PLAN = {
               "cue": "geen sprint; geen GPS-pace-alert",
               "instruction": "geen sprint; geen GPS-pace-alert",
               "repetitions": 1,
-              "speedRangeKmh": [
-                6,
-                6
-              ],
-              "speedKmh": 6,
+              "speedRangeKmh": null,
+              "speedKmh": null,
               "inclinePercent": 0,
               "isRecovery": false
             },
@@ -9033,7 +9027,7 @@ window.MARATHON_PLAN = {
       "isFitnessCheck": false,
       "isTest": false,
       "evaluation": null,
-      "protocolSignature": "[[300,\"Zeer easy, RPE 2\",[7,8.5],0],[840,\"Easy, RPE 2–3\",[7,9],0],[20,\"Vrij, soepel\",[6,6],0],[70,\"Easy jog\",[7,8.5],0],[20,\"Vrij, soepel\",[6,6],0],[70,\"Easy jog\",[7,8.5],0],[20,\"Vrij, soepel\",[6,6],0],[70,\"Easy jog\",[7,8.5],0],[20,\"Vrij, soepel\",[6,6],0],[70,\"Easy jog\",[7,8.5],0],[300,\"Zeer easy, RPE 2\",[7,8.5],0]]",
+      "protocolSignature": "[[300,\"Zeer easy, RPE 2\",[7,8.5],0],[840,\"Easy, RPE 2–3\",[7,9],0],[20,\"Vrij, soepel\",null,0],[70,\"Easy jog\",[7,8.5],0],[20,\"Vrij, soepel\",null,0],[70,\"Easy jog\",[7,8.5],0],[20,\"Vrij, soepel\",null,0],[70,\"Easy jog\",[7,8.5],0],[20,\"Vrij, soepel\",null,0],[70,\"Easy jog\",[7,8.5],0],[300,\"Zeer easy, RPE 2\",[7,8.5],0]]",
       "garmin": {
         "sourceHeading": "10-10-2026 — Easy herstel · 30 min",
         "totalSeconds": 1800,
@@ -9156,8 +9150,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 41,
       "variant": "max",
       "role": "runwalk",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 5,
+      "trainingLabel": "Training 5",
       "title": "Rustige duur met geplande run-walk",
       "category": "lange-duur",
       "activityType": "run",
@@ -9413,8 +9407,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 41,
       "variant": "max",
       "role": "bike",
-      "trainingNumber": null,
-      "trainingLabel": "Fiets",
+      "trainingNumber": 3,
+      "trainingLabel": "Training 3",
       "title": "Rustig fietsen",
       "category": "fiets",
       "activityType": "bike",
@@ -9625,8 +9619,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 42,
       "variant": "max",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 1,
+      "trainingLabel": "Training 1",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -9846,8 +9840,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 42,
       "variant": "max",
       "role": "continuous",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 2,
+      "trainingLabel": "Training 2",
       "title": "Continu ontspannen lopen",
       "category": "easy",
       "activityType": "run",
@@ -10067,8 +10061,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 42,
       "variant": "max",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 4,
+      "trainingLabel": "Training 4",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -10288,8 +10282,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 42,
       "variant": "max",
       "role": "runwalk",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 5,
+      "trainingLabel": "Training 5",
       "title": "Rustige duur met geplande run-walk",
       "category": "lange-duur",
       "activityType": "run",
@@ -10545,8 +10539,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 42,
       "variant": "max",
       "role": "bike",
-      "trainingNumber": null,
-      "trainingLabel": "Fiets",
+      "trainingNumber": 3,
+      "trainingLabel": "Training 3",
       "title": "Rustig fietsen",
       "category": "fiets",
       "activityType": "bike",
@@ -10757,8 +10751,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 42,
       "variant": "orange",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 1,
+      "trainingLabel": "Training 1",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -10978,8 +10972,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 42,
       "variant": "orange",
       "role": "continuous",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 2,
+      "trainingLabel": "Training 2",
       "title": "Continu ontspannen lopen",
       "category": "easy",
       "activityType": "run",
@@ -11199,8 +11193,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 42,
       "variant": "orange",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 4,
+      "trainingLabel": "Training 4",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -11420,8 +11414,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 42,
       "variant": "orange",
       "role": "runwalk",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 5,
+      "trainingLabel": "Training 5",
       "title": "Rustige duur met geplande run-walk",
       "category": "lange-duur",
       "activityType": "run",
@@ -11677,8 +11671,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 43,
       "variant": "max",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 1,
+      "trainingLabel": "Training 1",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -11898,8 +11892,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 43,
       "variant": "max",
       "role": "continuous",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 2,
+      "trainingLabel": "Training 2",
       "title": "Continu ontspannen lopen",
       "category": "easy",
       "activityType": "run",
@@ -12119,8 +12113,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 43,
       "variant": "max",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 4,
+      "trainingLabel": "Training 4",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -12340,8 +12334,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 43,
       "variant": "max",
       "role": "runwalk",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 5,
+      "trainingLabel": "Training 5",
       "title": "Rustige duur met geplande run-walk",
       "category": "lange-duur",
       "activityType": "run",
@@ -12597,8 +12591,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 43,
       "variant": "max",
       "role": "bike",
-      "trainingNumber": null,
-      "trainingLabel": "Fiets",
+      "trainingNumber": 3,
+      "trainingLabel": "Training 3",
       "title": "Rustig fietsen",
       "category": "fiets",
       "activityType": "bike",
@@ -12809,8 +12803,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 43,
       "variant": "orange",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 1,
+      "trainingLabel": "Training 1",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -13030,8 +13024,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 43,
       "variant": "orange",
       "role": "continuous",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 2,
+      "trainingLabel": "Training 2",
       "title": "Continu ontspannen lopen",
       "category": "easy",
       "activityType": "run",
@@ -13251,8 +13245,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 43,
       "variant": "orange",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 4,
+      "trainingLabel": "Training 4",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -13472,8 +13466,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 43,
       "variant": "orange",
       "role": "runwalk",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 5,
+      "trainingLabel": "Training 5",
       "title": "Rustige duur met geplande run-walk",
       "category": "lange-duur",
       "activityType": "run",
@@ -13729,8 +13723,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 44,
       "variant": "max",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 1,
+      "trainingLabel": "Training 1",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -13950,8 +13944,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 44,
       "variant": "max",
       "role": "continuous",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 2,
+      "trainingLabel": "Training 2",
       "title": "Continu ontspannen lopen",
       "category": "easy",
       "activityType": "run",
@@ -14171,8 +14165,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 44,
       "variant": "max",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 4,
+      "trainingLabel": "Training 4",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -14392,8 +14386,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 44,
       "variant": "max",
       "role": "runwalk",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 5,
+      "trainingLabel": "Training 5",
       "title": "Rustige duur met geplande run-walk",
       "category": "lange-duur",
       "activityType": "run",
@@ -14649,8 +14643,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 44,
       "variant": "max",
       "role": "bike",
-      "trainingNumber": null,
-      "trainingLabel": "Fiets",
+      "trainingNumber": 3,
+      "trainingLabel": "Training 3",
       "title": "Rustig fietsen",
       "category": "fiets",
       "activityType": "bike",
@@ -14861,8 +14855,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 44,
       "variant": "orange",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 1,
+      "trainingLabel": "Training 1",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -15082,8 +15076,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 44,
       "variant": "orange",
       "role": "continuous",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 2,
+      "trainingLabel": "Training 2",
       "title": "Continu ontspannen lopen",
       "category": "easy",
       "activityType": "run",
@@ -15303,8 +15297,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 44,
       "variant": "orange",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 4,
+      "trainingLabel": "Training 4",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -15524,8 +15518,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 44,
       "variant": "orange",
       "role": "runwalk",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 5,
+      "trainingLabel": "Training 5",
       "title": "Rustige duur met geplande run-walk",
       "category": "lange-duur",
       "activityType": "run",
@@ -15781,8 +15775,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 45,
       "variant": "max",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 1,
+      "trainingLabel": "Training 1",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -16002,8 +15996,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 45,
       "variant": "max",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 2,
+      "trainingLabel": "Training 2",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -16223,8 +16217,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 45,
       "variant": "max",
       "role": "continuous",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 3,
+      "trainingLabel": "Training 3",
       "title": "Continu ontspannen lopen",
       "category": "easy",
       "activityType": "run",
@@ -16444,8 +16438,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 45,
       "variant": "max",
       "role": "runwalk",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 5,
+      "trainingLabel": "Training 5",
       "title": "Rustige duur met geplande run-walk",
       "category": "lange-duur",
       "activityType": "run",
@@ -16701,8 +16695,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 45,
       "variant": "max",
       "role": "bike",
-      "trainingNumber": null,
-      "trainingLabel": "Fiets",
+      "trainingNumber": 4,
+      "trainingLabel": "Training 4",
       "title": "Rustig fietsen",
       "category": "fiets",
       "activityType": "bike",
@@ -16913,8 +16907,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 45,
       "variant": "optional",
       "role": "rhythm",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 3,
+      "trainingLabel": "Training 3",
       "title": "Continu ontspannen lopen",
       "category": "easy",
       "activityType": "run",
@@ -17328,8 +17322,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 46,
       "variant": "max",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 1,
+      "trainingLabel": "Training 1",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -17549,8 +17543,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 46,
       "variant": "max",
       "role": "continuous",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 2,
+      "trainingLabel": "Training 2",
       "title": "Continu ontspannen lopen",
       "category": "easy",
       "activityType": "run",
@@ -17770,8 +17764,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 46,
       "variant": "max",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 4,
+      "trainingLabel": "Training 4",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -17991,8 +17985,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 46,
       "variant": "max",
       "role": "runwalk",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 5,
+      "trainingLabel": "Training 5",
       "title": "Rustige duur met geplande run-walk",
       "category": "lange-duur",
       "activityType": "run",
@@ -18248,8 +18242,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 46,
       "variant": "max",
       "role": "bike",
-      "trainingNumber": null,
-      "trainingLabel": "Fiets",
+      "trainingNumber": 3,
+      "trainingLabel": "Training 3",
       "title": "Rustig fietsen",
       "category": "fiets",
       "activityType": "bike",
@@ -18460,8 +18454,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 47,
       "variant": "max",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 1,
+      "trainingLabel": "Training 1",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -18681,8 +18675,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 47,
       "variant": "max",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 2,
+      "trainingLabel": "Training 2",
       "title": "Easy herstel",
       "category": "easy",
       "activityType": "run",
@@ -18902,8 +18896,8 @@ window.MARATHON_PLAN = {
       "weekNumber": 47,
       "variant": "max",
       "role": "short",
-      "trainingNumber": null,
-      "trainingLabel": "Training null",
+      "trainingNumber": 3,
+      "trainingLabel": "Training 3",
       "title": "Shakeout",
       "category": "easy",
       "activityType": "run",
@@ -19124,7 +19118,7 @@ window.MARATHON_PLAN = {
       "variant": "race",
       "role": "race",
       "trainingNumber": 4,
-      "trainingLabel": "Marathon",
+      "trainingLabel": "Training 4",
       "title": "Marathon",
       "category": "wedstrijd",
       "activityType": "race",
@@ -19205,8 +19199,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 41,
           "variant": "max",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 1,
+          "trainingLabel": "Training 1",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -19414,7 +19408,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w41",
+          "dateLabel": "5 oktober t/m 11 oktober 2026",
+          "phaseId": "active-recovery",
+          "phaseName": "Actief herstel"
         },
         {
           "workoutId": "V5-W41-MAX-2026-10-08",
@@ -19422,8 +19420,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 41,
           "variant": "max",
           "role": "continuous",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 2,
+          "trainingLabel": "Training 2",
           "title": "Continu ontspannen lopen",
           "category": "easy",
           "activityType": "run",
@@ -19631,7 +19629,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w41",
+          "dateLabel": "5 oktober t/m 11 oktober 2026",
+          "phaseId": "active-recovery",
+          "phaseName": "Actief herstel"
         },
         {
           "workoutId": "V5-W41-MAX-2026-10-10",
@@ -19639,8 +19641,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 41,
           "variant": "max",
           "role": "strides",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 4,
+          "trainingLabel": "Training 4",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -19729,11 +19731,8 @@ window.MARATHON_PLAN = {
                   "cue": "geen sprint; geen GPS-pace-alert",
                   "instruction": "geen sprint; geen GPS-pace-alert",
                   "repetitions": 1,
-                  "speedRangeKmh": [
-                    6,
-                    6
-                  ],
-                  "speedKmh": 6,
+                  "speedRangeKmh": null,
+                  "speedKmh": null,
                   "inclinePercent": 0,
                   "isRecovery": false
                 },
@@ -19825,7 +19824,7 @@ window.MARATHON_PLAN = {
           "isFitnessCheck": false,
           "isTest": false,
           "evaluation": null,
-          "protocolSignature": "[[300,\"Zeer easy, RPE 2\",[7,8.5],0],[840,\"Easy, RPE 2–3\",[7,9],0],[20,\"Vrij, soepel\",[6,6],0],[70,\"Easy jog\",[7,8.5],0],[20,\"Vrij, soepel\",[6,6],0],[70,\"Easy jog\",[7,8.5],0],[20,\"Vrij, soepel\",[6,6],0],[70,\"Easy jog\",[7,8.5],0],[20,\"Vrij, soepel\",[6,6],0],[70,\"Easy jog\",[7,8.5],0],[300,\"Zeer easy, RPE 2\",[7,8.5],0]]",
+          "protocolSignature": "[[300,\"Zeer easy, RPE 2\",[7,8.5],0],[840,\"Easy, RPE 2–3\",[7,9],0],[20,\"Vrij, soepel\",null,0],[70,\"Easy jog\",[7,8.5],0],[20,\"Vrij, soepel\",null,0],[70,\"Easy jog\",[7,8.5],0],[20,\"Vrij, soepel\",null,0],[70,\"Easy jog\",[7,8.5],0],[20,\"Vrij, soepel\",null,0],[70,\"Easy jog\",[7,8.5],0],[300,\"Zeer easy, RPE 2\",[7,8.5],0]]",
           "garmin": {
             "sourceHeading": "10-10-2026 — Easy herstel · 30 min",
             "totalSeconds": 1800,
@@ -19936,7 +19935,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w41",
+          "dateLabel": "5 oktober t/m 11 oktober 2026",
+          "phaseId": "active-recovery",
+          "phaseName": "Actief herstel"
         },
         {
           "workoutId": "V5-W41-MAX-2026-10-11",
@@ -19944,8 +19947,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 41,
           "variant": "max",
           "role": "runwalk",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 5,
+          "trainingLabel": "Training 5",
           "title": "Rustige duur met geplande run-walk",
           "category": "lange-duur",
           "activityType": "run",
@@ -20189,7 +20192,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w41",
+          "dateLabel": "5 oktober t/m 11 oktober 2026",
+          "phaseId": "active-recovery",
+          "phaseName": "Actief herstel"
         }
       ],
       "orange": [],
@@ -20201,8 +20208,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 41,
           "variant": "max",
           "role": "bike",
-          "trainingNumber": null,
-          "trainingLabel": "Fiets",
+          "trainingNumber": 3,
+          "trainingLabel": "Training 3",
           "title": "Rustig fietsen",
           "category": "fiets",
           "activityType": "bike",
@@ -20401,7 +20408,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w41",
+          "dateLabel": "5 oktober t/m 11 oktober 2026",
+          "phaseId": "active-recovery",
+          "phaseName": "Actief herstel"
         }
       ]
     },
@@ -20413,8 +20424,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 42,
           "variant": "max",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 1,
+          "trainingLabel": "Training 1",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -20622,7 +20633,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w42",
+          "dateLabel": "12 oktober t/m 18 oktober 2026",
+          "phaseId": "rebuild",
+          "phaseName": "Heropbouw"
         },
         {
           "workoutId": "V5-W42-MAX-2026-10-15",
@@ -20630,8 +20645,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 42,
           "variant": "max",
           "role": "continuous",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 2,
+          "trainingLabel": "Training 2",
           "title": "Continu ontspannen lopen",
           "category": "easy",
           "activityType": "run",
@@ -20839,7 +20854,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w42",
+          "dateLabel": "12 oktober t/m 18 oktober 2026",
+          "phaseId": "rebuild",
+          "phaseName": "Heropbouw"
         },
         {
           "workoutId": "V5-W42-MAX-2026-10-17",
@@ -20847,8 +20866,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 42,
           "variant": "max",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 4,
+          "trainingLabel": "Training 4",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -21056,7 +21075,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w42",
+          "dateLabel": "12 oktober t/m 18 oktober 2026",
+          "phaseId": "rebuild",
+          "phaseName": "Heropbouw"
         },
         {
           "workoutId": "V5-W42-MAX-2026-10-18",
@@ -21064,8 +21087,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 42,
           "variant": "max",
           "role": "runwalk",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 5,
+          "trainingLabel": "Training 5",
           "title": "Rustige duur met geplande run-walk",
           "category": "lange-duur",
           "activityType": "run",
@@ -21309,7 +21332,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w42",
+          "dateLabel": "12 oktober t/m 18 oktober 2026",
+          "phaseId": "rebuild",
+          "phaseName": "Heropbouw"
         }
       ],
       "orange": [
@@ -21319,8 +21346,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 42,
           "variant": "orange",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 1,
+          "trainingLabel": "Training 1",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -21528,7 +21555,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w42",
+          "dateLabel": "12 oktober t/m 18 oktober 2026",
+          "phaseId": "rebuild",
+          "phaseName": "Heropbouw"
         },
         {
           "workoutId": "V5-W42-ORANGE-2026-10-15",
@@ -21536,8 +21567,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 42,
           "variant": "orange",
           "role": "continuous",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 2,
+          "trainingLabel": "Training 2",
           "title": "Continu ontspannen lopen",
           "category": "easy",
           "activityType": "run",
@@ -21745,7 +21776,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w42",
+          "dateLabel": "12 oktober t/m 18 oktober 2026",
+          "phaseId": "rebuild",
+          "phaseName": "Heropbouw"
         },
         {
           "workoutId": "V5-W42-ORANGE-2026-10-17",
@@ -21753,8 +21788,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 42,
           "variant": "orange",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 4,
+          "trainingLabel": "Training 4",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -21962,7 +21997,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w42",
+          "dateLabel": "12 oktober t/m 18 oktober 2026",
+          "phaseId": "rebuild",
+          "phaseName": "Heropbouw"
         },
         {
           "workoutId": "V5-W42-ORANGE-2026-10-18",
@@ -21970,8 +22009,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 42,
           "variant": "orange",
           "role": "runwalk",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 5,
+          "trainingLabel": "Training 5",
           "title": "Rustige duur met geplande run-walk",
           "category": "lange-duur",
           "activityType": "run",
@@ -22215,7 +22254,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w42",
+          "dateLabel": "12 oktober t/m 18 oktober 2026",
+          "phaseId": "rebuild",
+          "phaseName": "Heropbouw"
         }
       ],
       "optional": [],
@@ -22226,8 +22269,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 42,
           "variant": "max",
           "role": "bike",
-          "trainingNumber": null,
-          "trainingLabel": "Fiets",
+          "trainingNumber": 3,
+          "trainingLabel": "Training 3",
           "title": "Rustig fietsen",
           "category": "fiets",
           "activityType": "bike",
@@ -22426,7 +22469,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w42",
+          "dateLabel": "12 oktober t/m 18 oktober 2026",
+          "phaseId": "rebuild",
+          "phaseName": "Heropbouw"
         }
       ]
     },
@@ -22438,8 +22485,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 43,
           "variant": "max",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 1,
+          "trainingLabel": "Training 1",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -22647,7 +22694,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w43",
+          "dateLabel": "19 oktober t/m 25 oktober 2026",
+          "phaseId": "consolidate",
+          "phaseName": "Basis consolideren"
         },
         {
           "workoutId": "V5-W43-MAX-2026-10-22",
@@ -22655,8 +22706,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 43,
           "variant": "max",
           "role": "continuous",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 2,
+          "trainingLabel": "Training 2",
           "title": "Continu ontspannen lopen",
           "category": "easy",
           "activityType": "run",
@@ -22864,7 +22915,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w43",
+          "dateLabel": "19 oktober t/m 25 oktober 2026",
+          "phaseId": "consolidate",
+          "phaseName": "Basis consolideren"
         },
         {
           "workoutId": "V5-W43-MAX-2026-10-24",
@@ -22872,8 +22927,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 43,
           "variant": "max",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 4,
+          "trainingLabel": "Training 4",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -23081,7 +23136,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w43",
+          "dateLabel": "19 oktober t/m 25 oktober 2026",
+          "phaseId": "consolidate",
+          "phaseName": "Basis consolideren"
         },
         {
           "workoutId": "V5-W43-MAX-2026-10-25",
@@ -23089,8 +23148,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 43,
           "variant": "max",
           "role": "runwalk",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 5,
+          "trainingLabel": "Training 5",
           "title": "Rustige duur met geplande run-walk",
           "category": "lange-duur",
           "activityType": "run",
@@ -23334,7 +23393,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w43",
+          "dateLabel": "19 oktober t/m 25 oktober 2026",
+          "phaseId": "consolidate",
+          "phaseName": "Basis consolideren"
         }
       ],
       "orange": [
@@ -23344,8 +23407,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 43,
           "variant": "orange",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 1,
+          "trainingLabel": "Training 1",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -23553,7 +23616,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w43",
+          "dateLabel": "19 oktober t/m 25 oktober 2026",
+          "phaseId": "consolidate",
+          "phaseName": "Basis consolideren"
         },
         {
           "workoutId": "V5-W43-ORANGE-2026-10-22",
@@ -23561,8 +23628,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 43,
           "variant": "orange",
           "role": "continuous",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 2,
+          "trainingLabel": "Training 2",
           "title": "Continu ontspannen lopen",
           "category": "easy",
           "activityType": "run",
@@ -23770,7 +23837,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w43",
+          "dateLabel": "19 oktober t/m 25 oktober 2026",
+          "phaseId": "consolidate",
+          "phaseName": "Basis consolideren"
         },
         {
           "workoutId": "V5-W43-ORANGE-2026-10-24",
@@ -23778,8 +23849,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 43,
           "variant": "orange",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 4,
+          "trainingLabel": "Training 4",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -23987,7 +24058,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w43",
+          "dateLabel": "19 oktober t/m 25 oktober 2026",
+          "phaseId": "consolidate",
+          "phaseName": "Basis consolideren"
         },
         {
           "workoutId": "V5-W43-ORANGE-2026-10-25",
@@ -23995,8 +24070,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 43,
           "variant": "orange",
           "role": "runwalk",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 5,
+          "trainingLabel": "Training 5",
           "title": "Rustige duur met geplande run-walk",
           "category": "lange-duur",
           "activityType": "run",
@@ -24240,7 +24315,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w43",
+          "dateLabel": "19 oktober t/m 25 oktober 2026",
+          "phaseId": "consolidate",
+          "phaseName": "Basis consolideren"
         }
       ],
       "optional": [],
@@ -24251,8 +24330,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 43,
           "variant": "max",
           "role": "bike",
-          "trainingNumber": null,
-          "trainingLabel": "Fiets",
+          "trainingNumber": 3,
+          "trainingLabel": "Training 3",
           "title": "Rustig fietsen",
           "category": "fiets",
           "activityType": "bike",
@@ -24451,7 +24530,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w43",
+          "dateLabel": "19 oktober t/m 25 oktober 2026",
+          "phaseId": "consolidate",
+          "phaseName": "Basis consolideren"
         }
       ]
     },
@@ -24463,8 +24546,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 44,
           "variant": "max",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 1,
+          "trainingLabel": "Training 1",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -24672,7 +24755,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w44",
+          "dateLabel": "26 oktober t/m 1 november 2026",
+          "phaseId": "last-progression",
+          "phaseName": "Laatste kleine duurstap"
         },
         {
           "workoutId": "V5-W44-MAX-2026-10-29",
@@ -24680,8 +24767,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 44,
           "variant": "max",
           "role": "continuous",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 2,
+          "trainingLabel": "Training 2",
           "title": "Continu ontspannen lopen",
           "category": "easy",
           "activityType": "run",
@@ -24889,7 +24976,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w44",
+          "dateLabel": "26 oktober t/m 1 november 2026",
+          "phaseId": "last-progression",
+          "phaseName": "Laatste kleine duurstap"
         },
         {
           "workoutId": "V5-W44-MAX-2026-10-31",
@@ -24897,8 +24988,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 44,
           "variant": "max",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 4,
+          "trainingLabel": "Training 4",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -25106,7 +25197,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w44",
+          "dateLabel": "26 oktober t/m 1 november 2026",
+          "phaseId": "last-progression",
+          "phaseName": "Laatste kleine duurstap"
         },
         {
           "workoutId": "V5-W44-MAX-2026-11-01",
@@ -25114,8 +25209,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 44,
           "variant": "max",
           "role": "runwalk",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 5,
+          "trainingLabel": "Training 5",
           "title": "Rustige duur met geplande run-walk",
           "category": "lange-duur",
           "activityType": "run",
@@ -25359,7 +25454,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w44",
+          "dateLabel": "26 oktober t/m 1 november 2026",
+          "phaseId": "last-progression",
+          "phaseName": "Laatste kleine duurstap"
         }
       ],
       "orange": [
@@ -25369,8 +25468,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 44,
           "variant": "orange",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 1,
+          "trainingLabel": "Training 1",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -25578,7 +25677,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w44",
+          "dateLabel": "26 oktober t/m 1 november 2026",
+          "phaseId": "last-progression",
+          "phaseName": "Laatste kleine duurstap"
         },
         {
           "workoutId": "V5-W44-ORANGE-2026-10-29",
@@ -25586,8 +25689,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 44,
           "variant": "orange",
           "role": "continuous",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 2,
+          "trainingLabel": "Training 2",
           "title": "Continu ontspannen lopen",
           "category": "easy",
           "activityType": "run",
@@ -25795,7 +25898,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w44",
+          "dateLabel": "26 oktober t/m 1 november 2026",
+          "phaseId": "last-progression",
+          "phaseName": "Laatste kleine duurstap"
         },
         {
           "workoutId": "V5-W44-ORANGE-2026-10-31",
@@ -25803,8 +25910,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 44,
           "variant": "orange",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 4,
+          "trainingLabel": "Training 4",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -26012,7 +26119,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w44",
+          "dateLabel": "26 oktober t/m 1 november 2026",
+          "phaseId": "last-progression",
+          "phaseName": "Laatste kleine duurstap"
         },
         {
           "workoutId": "V5-W44-ORANGE-2026-11-01",
@@ -26020,8 +26131,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 44,
           "variant": "orange",
           "role": "runwalk",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 5,
+          "trainingLabel": "Training 5",
           "title": "Rustige duur met geplande run-walk",
           "category": "lange-duur",
           "activityType": "run",
@@ -26265,7 +26376,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w44",
+          "dateLabel": "26 oktober t/m 1 november 2026",
+          "phaseId": "last-progression",
+          "phaseName": "Laatste kleine duurstap"
         }
       ],
       "optional": [],
@@ -26276,8 +26391,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 44,
           "variant": "max",
           "role": "bike",
-          "trainingNumber": null,
-          "trainingLabel": "Fiets",
+          "trainingNumber": 3,
+          "trainingLabel": "Training 3",
           "title": "Rustig fietsen",
           "category": "fiets",
           "activityType": "bike",
@@ -26476,7 +26591,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w44",
+          "dateLabel": "26 oktober t/m 1 november 2026",
+          "phaseId": "last-progression",
+          "phaseName": "Laatste kleine duurstap"
         }
       ]
     },
@@ -26488,8 +26607,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 45,
           "variant": "max",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 1,
+          "trainingLabel": "Training 1",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -26697,7 +26816,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w45",
+          "dateLabel": "2 november t/m 8 november 2026",
+          "phaseId": "taper-1",
+          "phaseName": "Taper 1"
         },
         {
           "workoutId": "V5-W45-MAX-2026-11-04",
@@ -26705,8 +26828,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 45,
           "variant": "max",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 2,
+          "trainingLabel": "Training 2",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -26914,7 +27037,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w45",
+          "dateLabel": "2 november t/m 8 november 2026",
+          "phaseId": "taper-1",
+          "phaseName": "Taper 1"
         },
         {
           "workoutId": "V5-W45-MAX-2026-11-05",
@@ -26922,8 +27049,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 45,
           "variant": "max",
           "role": "continuous",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 3,
+          "trainingLabel": "Training 3",
           "title": "Continu ontspannen lopen",
           "category": "easy",
           "activityType": "run",
@@ -27131,7 +27258,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w45",
+          "dateLabel": "2 november t/m 8 november 2026",
+          "phaseId": "taper-1",
+          "phaseName": "Taper 1"
         },
         {
           "workoutId": "V5-W45-MAX-2026-11-08",
@@ -27139,8 +27270,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 45,
           "variant": "max",
           "role": "runwalk",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 5,
+          "trainingLabel": "Training 5",
           "title": "Rustige duur met geplande run-walk",
           "category": "lange-duur",
           "activityType": "run",
@@ -27384,7 +27515,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w45",
+          "dateLabel": "2 november t/m 8 november 2026",
+          "phaseId": "taper-1",
+          "phaseName": "Taper 1"
         }
       ],
       "orange": [],
@@ -27395,8 +27530,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 45,
           "variant": "optional",
           "role": "rhythm",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 3,
+          "trainingLabel": "Training 3",
           "title": "Continu ontspannen lopen",
           "category": "easy",
           "activityType": "run",
@@ -27798,7 +27933,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w45",
+          "dateLabel": "2 november t/m 8 november 2026",
+          "phaseId": "taper-1",
+          "phaseName": "Taper 1"
         }
       ],
       "shared": [
@@ -27808,8 +27947,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 45,
           "variant": "max",
           "role": "bike",
-          "trainingNumber": null,
-          "trainingLabel": "Fiets",
+          "trainingNumber": 4,
+          "trainingLabel": "Training 4",
           "title": "Rustig fietsen",
           "category": "fiets",
           "activityType": "bike",
@@ -28008,7 +28147,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w45",
+          "dateLabel": "2 november t/m 8 november 2026",
+          "phaseId": "taper-1",
+          "phaseName": "Taper 1"
         }
       ]
     },
@@ -28020,8 +28163,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 46,
           "variant": "max",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 1,
+          "trainingLabel": "Training 1",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -28229,7 +28372,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w46",
+          "dateLabel": "9 november t/m 15 november 2026",
+          "phaseId": "taper-2",
+          "phaseName": "Taper 2"
         },
         {
           "workoutId": "V5-W46-MAX-2026-11-11",
@@ -28237,8 +28384,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 46,
           "variant": "max",
           "role": "continuous",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 2,
+          "trainingLabel": "Training 2",
           "title": "Continu ontspannen lopen",
           "category": "easy",
           "activityType": "run",
@@ -28446,7 +28593,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w46",
+          "dateLabel": "9 november t/m 15 november 2026",
+          "phaseId": "taper-2",
+          "phaseName": "Taper 2"
         },
         {
           "workoutId": "V5-W46-MAX-2026-11-13",
@@ -28454,8 +28605,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 46,
           "variant": "max",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 4,
+          "trainingLabel": "Training 4",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -28663,7 +28814,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w46",
+          "dateLabel": "9 november t/m 15 november 2026",
+          "phaseId": "taper-2",
+          "phaseName": "Taper 2"
         },
         {
           "workoutId": "V5-W46-MAX-2026-11-15",
@@ -28671,8 +28826,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 46,
           "variant": "max",
           "role": "runwalk",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 5,
+          "trainingLabel": "Training 5",
           "title": "Rustige duur met geplande run-walk",
           "category": "lange-duur",
           "activityType": "run",
@@ -28916,7 +29071,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w46",
+          "dateLabel": "9 november t/m 15 november 2026",
+          "phaseId": "taper-2",
+          "phaseName": "Taper 2"
         }
       ],
       "orange": [],
@@ -28928,8 +29087,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 46,
           "variant": "max",
           "role": "bike",
-          "trainingNumber": null,
-          "trainingLabel": "Fiets",
+          "trainingNumber": 3,
+          "trainingLabel": "Training 3",
           "title": "Rustig fietsen",
           "category": "fiets",
           "activityType": "bike",
@@ -29128,7 +29287,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w46",
+          "dateLabel": "9 november t/m 15 november 2026",
+          "phaseId": "taper-2",
+          "phaseName": "Taper 2"
         }
       ]
     },
@@ -29140,8 +29303,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 47,
           "variant": "max",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 1,
+          "trainingLabel": "Training 1",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -29349,7 +29512,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w47",
+          "dateLabel": "16 november t/m 22 november 2026",
+          "phaseId": "race-week",
+          "phaseName": "Frisheid / marathon"
         },
         {
           "workoutId": "V5-W47-MAX-2026-11-19",
@@ -29357,8 +29524,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 47,
           "variant": "max",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 2,
+          "trainingLabel": "Training 2",
           "title": "Easy herstel",
           "category": "easy",
           "activityType": "run",
@@ -29566,7 +29733,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w47",
+          "dateLabel": "16 november t/m 22 november 2026",
+          "phaseId": "race-week",
+          "phaseName": "Frisheid / marathon"
         },
         {
           "workoutId": "V5-W47-MAX-2026-11-21",
@@ -29574,8 +29745,8 @@ window.MARATHON_PLAN = {
           "weekNumber": 47,
           "variant": "max",
           "role": "short",
-          "trainingNumber": null,
-          "trainingLabel": "Training",
+          "trainingNumber": 3,
+          "trainingLabel": "Training 3",
           "title": "Shakeout",
           "category": "easy",
           "activityType": "run",
@@ -29783,7 +29954,11 @@ window.MARATHON_PLAN = {
                 ]
               }
             ]
-          }
+          },
+          "weekId": "marathon-v5-w47",
+          "dateLabel": "16 november t/m 22 november 2026",
+          "phaseId": "race-week",
+          "phaseName": "Frisheid / marathon"
         }
       ],
       "orange": [],
@@ -29796,7 +29971,7 @@ window.MARATHON_PLAN = {
           "variant": "race",
           "role": "race",
           "trainingNumber": 4,
-          "trainingLabel": "Marathon",
+          "trainingLabel": "Training 4",
           "title": "Marathon",
           "category": "wedstrijd",
           "activityType": "race",
@@ -29861,7 +30036,11 @@ window.MARATHON_PLAN = {
               "Optionele 4:1-alerts alleen na expliciet start- en strategieadvies."
             ],
             "groups": []
-          }
+          },
+          "weekId": "marathon-v5-w47",
+          "dateLabel": "16 november t/m 22 november 2026",
+          "phaseId": "race-week",
+          "phaseName": "Frisheid / marathon"
         }
       ]
     }
@@ -29873,7 +30052,7 @@ window.MARATHON_PLAN = {
       "Herstel, ontspannen buiten lopen en hardloopspecifieke belastbaarheid gaan vóór kalendermaxima.",
       "Easy betekent RPE 2–3 en volledige zinnen. Polar H9 is observatie, geen verplichte zone.",
       "Geen gemiste kilometers inhalen, geen krachttraining en geen zwaar marathonpace- of confidence-werk in de actieve V5-planning.",
-      "GREEN staat maximaal één kleine duurstap toe; ORANGE verhoogt niet; RED schort lopen op.",
+      "Alleen na volledig herstel is maximaal één kleine duurstap passend. Bij onvolledig herstel niet verhogen en geen snelheid; bij pijn of techniekverandering lopen pauzeren.",
       "De marathon blijft een doel, maar de historische 3:30-ambitie is geen actief trainingsvoorschrift of startgarantie."
     ],
     "surfaceStrategy": {
@@ -29934,9 +30113,9 @@ window.MARATHON_PLAN = {
       "Geen automatische 1%-correctie."
     ],
     "painRules": [
-      "GREEN: alleen na alle herstelcriteria.",
-      "ORANGE: niet verhogen en geen snelheid.",
-      "RED: lopen pauzeren en oorzaak beoordelen."
+      "Verhoog alleen wanneer benen binnen 24–36 uur normaal zijn, easy-runs verbeteren, een comfortabele continue outdoorbasis is aangetoond en er geen pijn, techniekverandering of voortijdige vermoeidheidsstop is.",
+      "Bij onvolledig herstel: niet verhogen, geen snelheid en zo nodig korter lopen of wandelen.",
+      "Bij lokale/toenemende pijn of veranderde techniek: lopen pauzeren en de oorzaak beoordelen."
     ],
     "fueling": [
       "Tot en met 60 min: normaal gevoed starten; geen verplichte gel.",
@@ -29983,6 +30162,44 @@ window.MARATHON_PLAN = {
       }
     }
     return result;
+  }
+  function treadmillGroups(workout) {
+    if (workout?.role !== "strides") return workout?.groups || [];
+    const easySegment = (workout.groups || []).flatMap((group) => group.segments).find((segment) => segment.type === "easy" && !segment.isRecovery);
+    return (workout.groups || []).map((group) => {
+      if (group.kind !== "repeat" || !group.segments.some((segment) => segment.type === "stride") || !easySegment) return group;
+      const durationSeconds = group.segments.reduce((sum, segment) => sum + segmentDurationSeconds(segment), 0) * group.repetitions;
+      return { ...group, kind: "sequence", label: "Easy in plaats van strides", repetitions: 1,
+        segments: [{ ...easySegment, segmentId: `${group.groupId}-easy`, name: "Easy", durationSeconds, display: `${durationSeconds / 60} min`, instruction: "De volledige stridegroep is vervangen door easy, met dezelfde totale duur." }] };
+    });
+  }
+  function garminDurationLabel(seconds) {
+    const total = Math.round(Number(seconds || 0));
+    const hours = Math.floor(total / 3600);
+    const minutes = Math.floor((total % 3600) / 60);
+    const remainder = total % 60;
+    return [hours ? `${hours} uur` : "", minutes ? `${minutes} ${minutes === 1 ? "minuut" : "minuten"}` : "", remainder ? `${remainder} ${remainder === 1 ? "seconde" : "seconden"}` : ""].filter(Boolean).join(" en ") || "0 seconden";
+  }
+  function garminStepFields(segment) {
+    const name = String(segment?.name || "").toLowerCase();
+    const walking = segment?.type === "wandelen";
+    const stepType = /warming|warm-up/.test(name) ? "Warm-up" : /cooldown|cooling-down/.test(name) ? "Cooldown"
+      : walking ? "Wandelen" : segment?.isRecovery ? "Herstel" : "Hardlopen";
+    const seconds = Math.round(segmentDurationSeconds(segment));
+    const clock = [Math.floor(seconds / 3600), Math.floor((seconds % 3600) / 60), seconds % 60].map((value) => String(value).padStart(2, "0")).join(":");
+    const durationType = segment?.basis === "distance" ? "Afstand" : "Tijd";
+    const durationValue = durationType === "Afstand" ? `${Number(segment.distanceKm).toLocaleString("nl-NL")} km` : clock;
+    const durationLabel = durationType === "Afstand" ? "" : garminDurationLabel(seconds);
+    const openTarget = /^(?:open\s*\/\s*(?:vrij|free)|open|free|vrij|geen doel)$/i.test(String(segment?.targetType || ""));
+    const targetType = openTarget ? "Geen doel" : "Nog niet vastgesteld";
+    let movement = walking ? "Wandelen, niet joggen." : segment?.isRecovery ? "Zeer rustig joggen."
+      : stepType === "Warm-up" ? "Zeer rustig joggen." : stepType === "Cooldown" ? "Zeer rustig uitlopen."
+      : segment?.type === "stride" ? "Ontspannen versnellen; geen sprint en geen GPS-tempodoel." : "Ontspannen lopen.";
+    const effort = String(segment?.targetValue || "").replace(/^vrij[,\s]*/i, "").trim();
+    const cue = String(segment?.cue || segment?.instruction || "").trim();
+    const note = [movement, walking || !effort ? "" : `${effort}.`, cue ? `${cue.replace(/[.!]+$/, "")}.` : "",
+      !walking && /easy/i.test(effort) && stepType === "Hardlopen" ? "Volledige zinnen kunnen praten." : ""].filter(Boolean).join(" ");
+    return { stepType, durationType, durationValue, durationLabel, targetType, targetValue: null, note };
   }
   function calculateWorkoutDistanceKm(_workout, log) {
     const value = Number(log?.actualDistanceKm ?? log?.distanceKm);
@@ -30094,8 +30311,16 @@ window.MARATHON_PLAN = {
     result.totalPlannedSeconds = result.plannedSessionMinutes * 60;
     result.totalPlannedLabel = `${result.plannedSessionMinutes} min`;
     result.sourceSummary = `${result.plannedSessionMinutes} min · afstand vrij`;
+    for (const segment of result.groups.flatMap((group) => group.segments)) {
+      const seconds = Number(segment.durationSeconds || 0);
+      segment.display = seconds % 60 === 0 ? `${seconds / 60} min` : garminDurationLabel(seconds);
+    }
     result.garmin.totalSeconds = result.totalPlannedSeconds;
     result.garmin.groups = clone(result.groups).map((group) => ({ ...group, segments: group.segments.map(({ speedKmh, speedRangeKmh, inclinePercent, ...segment }) => ({ ...segment, targetType: "Open / Vrij" })) }));
+    result.garmin.programSummary = result.garmin.groups.map((group) => {
+      const steps = group.segments.map((segment) => `${segment.display} [${segment.targetValue}; Vrij]`).join(" + ");
+      return group.kind === "repeat" ? `REPEAT ${group.repetitions}× [${steps}]` : steps;
+    }).join(" → ");
     return result;
   }
   function scaleTaperWorkout(workout, scale) {
@@ -30152,11 +30377,9 @@ window.MARATHON_PLAN = {
   function decorateWeek(weekNumber, workouts, status, variant, appData, extra = {}) {
     const sourceWeek = window.MARATHON_PLAN.weeks.find((week) => week.weekNumber === weekNumber);
     const sorted = workouts.filter((workout) => !workout.isSkipped).sort((a, b) => a.date.localeCompare(b.date) || a.activityType.localeCompare(b.activityType));
-    let runIndex = 0;
-    for (const workout of sorted) {
-      if (workout.activityType === "run") runIndex += 1;
-      workout.trainingNumber = workout.activityType === "race" ? 4 : workout.activityType === "run" ? runIndex : null;
-      workout.trainingLabel = workout.activityType === "race" ? "Marathon" : workout.activityType === "run" ? `Training ${runIndex}` : "Fiets";
+    for (const [index, workout] of sorted.entries()) {
+      workout.trainingNumber = index + 1;
+      workout.trainingLabel = `Training ${workout.trainingNumber}`;
       workout.weekId = sourceWeek.weekId; workout.phaseId = sourceWeek.phaseId; workout.phaseName = sourceWeek.phaseName; workout.dateLabel = sourceWeek.periodLabel;
     }
     const load = sumLoad(sorted.filter((workout) => workout.activityType !== "race"));
@@ -30207,7 +30430,7 @@ window.MARATHON_PLAN = {
     }
     return resolved;
   }
-  window.MARATHON_MODEL = { segmentDurationSeconds, flattenWorkoutSegments, calculateWorkoutDistanceKm, calculateWeekDistanceKm, sumLoad, completedLoad, greenCriteria, effectiveStatus, deriveTaperBasis, deriveTaperReference, rebuildTimedWorkout, scaleTaperWorkout, capProgressionWorkouts, resolvePlan };
+  window.MARATHON_MODEL = { segmentDurationSeconds, flattenWorkoutSegments, treadmillGroups, garminDurationLabel, garminStepFields, calculateWorkoutDistanceKm, calculateWeekDistanceKm, sumLoad, completedLoad, greenCriteria, effectiveStatus, deriveTaperBasis, deriveTaperReference, rebuildTimedWorkout, scaleTaperWorkout, capProgressionWorkouts, resolvePlan };
   window.APP_CONFIG = window.MARATHON_PLAN.config;
   window.TRAINING_WEEKS = window.MARATHON_PLAN.weeks;
   window.TRAINING_PLAN = window.MARATHON_PLAN.phases.map((phase) => ({ ...phase, weeks: window.TRAINING_WEEKS.filter((week) => week.phaseId === phase.phaseId) }));

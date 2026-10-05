@@ -12,7 +12,7 @@ De enige inhoudelijke bron is:
 
 FINAL V5 omvat week 41 tot en met 47. Outdoor/Garmin is standaard, de loopband
 blijft beschikbaar met dezelfde tijdstructuur en 0% helling. Alle Garmin-doelen
-zijn Open / Vrij; RPE, praatcomfort, techniek en herstel zijn leidend. De oude
+worden in Garmin ingesteld als `Geen doel`; RPE, praatcomfort, techniek en herstel zijn leidend. De oude
 3:30-ambitie is uitsluitend historische context en geen actief tempo- of
 eindtijddoel.
 
@@ -26,7 +26,21 @@ De generator leest de Markdownbron en schrijft `training-data.js`. Schermen,
 Garmin-stappen, loopbandblokken, varianten en totalen gebruiken daarna dezelfde
 dataset.
 
-## Herstelbesluit
+## Herstel en Garmin-invoer
+
+Het kleurpaneel en de bevestigingsvragen zijn verwijderd. Alle trainingsdetails
+zijn direct toegankelijk. Herstel- en progressieafspraken staan als gewone uitleg
+onder de weektrainingen en bij Informatie. Het bestaande rekenmodel en opgeslagen
+beoordelingen blijven behouden; het verdwijnen van het paneel geeft geen hogere
+kalendermaxima vrij.
+
+Alle trainingen, inclusief fietsen, worden chronologisch per week genummerd.
+De nummering is alleen presentatie: interne IDs en logboeken blijven gelijk.
+Loopstappen tonen Garmin-keuzes, `Tijd`, `uu:mm:ss`, `Geen doel` en uitvoeringsnotities.
+Fietsopbouw wordt op tijd getoond, met vermelding dat de exacte Garmin-fietsvelden
+nog niet zijn vastgesteld.
+
+Het interne V5-model behoudt de volgende regels:
 
 - Ontbrekende gegevens betekenen ORANGE.
 - RED heeft voorrang en schort lopen op.
@@ -55,7 +69,7 @@ schema-update.
 
 ## PWA
 
-Versie `2026.10.03-1` gebruikt relatieve GitHub Pages-paden. De service worker
+Versie `2026.10.05-1` gebruikt relatieve GitHub Pages-paden. De service worker
 blijft netwerkgestuurd, ruimt oude appcaches op en blijft geregistreerd voor
 pushmeldingen. Daardoor gebruikt de beginscherm-app dezelfde actuele bestanden
 als Safari zonder een aparte offline plansnapshot.

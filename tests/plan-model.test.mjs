@@ -121,6 +121,66 @@ test("strides en run-walkrepeats tellen herstel na de laatste herhaling mee", ()
   }
 });
 
+test("alle Garmin-loopstappen hebben Nederlandse keuzes en tijden uit de echte blokduur", () => {
+  for (const workout of plan.allWorkouts.filter((item) => item.activityType === "run")) {
+    let total = 0;
+    for (const group of workout.garmin.groups) {
+      for (const segment of group.segments) {
+        const fields = model.garminStepFields(segment);
+        assert.equal(fields.durationType, "Tijd", workout.workoutId);
+        assert.equal(fields.targetType, "Geen doel", workout.workoutId);
+        assert.equal(fields.targetValue, null, workout.workoutId);
+        assert.match(fields.durationValue, /^\d{2}:\d{2}:\d{2}$/);
+        const [hours, minutes, seconds] = fields.durationValue.split(":").map(Number);
+        assert.equal(hours * 3600 + minutes * 60 + seconds, segment.durationSeconds);
+        assert.ok(["Warm-up", "Hardlopen", "Wandelen", "Herstel", "Cooldown"].includes(fields.stepType));
+        if (segment.type === "wandelen") assert.match(fields.note, /Wandelen, niet joggen/);
+        total += segment.durationSeconds * (group.kind === "repeat" ? group.repetitions : 1);
+      }
+    }
+    assert.equal(total, workout.totalPlannedSeconds, workout.workoutId);
+  }
+});
+
+test("alle sessies inclusief fietsen krijgen een chronologisch nummer zonder nieuwe IDs", () => {
+  for (const week of model.resolvePlan(appData())) {
+    assert.deepEqual(Array.from(week.workouts, (workout) => workout.trainingNumber), Array.from({ length: week.workouts.length }, (_, index) => index + 1));
+    assert.ok(week.workouts.every((workout) => workout.trainingLabel === `Training ${workout.trainingNumber}`));
+    assert.ok(week.workouts.every((workout) => plan.allWorkouts.some((sourceWorkout) => sourceWorkout.workoutId === workout.workoutId)));
+    assert.deepEqual(Array.from(week.workouts, (workout) => workout.date), Array.from(week.workouts, (workout) => workout.date).sort());
+  }
+  const w41 = model.resolvePlan(appData())[0];
+  assert.equal(w41.workouts[2].activityType, "bike");
+  const variants = plan.weekVariants[42];
+  for (const workout of variants.orange) {
+    const alternative = variants.max.find((item) => item.date === workout.date);
+    assert.equal(workout.trainingNumber, alternative.trainingNumber);
+  }
+});
+
+test("loopband vervangt de optionele stridegroep door exact zes minuten easy", () => {
+  const workout = runWorkout(41, "max", "strides");
+  const groups = model.treadmillGroups(workout);
+  assert.equal(groups.filter((group) => group.kind === "repeat").length, 0);
+  const replacement = groups.find((group) => group.label === "Easy in plaats van strides");
+  assert.equal(replacement.segments[0].durationSeconds, 360);
+  assert.equal(replacement.segments[0].type, "easy");
+  assert.deepEqual(Array.from(replacement.segments[0].speedRangeKmh), [7, 9]);
+  assert.equal(model.flattenWorkoutSegments({ ...workout, groups }).reduce((sum, segment) => sum + segment.durationSeconds, 0), 1800);
+  assert.equal(workout.garmin.groups.find((group) => group.kind === "repeat").repetitions, 4);
+});
+
+test("verkorte blokken tonen dezelfde duur in Garmin, loopband en samenvatting", () => {
+  const sourceWorkout = runWorkout(41, "max", "continuous");
+  const shortened = model.rebuildTimedWorkout(sourceWorkout, 45);
+  assert.equal(shortened.totalPlannedSeconds, 2700);
+  assert.equal(shortened.groups[1].segments[0].display, "35 min");
+  assert.equal(model.garminStepFields(shortened.garmin.groups[1].segments[0]).durationValue, "00:35:00");
+  assert.match(shortened.garmin.programSummary, /35 min/);
+  assert.doesNotMatch(shortened.garmin.programSummary, /50 min/);
+  assert.equal(model.flattenWorkoutSegments(shortened).reduce((sum, segment) => sum + segment.durationSeconds, 0), 2700);
+});
+
 test("ontbrekende gegevens geven ORANGE en tonen geen automatische kalenderprogressie", () => {
   const resolved = Array.from(model.resolvePlan(appData()));
   assert.deepEqual(Array.from(resolved.slice(0, 4), (week) => week.status), ["orange", "orange", "orange", "orange"]);

@@ -431,117 +431,8 @@ button:disabled {
   line-height: 1.45;
 }
 
-.week-decision-card {
-  display: grid;
-  gap: 12px;
-  margin: 0 0 16px;
-  padding: 14px;
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--status-color, var(--border-strong));
-  border-radius: var(--radius);
-  background: var(--panel);
-}
-
-.week-decision-card.status-green { --status-color: #83bda2; }
-.week-decision-card.status-orange { --status-color: #c7a96e; }
-.week-decision-card.status-red { --status-color: #d38a8a; }
-
-.week-decision-heading {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.week-decision-heading > div {
-  display: grid;
-  gap: 3px;
-  min-width: 0;
-}
-
-.week-decision-heading span {
-  color: var(--muted-soft);
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
-.week-decision-heading h2 {
-  margin: 0;
-  overflow-wrap: anywhere;
-  font-size: 18px;
-  line-height: 1.25;
-}
-
-.week-decision-heading > strong {
-  flex: 0 0 auto;
-  max-width: 46%;
-  color: var(--status-color);
-  font-size: 12px;
-  line-height: 1.4;
-  text-align: right;
-}
-
-.week-decision-card > p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.status-choice {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 7px;
-}
-
-.status-choice button {
-  min-width: 0;
-  min-height: 44px;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius);
-  color: var(--muted);
-  background: var(--panel-soft);
-  font-size: 11px;
-  font-weight: 820;
-}
-
-.status-choice button.is-active {
-  border-color: currentColor;
-  color: var(--status-button-color);
-  background: rgba(255, 255, 255, .035);
-}
-
-.status-choice .status-green { --status-button-color: #83bda2; }
-.status-choice .status-orange { --status-button-color: #c7a96e; }
-.status-choice .status-red { --status-button-color: #d38a8a; }
-
-.status-checklist {
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--panel-soft);
-}
-
-.status-checklist summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  min-height: 48px;
-  padding: 10px 12px;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 760;
-  list-style: none;
-}
-
-.status-checklist summary::-webkit-details-marker { display: none; }
-.status-checklist summary span { color: var(--accent); font-size: 10px; }
-.status-checklist > div { display: grid; gap: 2px; padding: 3px 10px 11px; border-top: 1px solid var(--border); }
-.status-checklist label { display: grid; grid-template-columns: 22px minmax(0, 1fr); align-items: start; gap: 8px; min-height: 42px; padding: 8px 2px; border-bottom: 1px solid rgba(43, 53, 66, .55); color: var(--muted); font-size: 12px; line-height: 1.45; }
-.status-checklist input { width: 20px; height: 20px; margin: 0; accent-color: var(--accent); }
-.missing-criteria { margin: 8px 2px 0; color: var(--muted-soft); font-size: 11px; line-height: 1.45; }
+.week-recovery-info { margin-top: 16px; }
+.week-recovery-info p { line-height: 1.5; }
 
 .taper-basis {
   padding: 10px;
@@ -932,11 +823,9 @@ button:disabled {
 
 .garmin-step {
   display: grid;
-  grid-template-columns: 28px minmax(76px, 0.8fr) minmax(118px, 1.2fr);
-  align-items: center;
-  gap: 7px;
+  gap: 10px;
   min-width: 0;
-  padding: 9px;
+  padding: 12px;
   border: 1px solid var(--border);
   border-radius: calc(var(--radius) - 2px);
   background: #10161e;
@@ -955,49 +844,24 @@ button:disabled {
   font-variant-numeric: tabular-nums;
 }
 
-.garmin-step-main,
-.garmin-step-target {
-  display: grid;
-  gap: 3px;
+.garmin-step-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
   min-width: 0;
 }
 
-.garmin-step-main strong,
-.garmin-step-target strong {
-  color: var(--text);
-  font-size: 11px;
-  line-height: 1.3;
-  overflow-wrap: anywhere;
-}
-
-.garmin-step-main span,
-.garmin-step p {
-  color: var(--muted);
-  font-size: 10px;
-  line-height: 1.35;
-}
-
-.garmin-step p {
-  grid-column: 2 / -1;
-  margin: 0;
-}
-
-.garmin-target {
-  width: fit-content;
-  max-width: 100%;
-  padding: 3px 6px;
-  border: 1px solid var(--border-strong);
-  border-radius: 999px;
-  color: var(--muted);
-  background: var(--panel-raised);
-  font-size: 8px;
-  font-weight: 850;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.garmin-target.tone-pace { border-color: rgba(77, 145, 229, 0.58); color: #acd2ff; }
-.garmin-target.tone-hr { border-color: rgba(82, 165, 139, 0.46); color: #a8d8c8; }
+.garmin-step-heading strong { font-size: 13px; line-height: 1.35; }
+.garmin-step-number { flex: 0 0 27px; }
+.garmin-step-fields { display: grid; gap: 7px; margin: 0; }
+.garmin-step-fields > div { display: grid; grid-template-columns: minmax(82px, .8fr) minmax(0, 1.2fr); gap: 8px; }
+.garmin-step-fields dt { color: var(--muted); font-size: 11px; line-height: 1.45; }
+.garmin-step-fields dd { min-width: 0; margin: 0; color: var(--text); font-size: 12px; line-height: 1.45; overflow-wrap: break-word; }
+.garmin-step-fields .garmin-duration,
+.garmin-step-fields .garmin-step-notes { grid-template-columns: minmax(0, 1fr); gap: 3px; }
+.garmin-duration strong { font-size: 17px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.garmin-duration span { color: var(--muted); font-size: 11px; }
+.garmin-step-notes { padding-top: 8px; border-top: 1px solid var(--border); }
 
 .garmin-repeat {
   overflow: hidden;
@@ -1017,16 +881,17 @@ button:disabled {
   padding: 8px 10px;
   border-bottom: 1px solid var(--border);
   color: var(--muted);
-  font-size: 10px;
+  font-size: 11px;
+  flex-wrap: wrap;
 }
 
 .garmin-repeat-heading strong { color: var(--accent); font-size: 12px; }
 
 .garmin-repeat-note {
   margin: 0;
-  padding: 0 9px 9px;
+  padding: 9px 10px;
   color: var(--muted-soft);
-  font-size: 10px;
+  font-size: 11px;
   line-height: 1.4;
 }
 
