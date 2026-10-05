@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "2026.10.05-1";
+  const APP_VERSION = "2026.10.05-2";
   // Keep this key stable. Preserve existing logs; migrate additions and protocol changes.
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
   const APP_DATA_VERSION = 11;
@@ -111,6 +111,10 @@
   function capitalize(value) {
     const text = String(value || "");
     return text ? text.charAt(0).toUpperCase() + text.slice(1) : "";
+  }
+
+  function icon(name) {
+    return `<span class="icon icon-${name}" aria-hidden="true"></span>`;
   }
 
   function joinText(parts, fallback = "") {
@@ -973,33 +977,14 @@
     return week.variant === "recovery-max" || week.status === "green" ? "Kalendermaximum" : "Kortere herstelvariant";
   }
 
-  function renderWeekRecoveryInfo(week) {
-    const decision = weekDecision(week.weekNumber);
+  function renderOptionalRhythmChoice(workout) {
+    if (workout.weekNumber !== 45 || !["continuous", "rhythm"].includes(workout.role)) return "";
+    const decision = weekDecision(45);
     const taper = model.deriveTaperBasis?.(appData) || { basisMinutes: 0, scale: 0 };
-    const rhythmUnlocked = week.weekNumber === 45 && taper.scale === 1 && model.greenCriteria?.(decision, 45, appData);
-    return `<details class="info-accordion week-recovery-info"><summary><span>Herstel en progressie</span><span aria-hidden="true">+</span></summary><div>
-      <p><strong>${escapeHtml(weekVariantLabel(week))}.</strong> De getoonde tijden zijn bovengrenzen. Trainingdetails zijn altijd te bekijken; herstel bepaalt wat je uitvoert.</p>
-      <p>Alleen een kleine duurstap bij normale benen binnen 24–36 uur, verbeterde easy-runs, een comfortabele continue outdoorbasis en geen pijn, techniekverandering of vermoeidheidsstop. Beoordeel zondagherstel uiterlijk dinsdag.</p>
-      <p>Bij onvolledig herstel: dezelfde of kortere duur en geen snelheid. Bij lokale/toenemende pijn of veranderde techniek: lopen pauzeren. Gemiste minuten niet inhalen.</p>
-      ${week.weekNumber >= 42 && week.weekNumber <= 44 ? `<p>Een duurstap blijft begrensd op de werkelijk verdragen vorige week: maximaal 10% meer loopsessietijd, 15% meer rentijd, 5 minuten per korte/continue run en 15 minuten bij run-walk. Voor W42 is minimaal 90% van W41 uitvoeren én verdragen nodig. Zonder voldoende gegevens blijft de kortere variant staan.</p>` : ""}
-      ${week.weekNumber >= 45 ? `<p class="taper-basis"><strong>Taperbasis B:</strong> ${taper.basisMinutes || 0} min · schaal ${formatNumber(taper.scale * 100, 0)}%. ${taper.scale ? `Elke sessie is naar beneden afgerond en begrensd op de laatst verdragen vergelijkbare duur${week.taperReferenceWeek ? ` uit week ${week.taperReferenceWeek}` : ""}.` : "De kalenderduren blijven als referentie zichtbaar; zonder goed verdragen basis wordt geen automatische taper voorgeschreven."}</p>` : ""}
-      ${week.weekNumber === 45 ? rhythmUnlocked ? `<label class="rhythm-choice"><span>Training 3 · 5 november</span><select data-optional-workout="45"><option value="easy">Easy-uitvoering</option><option value="rhythm" ${appData.userSettings.optionalWorkoutChoices?.[45] === "rhythm" ? "selected" : ""}>Optionele ritmeproef (vervangt easy)</option></select><small>Dit blijft een vervanging, geen extra sessie.</small></label>` : `<p>De easy-uitvoering van 5 november blijft de standaard. Een ritmeproef mag uitsluitend na alle V5-checkpoints en een volledig verdragen basis van 240 minuten; nooit toevoegen als extra training.</p>` : ""}
-    </div></details>`;
-  }
-
-  function renderRestDay(day) {
-    return `<article class="rest-day-card">
-      <div><span>${escapeHtml(day.weekday)} · ${escapeHtml(formatDate(day.date, { day: "numeric", month: "long" }))}</span><strong>Rust</strong></div>
-      <p>${escapeHtml(day.note || "Volledige looprust en herstel.")}</p>
-    </article>`;
-  }
-
-  function renderCalendarWeek(week) {
-    return `<section class="calendar-week" aria-label="Vaste planning week ${week.weekNumber}">${(week.days || []).map((day) => {
-      if (day.isRestDay) return renderRestDay(day);
-      const workout = workoutById(day.workoutId);
-      return workout ? `<div class="calendar-training-day">${renderTrainingCard(workout)}</div>` : "";
-    }).join("")}</section>`;
+    const unlocked = taper.scale === 1 && model.greenCriteria?.(decision, 45, appData);
+    return `<div class="detail-section"><h3>Optionele uitvoering</h3>${unlocked
+      ? `<label class="rhythm-choice"><span>Kies de uitvoering van deze training</span><select data-optional-workout="45"><option value="easy">Easy-uitvoering</option><option value="rhythm" ${appData.userSettings.optionalWorkoutChoices?.[45] === "rhythm" ? "selected" : ""}>Optionele ritmeproef</option></select><small>Vervangt de easy-run; geen extra training.</small></label>`
+      : `<p>Easy blijft de standaard. Een ritmeproef mag uitsluitend na alle V5-checkpoints en een volledig verdragen basis van 240 minuten; nooit toevoegen als extra training.</p>`}</div>`;
   }
 
   function renderToday() {
@@ -1012,61 +997,36 @@
       content = `<section class="today-state"><span>Start programma</span><strong>Maandag 5 oktober</strong><p>FINAL V5 begint met week 41. Outdoor / Garmin is de standaard; herstel bepaalt de toegestane variant.</p></section>`;
     } else if (afterPlan) {
       content = `<section class="today-state"><span>Programma voltooid</span><strong>Marathonperiode afgerond</strong><p>Het actieve FINAL V5-schema liep tot zondag 22 november 2026.</p></section>`;
-    } else if (week.planningMode === "calendar") {
-      const day = (week.days || []).find((item) => item.date === date);
-      if (day?.isRestDay) content = renderRestDay(day);
-      else {
-        const workout = workoutById(day?.workoutId);
-        content = workout ? renderTrainingCard(workout) : `<section class="today-state"><strong>Geen training gepland</strong></section>`;
-      }
     } else {
       const workout = firstIncompleteWorkout(week);
-      content = workout ? `<section class="today-flex-note"><strong>Flexibele week</strong><p>De volgorde en herstelvoorwaarden zijn leidend. Dit is je eerstvolgende open sessie; de kalenderdag is niet verplicht.</p></section>${renderTrainingCard(workout)}` : `<section class="today-state"><strong>Week voltooid</strong><p>Alle sessies van week ${week.weekNumber} zijn afgerond.</p></section>`;
+      const completed = week.workouts.filter((item) => isCompleted(item.workoutId)).length;
+      const following = week.workouts.filter((item) => !isCompleted(item.workoutId))[1];
+      content = workout ? `<div class="today-focus">${renderTrainingCard(workout)}</div><div class="today-week-progress"><span>Deze week</span><strong>${completed}/${week.workouts.length} voltooid</strong><div class="progress-track" role="progressbar" aria-label="Weekvoortgang" aria-valuemin="0" aria-valuemax="${week.workouts.length}" aria-valuenow="${completed}"><span style="width:${completed / week.workouts.length * 100}%"></span></div></div>${following ? `<section class="today-up-next"><span>Daarna in deze week</span><button type="button" data-open-week="${currentPlanWeekIndex()}"><span><strong>${escapeHtml(workoutSequenceLabel(following))}</strong><small>${escapeHtml(following.title)}</small></span><span>${escapeHtml(following.totalPlannedLabel)} ${icon("chevron-right")}</span></button></section>` : ""}<p class="today-planning-note">Jij kiest wanneer je traint en rust neemt.</p>` : `<section class="today-state">${icon("circle-check")}<strong>Week voltooid</strong><p>Alle trainingen van week ${week.weekNumber} zijn afgerond. Tijd voor herstel en normale dagelijkse beweging.</p><button class="text-action" type="button" data-open-week="${currentPlanWeekIndex()}">Bekijk de week ${icon("chevron-right")}</button></section>`;
     }
-    app.innerHTML = `<header class="page-header today-header"><span>${escapeHtml(formatDate(date, { weekday: "long", day: "numeric", month: "long" }))}</span><h1>Vandaag</h1><p>Week ${week.weekNumber} · ${escapeHtml(week.weekType)}</p></header>${content}`;
+    app.innerHTML = `<header class="page-header today-header"><div><span>${escapeHtml(formatDate(date, { day: "numeric", month: "long" }))}</span><h1>Vandaag</h1></div><button class="today-week-link" type="button" data-open-week="${currentPlanWeekIndex()}">Week ${week.weekNumber} ${icon("chevron-right")}</button></header><p class="today-phase">${escapeHtml(week.weekType)}</p>${content}`;
   }
 
   function renderWeek() {
     const week = weeks[state.viewedWeekIndex] || weeks[0];
     const phase = plan.phases.find((item) => item.phaseId === week.phaseId);
     const completed = week.workouts.filter((workout) => isCompleted(workout.workoutId)).length;
-    const next = firstIncompleteWorkout(week);
     app.innerHTML = `
       <section class="week-intro" aria-labelledby="week-title">
-        <div class="week-label">Trainingsschema</div>
         <div class="week-title-row">
-          <div>
-            <h1 id="week-title">Week ${week.weekNumber}</h1>
-            <p>${escapeHtml(phase?.name || week.phaseName)}</p>
-          </div>
-          <label class="week-picker">
-            <span>Ga naar week</span>
+          <h1 id="week-title">Week ${week.weekNumber}</h1>
+          <div class="week-controls" aria-label="Weeknavigatie">
+            <button class="icon-button" type="button" data-week-prev aria-label="Vorige week" title="Vorige week" ${state.viewedWeekIndex === 0 ? "disabled" : ""}>${icon("chevron-left")}</button>
             <select data-week-select aria-label="Kies trainingsweek">
               ${weeks.map((item, index) => `<option value="${index}" ${index === state.viewedWeekIndex ? "selected" : ""}>Week ${item.weekNumber}</option>`).join("")}
             </select>
-          </label>
+            <button class="icon-button" type="button" data-week-next aria-label="Volgende week" title="Volgende week" ${state.viewedWeekIndex === weeks.length - 1 ? "disabled" : ""}>${icon("chevron-right")}</button>
+          </div>
         </div>
-        <div class="week-meta">${escapeHtml(week.periodLabel || `${formatDate(week.startDate, { day: "numeric", month: "long" })} – ${formatDate(week.endDate, { day: "numeric", month: "long", year: "numeric" })}`)} · ${escapeHtml(getWeekPlannedLabel(week))} · nog ${daysUntilMarathon()} dagen</div>
-        <div class="training-labels week-type">${renderSemanticBadge(week.weekType)}</div>
-        <p class="week-focus">${escapeHtml(week.focus)}</p>
-        <p class="week-pattern">${escapeHtml(week.planningMode === "calendar" ? "Vaste kalenderplanning · rustdagen horen bij het schema" : week.suggestedPattern)}</p>
+        <p class="week-subtitle">${escapeHtml(phase?.name || week.phaseName)} · ${week.workouts.length} trainingen</p>
+        <div class="week-completion"><div class="progress-track" role="progressbar" aria-label="Weekvoortgang" aria-valuemin="0" aria-valuemax="${week.workouts.length}" aria-valuenow="${completed}"><span style="width:${week.workouts.length ? completed / week.workouts.length * 100 : 0}%"></span></div><span>${completed}/${week.workouts.length} voltooid</span></div>
       </section>
-
-      ${renderWeekPhilosophy(week)}
-
-      <div class="week-navigation" aria-label="Weeknavigatie">
-        <button type="button" data-week-prev ${state.viewedWeekIndex === 0 ? "disabled" : ""}>Vorige week</button>
-        <button type="button" data-week-current ${state.viewedWeekIndex === currentPlanWeekIndex() ? "disabled" : ""}>Deze week</button>
-        <button type="button" data-week-next ${state.viewedWeekIndex === weeks.length - 1 ? "disabled" : ""}>Volgende week</button>
-      </div>
-
-      <section class="next-training" aria-label="Volgende training">
-        <div><span>Volgende training</span>${next ? `<strong>${escapeHtml(workoutSequenceLabel(next))} · ${escapeHtml(trainingType(next))}</strong><small>${escapeHtml(workoutPrimarySummary(next))}</small>` : `<strong>Week voltooid</strong><small>Alle ${week.workouts.length} sessies zijn afgerond.</small>`}</div>
-        <div class="week-score">${completed}/${week.workouts.length}</div>
-      </section>
-
-      ${week.planningMode === "calendar" ? renderCalendarWeek(week) : `<section class="training-list" aria-label="Trainingen in week ${week.weekNumber}">${week.workouts.map((workout) => renderTrainingCard(workout)).join("")}</section>`}
-      ${renderWeekRecoveryInfo(week)}
+      <section class="training-list" aria-label="Trainingen in week ${week.weekNumber}">${week.workouts.map((workout) => renderTrainingCard(workout)).join("")}</section>
+      <details class="info-accordion week-context"><summary><span>Over deze week</span><span aria-hidden="true">+</span></summary><div><p>${escapeHtml(week.periodLabel)}</p><p>${escapeHtml(week.focus)}</p><p>${escapeHtml(getWeekPlannedLabel(week))}</p><p>Volg de trainingsvolgorde en neem rust naar behoefte. De getoonde tijden blijven V5-bovengrenzen.</p>${renderWeekPhilosophy(week)}<button class="text-action" type="button" data-week-current>Terug naar deze week ${icon("chevron-right")}</button></div></details>
     `;
   }
 
@@ -1230,6 +1190,27 @@
     </section>`;
   }
 
+  function shortBlockDuration(segment) {
+    const seconds = model.segmentDurationSeconds(segment);
+    if (!seconds) return segment.display;
+    const minutes = Math.floor(seconds / 60);
+    const remainder = Math.round(seconds % 60);
+    return [minutes ? `${minutes} min` : "", remainder ? `${remainder} sec` : ""].filter(Boolean).join(" ");
+  }
+
+  function compactWorkoutStructure(workout) {
+    if (workout.garmin?.isRacePlan) return "Buitenwedstrijd · raceplan nog open";
+    if (!workout.garmin) return keyBlockSummary(workout);
+    const describe = (segment) => {
+      const names = { wandelen: "wandelen", stride: "stride", ritme: "ritme", easy: "easy", "warming-up": "easy", "cooling-down": "easy" };
+      const name = workout.activityType === "bike" ? "fietsen" : names[segment.type] || segment.name;
+      return `${shortBlockDuration(segment)} ${name}`;
+    };
+    return workout.garmin.groups.map((group) => group.kind === "repeat"
+      ? `${group.repetitions} × (${group.segments.map(describe).join(" + ")})`
+      : group.segments.map(describe).join(" → ")).join(" → ");
+  }
+
   function renderTrainingCard(workout) {
     const open = state.expandedWorkoutIds.has(workout.workoutId);
     const completed = isCompleted(workout.workoutId);
@@ -1237,24 +1218,18 @@
     return `
       <article class="training-card tone-${escapeAttr(workout.tone || "easy")} ${open ? "is-open" : ""} ${completed ? "is-completed" : ""} ${workout.isSuspended ? "is-suspended" : ""}" data-workout-card="${workout.workoutId}">
         <button class="training-card-toggle" type="button" data-toggle-workout="${workout.workoutId}" aria-expanded="${open}" aria-controls="${detailsId}">
-          <span class="card-topline"><span>${escapeHtml(workoutSequenceLabel(workout))}</span>${completed ? `<span class="completed-mark">✓ Voltooid</span>` : `<span class="training-type">${escapeHtml(trainingType(workout))}</span>`}<span class="expand-icon" aria-hidden="true">${open ? "−" : "+"}</span></span>
-          ${(workout.labels || []).length ? `<span class="training-labels">${workout.labels.map(renderSemanticBadge).join("")}</span>` : ""}
-          <span class="training-metadata"><span>${escapeHtml(formatDate(workout.date, { weekday: "long", day: "numeric", month: "long" }))}</span><span class="recovery-${escapeAttr(workout.recoveryStatus || "none")}">${escapeHtml(workout.recoveryLabel || "")}</span>${workout.garmin || workout.surface === "buiten" ? `<span>${escapeHtml(workout.locationStatus || "Buiten")}</span>` : ""}</span>
-          <span class="training-name">${escapeHtml(capitalize(workout.title))}</span>
-          <span class="training-primary">${escapeHtml(workoutPrimarySummary(workout))}</span>
+          <span class="card-topline"><span class="training-index" aria-hidden="true">${workout.trainingNumber || icon("route")}</span><span class="card-heading"><span class="training-number">${escapeHtml(workoutSequenceLabel(workout))}</span><span class="training-type">${escapeHtml(workout.activityType === "bike" ? "Fietsen" : workout.role === "runwalk" ? "Run-walk" : workout.activityType === "race" ? "Marathon" : "Hardlopen")}</span></span>${completed ? `<span class="completed-mark">${icon("circle-check")} Voltooid</span>` : ""}<span class="expand-icon">${icon("chevron-down")}</span></span>
+          <span class="card-title-row"><span class="training-name">${escapeHtml(capitalize(workout.title))}</span><span class="training-primary">${escapeHtml(workout.activityType === "race" ? workout.estimatedDistanceLabel : workout.totalPlannedLabel)}</span></span>
           ${workout.strength ? `<span class="strength-inline">Daarna kracht · Sessie ${escapeHtml(workout.strength.type)} · ${escapeHtml(workout.strength.duration)}</span>` : ""}
-          <span class="training-speed">${escapeHtml(joinText([speedSummary(workout), workout.targetRpe ? `RPE ${workout.targetRpe}` : ""]))}</span>
-          <span class="key-block"><strong>Belangrijkste blok</strong>${escapeHtml(keyBlockSummary(workout))}</span>
-          <span class="practical-hint">${escapeHtml(workout.goal)}</span>
+          <span class="training-speed">${escapeHtml(joinText([workout.targetRpe ? `RPE ${workout.targetRpe}` : "", workout.activityType === "bike" ? "Rustig fietsen" : workout.activityType === "race" ? "Startbesluit nog open" : "Vrij tempo", workout.role === "strides" ? "Strides optioneel" : ""]))}</span>
+          <span class="card-structure">${escapeHtml(compactWorkoutStructure(workout))}</span>
           ${workout.isSuspended ? `<span class="suspended-note">${(weeks.find((week) => week.weekNumber === workout.weekNumber))?.variant === "no-basis" ? "Kalenderreferentie: een goed verdragen taperbasis is nog niet vastgesteld." : "Lopen pauzeren en herstel beoordelen vóór hervatten."} De opbouw blijft te bekijken.</span>` : ""}
         </button>
         ${open ? `<div class="training-details" id="${detailsId}">${renderTrainingDetails(workout)}</div>` : ""}
         <div class="completion-row">
-          <button class="treadmill-button" type="button" ${!workout.treadmillAvailable ? `data-open-garmin="${workout.workoutId}"` : `data-open-treadmill="${workout.workoutId}"`}>
-            <span aria-hidden="true">▶</span>${trainingModeLabel(workout)}
-          </button>
+          <button class="card-details-action" type="button" data-toggle-workout="${workout.workoutId}" aria-expanded="${open}" aria-controls="${detailsId}">${open ? "Details sluiten" : "Bekijk training"}${icon(open ? "chevron-down" : "chevron-right")}</button>
           <button class="completion-button ${completed ? "is-completed" : ""}" type="button" data-toggle-complete="${workout.workoutId}" aria-pressed="${completed}" ${workout.isSuspended ? "disabled" : ""}>
-            <span aria-hidden="true">${completed ? "✓" : "○"}</span>${completed ? "Voltooid" : "Markeer als voltooid"}
+            ${icon(completed ? "circle-check" : "circle")}${completed ? "Voltooid" : "Voltooien"}
           </button>
         </div>
       </article>`;
@@ -1264,14 +1239,16 @@
     const mode = workoutExecutionMode(workout);
     const detailContext = [...new Set([
       `Week ${workout.weekNumber}`,
-      workout.dateLabel,
       workoutSequenceLabel(workout),
       workout.phaseName,
     ].filter(Boolean))].join(" · ");
     return `
       <p class="detail-context">${escapeHtml(detailContext)}</p>
+      <div class="detail-metadata">${escapeHtml(workout.locationStatus || "Outdoor / Garmin")}${workout.recoveryLabel ? ` · ${escapeHtml(workout.recoveryLabel)}` : ""}</div>
       ${renderExecutionModeSwitch(workout, mode)}
       ${workout.garmin ? (mode === "garmin" ? renderGarminSetup(workout) : renderTreadmillDetails(workout)) : workout.outdoorSimpleMode ? renderOutdoorSimpleOverview(workout) : `<div class="detail-section"><h3>Exacte opbouw</h3><div class="segment-groups">${(workout.groups || []).map(renderSegmentGroup).join("")}</div></div>`}
+      ${workout.treadmillAvailable ? `<button class="treadmill-button" type="button" data-open-treadmill="${workout.workoutId}">${icon("play")} Loopbandmodus</button>` : ""}
+      <details class="info-accordion training-background"><summary><span>Doel, herstel en achtergrond</span><span aria-hidden="true">+</span></summary><div>
       <div class="detail-section"><h3>Doel en belasting</h3><p><strong>Trainingsdoel:</strong> ${escapeHtml(workout.goal)}</p><p><strong>Gewenste RPE:</strong> ${escapeHtml(workout.targetRpe)}</p><p><strong>Mentale doelstelling:</strong> ${escapeHtml(workout.mentalGoal || "De training gecontroleerd uitvoeren zoals beschreven.")}</p></div>
       <div class="detail-section rationale-section"><h3>Waarom deze training hier staat</h3><p>${escapeHtml(workout.rationale || workout.goal)}</p></div>
       <div class="detail-section"><h3>Planning en herstel</h3><p><strong>${escapeHtml(workout.recoveryLabel || "Herstel volgens weekbelasting")}:</strong> ${escapeHtml(workout.recoveryAdvice || workout.orderWarning || "Bewaak herstel tussen de sessies.")}</p>${workout.orderWarning ? `<p>${escapeHtml(workout.orderWarning)}</p>` : ""}</div>
@@ -1279,6 +1256,8 @@
       ${workout.shoes ? `<div class="detail-section shoe-section"><h3>Schoenen</h3><p>${escapeHtml(workout.shoes)}</p></div>` : ""}
       ${renderStrengthCard(workout)}
       ${(workout.detailsSections || []).map((section) => `<div class="detail-section source-detail"><h3>${escapeHtml(section.title)}</h3><ul>${section.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div>`).join("")}
+      ${renderOptionalRhythmChoice(workout)}
+      </div></details>
       ${renderWorkoutLogForm(workout)}
       ${workout.fueling ? renderFuelingForm(workout) : ""}
     `;
@@ -2130,7 +2109,6 @@
             ? { theme: week.weekPhilosophy.theme, goal: week.weekPhilosophy.summary }
             : { theme: phase?.shortName || week.phaseName, goal: week.focus };
           const marathonWeek = Boolean(week.includesMarathon || week.workouts.some((workout) => workout.category === "wedstrijd"));
-          const restCount = (week.days || []).filter((day) => day.isRestDay).length;
           const runCount = week.workouts.filter((workout) => workout.activityType === "run").length;
           const bikeCount = week.workouts.filter((workout) => workout.activityType === "bike").length;
           return `<button class="plan-row${completed === week.workouts.length ? " is-completed" : ""}" type="button" data-open-week="${index}" aria-label="Open week ${week.weekNumber}">
@@ -2138,7 +2116,7 @@
             <span class="plan-main">
               <strong>${escapeHtml(overview.theme)}</strong>
               <span class="plan-volume">${escapeHtml(getWeekPlannedLabel(week))}</span>
-              <small>${runCount} runs${bikeCount ? ` + ${bikeCount} fietsrit` : ""}${marathonWeek ? " + marathon apart" : ""} · ${restCount} rustdagen</small>
+              <small>${runCount} runs${bikeCount ? ` + ${bikeCount} fietsrit` : ""}${marathonWeek ? " + marathon apart" : ""} · eigen dagindeling</small>
               <span class="plan-goal"><b>Doel</b>${escapeHtml(overview.goal)}</span>
               <small class="plan-longest">${marathonWeek ? "Marathon: 42,195 km · raceplan nog open" : `Langste loopsessie: ${formatNumber(longRun?.plannedSessionMinutes || 0, 0)} min`}</small>
             </span>
@@ -2151,7 +2129,7 @@
     const strategy = plan.guidance.surfaceStrategy;
     app.innerHTML = `<header class="page-header"><span>Opbouw FINAL V5</span><h1>Fases</h1><p>Herstelgestuurde heropbouw tot en met 1 november, daarna een taper op de werkelijk verdragen basis.</p></header>
       <section class="phase-list">${strategy ? `<article class="phase-card phase-strategy-card">
-        <div><span>Trainingscontext</span>${renderSemanticBadge("OUTDOOR HEROPBOUW")}</div>
+        <div><span>Trainingscontext</span>${renderSemanticBadge("Outdoor heropbouw")}</div>
         <h2>${escapeHtml(strategy.title)}</h2>
         <p>${escapeHtml(strategy.explanation)}</p>
         <dl><div><dt>Loopband</dt><dd>${escapeHtml(strategy.treadmill.join(" · "))}</dd></div><div><dt>Buiten</dt><dd>${escapeHtml(strategy.outside.join(" · "))}</dd></div></dl>
@@ -2191,8 +2169,8 @@
       ]],
       ["Trainingsfilosofie", plan.guidance.philosophy],
       ["Trainingssnelheden", plan.guidance.paces.map((item) => `${item.type}: ${item.speed}, helling ${item.incline}.`)],
-      ["Trainingen plannen", plan.guidance.scheduling],
-      ["Mogelijke trainingsvolgorde", plan.guidance.suggestedSequences],
+      ["Trainingen plannen", ["Volg de genummerde trainingsvolgorde binnen de week. Je kiest zelf je trainings- en rustdagen; trainingen zijn niet aan weekdagen gekoppeld.", "Behoud voldoende herstel tussen sessies. Herstelproblemen mogen altijd tot inkorten of overslaan leiden; gemiste minuten worden niet ingehaald."]],
+      ["Trainingsvolgorde", ["Easy, continu lopen, rustig fietsen, easy met eventueel strides en run-walk volgen de volgorde van de betreffende week. Fietsen telt mee als training, maar niet als rentijd."]],
       ["Inspanningsniveaus", plan.guidance.rpeScale.map((item) => `${item.type}: ${item.rpe}. ${item.feeling}`)],
       ["Helling op de loopband", plan.guidance.incline],
       ["Pijn en aanpassen", plan.guidance.painRules],
@@ -2203,7 +2181,7 @@
     ];
     app.innerHTML = `
       <header class="page-header"><span>Naslag</span><h1>Informatie</h1><p>Korte uitleg over tempo, belasting en het gebruik van het schema.</p></header>
-      <section class="target-summary"><div><span>Marathon</span><strong>22 november 2026</strong></div><div><span>Actief tijdsdoel</span><strong>Nog niet vastgesteld</strong></div><div><span>Historische ambitie</span><strong>${escapeHtml(plan.config.historicalAmbition)}</strong></div></section>
+      <section class="target-summary info-summary"><div><span>Marathon</span><strong>22 november 2026</strong></div><div><span>Actief tijdsdoel</span><strong>Nog niet vastgesteld</strong></div><div><span>Historische ambitie</span><strong>${escapeHtml(plan.config.historicalAmbition)}</strong></div></section>
       <section class="info-accordions">${sections.map(([title, items]) => `<details class="info-accordion"><summary><span>${escapeHtml(title)}</span><span aria-hidden="true">+</span></summary><div><ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div></details>`).join("")}</section>
       <footer class="app-version">Versie ${APP_VERSION} · schema ${escapeHtml(plan.config.schemaVersion)}</footer>`;
   }

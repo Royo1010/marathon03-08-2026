@@ -29,16 +29,30 @@ dataset.
 ## Herstel en Garmin-invoer
 
 Het kleurpaneel en de bevestigingsvragen zijn verwijderd. Alle trainingsdetails
-zijn direct toegankelijk. Herstel- en progressieafspraken staan als gewone uitleg
-onder de weektrainingen en bij Informatie. Het bestaande rekenmodel en opgeslagen
+zijn direct toegankelijk. Herstelafspraken staan bij de trainingachtergrond
+en Informatie. Het bestaande rekenmodel en opgeslagen
 beoordelingen blijven behouden; het verdwijnen van het paneel geeft geen hogere
 kalendermaxima vrij.
 
-Alle trainingen, inclusief fietsen, worden chronologisch per week genummerd.
+Alle trainingen, inclusief fietsen, staan per week in hun genummerde volgorde.
 De nummering is alleen presentatie: interne IDs en logboeken blijven gelijk.
 Loopstappen tonen Garmin-keuzes, `Tijd`, `uu:mm:ss`, `Geen doel` en uitvoeringsnotities.
 Fietsopbouw wordt op tijd getoond, met vermelding dat de exacte Garmin-fietsvelden
 nog niet zijn vastgesteld.
+
+## Lichte, flexibele trainingsweergave
+
+Week en Vandaag gebruiken een koel lichte stijl met compacte kaartkoppen,
+duidelijke nummering en uitklapbare Garmin-details. De datum kiest uitsluitend
+de programmaweek, niet de training: Vandaag toont de eerste onvoltooide sessie
+van die week. De gebruiker kiest zelf trainings- en rustdagen. Brondata en
+historische datumvelden in IDs/logs blijven behouden voor compatibiliteit;
+ze leggen geen trainingsdag op. De marathondatum blijft 22 november.
+
+Weekcontext en trainingsfilosofie staan onder de trainingen. De sectie
+"Herstel en progressie" is verwijderd. De optionele W45-ritmeproef blijft,
+met dezelfde veiligheidsvoorwaarden, beschikbaar in de betreffende details.
+Navigatie-iconen zijn lokaal meegeleverde Lucide-assets (licentie in `LICENSE`).
 
 Het interne V5-model behoudt de volgende regels:
 
@@ -69,7 +83,7 @@ schema-update.
 
 ## PWA
 
-Versie `2026.10.05-1` gebruikt relatieve GitHub Pages-paden. De service worker
+Versie `2026.10.05-2` gebruikt relatieve GitHub Pages-paden. De service worker
 blijft netwerkgestuurd, ruimt oude appcaches op en blijft geregistreerd voor
 pushmeldingen. Daardoor gebruikt de beginscherm-app dezelfde actuele bestanden
 als Safari zonder een aparte offline plansnapshot.
@@ -88,4 +102,6 @@ De tests controleren onder meer:
 - run-walk- en striderepeats;
 - Open / Vrij en 0% loopbandhelling;
 - centrale opslag en V4→V5-archivering;
-- appschermen, logging, PWA-paden en pushmodel.
+- vrije dagindeling, directe weeknavigatie en opgeslagen notities/voeding;
+- appschermen, logging, PWA-paden en pushmodel;
+- kleurcontrast, gedeelde lichte PWA-kleuren en lokale navigatie-iconen.
