@@ -46,9 +46,10 @@
   function buildNotificationContent(change, extendedEnabled = true) {
     const switchLabel = formatClock(change.switchAtSeconds);
     const endLabel = formatClock(change.nextEndsAtSeconds);
-    const nextSpeed = formatNumber(change.nextSpeedKmh);
+    const rangeLabel = (range, value) => Array.isArray(range) && range.length === 2 ? `${formatNumber(range[0])}–${formatNumber(range[1])}` : formatNumber(value);
+    const nextSpeed = rangeLabel(change.nextSpeedRangeKmh, change.nextSpeedKmh);
     const nextIncline = formatNumber(change.nextInclinePercent);
-    const previousSpeed = formatNumber(change.previousSpeedKmh);
+    const previousSpeed = rangeLabel(change.previousSpeedRangeKmh, change.previousSpeedKmh);
     const previousIncline = formatNumber(change.previousInclinePercent);
     const title = `SWITCH BIJ ${switchLabel}`;
 
@@ -89,7 +90,7 @@
         nextSpeedKmh == null || nextInclinePercent == null
       ) continue;
 
-      const speedChanged = previousSpeedKmh !== nextSpeedKmh;
+      const speedChanged = previousSpeedKmh !== nextSpeedKmh || JSON.stringify(previous.speedRangeKmh || null) !== JSON.stringify(next.speedRangeKmh || null);
       const inclineChanged = previousInclinePercent !== nextInclinePercent;
       if (!speedChanged && !inclineChanged) continue;
 
@@ -103,6 +104,8 @@
         previousSpeedKmh,
         previousInclinePercent,
         nextSpeedKmh,
+        previousSpeedRangeKmh: previous.speedRangeKmh || null,
+        nextSpeedRangeKmh: next.speedRangeKmh || null,
         nextInclinePercent,
         speedChanged,
         inclineChanged,

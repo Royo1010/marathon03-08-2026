@@ -1,10 +1,10 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "2026.10.05-2";
+  const APP_VERSION = "2026.10.05-3";
   // Keep this key stable. Preserve existing logs; migrate additions and protocol changes.
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
-  const APP_DATA_VERSION = 11;
+  const APP_DATA_VERSION = 12;
   const plan = window.MARATHON_PLAN;
   const model = window.MARATHON_MODEL;
   const notifications = window.MARATHON_NOTIFICATIONS;
@@ -20,7 +20,7 @@
   const brandHome = document.getElementById("brand-home");
   const navButtons = Array.from(document.querySelectorAll("[data-view]"));
 
-  const VIEWS = { TODAY: "today", WEEK: "week", PLAN: "plan", PHASES: "phases", STATS: "stats", INFO: "info", MARATHON: "marathon", TREADMILL: "treadmill" };
+  const VIEWS = { TODAY: "today", WEEK: "week", PLAN: "plan", PHASES: "phases", MORE: "more", DATA: "data", DETAIL: "detail", NUTRITION: "nutrition", INFO: "info", MARATHON: "marathon", TREADMILL: "treadmill" };
   const requestedTreadmillWorkoutId = new URLSearchParams(window.location.search).get("treadmill");
   const initialTreadmillWorkoutId = plan.workoutAliases?.[requestedTreadmillWorkoutId] || requestedTreadmillWorkoutId;
   let storageWriteBlocked = false;
@@ -38,6 +38,11 @@
     viewedWeekIndex: currentPlanWeekIndex(),
     expandedWorkoutIds: new Set(),
     workoutModes: new Map(),
+    detailWorkoutId: null,
+    detailReturnView: VIEWS.TODAY,
+    dataDialog: null,
+    dataMessage: "",
+    pendingImport: null,
     treadmillWorkoutId: workouts.some((workout) => workout.workoutId === initialTreadmillWorkoutId) ? initialTreadmillWorkoutId : null,
     treadmillReturnView: VIEWS.TODAY,
     pushStatus: { code: "checking", label: "Pushstatus controleren…", detail: "" },
@@ -146,9 +151,6 @@
         notificationDefaults: { ...notifications.DEFAULT_SETTINGS },
         notificationSettings: {},
         pushClient: {},
-        weekDecisions: {},
-        optionalWorkoutChoices: {},
-        raceTarget: null,
       },
       uiState: {},
       legacyData: {},
@@ -168,168 +170,47 @@
     };
   }
 
-  function migrateFinalV3Workouts(raw) {
-    const sourceSchema = raw.meta?.schemaVersion || "onbekend";
-    const currentById = new Map(workouts.map((workout) => [workout.workoutId, workout]));
-    const archive = (id) => {
-      const entry = {};
-      for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) {
-        if (isObject(raw[field]) && Object.hasOwn(raw[field], id)) entry[field] = raw[field][id];
-      }
-      const settings = raw.userSettings?.notificationSettings?.[id];
-      if (settings) entry.notificationSettings = settings;
-      if (!Object.keys(entry).length) return;
-      raw.legacyData = isObject(raw.legacyData) ? raw.legacyData : {};
-      raw.legacyData.finalV3Migration ||= { sourceSchema, archivedAt: nowIso(), workouts: {} };
-      raw.legacyData.finalV3Migration.workouts[id] ||= { ...entry, prescription: plan.previousWorkoutsV7?.[id] || null };
-    };
-    const remove = (id) => {
-      for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) if (isObject(raw[field])) delete raw[field][id];
-      if (isObject(raw.userSettings?.notificationSettings)) delete raw.userSettings.notificationSettings[id];
-    };
-    const storedIds = new Set([
-      ...Object.keys(isObject(raw.workoutLogs) ? raw.workoutLogs : {}),
-      ...Object.keys(isObject(raw.completedSessions) ? raw.completedSessions : {}),
-      ...Object.keys(isObject(raw.testResults) ? raw.testResults : {}),
-      ...Object.keys(isObject(raw.nutritionLogs) ? raw.nutritionLogs : {}),
-      ...Object.keys(isObject(raw.userSettings?.notificationSettings) ? raw.userSettings.notificationSettings : {}),
-    ]);
-    for (const id of storedIds) {
-      const previous = plan.previousWorkoutsV7?.[id];
-      const current = currentById.get(id);
-      if (current && previous?.signature === current.protocolSignature) continue;
-      archive(id);
-      remove(id);
-    }
-  }
 
-  function migrateSpeedReserveWorkouts(raw) {
-    const sourceSchema = raw.meta?.schemaVersion || "onbekend";
-    const currentById = new Map(workouts.map((workout) => [workout.workoutId, workout]));
-    const changedIds = new Set();
-    for (const [id, previous] of Object.entries(plan.previousWorkoutsV8 || {})) {
-      const current = currentById.get(id);
-      if (!current || previous.signature !== current.protocolSignature) changedIds.add(id);
-    }
-    for (const id of changedIds) {
-      const current = currentById.get(id);
-      const entry = {};
-      for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) {
-        if (isObject(raw[field]) && Object.hasOwn(raw[field], id)) entry[field] = raw[field][id];
-      }
-      const settings = raw.userSettings?.notificationSettings?.[id];
-      if (settings) entry.notificationSettings = settings;
-      if (Object.keys(entry).length) {
-        raw.legacyData = isObject(raw.legacyData) ? raw.legacyData : {};
-        raw.legacyData.speedReserveMigration ||= { sourceSchema, archivedAt: nowIso(), workouts: {} };
-        raw.legacyData.speedReserveMigration.workouts[id] ||= {
-          ...entry,
-          prescription: plan.previousWorkoutsV8?.[id] || null,
-          replacement: current || null,
-        };
-      }
-      for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) {
-        if (isObject(raw[field])) delete raw[field][id];
-      }
-      if (isObject(raw.userSettings?.notificationSettings)) delete raw.userSettings.notificationSettings[id];
-    }
-  }
-
-  function migrateMaximaparkWorkouts(raw) {
-    const sourceSchema = raw.meta?.schemaVersion || "onbekend";
-    const currentById = new Map(workouts.map((workout) => [workout.workoutId, workout]));
-    const changedIds = new Set();
-    for (const [id, previous] of Object.entries(plan.previousWorkoutsV9 || {})) {
-      const current = currentById.get(id);
-      if (!current || previous.signature !== current.protocolSignature || previous.surface !== current.surface) changedIds.add(id);
-    }
-    for (const id of changedIds) {
-      const current = currentById.get(id);
-      const entry = {};
-      for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) {
-        if (isObject(raw[field]) && Object.hasOwn(raw[field], id)) entry[field] = raw[field][id];
-      }
-      const settings = raw.userSettings?.notificationSettings?.[id];
-      if (settings) entry.notificationSettings = settings;
-      if (Object.keys(entry).length) {
-        raw.legacyData = isObject(raw.legacyData) ? raw.legacyData : {};
-        raw.legacyData.maximaparkMigration ||= { sourceSchema, archivedAt: nowIso(), workouts: {} };
-        raw.legacyData.maximaparkMigration.workouts[id] ||= {
-          ...entry,
-          prescription: plan.previousWorkoutsV9?.[id] || null,
-          replacement: current || null,
-        };
-      }
-      for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) {
-        if (isObject(raw[field])) delete raw[field][id];
-      }
-      if (isObject(raw.userSettings?.notificationSettings)) delete raw.userSettings.notificationSettings[id];
-    }
-  }
-
-  function migrateExecutionModes(raw) {
-    const currentById = new Map(workouts.map((workout) => [workout.workoutId, workout]));
-    const changedWorkoutIds = Object.entries(plan.previousWorkoutsV10 || {}).flatMap(([id, previous]) => {
-      const current = currentById.get(id);
-      const changed = !current
-        || previous.signature !== current.protocolSignature
-        || previous.surface !== current.surface
-        || Boolean(previous.outdoorSimpleMode) !== Boolean(current.outdoorSimpleMode);
-      return changed ? [id] : [];
-    });
-    raw.legacyData = isObject(raw.legacyData) ? raw.legacyData : {};
-    raw.legacyData.executionModeMigration ||= {
-      sourceSchema: raw.meta?.schemaVersion || "onbekend",
-      migratedAt: nowIso(),
-      changedWorkoutIds,
-      userDataPreserved: true,
-    };
-  }
-
-  function migrateGarminOutdoorV4(raw) {
-    const changedWorkoutIds = Object.entries(plan.previousWorkoutsV11 || {}).flatMap(([id, previous]) => {
-      const current = workouts.find((workout) => workout.workoutId === id);
-      if (!current) return [id];
-      return previous.signature !== current.protocolSignature || previous.title !== current.title ? [id] : [];
-    });
-    raw.legacyData = isObject(raw.legacyData) ? raw.legacyData : {};
-    raw.legacyData.garminOutdoorV4Migration ||= {
-      sourceSchema: raw.meta?.schemaVersion || "onbekend",
-      migratedAt: nowIso(),
-      changedWorkoutIds,
-      userDataPreserved: true,
-    };
-  }
-
-  function migrateFinalV5(raw) {
-    const activeIds = new Set((plan.allWorkouts || []).map((workout) => workout.workoutId));
-    const archive = { sourceSchema: raw.meta?.schemaVersion || "onbekend", migratedAt: nowIso(), workoutLogs: {}, completedSessions: {}, testResults: {}, nutritionLogs: {}, notificationSettings: {} };
+  function migrateFinalV6(raw) {
+    const validIds = new Set(plan.allWorkouts.map((workout) => workout.workoutId));
+    const archive = { sourceSchema: raw.meta?.schemaVersion || "onbekend", migratedAt: nowIso() };
     for (const field of ["workoutLogs", "completedSessions", "testResults", "nutritionLogs"]) {
-      if (!isObject(raw[field])) continue;
-      for (const [id, value] of Object.entries(raw[field])) {
-        if (!activeIds.has(id)) { archive[field][id] = value; delete raw[field][id]; }
+      if (!isObject(raw[field])) {
+        if (raw[field] != null) { archive[field] = raw[field]; raw[field] = {}; }
+        continue;
+      }
+      const old = Object.fromEntries(Object.entries(raw[field]).filter(([id]) => !validIds.has(id)));
+      if (Object.keys(old).length) {
+        archive[field] = old;
+        for (const id of Object.keys(old)) delete raw[field][id];
       }
     }
-    const notificationSettings = raw.userSettings?.notificationSettings;
-    if (isObject(notificationSettings)) {
-      for (const [id, value] of Object.entries(notificationSettings)) {
-        if (!activeIds.has(id)) { archive.notificationSettings[id] = value; delete notificationSettings[id]; }
+    if (isObject(raw.userSettings)) {
+      const settings = raw.userSettings;
+      const previous = Object.fromEntries(Object.entries(settings.notificationSettings || {}).filter(([id]) => !validIds.has(id)));
+      if (Object.keys(previous).length) archive.notificationSettings = previous;
+      settings.notificationSettings = Object.fromEntries(Object.entries(settings.notificationSettings || {}).filter(([id]) => validIds.has(id)));
+      for (const field of ["weekDecisions", "optionalWorkoutChoices", "raceTarget"]) {
+        if (settings[field] != null) archive[field] = settings[field];
+        delete settings[field];
       }
     }
     raw.legacyData = isObject(raw.legacyData) ? raw.legacyData : {};
-    raw.legacyData.finalV5Migration ||= archive;
+    if (Object.keys(archive).length > 2) {
+      if (!Array.isArray(raw.legacyData.finalV6History)) {
+        if (raw.legacyData.finalV6History != null) archive.previousV6History = raw.legacyData.finalV6History;
+        raw.legacyData.finalV6History = [];
+      }
+      raw.legacyData.finalV6History.push(archive);
+    }
+    // IDs belong to a protocol, not a date/number. Never mark a new V6 workout done from an old log.
   }
 
   function migrateAppData(raw) {
     const empty = createEmptyAppData();
     if (!isObject(raw)) throw new Error("Opgeslagen data is geen app-object.");
     raw = JSON.parse(JSON.stringify(raw));
-    if (Number(raw.appDataVersion || 0) < 6) migrateFinalV3Workouts(raw);
-    if (Number(raw.appDataVersion || 0) < 7) migrateSpeedReserveWorkouts(raw);
-    if (Number(raw.appDataVersion || 0) < 8) migrateMaximaparkWorkouts(raw);
-    if (Number(raw.appDataVersion || 0) < 9) migrateExecutionModes(raw);
-    if (Number(raw.appDataVersion || 0) < 10) migrateGarminOutdoorV4(raw);
-    if (Number(raw.appDataVersion || 0) < 11) migrateFinalV5(raw);
+    if (Number(raw.appDataVersion || 0) < 12 || raw.meta?.schemaVersion !== plan.config.schemaVersion) migrateFinalV6(raw);
     const data = {
       ...empty,
       ...raw,
@@ -367,9 +248,6 @@
     data.userSettings.notificationDefaults = notifications.normalizeSettings(data.userSettings.notificationDefaults);
     data.userSettings.notificationSettings = isObject(data.userSettings.notificationSettings) ? data.userSettings.notificationSettings : {};
     data.userSettings.pushClient = isObject(data.userSettings.pushClient) ? data.userSettings.pushClient : {};
-    data.userSettings.weekDecisions = isObject(data.userSettings.weekDecisions) ? data.userSettings.weekDecisions : {};
-    data.userSettings.optionalWorkoutChoices = isObject(data.userSettings.optionalWorkoutChoices) ? data.userSettings.optionalWorkoutChoices : {};
-    data.userSettings.raceTarget = isObject(data.userSettings.raceTarget) ? data.userSettings.raceTarget : null;
     const completedEntries = isObject(raw.completedSessions) ? Object.entries(raw.completedSessions) : [];
     data.completedSessions = Object.fromEntries(completedEntries.filter(([workoutId]) => validIds.has(workoutId)));
     const archivedCompleted = Object.fromEntries(completedEntries.filter(([workoutId]) => !validIds.has(workoutId)));
@@ -408,12 +286,13 @@
   }
 
   function saveAppData() {
-    if (storageWriteBlocked) return;
+    if (storageWriteBlocked) return false;
     appData.updatedAt = nowIso();
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); showStorageWarning(); }
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); showStorageWarning(); return true; }
     catch (error) {
       showStorageWarning("Opslaan lukt niet. Houd de app open en controleer de beschikbare browseropslag; nieuwe invoer is nog niet veilig bewaard.");
       console.warn("Voortgang opslaan is niet gelukt.", error);
+      return false;
     }
   }
 
@@ -640,6 +519,7 @@
   }
 
   function toggleCompleted(workoutId) {
+    if (!workoutById(workoutId)) return;
     const completed = !isCompleted(workoutId);
     const log = normalizeWorkoutLog(workoutLog(workoutId) || {}, workoutId);
     log.completed = completed;
@@ -765,52 +645,6 @@
     return joinText([workout.totalPlannedLabel, workout.activityType === "race" ? workout.estimatedDistanceLabel : "afstand achteraf meten"], "Bekijk de exacte opbouw");
   }
 
-  function saveWorkoutField(workoutId, field, value) {
-    const allowed = ["actualTotalMinutes", "actualRunMinutes", "actualWalkMinutes", "actualBikeMinutes", "actualDistanceKm", "movingPace", "elapsedPace", "rpe", "talkTest", "heartRateAverage", "heartRateMax", "legHeaviness", "pain", "painTrend", "recovery24h", "recovery36h", "outdoor", "routeWeather", "note"];
-    if (!allowed.includes(field)) return;
-    const workout = workoutById(workoutId);
-    if (!workout) return;
-    const numeric = ["actualTotalMinutes", "actualRunMinutes", "actualWalkMinutes", "actualBikeMinutes", "actualDistanceKm", "rpe", "heartRateAverage", "heartRateMax", "legHeaviness"].includes(field);
-    const parsed = numeric && value !== "" ? Number(value) : value;
-    appData.workoutLogs[workoutId] = {
-      ...normalizeWorkoutLog(workoutLog(workoutId) || {}, workoutId),
-      weekNumber: workout.weekNumber,
-      workoutDate: workout.date || "",
-      activityType: workout.activityType,
-      role: workout.role || "",
-      [field]: Number.isNaN(parsed) ? "" : parsed,
-      updatedAt: nowIso(),
-    };
-    saveAppData();
-  }
-
-  function renderWorkoutLogForm(workout) {
-    if (workout.activityType === "race") return "";
-    const log = workoutLog(workout.workoutId) || {};
-    const numberField = (field, label, value, step = "1") => `<label><span>${label}</span><input type="number" inputmode="decimal" min="0" step="${step}" value="${escapeAttr(value ?? "")}" data-workout-log="${escapeAttr(workout.workoutId)}" data-workout-field="${field}"></label>`;
-    return `<details class="info-accordion workout-log-card">
-      <summary><span>Werkelijke uitvoering loggen</span><span aria-hidden="true">+</span></summary>
-      <div>
-        <p>Vul de werkelijke belasting in. Alleen werkelijk uitgevoerde en goed herstelde minuten mogen een volgende opbouwstap onderbouwen.</p>
-        <div class="test-fields">
-          ${numberField(workout.activityType === "bike" ? "actualBikeMinutes" : "actualTotalMinutes", workout.activityType === "bike" ? "Werkelijke fietsminuten" : "Totale sessietijd (min)", workout.activityType === "bike" ? log.actualBikeMinutes : log.actualTotalMinutes)}
-          ${workout.activityType === "run" ? `${numberField("actualRunMinutes", "Werkelijke rentijd (min)", log.actualRunMinutes)}${numberField("actualWalkMinutes", "Werkelijke wandeltijd (min)", log.actualWalkMinutes)}${numberField("actualDistanceKm", "Werkelijke afstand (km)", log.actualDistanceKm, "0.01")}` : ""}
-          ${numberField("rpe", "RPE achteraf", log.rpe, "0.5")}
-          ${numberField("heartRateAverage", "Gemiddelde hartslag", log.heartRateAverage)}
-          ${numberField("heartRateMax", "Maximale hartslag", log.heartRateMax)}
-          ${numberField("legHeaviness", "Beenzwaarte (0–10)", log.legHeaviness)}
-          ${workout.activityType === "run" ? `<label><span>Moving pace (min/km)</span><input type="text" inputmode="decimal" value="${escapeAttr(log.movingPace || "")}" data-workout-log="${escapeAttr(workout.workoutId)}" data-workout-field="movingPace"></label><label><span>Elapsed pace (min/km)</span><input type="text" inputmode="decimal" value="${escapeAttr(log.elapsedPace || "")}" data-workout-log="${escapeAttr(workout.workoutId)}" data-workout-field="elapsedPace"></label><label><span>Uitvoering</span><select data-workout-log="${escapeAttr(workout.workoutId)}" data-workout-field="outdoor"><option value="">Kies</option><option value="outdoor" ${log.outdoor === "outdoor" ? "selected" : ""}>Outdoor</option><option value="loopband" ${log.outdoor === "loopband" ? "selected" : ""}>Loopband</option></select></label>` : ""}
-          <label><span>Praattest</span><select data-workout-log="${escapeAttr(workout.workoutId)}" data-workout-field="talkTest"><option value="">Kies</option><option value="volledige-zinnen" ${log.talkTest === "volledige-zinnen" ? "selected" : ""}>Volledige zinnen</option><option value="moeizaam" ${log.talkTest === "moeizaam" ? "selected" : ""}>Moeizaam</option></select></label>
-          <label><span>Pijn / techniek</span><select data-workout-log="${escapeAttr(workout.workoutId)}" data-workout-field="pain"><option value="">Kies</option><option value="geen" ${log.pain === "geen" ? "selected" : ""}>Geen</option><option value="lokaal-of-techniek" ${log.pain === "lokaal-of-techniek" ? "selected" : ""}>Lokale pijn of techniekverandering</option></select></label>
-          <label><span>Herstel na 24 uur</span><select data-workout-log="${escapeAttr(workout.workoutId)}" data-workout-field="recovery24h"><option value="">Nog niet beoordeeld</option><option value="normaal" ${log.recovery24h === "normaal" ? "selected" : ""}>Terug normaal</option><option value="vertraagd" ${log.recovery24h === "vertraagd" ? "selected" : ""}>Nog niet normaal</option></select></label>
-          <label><span>Herstel 24–36 uur</span><select data-workout-log="${escapeAttr(workout.workoutId)}" data-workout-field="recovery36h"><option value="">Nog niet beoordeeld</option><option value="normaal" ${log.recovery36h === "normaal" ? "selected" : ""}>Terug normaal</option><option value="vertraagd" ${log.recovery36h === "vertraagd" ? "selected" : ""}>Langer dan 36 uur</option></select></label>
-          <label class="wide"><span>Route en weer</span><input type="text" value="${escapeAttr(log.routeWeather || "")}" data-workout-log="${escapeAttr(workout.workoutId)}" data-workout-field="routeWeather"></label>
-          <label class="wide"><span>Pijnlocatie / trend</span><input type="text" value="${escapeAttr(log.painTrend || "")}" data-workout-log="${escapeAttr(workout.workoutId)}" data-workout-field="painTrend"></label>
-          <label class="wide"><span>Notitie</span><textarea rows="3" data-workout-log="${escapeAttr(workout.workoutId)}" data-workout-field="note">${escapeHtml(log.note || "")}</textarea></label>
-        </div>
-      </div>
-    </details>`;
-  }
 
   function workoutById(workoutId) {
     return workouts.find((workout) => workout.workoutId === workoutId) || null;
@@ -959,33 +793,13 @@
       <div class="week-philosophy-body">
         <div class="philosophy-tags">${(philosophy.adaptations || []).map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
         <section><h3>Waarom deze week zo is opgebouwd</h3>${(philosophy.why || []).map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}</section>
-        <section><h3>Relatie tot de historische ambitie</h3><p>${escapeHtml(philosophy.targetLink)}</p></section>
+        <section><h3>Relatie tot sub-4</h3><p>${escapeHtml(philosophy.targetLink)}</p></section>
         <section><h3>Waarom niet meer of harder?</h3><p>${escapeHtml(philosophy.whyNotMore)}</p></section>
         <section><h3>Waar vertrouwen uit mag komen</h3><p>${escapeHtml(philosophy.confidence)}</p></section>
       </div>
     </details>`;
   }
 
-  function weekDecision(weekNumber) {
-    return appData.userSettings?.weekDecisions?.[weekNumber] || { status: "orange", criteria: {} };
-  }
-
-  function weekVariantLabel(week) {
-    if (week.variant === "no-basis") return "Kalenderreferentie · taperbasis nog open";
-    if (week.status === "red") return "Lopen pauzeren";
-    if (week.variant === "scaled-taper" || week.variant === "scaled") return "Taper op verdragen basis";
-    return week.variant === "recovery-max" || week.status === "green" ? "Kalendermaximum" : "Kortere herstelvariant";
-  }
-
-  function renderOptionalRhythmChoice(workout) {
-    if (workout.weekNumber !== 45 || !["continuous", "rhythm"].includes(workout.role)) return "";
-    const decision = weekDecision(45);
-    const taper = model.deriveTaperBasis?.(appData) || { basisMinutes: 0, scale: 0 };
-    const unlocked = taper.scale === 1 && model.greenCriteria?.(decision, 45, appData);
-    return `<div class="detail-section"><h3>Optionele uitvoering</h3>${unlocked
-      ? `<label class="rhythm-choice"><span>Kies de uitvoering van deze training</span><select data-optional-workout="45"><option value="easy">Easy-uitvoering</option><option value="rhythm" ${appData.userSettings.optionalWorkoutChoices?.[45] === "rhythm" ? "selected" : ""}>Optionele ritmeproef</option></select><small>Vervangt de easy-run; geen extra training.</small></label>`
-      : `<p>Easy blijft de standaard. Een ritmeproef mag uitsluitend na alle V5-checkpoints en een volledig verdragen basis van 240 minuten; nooit toevoegen als extra training.</p>`}</div>`;
-  }
 
   function renderToday() {
     const date = appDateIso();
@@ -994,9 +808,9 @@
     const afterPlan = date > plan.config.endDate;
     let content = "";
     if (beforePlan) {
-      content = `<section class="today-state"><span>Start programma</span><strong>Maandag 5 oktober</strong><p>FINAL V5 begint met week 41. Outdoor / Garmin is de standaard; herstel bepaalt de toegestane variant.</p></section>`;
+      content = `<section class="today-state"><span>Start programma</span><strong>Maandag 5 oktober</strong><p>FINAL V6 begint met actief herstel, daarna een gecontroleerde sub-4-opbouw.</p></section>`;
     } else if (afterPlan) {
-      content = `<section class="today-state"><span>Programma voltooid</span><strong>Marathonperiode afgerond</strong><p>Het actieve FINAL V5-schema liep tot zondag 22 november 2026.</p></section>`;
+      content = `<section class="today-state"><span>Programma voltooid</span><strong>Marathonperiode afgerond</strong><p>Het actieve FINAL V6-schema liep tot zondag 22 november 2026.</p></section>`;
     } else {
       const workout = firstIncompleteWorkout(week);
       const completed = week.workouts.filter((item) => isCompleted(item.workoutId)).length;
@@ -1023,10 +837,12 @@
           </div>
         </div>
         <p class="week-subtitle">${escapeHtml(phase?.name || week.phaseName)} · ${week.workouts.length} trainingen</p>
+        <p class="week-goal">${escapeHtml(week.focus)}</p>
         <div class="week-completion"><div class="progress-track" role="progressbar" aria-label="Weekvoortgang" aria-valuemin="0" aria-valuemax="${week.workouts.length}" aria-valuenow="${completed}"><span style="width:${week.workouts.length ? completed / week.workouts.length * 100 : 0}%"></span></div><span>${completed}/${week.workouts.length} voltooid</span></div>
       </section>
       <section class="training-list" aria-label="Trainingen in week ${week.weekNumber}">${week.workouts.map((workout) => renderTrainingCard(workout)).join("")}</section>
-      <details class="info-accordion week-context"><summary><span>Over deze week</span><span aria-hidden="true">+</span></summary><div><p>${escapeHtml(week.periodLabel)}</p><p>${escapeHtml(week.focus)}</p><p>${escapeHtml(getWeekPlannedLabel(week))}</p><p>Volg de trainingsvolgorde en neem rust naar behoefte. De getoonde tijden blijven V5-bovengrenzen.</p>${renderWeekPhilosophy(week)}<button class="text-action" type="button" data-week-current>Terug naar deze week ${icon("chevron-right")}</button></div></details>
+      <details class="info-accordion week-context"><summary><span>Planning en herstel</span>${icon("chevron-down")}</summary><div><p>${escapeHtml(week.periodLabel)}</p><p>${escapeHtml(getWeekPlannedLabel(week))}</p><ul>${plan.guidance.scheduling.map((rule) => `<li>${escapeHtml(rule)}</li>`).join("")}</ul><p>De nummers identificeren trainingen, geen verplichte weekdagen. De fietsrit mag eerder in de week.</p></div></details>
+      ${renderWeekPhilosophy(week)}
     `;
   }
 
@@ -1040,41 +856,6 @@
     return `<span class="semantic-badge tone-${tone}">${escapeHtml(text)}</span>`;
   }
 
-  function renderFuelingForm(workout) {
-    const log = appData.nutritionLogs?.[workout.workoutId] || {};
-    const fields = [
-      ["products", "Gebruikte producten", "text"], ["servings", "Gels / servings", "number"],
-      ["totalCarbs", "Koolhydraten totaal (g)", "number"], ["carbsPerHour", "Koolhydraten per uur (g)", "number"],
-      ["timing", "Timing", "text"], ["drinking", "Drinken", "text"],
-      ["gut", "Maag / darmen", "text"], ["energy", "Energieniveau", "text"], ["legs", "Benen", "text"],
-    ];
-    return `<details class="info-accordion fueling-registration">
-      <summary><span>${workout.fullFuelRehearsal ? "Volledige racevoedingsrepetitie" : "Racevoeding registreren"}</span><span aria-hidden="true">+</span></summary>
-      <div><p>${escapeHtml(workout.nutrition)}</p><div class="test-fields">
-      ${fields.map(([key, title, type]) => `<label><span>${title}</span><input type="${type}" ${type === "number" ? 'inputmode="decimal" min="0" step="any"' : ""} value="${escapeAttr(log[key] ?? "")}" data-fuel-workout="${workout.workoutId}" data-fuel-field="${key}"></label>`).join("")}
-      <label class="wide"><span>Voeding volgens plan voltooid</span><select data-fuel-workout="${workout.workoutId}" data-fuel-field="completedAsPlanned"><option value="">Kies</option><option value="ja" ${log.completedAsPlanned === "ja" ? "selected" : ""}>Ja</option><option value="nee" ${log.completedAsPlanned === "nee" ? "selected" : ""}>Nee</option></select></label>
-      <label class="wide"><span>Notitie</span><textarea rows="3" data-fuel-workout="${workout.workoutId}" data-fuel-field="note">${escapeHtml(log.note || "")}</textarea></label>
-      </div></div></details>`;
-  }
-
-  function saveFuelField(workoutId, field, value) {
-    if (!workoutById(workoutId)?.fueling || !["products", "servings", "totalCarbs", "carbsPerHour", "timing", "drinking", "gut", "energy", "legs", "completedAsPlanned", "note"].includes(field)) return;
-    appData.nutritionLogs[workoutId] = { ...appData.nutritionLogs[workoutId], [field]: value, updatedAt: nowIso() };
-    saveAppData();
-  }
-
-  function renderStrengthCard(workout) {
-    const strength = workout.strength;
-    if (!strength) return "";
-    return `<details class="strength-card">
-      <summary><span><small>Na het hardlopen</small><strong>Kracht · Sessie ${escapeHtml(strength.type)}</strong></span><span>${escapeHtml(strength.duration)}</span></summary>
-      <div class="strength-body">
-        <p class="strength-order"><strong>Eerst hardlopen, daarna krachttraining.</strong> ${escapeHtml(strength.note)}</p>
-        <div class="strength-exercises">${(strength.exercises || []).map(([name, prescription]) => `<div><strong>${escapeHtml(name)}</strong><span>${escapeHtml(prescription)}</span></div>`).join("")}</div>
-        <p><strong>Intensiteit:</strong> ${escapeHtml(strength.rir)}</p>
-      </div>
-    </details>`;
-  }
 
   function trainingModeLabel(workout) {
     if (workout.garmin?.isRacePlan) return "Garmin-raceplan";
@@ -1147,7 +928,7 @@
   function renderGarminRaceSetup(workout) {
     return `<section class="garmin-setup garmin-race-setup" aria-label="Garmin-raceplan">
       <div class="garmin-setup-heading"><span>Garmin-raceplan</span><strong>Marathon 2026</strong></div>
-      <div class="garmin-setup-metrics"><div><span>Afstand</span><strong>${escapeHtml(workout.garmin.referenceDistanceLabel)}</strong></div><div><span>Tijdsdoel</span><strong>Nog open</strong></div><div><span>Racepace</span><strong>Nog open</strong></div></div>
+      <div class="garmin-setup-metrics"><div><span>Afstand</span><strong>${escapeHtml(workout.garmin.referenceDistanceLabel)}</strong></div><div><span>Tijdsdoel</span><strong>Sub 4:00</strong></div><div><span>Raceritme</span><strong>circa 5:40/km</strong></div></div>
       <div class="garmin-program-summary"><span>Gebruik op Garmin</span><strong>${escapeHtml(workout.garmin.programSummary)}</strong></div>
       <ul class="garmin-race-guidance">${(workout.garmin.raceGuidance || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
     </section>`;
@@ -1167,7 +948,8 @@
       <div class="garmin-steps" aria-label="Stappen voor Garmin Connect">${renderGarminGroups(workout)}</div>
       <div class="garmin-program-summary"><span>Programmeer in Garmin als:</span><strong>${escapeHtml(workout.garmin.programSummary)}</strong></div>
       <p class="garmin-reference-note"><strong>Totaal: ${escapeHtml(model.garminDurationLabel(workout.totalPlannedSeconds))}${workout.plannedWalkMinutes ? `, waarvan ${formatNumber(workout.plannedRunMinutes, 0)} minuten hardlopen en ${formatNumber(workout.plannedWalkMinutes, 0)} minuten wandelen` : ""}.</strong></p>
-      <p class="garmin-reference-note">Selecteer bij iedere tijdgestuurde stap <strong>Tijd</strong>, ook bij Warm-up en Cooldown. Selecteer <strong>Geen doel</strong>; een aanvullende doelwaarde is niet nodig. Praattest, RPE en techniek staan bij de notities. Loopbandsnelheden zijn geen Garmin-tempodoel.</p>
+      <p class="garmin-reference-note">Selecteer bij alle stappen <strong>Tijd</strong>, ook bij Warm-up en Cooldown. Vrij = <strong>Geen doel</strong>. MP = <strong>Tempo 5:35–5:50/km</strong>; mik op 5:40–5:45 bij RPE 4–5. De trainingsrange is geen voldoende nauwkeurig gemiddeld racetempo voor sub-4. RPE en praattest zijn notities, geen targets.</p>
+      <p class="garmin-reference-note">Meer → Training en planning → Workouts → Maak een workout → Hardlopen. Stuur naar FR165, synchroniseer en controleer vóór vertrek. Bij RPE 6+ of steeds zwaardere MP: resterende werkminuten easy.</p>
     </section>`;
   }
 
@@ -1176,15 +958,18 @@
     return `<section class="garmin-setup bike-setup" aria-label="Fietsopbouw op tijd">
       <div class="garmin-setup-heading"><span>Fietstraining</span><strong>Fietsopbouw op tijd</strong></div>
       <div class="garmin-setup-metrics"><div><span>Totale duur</span><strong>${escapeHtml(workout.totalPlannedLabel)}</strong></div><div><span>Inspanning</span><strong>RPE ${escapeHtml(workout.targetRpe)}</strong></div></div>
-      <p class="garmin-purpose">De exacte Garmin-velden voor een fietsworkout zijn nog niet vastgesteld. De beschikbare screenshots horen bij hardlopen. Hieronder staat de uitvoering op tijd; kies geen hardloopstap voor een fietsblok.</p>
+      <p class="garmin-purpose">${escapeHtml(workout.bikeInstruction)}</p>
       <div class="garmin-steps">${segments.map((segment, index) => `<article class="garmin-step"><div class="garmin-step-heading"><span class="garmin-step-number">${index + 1}</span><strong>${escapeHtml(segment.name)}</strong></div><dl class="garmin-step-fields"><div class="garmin-duration"><dt>Duur</dt><dd><strong>${escapeHtml(model.garminStepFields(segment).durationValue)}</strong><span> — ${escapeHtml(model.garminDurationLabel(segment.durationSeconds))}</span></dd></div><div class="garmin-step-notes"><dt>Uitvoering</dt><dd>${escapeHtml(index === 0 ? "Rustig opstarten, lichte versnelling." : index === segments.length - 1 ? "Rustig uittrappen." : "Rustig fietsen, RPE 2–3. Volledige zinnen kunnen praten.")} ${escapeHtml(segment.cue)}</dd></div></dl></article>`).join("")}</div>
-      <p class="garmin-reference-note">Totaal: ${escapeHtml(model.garminDurationLabel(workout.totalPlannedSeconds))}. Fietsminuten blijven apart van hardloopminuten en hardloopkilometers.</p>
+      <div class="garmin-program-summary"><span>Programmeer in Garmin als:</span><strong>${escapeHtml(workout.garmin.programSummary)}</strong></div>
+      <p class="garmin-reference-note"><strong>Hometrainer:</strong> ${escapeHtml(workout.hometrainerInstruction)}</p>
+      <p class="garmin-reference-note">${escapeHtml(workout.durationCheck)} Fietsminuten blijven apart van rentijd.</p>
     </section>`;
   }
 
   function renderTreadmillDetails(workout) {
     return `<section class="treadmill-detail-panel" aria-label="Loopbandalternatief">
       <div class="treadmill-detail-heading"><span>Gelijkwaardig alternatief</span><strong>Loopband</strong></div>
+      <p>${escapeHtml(workout.treadmillInstruction)}</p>
       <div class="segment-groups">${model.treadmillGroups(workout).map(renderSegmentGroup).join("")}</div>
       <button class="open-focus-mode" type="button" data-open-treadmill="${escapeAttr(workout.workoutId)}"><span aria-hidden="true">▶</span> Open volledige Loopband Focus Mode</button>
     </section>`;
@@ -1199,10 +984,10 @@
   }
 
   function compactWorkoutStructure(workout) {
-    if (workout.garmin?.isRacePlan) return "Buitenwedstrijd · raceplan nog open";
+    if (workout.garmin?.isRacePlan) return "Buitenwedstrijd · sub 4:00 · officiële finish leidend";
     if (!workout.garmin) return keyBlockSummary(workout);
     const describe = (segment) => {
-      const names = { wandelen: "wandelen", stride: "stride", ritme: "ritme", easy: "easy", "warming-up": "easy", "cooling-down": "easy" };
+      const names = { wandelen: "wandelen", marathonpace: "MP", herstel: "easy", easy: "easy", "warming-up": "easy", "cooling-down": "easy" };
       const name = workout.activityType === "bike" ? "fietsen" : names[segment.type] || segment.name;
       return `${shortBlockDuration(segment)} ${name}`;
     };
@@ -1212,23 +997,23 @@
   }
 
   function renderTrainingCard(workout) {
-    const open = state.expandedWorkoutIds.has(workout.workoutId);
     const completed = isCompleted(workout.workoutId);
-    const detailsId = `details-${workout.workoutId}`;
     return `
-      <article class="training-card tone-${escapeAttr(workout.tone || "easy")} ${open ? "is-open" : ""} ${completed ? "is-completed" : ""} ${workout.isSuspended ? "is-suspended" : ""}" data-workout-card="${workout.workoutId}">
-        <button class="training-card-toggle" type="button" data-toggle-workout="${workout.workoutId}" aria-expanded="${open}" aria-controls="${detailsId}">
-          <span class="card-topline"><span class="training-index" aria-hidden="true">${workout.trainingNumber || icon("route")}</span><span class="card-heading"><span class="training-number">${escapeHtml(workoutSequenceLabel(workout))}</span><span class="training-type">${escapeHtml(workout.activityType === "bike" ? "Fietsen" : workout.role === "runwalk" ? "Run-walk" : workout.activityType === "race" ? "Marathon" : "Hardlopen")}</span></span>${completed ? `<span class="completed-mark">${icon("circle-check")} Voltooid</span>` : ""}<span class="expand-icon">${icon("chevron-down")}</span></span>
+      <article class="training-card tone-${escapeAttr(workout.tone || "easy")} ${completed ? "is-completed" : ""}" data-workout-card="${workout.workoutId}">
+        <button class="training-card-toggle" type="button" data-open-workout="${workout.workoutId}">
+          <span class="card-topline"><span class="training-index" aria-hidden="true">${workout.trainingNumber}</span><span class="card-heading"><span class="training-number">${escapeHtml(workoutSequenceLabel(workout))}</span><span class="training-type">${escapeHtml(workout.activityType === "bike" ? "Fietsen" : workout.role === "runwalk" ? "Run-walk" : workout.activityType === "race" ? "Marathon" : workout.plannedMpMinutes ? "Marathonpace" : "Hardlopen")}</span></span>${completed ? `<span class="completed-mark">${icon("circle-check")} Voltooid</span>` : ""}<span class="expand-icon">${icon("chevron-right")}</span></span>
           <span class="card-title-row"><span class="training-name">${escapeHtml(capitalize(workout.title))}</span><span class="training-primary">${escapeHtml(workout.activityType === "race" ? workout.estimatedDistanceLabel : workout.totalPlannedLabel)}</span></span>
-          ${workout.strength ? `<span class="strength-inline">Daarna kracht · Sessie ${escapeHtml(workout.strength.type)} · ${escapeHtml(workout.strength.duration)}</span>` : ""}
-          <span class="training-speed">${escapeHtml(joinText([workout.targetRpe ? `RPE ${workout.targetRpe}` : "", workout.activityType === "bike" ? "Rustig fietsen" : workout.activityType === "race" ? "Startbesluit nog open" : "Vrij tempo", workout.role === "strides" ? "Strides optioneel" : ""]))}</span>
+          <span class="training-speed">${escapeHtml(joinText([workout.targetRpe ? `RPE ${workout.targetRpe}` : "", workout.plannedMpMinutes ? "5:35–5:50/km bij MP" : workout.activityType === "race" ? "circa 5:40/km" : "Vrij tempo"]))}</span>
           <span class="card-structure">${escapeHtml(compactWorkoutStructure(workout))}</span>
-          ${workout.isSuspended ? `<span class="suspended-note">${(weeks.find((week) => week.weekNumber === workout.weekNumber))?.variant === "no-basis" ? "Kalenderreferentie: een goed verdragen taperbasis is nog niet vastgesteld." : "Lopen pauzeren en herstel beoordelen vóór hervatten."} De opbouw blijft te bekijken.</span>` : ""}
+          ${workout.labels.includes("OPTIONEEL") ? '<span class="semantic-badge">Optioneel</span>' : ""}
         </button>
-        ${open ? `<div class="training-details" id="${detailsId}">${renderTrainingDetails(workout)}</div>` : ""}
+        <div class="training-start-actions">
+          <button class="text-action" type="button" data-open-garmin="${workout.workoutId}">${icon(workout.activityType === "bike" ? "bike" : "route")}${workout.activityType === "bike" ? "Fietsopbouw" : workout.activityType === "race" ? "Garmin-raceplan" : "Garmin"}</button>
+          ${workout.treadmillAvailable ? `<button class="text-action" type="button" data-open-treadmill="${workout.workoutId}">${icon("play")} Loopband</button>` : ""}
+        </div>
         <div class="completion-row">
-          <button class="card-details-action" type="button" data-toggle-workout="${workout.workoutId}" aria-expanded="${open}" aria-controls="${detailsId}">${open ? "Details sluiten" : "Bekijk training"}${icon(open ? "chevron-down" : "chevron-right")}</button>
-          <button class="completion-button ${completed ? "is-completed" : ""}" type="button" data-toggle-complete="${workout.workoutId}" aria-pressed="${completed}" ${workout.isSuspended ? "disabled" : ""}>
+          <button class="card-details-action" type="button" data-open-workout="${workout.workoutId}">Details ${icon("chevron-right")}</button>
+          <button class="completion-button ${completed ? "is-completed" : ""}" type="button" data-toggle-complete="${workout.workoutId}" aria-pressed="${completed}">
             ${icon(completed ? "circle-check" : "circle")}${completed ? "Voltooid" : "Voltooien"}
           </button>
         </div>
@@ -1254,12 +1039,10 @@
       <div class="detail-section"><h3>Planning en herstel</h3><p><strong>${escapeHtml(workout.recoveryLabel || "Herstel volgens weekbelasting")}:</strong> ${escapeHtml(workout.recoveryAdvice || workout.orderWarning || "Bewaak herstel tussen de sessies.")}</p>${workout.orderWarning ? `<p>${escapeHtml(workout.orderWarning)}</p>` : ""}</div>
       <div class="detail-section"><h3>Locatie en buitenvariant</h3><p><strong>${escapeHtml(workout.locationStatus || "Loopband of buiten")}.</strong> ${escapeHtml(workout.outsideVariant || "Volg buiten dezelfde duur en inspanning.")}</p></div>
       ${workout.shoes ? `<div class="detail-section shoe-section"><h3>Schoenen</h3><p>${escapeHtml(workout.shoes)}</p></div>` : ""}
-      ${renderStrengthCard(workout)}
       ${(workout.detailsSections || []).map((section) => `<div class="detail-section source-detail"><h3>${escapeHtml(section.title)}</h3><ul>${section.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div>`).join("")}
-      ${renderOptionalRhythmChoice(workout)}
       </div></details>
-      ${renderWorkoutLogForm(workout)}
-      ${workout.fueling ? renderFuelingForm(workout) : ""}
+      ${workout.nutrition ? `<details class="info-accordion"><summary><span>Voeding voor deze training</span>${icon("chevron-down")}</summary><div><p>${escapeHtml(workout.nutrition)}</p><button class="text-action" type="button" data-view="nutrition">Voeding & racevoorraad ${icon("chevron-right")}</button></div></details>` : ""}
+      ${workout.durationCheck ? `<p class="detail-duration-check">${escapeHtml(workout.durationCheck)}</p>` : ""}
     `;
   }
 
@@ -1529,7 +1312,7 @@
       <section class="treadmill-timeline" aria-label="Loopbandblokken">
         ${timeline.blocks.map((block) => renderTreadmillBlock(block, snapshot.currentIndex)).join("")}
       </section>
-      <p class="treadmill-note">Afstandstijden met ± zijn berekend uit afstand en snelheid. De marathon is een buitenwedstrijd en toont daarom “Buiten” in plaats van een hellingspercentage.</p>
+      <p class="treadmill-note">Dezelfde blokduren als Garmin. Snelheden zijn startbereiken: stuur easy op RPE 2–3, MP op RPE 4–5. Starthelling 0%.</p>
     </section>`;
   }
 
@@ -1829,277 +1612,151 @@
     return Number.isFinite(calculated) && calculated >= 0 ? calculated : 0;
   }
 
-  function actualDistanceKm(workout) {
-    const log = workoutLog(workout.workoutId) || {};
-    const actual = [log.actualDistanceKm, log.distanceKm, log.completedDistanceKm, log.plannedDistanceAtCompletion]
-      .filter((value) => value != null && value !== "")
-      .map(Number)
-      .find((value) => Number.isFinite(value) && value >= 0);
-    return actual ?? null;
-  }
-
-  function completedDistanceKm(workout) {
-    if (!isCompleted(workout.workoutId)) return 0;
-    return actualDistanceKm(workout) ?? plannedDistanceKm(workout);
-  }
-
-  function weekWorkouts(week, includeMarathon = true) {
-    return (week?.workouts || []).filter((workout) => includeMarathon || workout.category !== "wedstrijd");
-  }
-
-  function getWeekPlannedKm(week, includeMarathon = true) {
-    const calculated = Number(model.calculateWeekDistanceKm?.(week, includeMarathon));
-    return Number.isFinite(calculated) ? calculated : weekWorkouts(week, includeMarathon).reduce((total, workout) => total + plannedDistanceKm(workout), 0);
-  }
-
-  function getWeekCompletedKm(week, includeMarathon = true) {
-    const eligible = weekWorkouts(week, includeMarathon);
-    const completed = eligible.filter((workout) => isCompleted(workout.workoutId));
-    if (!completed.length) return 0;
-    const allCompleted = completed.length === eligible.length;
-    const hasActualDistance = completed.some((workout) => actualDistanceKm(workout) != null);
-    if (allCompleted && !hasActualDistance) return getWeekPlannedKm(week, includeMarathon);
-    return completed.reduce((total, workout) => total + completedDistanceKm(workout), 0);
+  function workoutDurationSeconds(workout) {
+    return Number(workout?.totalPlannedSeconds || 0);
   }
 
   function getWeekPlannedLabel(week) {
-    const parts = [`${formatNumber(week?.plannedSessionMinutes || 0, 0)} min loopsessies`, `${formatNumber(week?.plannedRunMinutes || 0, 0)} min lopen`];
-    if (Number(week?.plannedWalkMinutes) > 0) parts.push(`${formatNumber(week.plannedWalkMinutes, 0)} min wandelen`);
-    if (Number(week?.plannedBikeMinutes) > 0) parts.push(`${formatNumber(week.plannedBikeMinutes, 0)} min fiets`);
-    if (week?.includesMarathon) parts.push("+ marathon apart");
-    return parts.join(" · ");
-  }
-
-  function workoutDurationSeconds(workout) {
-    const explicit = Number(workout?.totalPlannedSeconds);
-    if (Number.isFinite(explicit) && explicit > 0) return explicit;
-    const segments = model.flattenWorkoutSegments(workout);
-    if (!segments.length) return null;
-    const durations = segments.map((segment) => Number(model.segmentDurationSeconds(segment)));
-    return durations.every((duration) => Number.isFinite(duration) && duration > 0)
-      ? durations.reduce((total, duration) => total + duration, 0)
-      : null;
-  }
-
-  function completedDurationSeconds(workout) {
-    if (!isCompleted(workout.workoutId)) return 0;
-    const log = workoutLog(workout.workoutId) || {};
-    const actual = [log.actualDurationSeconds, log.durationSeconds, log.completedDurationSeconds, log.plannedSecondsAtCompletion]
-      .filter((value) => value != null && value !== "")
-      .map(Number)
-      .find((value) => Number.isFinite(value) && value >= 0);
-    return actual ?? workoutDurationSeconds(workout) ?? 0;
-  }
-
-  function formatHours(seconds) {
-    return `${formatNumber(Number(seconds || 0) / 3600)} uur`;
-  }
-
-  function latestCompletedWorkout() {
-    return regularProgramWorkouts()
-      .filter((workout) => isCompleted(workout.workoutId))
-      .sort((a, b) => {
-        const aLog = workoutLog(a.workoutId) || {};
-        const bLog = workoutLog(b.workoutId) || {};
-        return String(bLog.updatedAt || bLog.completedDate || "").localeCompare(String(aLog.updatedAt || aLog.completedDate || ""));
-      })[0] || null;
-  }
-
-  function dashboardMetrics() {
-    const programWorkouts = regularProgramWorkouts();
-    const completedWorkouts = programWorkouts.filter((workout) => isCompleted(workout.workoutId));
-    const currentWeek = weeks[currentPlanWeekIndex()] || weeks[0];
-    const weekly = weeks.map((week) => {
-      const actual = model.completedLoad?.(appData, week.weekNumber) || { session: 0, run: 0, walk: 0, bike: 0 };
-      return { weekNumber: week.weekNumber, plannedSessionMinutes: week.plannedSessionMinutes || 0, plannedRunMinutes: week.plannedRunMinutes || 0,
-        plannedWalkMinutes: week.plannedWalkMinutes || 0, plannedBikeMinutes: week.plannedBikeMinutes || 0, actual,
-        includesMarathon: Boolean(week.includesMarathon), current: week.weekId === currentWeek?.weekId };
-    });
-    const current = weekly.find((week) => week.current) || { plannedSessionMinutes: 0, actual: { session: 0 } };
-    const longRuns = programWorkouts.filter((workout) => workout.category === "lange-duur");
-    const longestPlanned = longRuns.slice().sort((a, b) => Number(b.plannedSessionMinutes) - Number(a.plannedSessionMinutes))[0] || null;
-    const longestCompleted = longRuns.filter((workout) => isCompleted(workout.workoutId)).sort((a, b) => Number(workoutLog(b.workoutId)?.actualTotalMinutes || 0) - Number(workoutLog(a.workoutId)?.actualTotalMinutes || 0))[0] || null;
-    const knownDurationWorkouts = programWorkouts.filter((workout) => workoutDurationSeconds(workout) != null);
-    const plannedDurationSeconds = knownDurationWorkouts.reduce((total, workout) => total + workoutDurationSeconds(workout), 0);
-    const completedDurationTotal = completedWorkouts.reduce((total, workout) => {
-      const log = workoutLog(workout.workoutId) || {};
-      const minutes = workout.activityType === "bike" ? log.actualBikeMinutes : log.actualTotalMinutes;
-      return total + Number(minutes || 0) * 60;
-    }, 0);
-    const remainingDurationSeconds = programWorkouts.filter((workout) => !isCompleted(workout.workoutId)).reduce((total, workout) => total + (workoutDurationSeconds(workout) || 0), 0);
-    const totalPlannedSessionMinutes = weekly.reduce((sum, week) => sum + week.plannedSessionMinutes, 0);
-    const totalActualSessionMinutes = weekly.reduce((sum, week) => sum + week.actual.session, 0);
-    const totalActualDistanceKm = programWorkouts.reduce((sum, workout) => sum + Number(actualDistanceKm(workout) || 0), 0);
-    return {
-      programWorkouts,
-      completedWorkouts,
-      completedCount: completedWorkouts.length,
-      remainingCount: programWorkouts.length - completedWorkouts.length,
-      trainingProgress: programWorkouts.length ? Math.round((completedWorkouts.length / programWorkouts.length) * 100) : 0,
-      totalPlannedSessionMinutes,
-      totalActualSessionMinutes,
-      totalRemainingSessionMinutes: Math.max(0, totalPlannedSessionMinutes - totalActualSessionMinutes),
-      timeProgress: totalPlannedSessionMinutes ? Math.min(100, Math.round((totalActualSessionMinutes / totalPlannedSessionMinutes) * 100)) : 0,
-      totalPlannedRunMinutes: weekly.reduce((sum, week) => sum + week.plannedRunMinutes, 0),
-      totalPlannedWalkMinutes: weekly.reduce((sum, week) => sum + week.plannedWalkMinutes, 0),
-      totalPlannedBikeMinutes: weekly.reduce((sum, week) => sum + week.plannedBikeMinutes, 0),
-      totalActualRunMinutes: weekly.reduce((sum, week) => sum + week.actual.run, 0),
-      totalActualWalkMinutes: weekly.reduce((sum, week) => sum + week.actual.walk, 0),
-      totalActualBikeMinutes: weekly.reduce((sum, week) => sum + week.actual.bike, 0),
-      totalActualDistanceKm,
-      weekly,
-      currentWeek,
-      currentPlannedMinutes: current.plannedSessionMinutes,
-      currentActualMinutes: current.actual.session,
-      longestPlanned,
-      longestCompleted,
-      latestCompleted: latestCompletedWorkout(),
-      plannedDurationSeconds,
-      completedDurationSeconds: completedDurationTotal,
-      remainingDurationSeconds,
-      unknownDurationCount: programWorkouts.length - knownDurationWorkouts.length,
-    };
-  }
-
-  function renderWeeklyDistanceChart(metrics) {
-    const maxMinutes = Math.max(1, ...metrics.weekly.map((week) => week.plannedSessionMinutes));
-    return `<section class="dashboard-card chart-card">
-      <div class="dashboard-title"><div><span>Loopsessietijd per week</span><h2>Kalendermaximum en werkelijk</h2></div><div class="chart-legend"><span><i class="is-planned"></i>Getoond plan</span><span><i class="is-completed"></i>Werkelijk</span></div></div>
-      <div class="weekly-bars" aria-label="Geplande en werkelijke loopsessieminuten per week">
-        ${metrics.weekly.map((week) => {
-          const plannedHeight = Math.max(5, Math.round((week.plannedSessionMinutes / maxMinutes) * 100));
-          const completedHeight = Math.max(0, Math.round((week.actual.session / maxMinutes) * 100));
-          return `<div class="week-bar-column${week.current ? " is-current" : ""}" title="Week ${week.weekNumber}: ${formatNumber(week.actual.session, 0)} van ${formatNumber(week.plannedSessionMinutes, 0)} minuten">
-            <div class="week-bar-stack"><i class="bar-planned" style="height:${plannedHeight}%"></i><i class="bar-completed" style="height:${completedHeight}%"></i></div>
-            <strong>${week.weekNumber}</strong>
-          </div>`;
-        }).join("")}
-      </div>
-      <p>Minuten zijn leidend. Fietsminuten en de marathon staan apart; werkelijk volume komt uitsluitend uit je logs.</p>
-    </section>`;
-  }
-
-  function renderCumulativeDistanceChart(metrics) {
-    const width = 360;
-    const height = 154;
-    const plotLeft = 18;
-    const plotRight = 350;
-    const plotTop = 12;
-    const plotBottom = 124;
-    let plannedTotal = 0;
-    let completedTotal = 0;
-    const plannedTotals = metrics.weekly.map((week) => (plannedTotal += week.plannedSessionMinutes));
-    const completedTotals = metrics.weekly.map((week) => (completedTotal += week.actual.session));
-    const maxMinutes = Math.max(1, ...plannedTotals);
-    const point = (value, index) => {
-      const x = plotLeft + ((plotRight - plotLeft) * index) / Math.max(1, metrics.weekly.length - 1);
-      const y = plotBottom - ((plotBottom - plotTop) * value) / maxMinutes;
-      return `${x.toFixed(1)},${y.toFixed(1)}`;
-    };
-    const labels = new Set([39, 41, 43, 45, 47]);
-    return `<section class="dashboard-card chart-card">
-      <div class="dashboard-title"><div><span>Programmatijd</span><h2>Cumulatieve loopsessieminuten</h2></div><div class="chart-legend"><span><i class="is-line-planned"></i>Getoond plan</span><span><i class="is-line-completed"></i>Werkelijk</span></div></div>
-      <svg class="cumulative-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Cumulatieve geplande en werkelijke loopsessieminuten">
-        <line x1="${plotLeft}" y1="${plotTop}" x2="${plotRight}" y2="${plotTop}" class="chart-grid-line"></line>
-        <line x1="${plotLeft}" y1="${(plotTop + plotBottom) / 2}" x2="${plotRight}" y2="${(plotTop + plotBottom) / 2}" class="chart-grid-line"></line>
-        <line x1="${plotLeft}" y1="${plotBottom}" x2="${plotRight}" y2="${plotBottom}" class="chart-grid-line"></line>
-        <polyline points="${plannedTotals.map(point).join(" ")}" class="chart-line-planned"></polyline>
-        <polyline points="${completedTotals.map(point).join(" ")}" class="chart-line-completed"></polyline>
-        ${metrics.weekly.map((week, index) => labels.has(week.weekNumber) ? `<text x="${point(0, index).split(",")[0]}" y="144" text-anchor="middle">${week.weekNumber}</text>` : "").join("")}
-      </svg>
-      <p>${formatNumber(metrics.totalActualSessionMinutes, 0)} van ${formatNumber(metrics.totalPlannedSessionMinutes, 0)} geplande loopsessieminuten uitgevoerd. De marathon telt hier niet mee.</p>
-    </section>`;
-  }
-
-  function renderTestAndConfidenceHistory() {
-    const checkpointDates = ["11 oktober", "18 oktober", "1 november", "8 november", "Uiterlijk 15 november"];
-    const milestones = (plan.guidance.testTimeline || []).map((description, index) => [checkpointDates[index] || "Checkpoint", description]);
-    milestones.push(["22 november", "Marathon · startbesluit en raceplan nog open"]);
-    return `<details class="dashboard-card history-card">
-      <summary><span><small>Beslismomenten</small><strong>Checkpoints V5</strong></span><i aria-hidden="true">+</i></summary>
-      <div class="history-list">${milestones.map(([date, description]) => `<article><span>${escapeHtml(date)}</span><div><strong>${escapeHtml(description)}</strong></div></article>`).join("")}</div>
-    </details>`;
+    return joinText([`${formatNumber(week.plannedSessionMinutes, 0)} min loopsessies`,
+      week.plannedWalkMinutes ? `${formatNumber(week.plannedRunMinutes, 0)} min lopen + ${formatNumber(week.plannedWalkMinutes, 0)} min wandelen` : "",
+      week.plannedBikeMinutes ? `${formatNumber(week.plannedBikeMinutes, 0)} min fiets` : "",
+      week.plannedMpMinutes ? `${week.plannedMpMinutes} min MP` : "", week.includesMarathon ? "marathon apart" : ""], "");
   }
 
   function renderMarathonOverview() {
-    const metrics = dashboardMetrics();
+    const regular = regularProgramWorkouts();
+    const completed = regular.filter((workout) => isCompleted(workout.workoutId)).length;
+    const percent = regular.length ? Math.round(completed / regular.length * 100) : 0;
     const days = daysUntilMarathon();
-    const fullWeeks = Math.floor(days / 7);
-    const looseDays = days % 7;
-    const next = nextIncompleteWorkout();
-    const milestone = nextMilestoneWorkout();
-    const currentRemainingMinutes = Math.max(0, metrics.currentPlannedMinutes - metrics.currentActualMinutes);
-    const taper = model.deriveTaperBasis(appData);
-    const raceTarget = appData.userSettings.raceTarget;
-    const finalDecision = weekDecision(47);
-    app.innerHTML = `<section class="marathon-overview">
-      <header class="overview-header">
-        <button type="button" data-back-week>← Terug naar week</button>
-        <span>Marathon 2026</span>
-        <h1>${escapeHtml(formatDate(plan.config.marathonDate, { weekday: "long", day: "numeric", month: "long", year: "numeric" }))}</h1>
-      </header>
-      <section class="countdown-grid">
-        <div class="countdown-primary"><strong>${days}</strong><span>Dagen te gaan</span></div>
-        <div class="countdown-secondary"><strong>${fullWeeks}</strong><span>Weken</span><strong>${looseDays}</strong><span>Dagen</span></div>
-      </section>
-      <section class="overview-stat-grid">
-        <div><strong>${metrics.remainingCount}</strong><span>Sessies te gaan</span><small>+ marathon apart</small></div>
-        <div><strong>${metrics.completedCount}</strong><span>Sessies voltooid</span><small>van ${metrics.programWorkouts.length}</small></div>
-      </section>
-      <section class="program-progress">
-        <div><span>Trainingsvoortgang</span><strong>${metrics.trainingProgress}%</strong></div>
-        <div class="progress-track" role="progressbar" aria-label="Trainingsvoortgang" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${metrics.trainingProgress}"><span style="width:${metrics.trainingProgress}%"></span></div>
-        <p>${metrics.completedCount} van ${metrics.programWorkouts.length} trainingen voltooid</p>
-      </section>
-      <section class="km-stat-grid">
-        <div><span>Loopsessietijd</span><strong>${formatNumber(metrics.totalPlannedSessionMinutes, 0)}</strong><small>min in getoond plan</small></div>
-        <div><span>Werkelijk gelogd</span><strong>${formatNumber(metrics.totalActualSessionMinutes, 0)}</strong><small>loopsessieminuten</small></div>
-        <div><span>Afstand gemeten</span><strong>${formatNumber(metrics.totalActualDistanceKm, 1)}</strong><small>km achteraf</small></div>
-      </section>
-      <section class="program-progress">
-        <div><span>Tijdsregistratie</span><strong>${metrics.timeProgress}%</strong></div>
-        <div class="progress-track" role="progressbar" aria-label="Werkelijk gelogde loopsessieminuten" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${metrics.timeProgress}"><span style="width:${metrics.timeProgress}%"></span></div>
-        <p>${formatNumber(metrics.totalActualSessionMinutes, 0)} van ${formatNumber(metrics.totalPlannedSessionMinutes, 0)} minuten werkelijk gelogd</p>
-      </section>
-      <section class="dashboard-card week-km-card">
-        <div class="dashboard-title"><div><span>Huidige schemaweek</span><h2>Week ${metrics.currentWeek?.weekNumber || "-"}</h2></div><strong>${formatNumber(metrics.currentActualMinutes, 0)} / ${formatNumber(metrics.currentPlannedMinutes, 0)} min</strong></div>
-        <div class="week-km-values"><span>${formatNumber(currentRemainingMinutes, 0)} min verschil met getoond plan</span><span>${metrics.currentWeek ? escapeHtml(metrics.currentWeek.periodLabel) : ""}</span></div>
-      </section>
-      ${renderWeeklyDistanceChart(metrics)}
-      ${renderCumulativeDistanceChart(metrics)}
-      ${renderTestAndConfidenceHistory()}
-      <section class="overview-next-grid">
-        <article><span>Volgende training</span>${next ? `<strong>Week ${next.weekNumber} · ${escapeHtml(workoutSequenceLabel(next))}</strong><h2>${escapeHtml(capitalize(next.title))}</h2><p>${escapeHtml(workoutPrimarySummary(next))}</p>` : `<strong>Programma voltooid</strong><h2>Geen open sessie</h2>`}</article>
-        <article><span>Volgende mijlpaal</span>${milestone ? `<strong>Week ${milestone.weekNumber} · ${escapeHtml(workoutSequenceLabel(milestone))}</strong><h2>${escapeHtml(capitalize(milestone.title))}</h2><p>${escapeHtml(milestone.category === "wedstrijd" ? "42,195 km · startbesluit nog open" : workoutPrimarySummary(milestone))}</p>` : `<strong>Geen mijlpaal meer</strong><h2>Beoordeling afronden</h2>`}</article>
-      </section>
-      <section class="dashboard-summary-grid">
-        <article class="dashboard-card"><span>Geplande rentijd</span><strong>${metrics.totalPlannedRunMinutes} min</strong><p>${metrics.totalPlannedWalkMinutes} wandelminuten apart</p></article>
-        <article class="dashboard-card"><span>Fietsvolume</span><strong>${metrics.totalPlannedBikeMinutes} min</strong><p>telt niet als rentijd</p></article>
-        <article class="dashboard-card"><span>Langste kalendermaximum</span><strong>${metrics.longestPlanned ? `${metrics.longestPlanned.plannedSessionMinutes} min` : "-"}</strong><p>${metrics.longestPlanned ? `Week ${metrics.longestPlanned.weekNumber} · run-walk` : "Geen langere sessie"}</p></article>
-        <article class="dashboard-card"><span>Langste werkelijk gelogd</span><strong>${metrics.longestCompleted ? `${formatNumber(workoutLog(metrics.longestCompleted.workoutId)?.actualTotalMinutes || 0, 0)} min` : "0 min"}</strong><p>${metrics.longestCompleted ? escapeHtml(capitalize(metrics.longestCompleted.title)) : "Nog geen duur gelogd"}</p></article>
-        <article class="dashboard-card"><span>Taperbasis</span><strong>${taper.basisMinutes} min</strong><p>s = ${formatNumber(taper.scale * 100, 0)}%</p></article>
-        <article class="dashboard-card"><span>Startbesluit</span><strong>${finalDecision.status === "red" ? "Deelname heroverwegen" : finalDecision.recoveryConfirmed ? "Herstel beoordeeld" : "Nog open"}</strong><p>Actuele belastbaarheid en de finale beoordeling zijn leidend.</p></article>
-      </section>
-      <section class="dashboard-card detail-status-card">
-        <div><span>Actief tijdsdoel</span><strong>${escapeHtml(raceTarget?.finishWindow || "Nog niet vastgesteld")}</strong></div>
-        <div><span>Actieve racepace</span><strong>${escapeHtml(raceTarget?.averagePace || "Nog niet vastgesteld")}</strong></div>
-        <div><span>Laatste voltooid</span><strong>${metrics.latestCompleted ? `Week ${metrics.latestCompleted.weekNumber} · ${escapeHtml(workoutSequenceLabel(metrics.latestCompleted))}` : "Nog geen training"}</strong><small>${metrics.latestCompleted ? escapeHtml(capitalize(metrics.latestCompleted.title)) : ""}</small></div>
-        <div><span>Historische ambitie</span><strong>${escapeHtml(plan.config.historicalAmbition)}</strong><small>context, geen actief voorschrift</small></div>
-      </section>
-      <details class="dashboard-card info-accordion"><summary><span>Later raceplan vastleggen</span><span aria-hidden="true">+</span></summary><div><p>Alleen invullen na een expliciete beoordeling. Niets wordt automatisch afgeleid uit de oude 3:30-ambitie.</p><div class="test-fields">
-        <label><span>Beoordelingsdatum</span><input type="date" data-race-target="date" value="${escapeAttr(raceTarget?.date || "")}"></label>
-        <label><span>Basis / onderbouwing</span><input type="text" data-race-target="basis" value="${escapeAttr(raceTarget?.basis || "")}"></label>
-        <label><span>Looptempo</span><input type="text" data-race-target="runPace" value="${escapeAttr(raceTarget?.runPace || "")}"></label>
-        <label><span>Gemiddelde racepace</span><input type="text" data-race-target="averagePace" value="${escapeAttr(raceTarget?.averagePace || "")}"></label>
-        <label class="wide"><span>Finishvenster</span><input type="text" data-race-target="finishWindow" value="${escapeAttr(raceTarget?.finishWindow || "")}"></label>
-      </div></div></details>
-      <p class="dashboard-method">Minuten en werkelijk herstel zijn leidend. Afstand wordt alleen uit je eigen logs getoond; er wordt geen voorgeschreven weekkilometertotaal uit loopbandsnelheden afgeleid.</p>
-    </section>`;
+    const currentWeek = weeks[currentPlanWeekIndex()];
+    const next = workouts.find((workout) => workout.weekNumber >= currentWeek.weekNumber && !isCompleted(workout.workoutId));
+    const checkpoint = currentWeek.weekNumber <= 41 ? "Einde W41 · herstel beoordelen" : currentWeek.weekNumber <= 42 ? "Einde W42 · MP en 85 min easy" : currentWeek.weekNumber <= 44 ? "1–3 november · voorlopige race-evaluatie" : "9–10 november · raceplan verfijnen, bevestigen vóór 15 november";
+    app.innerHTML = `<header class="page-header"><span>FINAL V6 · Sub 4</span><h1>Marathonoverzicht</h1><p>Zondag 22 november 2026 · 42,195 km</p></header>
+      <section class="target-summary"><div><span>Doel</span><strong>Sub 4:00</strong></div><div><span>Raceritme</span><strong>circa 5:40/km</strong></div></section>
+      <section class="countdown-card"><strong>${days}</strong><span>dagen te gaan</span><p>${Math.floor(days / 7)} weken en ${days % 7} dagen</p></section>
+      <section class="program-progress"><div><h2>Trainingsvoortgang</h2><strong>${percent}%</strong></div><p>${completed} van ${regular.length} trainingen afgevinkt · ${regular.length - completed} te gaan + marathon</p><div class="progress-track" role="progressbar" aria-label="Programmavoortgang" aria-valuemin="0" aria-valuemax="${regular.length}" aria-valuenow="${completed}"><span style="width:${percent}%"></span></div><small>Afvinken geeft geen garantie over herstel of wedstrijdgereedheid.</small></section>
+      ${next ? `<section class="today-up-next"><span>Volgende training vanaf deze week</span><button type="button" data-open-workout="${next.workoutId}"><span><strong>Week ${next.weekNumber} · ${workoutSequenceLabel(next)}</strong><small>${escapeHtml(next.title)}</small></span>${icon("chevron-right")}</button></section>` : ""}
+      <section class="dashboard-checkpoint"><h2>Volgend checkpoint</h2><p>${checkpoint}</p><button class="text-action" type="button" data-view="info">Checkpoints & raceplan ${icon("chevron-right")}</button></section>
+      <p class="today-planning-note">Sub-4 is een ambitie, geen voorspelling. Herstel en buitenbelastbaarheid blijven leidend.</p>`;
   }
+
+  function openWorkout(workoutId, mode) {
+    const workout = workoutById(workoutId);
+    if (!workout) return;
+    if (state.view !== VIEWS.DETAIL) state.detailReturnView = state.view;
+    state.detailWorkoutId = workoutId;
+    if (mode) state.workoutModes.set(workoutId, mode);
+    setView(VIEWS.DETAIL);
+  }
+
+  function renderWorkoutDetail() {
+    const workout = workoutById(state.detailWorkoutId);
+    if (!workout) return renderToday();
+    app.innerHTML = `<button class="detail-back text-action" type="button" data-close-workout>${icon("chevron-left")} Terug</button>
+      <header class="page-header"><span>Week ${workout.weekNumber} · ${workoutSequenceLabel(workout)}</span><h1>${escapeHtml(workout.title)}</h1><p>${escapeHtml(workout.totalPlannedLabel)} · ${escapeHtml(workout.targetRpe)}</p></header>
+      <section class="training-detail-page">${renderTrainingDetails(workout)}</section>
+      <button class="completion-button detail-completion ${isCompleted(workout.workoutId) ? "is-completed" : ""}" type="button" data-toggle-complete="${workout.workoutId}" aria-pressed="${isCompleted(workout.workoutId)}">${icon(isCompleted(workout.workoutId) ? "circle-check" : "circle")}${isCompleted(workout.workoutId) ? "Voltooid" : "Training voltooien"}</button>`;
+  }
+
+  function renderGuideBlocks(blocks) {
+    return (blocks || []).map((block) => {
+      if (block.type === "heading") return `<h3>${escapeHtml(block.text)}</h3>`;
+      if (block.type === "table") return `<div class="guide-rows">${block.rows.map((row) => `<section class="guide-row"><h3>${escapeHtml(row[0])}</h3><dl>${row.slice(1).map((cell, index) => `<div><dt>${escapeHtml(block.headers[index + 1])}</dt><dd>${escapeHtml(cell)}</dd></div>`).join("")}</dl></section>`).join("")}</div>`;
+      return `<p class="${block.type === "item" ? "guide-item" : ""}">${escapeHtml(block.text)}</p>`;
+    }).join("");
+  }
+
+  function renderNutrition() {
+    const section = plan.guidance.sections[6];
+    app.innerHTML = `<header class="page-header"><span>FINAL V6</span><h1>Voeding & herstel</h1><p>Dezelfde geoefende producten, stapsgewijze inname. Geen dieet of extra registratie.</p></header><section class="reference-content">${renderGuideBlocks(section.blocks)}</section>`;
+  }
+
+  function renderMore() {
+    const links = [[VIEWS.MARATHON, "Marathonoverzicht", "Countdown, voortgang en volgende training", "route"], [VIEWS.PHASES, "Fases", "Herstel, opbouw en taper", "layers"], [VIEWS.NUTRITION, "Voeding & herstel", "Long runs, racevoorraad en vertrouwde routine", "info"], [VIEWS.INFO, "Informatie", "Garmin, checkpoints en raceplan", "info"], [VIEWS.DATA, "Data & app", "Backup, diagnose en app bijwerken", "layers"]];
+    app.innerHTML = `<header class="page-header"><span>Marathon sub 4</span><h1>Meer</h1></header><section class="more-list">${links.map(([view, label, detail, symbol]) => `<button type="button" data-view="${view}">${icon(symbol)}<span><strong>${label}</strong><small>${detail}</small></span>${icon("chevron-right")}</button>`).join("")}</section><footer class="app-version">Versie ${APP_VERSION} · FINAL V6</footer>`;
+  }
+
+  function getStorageDiagnostics() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      const stored = raw ? JSON.parse(raw) : null;
+      if (stored != null && !isObject(stored)) throw new Error("De opgeslagen JSON is geen app-object.");
+      const count = (value) => isObject(value) ? Object.keys(value).length : 0;
+      return { status: !stored || (!count(stored.workoutLogs) && !count(stored.completedSessions)) ? "leeg" : "gezond", raw, stored,
+        version: stored?.appDataVersion || APP_DATA_VERSION, updatedAt: stored?.updatedAt || "Nog niet opgeslagen", completions: count(stored?.completedSessions), history: count(stored?.legacyData), size: new Blob([raw || ""]).size };
+    } catch (error) { return { status: "Niet leesbaar", error: error.message }; }
+  }
+
+  function exportAppData() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw || JSON.stringify(appData, null, 2);
+  }
+
+  function downloadBackup(raw, prefix = "marathon-training-backup") {
+    const url = URL.createObjectURL(new Blob([raw], { type: "application/json" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${prefix}-${localDateIso()}.json`;
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  function prepareImport(text) {
+    try {
+      const raw = JSON.parse(text);
+      if (!isObject(raw) || !isObject(raw.workoutLogs) || !isObject(raw.completedSessions) || Number(raw.appDataVersion) > APP_DATA_VERSION) throw new Error("Geen ondersteunde trainingsbackup. Kies een export van deze app.");
+      if (raw.testResults != null && !isObject(raw.testResults)) throw new Error("Testresultaten moeten een object zijn.");
+      if (raw.nutritionLogs != null && !isObject(raw.nutritionLogs)) throw new Error("Voedingsregistraties moeten een object zijn.");
+      state.pendingImport = migrateAppData(raw);
+      state.dataDialog = "confirm-import";
+      state.dataMessage = "";
+    } catch (error) { state.pendingImport = null; state.dataMessage = `Import geweigerd: ${error.message}`; }
+    renderData();
+  }
+
+  function confirmImport() {
+    if (!state.pendingImport) return;
+    const previous = appData;
+    const blocked = storageWriteBlocked;
+    appData = state.pendingImport;
+    storageWriteBlocked = false;
+    if (!saveAppData()) {
+      appData = previous;
+      storageWriteBlocked = blocked;
+      state.dataMessage = "Import niet opgeslagen. De bestaande gegevens blijven behouden.";
+    } else {
+      state.dataMessage = "Backup teruggezet. Oudere schemaregistraties staan in de geschiedenis.";
+      refreshResolvedPlan();
+    }
+    state.pendingImport = null;
+    state.dataDialog = null;
+    renderData();
+  }
+
+  function renderData() {
+    const diagnostics = getStorageDiagnostics();
+    const date = diagnostics.updatedAt && diagnostics.updatedAt !== "Nog niet opgeslagen" ? new Date(diagnostics.updatedAt).toLocaleString("nl-NL") : "Nog niet opgeslagen";
+    const button = (action, label) => `<button class="text-action" type="button" data-data-action="${action}">${label} ${icon("chevron-right")}</button>`;
+    let dialog = "";
+    if (state.dataDialog === "paste") dialog = `<h2>Backup terugzetten</h2><label for="backup-json">Plak backup-JSON</label><textarea id="backup-json" rows="8" spellcheck="false" autocapitalize="off"></textarea>${button("prepare-import", "Controleer backup")}`;
+    if (state.dataDialog === "confirm-import") dialog = `<h2>Backup importeren?</h2><p>Dit vervangt je huidige lokale trainingsdata door de gekozen backup. Maak eventueel eerst een export van je huidige data.</p><p>Dataversie ${APP_DATA_VERSION} · ${Object.keys(state.pendingImport.completedSessions).length} voltooide V6-trainingen · geschiedenis wordt behouden uit de backup.</p>${button("confirm-import", "Backup importeren")}`;
+    if (state.dataDialog === "copy") dialog = `<h2>Backup als tekst</h2><textarea rows="10" readonly aria-label="Volledige backup">${escapeHtml(diagnostics.raw || JSON.stringify(appData))}</textarea><p>${state.dataMessage || "Selecteer de tekst om de backup te kopiëren."}</p>`;
+    if (state.dataDialog === "check") dialog = `<h2>App-diagnose</h2><dl class="data-diagnostics"><div><dt>App-versie</dt><dd>${APP_VERSION}</dd></div><div><dt>Storage-key</dt><dd>${STORAGE_KEY}</dd></div><div><dt>URL</dt><dd>${escapeHtml(window.location.href)}</dd></div><div><dt>Modus</dt><dd>${isStandaloneMode() ? "Beginscherm-app" : "Safari/browser"}</dd></div><div><dt>Status</dt><dd>${escapeHtml(diagnostics.status)}</dd></div><div><dt>Dataversie</dt><dd>${diagnostics.version || "onbekend"}</dd></div><div><dt>Laatst opgeslagen</dt><dd>${escapeHtml(date)}</dd></div><div><dt>Service worker</dt><dd>${navigator.serviceWorker?.controller ? "Actief" : "Nog geen actieve controller"}</dd></div></dl>${diagnostics.error ? `<p>${escapeHtml(diagnostics.error)}</p>` : ""}`;
+    app.innerHTML = `<header class="page-header"><span>Op dit apparaat</span><h1>Data & app</h1><p>Garmin bewaart je activiteiten. De app bewaart afvinken, instellingen en je eerdere registraties. Maak af en toe een backup.</p></header>
+      <section class="data-section"><h2>Opslagstatus</h2><dl class="data-diagnostics"><div><dt>Status</dt><dd>${escapeHtml(diagnostics.status)}</dd></div><div><dt>Dataversie</dt><dd>${diagnostics.version || "onbekend"}</dd></div><div><dt>Afgevinkte V6-trainingen</dt><dd>${diagnostics.completions || 0}</dd></div><div><dt>Historische archieven</dt><dd>${diagnostics.history || 0}</dd></div><div><dt>Laatst opgeslagen</dt><dd>${escapeHtml(date)}</dd></div><div><dt>Opslaggrootte</dt><dd>${formatNumber((diagnostics.size || 0) / 1024)} kB</dd></div></dl>${button("check", "App-diagnose")}</section>
+      <section class="data-section"><h2>App bijwerken</h2><p>Haal de actuele app opnieuw op. Je gegevens blijven behouden.</p>${button("reload", "Herlaad app")}${button("force-reload", "Forceer nieuwste versie laden")}</section>
+      <section class="data-section"><h2>Backup</h2>${button("export", "Exporteer trainingsdata")}${button("copy", "Kopieer backup als tekst")}<label class="text-action backup-file">Importeer backupbestand ${icon("chevron-right")}<input type="file" accept=".json,application/json" data-import-backup></label>${button("paste", "Plak backup-JSON")}</section>
+      <details class="info-accordion"><summary><span>Behouden geschiedenis</span>${icon("chevron-down")}</summary><div><p>Eerdere activiteiten, notities, testresultaten en voedingsregistraties blijven hier bewaard. Ze vinken geen nieuwe V6-training af.</p><textarea rows="10" readonly aria-label="Historische gegevens">${escapeHtml(JSON.stringify(appData.legacyData, null, 2))}</textarea></div></details>
+      ${state.dataMessage && !dialog ? `<p class="data-message" role="status">${escapeHtml(state.dataMessage)}</p>` : ""}
+      ${dialog ? `<div class="data-dialog-overlay"><section class="data-dialog" role="dialog" aria-modal="true" aria-label="Data beheren">${dialog}<button class="text-action" type="button" data-data-action="close">${state.dataDialog === "confirm-import" ? "Annuleren" : "Sluiten"}</button>${state.dataMessage && state.dataDialog !== "copy" ? `<p role="alert">${escapeHtml(state.dataMessage)}</p>` : ""}</section></div>` : ""}
+      <footer class="app-version">Versie ${APP_VERSION} · ${STORAGE_KEY}</footer>`;
+    if (dialog) app.querySelector(".data-dialog textarea, .data-dialog button")?.focus?.();
+  }
+
 
   function renderPlan() {
     app.innerHTML = `
-      <header class="page-header"><span>FINAL V5 · Garmin / Outdoor</span><h1>Schema</h1><p>Week 41 tot en met marathonweek. Minuten, herstelstatus en werkelijk verdragen belasting zijn leidend.</p></header>
+      <header class="page-header"><span>FINAL V6 · Sub 4 · Garmin / Outdoor</span><h1>Schema</h1><p>Herstel → duur en MP → taper. Geen kilometerquotum; je kiest zelf de dagen.</p></header>
       <section class="plan-list">
         ${weeks.map((week, index) => {
           const phase = plan.phases.find((item) => item.phaseId === week.phaseId);
@@ -2118,7 +1775,7 @@
               <span class="plan-volume">${escapeHtml(getWeekPlannedLabel(week))}</span>
               <small>${runCount} runs${bikeCount ? ` + ${bikeCount} fietsrit` : ""}${marathonWeek ? " + marathon apart" : ""} · eigen dagindeling</small>
               <span class="plan-goal"><b>Doel</b>${escapeHtml(overview.goal)}</span>
-              <small class="plan-longest">${marathonWeek ? "Marathon: 42,195 km · raceplan nog open" : `Langste loopsessie: ${formatNumber(longRun?.plannedSessionMinutes || 0, 0)} min`}</small>
+              <small class="plan-longest">${marathonWeek ? "Marathon: 42,195 km · sub 4:00 · officiële finish" : `Langste loopsessie: ${formatNumber(longRun?.plannedSessionMinutes || 0, 0)} min`}</small>
             </span>
           </button>`;
         }).join("")}
@@ -2127,7 +1784,7 @@
 
   function renderPhases() {
     const strategy = plan.guidance.surfaceStrategy;
-    app.innerHTML = `<header class="page-header"><span>Opbouw FINAL V5</span><h1>Fases</h1><p>Herstelgestuurde heropbouw tot en met 1 november, daarna een taper op de werkelijk verdragen basis.</p></header>
+    app.innerHTML = `<header class="page-header"><span>Opbouw FINAL V6 · Sub 4</span><h1>Fases</h1><p>Herstelweek, daarna 85 → 110 → 135 → maximaal 150 min lange easy. Taper vanaf 9 november.</p></header>
       <section class="phase-list">${strategy ? `<article class="phase-card phase-strategy-card">
         <div><span>Trainingscontext</span>${renderSemanticBadge("Outdoor heropbouw")}</div>
         <h2>${escapeHtml(strategy.title)}</h2>
@@ -2139,50 +1796,23 @@
           <div><span>Week ${week.weekNumber}</span></div>
           <h2>${escapeHtml(phase.name)}</h2>
           <p>${escapeHtml(phase.description)}</p>
-          <dl><div><dt>Periode</dt><dd>${escapeHtml(week.periodLabel)}</dd></div><div><dt>Getoond plan</dt><dd>${escapeHtml(getWeekPlannedLabel(week))}</dd></div><div><dt>Variant</dt><dd>${escapeHtml(weekVariantLabel(week))}</dd></div></dl>
+          <dl><div><dt>Periode</dt><dd>${escapeHtml(week.periodLabel)}</dd></div><div><dt>Gepland</dt><dd>${escapeHtml(getWeekPlannedLabel(week))}</dd></div><div><dt>Spreiding</dt><dd>Vrije dagkeuze, met herstelregels en vaste tapergrens.</dd></div></dl>
           <button type="button" data-open-week="${weeks.indexOf(week)}">Bekijk week</button>
         </article>`;
       }).join("")}</section>`;
   }
 
-  function renderStatistics() {
-    const metrics = dashboardMetrics();
-    app.innerHTML = `<header class="page-header"><span>Voortgang FINAL V5</span><h1>Statistiek</h1><p>Werkelijke minuten en gemeten afstand komen uit je logs. Fietsen blijft apart van rentijd.</p></header>
-      <section class="target-summary stats-summary">
-        <div><span>Getoond loopplan</span><strong>${formatNumber(metrics.totalPlannedSessionMinutes, 0)} min</strong></div>
-        <div><span>Werkelijk lopen</span><strong>${formatNumber(metrics.totalActualRunMinutes, 0)} min</strong></div>
-        <div><span>Werkelijk fietsen</span><strong>${formatNumber(metrics.totalActualBikeMinutes, 0)} min</strong></div>
-      </section>
-      ${renderWeeklyDistanceChart(metrics)}
-      ${renderCumulativeDistanceChart(metrics)}
-      ${renderTestAndConfidenceHistory()}`;
-  }
 
   function renderInfo() {
-    const sections = [
-      ["Tempo en afkortingen", [
-        "km/u: snelheid in kilometer per uur.",
-        "RPE: ervaren inspanning op een schaal van 1 tot 10.",
-        "Open / Vrij: geen numeriek tempo- of hartslagdoel; RPE, praatcomfort en techniek zijn leidend.",
-        "Herstel: het rustige stuk tussen twee snellere delen.",
-        "Helling: stijgingspercentage van de loopband.",
-      ]],
-      ["Trainingsfilosofie", plan.guidance.philosophy],
-      ["Trainingssnelheden", plan.guidance.paces.map((item) => `${item.type}: ${item.speed}, helling ${item.incline}.`)],
-      ["Trainingen plannen", ["Volg de genummerde trainingsvolgorde binnen de week. Je kiest zelf je trainings- en rustdagen; trainingen zijn niet aan weekdagen gekoppeld.", "Behoud voldoende herstel tussen sessies. Herstelproblemen mogen altijd tot inkorten of overslaan leiden; gemiste minuten worden niet ingehaald."]],
-      ["Trainingsvolgorde", ["Easy, continu lopen, rustig fietsen, easy met eventueel strides en run-walk volgen de volgorde van de betreffende week. Fietsen telt mee als training, maar niet als rentijd."]],
-      ["Inspanningsniveaus", plan.guidance.rpeScale.map((item) => `${item.type}: ${item.rpe}. ${item.feeling}`)],
-      ["Helling op de loopband", plan.guidance.incline],
-      ["Pijn en aanpassen", plan.guidance.painRules],
-      ["Voeding tijdens trainingen", plan.guidance.fueling.map((item) => typeof item === "string" ? item : `${item.duration}: ${item.carbs}`)],
-      ["Start- en racedecisie", plan.guidance.targetConfirmation],
-      ["Checkpoints", plan.guidance.testTimeline || []],
-      ["Wedstrijdstrategie", plan.guidance.raceStrategy.map((item) => `${item.distance}: ${item.pace}. ${item.instruction}`)],
-    ];
+    const titles = { 1: "Uitgangspunt & behouden geschiedenis", 2: "Intensiteit, spreiding & overrides", 3: "Garmin & loopband", 4: "Weekopbouw & taper", 5: "Checkpoints", 7: "Sub-4-raceplan", 8: "Onderbouwing & bronnen" };
     app.innerHTML = `
-      <header class="page-header"><span>Naslag</span><h1>Informatie</h1><p>Korte uitleg over tempo, belasting en het gebruik van het schema.</p></header>
-      <section class="target-summary info-summary"><div><span>Marathon</span><strong>22 november 2026</strong></div><div><span>Actief tijdsdoel</span><strong>Nog niet vastgesteld</strong></div><div><span>Historische ambitie</span><strong>${escapeHtml(plan.config.historicalAmbition)}</strong></div></section>
-      <section class="info-accordions">${sections.map(([title, items]) => `<details class="info-accordion"><summary><span>${escapeHtml(title)}</span><span aria-hidden="true">+</span></summary><div><ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div></details>`).join("")}</section>
+      <header class="page-header"><span>Naslag FINAL V6</span><h1>Informatie</h1><p>Trainingsinhoud, voorbereiding en het voorlopige raceplan.</p></header>
+      <section class="target-summary info-summary"><div><span>Marathon</span><strong>22 november 2026</strong></div><div><span>Actief doel</span><strong>Sub 4:00</strong></div><div><span>Raceritme</span><strong>circa 5:40/km</strong></div></section>
+      <section class="info-accordions">${Object.entries(titles).map(([id, title]) => {
+        const blocks = plan.guidance.sections[id].blocks.filter((block) => !(id === "5" && block.text?.startsWith("Log per sessie:")));
+        return `<details class="info-accordion"><summary><span>${title}</span>${icon("chevron-down")}</summary><div>${renderGuideBlocks(blocks)}</div></details>`;
+      }).join("")}</section>
+      <button class="text-action" type="button" data-view="nutrition">Voeding & herstel ${icon("chevron-right")}</button>
       <footer class="app-version">Versie ${APP_VERSION} · schema ${escapeHtml(plan.config.schemaVersion)}</footer>`;
   }
 
@@ -2203,10 +1833,10 @@
     const viewedWeek = weeks[state.viewedWeekIndex]?.weekNumber;
     refreshResolvedPlan();
     if (viewedWeek) state.viewedWeekIndex = Math.max(0, weeks.findIndex((week) => week.weekNumber === viewedWeek));
-    state.view = view;
+    state.view = Object.values(VIEWS).includes(view) ? view : VIEWS.TODAY;
     state.expandedWorkoutIds.clear();
     navButtons.forEach((button) => {
-      const active = button.dataset.view === view;
+      const active = button.dataset.view === state.view || (button.dataset.view === VIEWS.MORE && [VIEWS.PHASES, VIEWS.INFO, VIEWS.DATA, VIEWS.NUTRITION, VIEWS.MARATHON].includes(state.view));
       button.classList.toggle("is-active", active);
       if (active) button.setAttribute("aria-current", "page");
       else button.removeAttribute("aria-current");
@@ -2222,25 +1852,45 @@
     else if (state.view === VIEWS.MARATHON) renderMarathonOverview();
     else if (state.view === VIEWS.PLAN) renderPlan();
     else if (state.view === VIEWS.PHASES) renderPhases();
-    else if (state.view === VIEWS.STATS) renderStatistics();
+    else if (state.view === VIEWS.MORE) renderMore();
+    else if (state.view === VIEWS.DATA) renderData();
+    else if (state.view === VIEWS.DETAIL) renderWorkoutDetail();
+    else if (state.view === VIEWS.NUTRITION) renderNutrition();
     else if (state.view === VIEWS.INFO) renderInfo();
     else if (state.view === VIEWS.WEEK) renderWeek();
     else renderToday();
   }
 
-  function toggleWorkoutDetails(workoutId) {
-    if (state.expandedWorkoutIds.has(workoutId)) state.expandedWorkoutIds.delete(workoutId);
-    else {
-      state.expandedWorkoutIds.add(workoutId);
-      const workout = workoutById(workoutId);
-      if (workout?.garmin) state.workoutModes.set(workoutId, workout.defaultExecutionMode || "garmin");
-    }
-    render();
-  }
-
   document.addEventListener("click", (event) => {
     const viewButton = event.target.closest("[data-view]");
     if (viewButton) return setView(viewButton.dataset.view);
+
+    const open = event.target.closest("[data-open-workout]");
+    if (open) return openWorkout(open.dataset.openWorkout);
+    if (event.target.closest("[data-close-workout]")) return setView(state.detailReturnView || VIEWS.WEEK);
+
+    if (state.dataDialog && event.target.closest(".data-dialog-overlay") && !event.target.closest(".data-dialog")) return;
+    const dataAction = event.target.closest("[data-data-action]");
+    if (dataAction) {
+      const action = dataAction.dataset.dataAction;
+      if (action === "reload") { saveAppData(); return window.location.reload(); }
+      if (action === "force-reload") { saveAppData(); const url = new URL(window.location.href); url.searchParams.set("reload", String(Date.now())); return window.location.assign(url.toString()); }
+      if (action === "prepare-import") return prepareImport(document.getElementById("backup-json")?.value || "");
+      if (action === "confirm-import") return confirmImport();
+      if (action === "close") { state.pendingImport = null; state.dataDialog = null; state.dataMessage = ""; return renderData(); }
+      if (action === "copy") {
+        state.dataDialog = "copy";
+        state.dataMessage = "Selecteer de tekst om de backup te kopiëren.";
+        try {
+          const text = exportAppData();
+          window.navigator.clipboard?.writeText(text).then(() => { state.dataMessage = "Backup gekopieerd."; if (state.view === VIEWS.DATA) renderData(); }).catch(() => {});
+        } catch (_) {}
+      } else if (action === "export") {
+        try { downloadBackup(exportAppData()); state.dataMessage = "Backupdownload gestart."; }
+        catch (_) { state.dataDialog = "copy"; state.dataMessage = "Download niet beschikbaar. Gebruik de backuptekst."; }
+      } else state.dataDialog = action;
+      return renderData();
+    }
 
     const complete = event.target.closest("[data-toggle-complete]");
     if (complete) {
@@ -2263,17 +1913,13 @@
     const openGarmin = event.target.closest("[data-open-garmin]");
     if (openGarmin) {
       event.stopPropagation();
-      const workoutId = openGarmin.dataset.openGarmin;
-      state.workoutModes.set(workoutId, "garmin");
-      state.expandedWorkoutIds.add(workoutId);
-      render();
-      document.getElementById(`details-${workoutId}`)?.scrollIntoView?.({ block: "start", behavior: "smooth" });
-      return;
+      return openWorkout(openGarmin.dataset.openGarmin, "garmin");
     }
 
     const treadmill = event.target.closest("[data-open-treadmill]");
     if (treadmill) {
       event.stopPropagation();
+      if (!workoutById(treadmill.dataset.openTreadmill)?.treadmillAvailable) return;
       state.treadmillWorkoutId = treadmill.dataset.openTreadmill;
       state.treadmillReturnView = state.view;
       state.notificationsPanelOpen = false;
@@ -2349,15 +1995,9 @@
       return;
     }
 
-    const toggle = event.target.closest("[data-toggle-workout]");
-    if (toggle) {
-      toggleWorkoutDetails(toggle.dataset.toggleWorkout);
-      return;
-    }
-
     const card = event.target.closest("[data-workout-card]");
     if (card && !event.target.closest("button, a, select, summary, input, textarea, label, .training-details")) {
-      toggleWorkoutDetails(card.dataset.workoutCard);
+      openWorkout(card.dataset.workoutCard);
       return;
     }
 
@@ -2384,55 +2024,37 @@
     }
   });
 
-  document.addEventListener("change", (event) => {
-    if (event.target.matches("[data-race-target]")) {
-      appData.userSettings.raceTarget = { ...(appData.userSettings.raceTarget || {}), [event.target.dataset.raceTarget]: event.target.value, updatedAt: nowIso() };
-      saveAppData();
-      return;
-    }
-    if (event.target.matches("[data-workout-log][data-workout-field]")) {
-      saveWorkoutField(event.target.dataset.workoutLog, event.target.dataset.workoutField, event.target.value);
-      return;
-    }
-    if (event.target.matches("[data-optional-workout]")) {
-      appData.userSettings.optionalWorkoutChoices ||= {};
-      appData.userSettings.optionalWorkoutChoices[event.target.dataset.optionalWorkout] = event.target.value;
-      saveAppData();
-      refreshResolvedPlan();
-      render();
-      return;
-    }
-    if (event.target.matches("[data-fuel-workout][data-fuel-field]")) {
-      saveFuelField(event.target.dataset.fuelWorkout, event.target.dataset.fuelField, event.target.value);
+  document.addEventListener("change", async (event) => {
+    if (event.target.matches("[data-import-backup]")) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      try { prepareImport(await file.text()); }
+      catch (error) { state.dataMessage = `Backup lezen mislukt: ${error.message}`; renderData(); }
       return;
     }
     if (event.target.matches("[data-notification-setting][data-workout-id]")) {
-      const field = event.target.dataset.notificationSetting;
-      const value = Boolean(event.target.checked);
-      saveNotificationSetting(event.target.dataset.workoutId, field, value);
+      saveNotificationSetting(event.target.dataset.workoutId, event.target.dataset.notificationSetting, Boolean(event.target.checked));
       renderTreadmillMode();
       return;
     }
     if (event.target.matches("[data-week-select]")) {
       state.viewedWeekIndex = Number(event.target.value);
-      state.expandedWorkoutIds.clear();
       renderWeek();
     }
   });
 
-  document.addEventListener("input", (event) => {
-    if (event.target.matches("[data-race-target]")) {
-      appData.userSettings.raceTarget = { ...(appData.userSettings.raceTarget || {}), [event.target.dataset.raceTarget]: event.target.value, updatedAt: nowIso() };
-      saveAppData();
-      return;
+  document.addEventListener("keydown", (event) => {
+    if (!state.dataDialog || state.view !== VIEWS.DATA) return;
+    if (event.key === "Escape") {
+      state.dataDialog = null;
+      state.pendingImport = null;
+      renderData();
     }
-    if (event.target.matches("[data-workout-log][data-workout-field]")) {
-      saveWorkoutField(event.target.dataset.workoutLog, event.target.dataset.workoutField, event.target.value);
-      return;
-    }
-    if (event.target.matches("[data-fuel-workout][data-fuel-field]")) {
-      saveFuelField(event.target.dataset.fuelWorkout, event.target.dataset.fuelField, event.target.value);
-      return;
+    if (event.key === "Tab") {
+      const elements = Array.from(app.querySelectorAll(".data-dialog button, .data-dialog textarea"));
+      const first = elements[0], last = elements.at(-1);
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
     }
   });
 
@@ -2519,9 +2141,11 @@
     daysUntilMarathon,
     nextIncompleteWorkout,
     nextMilestoneWorkout,
-    getWeekPlannedKm,
-    getWeekCompletedKm,
     getWeekPlannedLabel,
-    dashboardMetrics,
+    migrateAppData,
+    getStorageDiagnostics,
+    exportAppData,
+    prepareImport,
+    confirmImport,
   };
 })();

@@ -1,107 +1,95 @@
-# Marathon 2026
+# Marathon 2026 · Sub 4
 
-Mobiele, statische trainingsplanner voor Roys herstelgestuurde voorbereiding op
-de marathon van 22 november 2026. De app werkt zonder backend op GitHub Pages en
-is geoptimaliseerd voor iPhone en gebruik als beginscherm-app.
+Statische trainingsplanner voor Roy, geoptimaliseerd voor iPhone en GitHub Pages.
+Actieve build: **2026.10.05-3**.
 
-## Actief schema
+## Inhoudelijke Bron
 
-De enige inhoudelijke bron is:
+`marathonschema_Roy_FINAL_V6_SUB4_2026-10-05.md` is de enige actieve schemabron.
+V4/V5-bestanden blijven historische documenten, niet actieve databronnen.
 
-`marathonschema_Roy_FINAL_V5_GARMIN_OUTDOOR_2026-10-03.md`
-
-FINAL V5 omvat week 41 tot en met 47. Outdoor/Garmin is standaard, de loopband
-blijft beschikbaar met dezelfde tijdstructuur en 0% helling. Alle Garmin-doelen
-worden in Garmin ingesteld als `Geen doel`; RPE, praatcomfort, techniek en herstel zijn leidend. De oude
-3:30-ambitie is uitsluitend historische context en geen actief tempo- of
-eindtijddoel.
-
-Genereer de centrale dataset opnieuw met:
+V6 omvat W41–47, 34 genummerde sessies inclusief zes fietsritten en de marathon.
+Doel: sub 4:00 op 22 november 2026; praktisch raceritme circa 5:40/km.
+Vier runs en een fietsrit per week, drie korte runs plus race in W47.
+Vrije dagkeuze, met minimaal 48 uur tussen MP en langere duur (piek liever 72),
+een volledige rustdag na langere duur en 6–8 dagen tussen langere duurlopen.
+Laatste langere duur uiterlijk 8 november; taper vanaf 9 november.
 
 ```sh
 node scripts/generate-marathon-plan.mjs
 ```
 
-De generator leest de Markdownbron en schrijft `training-data.js`. Schermen,
-Garmin-stappen, loopbandblokken, varianten en totalen gebruiken daarna dezelfde
-dataset.
+De generator leest de bron, controleert iedere duur en herhaalgroep en schrijft
+de centrale `training-data.js`. Week, Schema, Fases, details, Garmin en Loopband
+gebruiken diezelfde dataset. Er is geen tweede handmatig onderhouden schema.
+Afstand is geen trainingsquotum; de app schrijft geen kilometers voor op basis
+van indicatieve loopbandstartbereiken.
 
-## Herstel en Garmin-invoer
+| Week | Loopsessie | Rentijd | Wandelen | Fiets | MP |
+|---|---:|---:|---:|---:|---:|
+| 41 | 185 | 164 | 21 | 60 | 0 |
+| 42 | 200 | 200 | 0 | 60 | 15 |
+| 43 | 245 | 245 | 0 | 50 | 24 |
+| 44 | 275 | 275 | 0 | 45 | 30 |
+| 45 | 275 | 275 | 0 | 40 | 30 |
+| 46 | 170 | 170 | 0 | 30 | 12 |
+| 47 vóór race | 70 | 70 | 0 | 0 | 6 |
 
-Het kleurpaneel en de bevestigingsvragen zijn verwijderd. Alle trainingsdetails
-zijn direct toegankelijk. Herstelafspraken staan bij de trainingachtergrond
-en Informatie. Het bestaande rekenmodel en opgeslagen
-beoordelingen blijven behouden; het verdwijnen van het paneel geeft geen hogere
-kalendermaxima vrij.
+Alle waarden in minuten; marathonbelasting telt apart.
 
-Alle trainingen, inclusief fietsen, staan per week in hun genummerde volgorde.
-De nummering is alleen presentatie: interne IDs en logboeken blijven gelijk.
-Loopstappen tonen Garmin-keuzes, `Tijd`, `uu:mm:ss`, `Geen doel` en uitvoeringsnotities.
-Fietsopbouw wordt op tijd getoond, met vermelding dat de exacte Garmin-fietsvelden
-nog niet zijn vastgesteld.
+## Navigatie En Uitvoering
 
-## Lichte, flexibele trainingsweergave
+- Vandaag / Week / Schema / Meer.
+- Meer bevat Fases, Voeding & herstel, Informatie, marathonoverzicht en Data & app.
+- Iedere gewone run heeft directe Garmin- en Loopbandacties en een eigen detailscherm.
+- Garmin easy: Geen doel. MP: Tempo 5:35–5:50/km, richtpunt 5:40–5:45.
+- Repeats bevatten ook herstel na de laatste herhaling; geen losse eerste repeat.
+- Loopband: dezelfde minuten/repeats, 0% starthelling, snelheidsranges volgens V6.
+- Fietsen: timer/tijdalerts op FR165; geen onbevestigde Connect-workoutsync.
+- Race: gewone Hardlopen-activiteit tot officiële finish. Geen GPS-afstand als stopopdracht.
+- Statistieken, grafieken en invoer na afloop zijn verwijderd; Garmin registreert activiteiten.
+- Eenvoudig afvinken blijft voor de volgende training en programmavoortgang; geen automatische herstelbeoordeling.
+- De timer, Wake Lock, inklapbare meldingen en bestaande pushintegratie blijven behouden.
 
-Week en Vandaag gebruiken een koel lichte stijl met compacte kaartkoppen,
-duidelijke nummering en uitklapbare Garmin-details. De datum kiest uitsluitend
-de programmaweek, niet de training: Vandaag toont de eerste onvoltooide sessie
-van die week. De gebruiker kiest zelf trainings- en rustdagen. Brondata en
-historische datumvelden in IDs/logs blijven behouden voor compatibiliteit;
-ze leggen geen trainingsdag op. De marathondatum blijft 22 november.
+## Opslag En Backups
 
-Weekcontext en trainingsfilosofie staan onder de trainingen. De sectie
-"Herstel en progressie" is verwijderd. De optionele W45-ritmeproef blijft,
-met dezelfde veiligheidsvoorwaarden, beschikbaar in de betreffende details.
-Navigatie-iconen zijn lokaal meegeleverde Lucide-assets (licentie in `LICENSE`).
+Vaste hoofdkey: `marathon330TrainingAppData_v1`, dataversie **12**.
+V6 heeft eigen protocol-IDs. Migratie archiveert oudere activiteiten, completion,
+notities, testresultaten, voeding en oude plankeuzes in `legacyData.finalV6History`.
+Ze markeren geen inhoudelijk andere V6-training voltooid. Persoonlijke instellingen,
+pushregistratie en eerdere archieven blijven behouden; migratie is idempotent.
 
-Het interne V5-model behoudt de volgende regels:
+Data & app werkt onafhankelijk van trainingsberekeningen. Het biedt opslagstatus,
+JSON-export, kopieerfallback, bestand/plakimport met validatie en bevestiging,
+historische gegevens, appdiagnose en reload/cache-busting zonder reset.
+Corrupte JSON blijft onaangeroerd en blokkeert schrijven; raw export blijft mogelijk.
 
-- Ontbrekende gegevens betekenen ORANGE.
-- RED heeft voorrang en schort lopen op.
-- GREEN vereist alle herstelcriteria en bevestiging na de zondagse sessie.
-- W42 vraagt daarnaast minimaal 90% werkelijk verdragen W41-belasting.
-- W43 en W44 blijven begrensd door de werkelijk verdragen voorgaande week.
-- W45–W47 worden met `s = B / 240` geschaald en per sessie begrensd op de
-  laatst verdragen vergelijkbare duur.
-- De optionele ritmeproef op 5 november vervangt de easy-run en wordt alleen
-  vrijgegeven bij alle bronvoorwaarden.
+Verander de storage-key nooit zonder migratie. Overschrijf bestaande data niet
+met defaults; gebruik geen `localStorage.clear()` bij updates.
 
-Geplande minuten zijn maxima, geen verplicht uit te voeren volume. Werkelijke
-totale tijd, rentijd, wandeltijd, fietsduur, afstand en herstel worden apart
-gelogd.
+## PWA En Publiceren
 
-## Opslag en migratie
+Publiceer `index.html`, `app.js`, `training-data.js`, `style.css`,
+`notification-model.js`, `push-config.js`, `service-worker.js`, `manifest.json`,
+`icon.svg`, PNG-appiconen en `icons/`. Alle paden zijn relatief voor GitHub Pages.
+Geen nieuw framework of backend nodig. De reeds bestaande optionele pushserver
+en zijn configuratie blijven intact; zie `PUSH-DEPLOYMENT.md`.
+Publiceer ook de gewijzigde bestaande pushserver als je Lock Screen-meldingen
+gebruikt: de validator en meldingstekst ondersteunen nu V6-snelheidsranges.
 
-Gebruikersdata staat onder de bestaande hoofdkey:
+De service worker blijft netwerkgestuurd, verwijdert alleen oude appcaches en
+blijft geregistreerd voor push. Safari en beginscherm-app laden dezelfde versie.
+Fysieke iPhone-tests van installatie, Wake Lock en Lock Screen-push blijven nodig.
 
-`marathon330TrainingAppData_v1`
-
-Dataversie 11 archiveert niet-passende V4-workouts in `legacyData` in plaats
-van ze aan inhoudelijk andere V5-trainingen te koppelen. Notities en historische
-resultaten blijven bewaard. Gebruik nooit `localStorage.clear()` voor een
-schema-update.
-
-## PWA
-
-Versie `2026.10.05-2` gebruikt relatieve GitHub Pages-paden. De service worker
-blijft netwerkgestuurd, ruimt oude appcaches op en blijft geregistreerd voor
-pushmeldingen. Daardoor gebruikt de beginscherm-app dezelfde actuele bestanden
-als Safari zonder een aparte offline plansnapshot.
-
-## Tests
+## Controles
 
 ```sh
 node --test tests/*.test.mjs
+node --test push-server/tests/*.test.mjs
 ```
 
-De tests controleren onder meer:
-
-- V5-bronreproductie en weekmaxima;
-- GREEN/ORANGE/RED en vertraagde opbouw;
-- taperbasis B, schaalfactor s en sessiecaps;
-- run-walk- en striderepeats;
-- Open / Vrij en 0% loopbandhelling;
-- centrale opslag en V4→V5-archivering;
-- vrije dagindeling, directe weeknavigatie en opgeslagen notities/voeding;
-- appschermen, logging, PWA-paden en pushmodel;
-- kleurcontrast, gedeelde lichte PWA-kleuren en lokale navigatie-iconen.
+Tests controleren bronreproductie, alle tabelrijen, exacte duren, repeats,
+weekvolume/MP, wandelen/fietsen, datumgrenzen, Garmin-targets, loopbandtijdlijnen,
+detailnavigatie, V5-historiebehoud, completion/autosave, import/validatie,
+corruptiefallback, countdown, PWA-paden, pushmodel en kleurcontrast.
+Er is geen automatische medische of marathon-eindtijdvoorspelling.

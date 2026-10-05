@@ -11,6 +11,14 @@ function requiredNumber(value, message) {
   return number;
 }
 
+function optionalSpeedRange(value, message) {
+  if (value == null) return null;
+  if (!Array.isArray(value) || value.length !== 2) badRequest(message);
+  const range = value.map((entry) => requiredNumber(entry, message));
+  if (range[0] <= 0 || range[1] < range[0] || range[1] > 40) badRequest(message);
+  return range;
+}
+
 export function validateSubscription(subscription) {
   if (!subscription || typeof subscription !== "object") badRequest("INVALID_SUBSCRIPTION");
   if (!/^https:\/\//.test(String(subscription.endpoint || ""))) badRequest("INVALID_SUBSCRIPTION_ENDPOINT");
@@ -40,9 +48,11 @@ export function validateSchedule(body) {
     const values = [item.switchAtSeconds, item.nextEndsAtSeconds, item.previousSpeedKmh, item.previousInclinePercent, item.nextSpeedKmh, item.nextInclinePercent]
       .map((value) => requiredNumber(value, `INVALID_SWITCH_${index}`));
     const [switchAtSeconds, nextEndsAtSeconds, previousSpeedKmh, previousInclinePercent, nextSpeedKmh, nextInclinePercent] = values;
+    const previousSpeedRangeKmh = optionalSpeedRange(item.previousSpeedRangeKmh, `INVALID_SPEED_RANGE_${index}`);
+    const nextSpeedRangeKmh = optionalSpeedRange(item.nextSpeedRangeKmh, `INVALID_SPEED_RANGE_${index}`);
     if (switchAtSeconds <= 0 || nextEndsAtSeconds <= switchAtSeconds || previousSpeedKmh <= 0 || nextSpeedKmh <= 0) badRequest(`INVALID_SWITCH_${index}`);
     if (previousInclinePercent < 0 || nextInclinePercent < 0 || previousInclinePercent > 20 || nextInclinePercent > 20) badRequest(`INVALID_INCLINE_${index}`);
-    if (previousSpeedKmh === nextSpeedKmh && previousInclinePercent === nextInclinePercent) badRequest(`UNCHANGED_SWITCH_${index}`);
+    if (previousSpeedKmh === nextSpeedKmh && previousInclinePercent === nextInclinePercent && JSON.stringify(previousSpeedRangeKmh) === JSON.stringify(nextSpeedRangeKmh)) badRequest(`UNCHANGED_SWITCH_${index}`);
     return {
       switchId: String(item.switchId || `switch-${index}`),
       blockName: String(item.blockName || "Volgend blok").slice(0, 80),
@@ -52,6 +62,8 @@ export function validateSchedule(body) {
       previousInclinePercent,
       nextSpeedKmh,
       nextInclinePercent,
+      previousSpeedRangeKmh,
+      nextSpeedRangeKmh,
     };
   });
 

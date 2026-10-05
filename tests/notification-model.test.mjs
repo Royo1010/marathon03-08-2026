@@ -59,3 +59,14 @@ test("in-app waarschuwing is alleen zichtbaar tussen voorwaarschuwing en switch"
   assert.equal(model.activeWarning(switches, 570).title, "SWITCH BIJ 10:00");
   assert.equal(model.activeWarning(switches, 600), null);
 });
+
+test("V6 meldingen geven snelheidsbereiken weer, ook als hun gemiddelde gelijk is", () => {
+  const plan = model.buildSwitchPlan([
+    { startSeconds: 0, endSeconds: 300, speedKmh: 8, speedRangeKmh: [7, 9], inclinePercent: 0 },
+    { startSeconds: 300, endSeconds: 600, speedKmh: 8, speedRangeKmh: [7.5, 8.5], inclinePercent: 0 },
+    { startSeconds: 600, endSeconds: 900, speedKmh: 10.5, speedRangeKmh: [10.3, 10.7], inclinePercent: 0 },
+  ], { warningSeconds: 30 });
+  assert.equal(plan.length, 2);
+  assert.match(plan[0].body, /7\u20139 → 7,5\u20138,5 km\/u/);
+  assert.match(plan[1].body, /7,5\u20138,5 → 10,3\u201310,7 km\/u/);
+});

@@ -166,7 +166,7 @@ button:disabled {
   bottom: 0;
   left: 0;
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   width: min(100%, var(--content-width));
   min-height: calc(62px + env(safe-area-inset-bottom));
   margin: 0 auto;
@@ -3776,3 +3776,61 @@ body.treadmill-focus-active .content {
   .today-focus .training-card-toggle { padding: 18px; }
   .bottom-nav button { font-size: 9px; }
 }
+
+/* V6: direct execution actions and separate detail/reference screens. */
+.week-goal { margin: 0 0 16px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.training-start-actions { display: flex; align-items: center; gap: 12px; padding: 0 16px 12px; }
+.training-start-actions .text-action { flex: 1; justify-content: center; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--panel-soft); }
+.detail-back { margin-bottom: 8px; }
+.training-detail-page { min-width: 0; }
+.detail-completion { width: 100%; margin-top: 16px; border: 1px solid var(--border); }
+.detail-duration-check { margin: 20px 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+.more-list { display: grid; gap: 0; }
+.more-list > button { display: flex; align-items: center; gap: 16px; width: 100%; min-height: 76px; padding: 16px 0; border: 0; border-bottom: 1px solid var(--border); background: transparent; text-align: left; cursor: pointer; }
+.more-list > button > .icon:first-child { color: var(--accent); }
+.more-list > button > span:not(.icon) { flex: 1; min-width: 0; display: grid; gap: 6px; }
+.more-list strong { font-size: 16px; font-weight: 600; }
+.more-list small { color: var(--muted); font-size: 13px; line-height: 1.4; }
+.reference-content p, .reference-content dd, .guide-row dd, .dashboard-checkpoint p { font-size: 14px; line-height: 1.65; }
+.guide-item { padding-left: 12px; border-left: 2px solid var(--border); }
+.guide-rows { display: grid; gap: 0; }
+.guide-row { padding: 16px 0; border-bottom: 1px solid var(--border); }
+.guide-row h3 { font-size: 15px; font-weight: 600; }
+.guide-row dl { display: grid; gap: 12px; margin: 12px 0 0; }
+.guide-row dt { color: var(--muted); font-size: 12px; }
+.guide-row dd { margin: 3px 0 0; color: var(--text); }
+.info-accordion p { overflow-wrap: anywhere; }
+.info-accordion summary > .icon { margin-left: auto; flex-shrink: 0; }
+.info-accordion[open] summary > .icon { transform: rotate(180deg); }
+.countdown-card { display: grid; justify-items: center; gap: 8px; padding: 24px 0; border-block: 1px solid var(--border); }
+.countdown-card > strong { color: var(--accent); font-size: 64px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1; }
+.countdown-card p, .countdown-card span { margin: 0; color: var(--muted); font-size: 14px; }
+.program-progress, .dashboard-checkpoint { padding: 24px 0; }
+.program-progress > div:first-child { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.program-progress h2, .dashboard-checkpoint h2, .data-section h2, .data-dialog h2 { margin: 0; font-size: 18px; font-weight: 600; }
+.program-progress p { font-size: 14px; line-height: 1.5; }
+.program-progress small { color: var(--muted); font-size: 12px; }
+.data-section { padding: 20px 0; border-top: 1px solid var(--border); }
+.data-section > p, .data-dialog > p { font-size: 14px; line-height: 1.6; }
+.data-section .text-action { display: flex; justify-content: space-between; width: 100%; min-height: 48px; }
+.data-diagnostics { display: grid; gap: 12px; margin: 16px 0; }
+.data-diagnostics > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); align-items: baseline; gap: 12px; font-size: 13px; }
+.data-diagnostics dt { color: var(--muted); }
+.data-diagnostics dd { margin: 0; text-align: right; overflow-wrap: anywhere; }
+.backup-file { cursor: pointer; }
+.backup-file input { width: 1px; height: 1px; opacity: 0; position: absolute; }
+.backup-file:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.data-dialog-overlay { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: max(24px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom)); background: rgba(22, 35, 45, .35); }
+.data-dialog { width: min(100%, 500px); max-height: 80dvh; overflow-y: auto; padding: 20px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--panel); }
+.data-dialog h2 { margin-bottom: 16px; }
+.data-dialog .text-action { display: flex; width: 100%; justify-content: center; }
+.data-dialog textarea, .info-accordion textarea { display: block; width: 100%; margin-top: 8px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--panel-soft); color: var(--text); font: 16px/1.5 monospace; resize: vertical; }
+.data-message { color: var(--muted); font-size: 14px; }
+.training-detail-page .garmin-setup-metrics { grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); }
+/* Ranges are start ranges, not a single prescribed treadmill speed. */
+.focus-speed strong { flex-direction: column; align-items: center; gap: 4px; font-size: 34px; }
+.focus-speed strong small { font-size: 16px; }
+.focus-queue-speed strong { flex-direction: column; align-items: center; gap: 4px; }
+.focus-queue-speed strong b { font-size: 22px; }
+.focus-queue-speed strong small { font-size: 12px; }
+.treadmill-block-speed strong { font-size: 18px; white-space: normal; }

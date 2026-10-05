@@ -45,6 +45,15 @@ test("stop en een nieuwe generatie maken oude jobs ongeldig", () => {
   assert.equal(sessionDeliveryState({ status: "scheduling", generation: 2 }, { generation: 2 }), "retry");
 });
 
+test("V6 snelheidsranges blijven behouden in servermeldingen", () => {
+  const change = { ...item, previousSpeedRangeKmh: [7, 8.5], nextSpeedRangeKmh: [10.3, 10.7], previousInclinePercent: 0, nextInclinePercent: 0 };
+  const result = validateSchedule({ sessionId: "v6-session", workoutId: "V6-W42-T2", generation: 1, warningSeconds: 30, startedAt: new Date().toISOString(), switches: [change] });
+  assert.deepEqual(result.switches[0].nextSpeedRangeKmh, [10.3, 10.7]);
+  assert.match(switchNotification(result.switches[0]).body, /7\u20138,5 → 10,3\u201310,7 km\/u/);
+  assert.match(switchNotification(result.switches[0], false).body, /10,3\u201310,7 km\/u/);
+  assert.throws(() => validateSchedule({ sessionId: "v6-session", workoutId: "V6-W42-T2", generation: 1, warningSeconds: 30, startedAt: new Date().toISOString(), switches: [{ ...change, nextSpeedRangeKmh: [10.7, 10.3] }] }), /INVALID_SPEED_RANGE/);
+});
+
 test("server plant 30 en 45 seconden voor dezelfde absolute switches", () => {
   const start = Date.UTC(2026, 7, 31, 10, 0, 0);
   assert.deepEqual([600, 900, 1380].map((seconds) => (switchSendAtMs(start, seconds, 30) - start) / 1000), [570, 870, 1350]);

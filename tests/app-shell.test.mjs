@@ -24,7 +24,7 @@ function createHarness(storageValues = new Map(), search = "?date=2026-10-05") {
   const app = { innerHTML: "", querySelector() { return null; }, querySelectorAll() { return []; } };
   const storageWarning = { hidden: true, textContent: "" };
   const brandHome = { addEventListener(type, handler) { this[type] = handler; } };
-  const navButtons = ["today", "week", "plan", "phases", "stats", "info"].map((view) => ({ dataset: { view }, classList: createClassList(), setAttribute() {}, removeAttribute() {} }));
+  const navButtons = ["today", "week", "plan", "more"].map((view) => ({ dataset: { view }, classList: createClassList(), setAttribute() {}, removeAttribute() {} }));
   const document = {
     visibilityState: "visible",
     body: { classList: createClassList() },
@@ -47,7 +47,7 @@ function createHarness(storageValues = new Map(), search = "?date=2026-10-05") {
     matchMedia() { return { matches: false }; },
   };
   window.window = window;
-  const context = vm.createContext({ console, Date, Intl, URL, URLSearchParams, window, document, localStorage, navigator: window.navigator, structuredClone });
+  const context = vm.createContext({ console, Date, Intl, URL, URLSearchParams, Blob, window, document, localStorage, navigator: window.navigator, structuredClone });
   vm.runInContext(trainingDataCode, context, { filename: "training-data.js" });
   vm.runInContext(notificationModelCode, context, { filename: "notification-model.js" });
   vm.runInContext(pushConfigCode, context, { filename: "push-config.js" });
@@ -66,318 +66,197 @@ function createHarness(storageValues = new Map(), search = "?date=2026-10-05") {
   return { app, brandHome, click, change, input, context, localStorage, listeners, windowListeners, navButtons, storageWarning };
 }
 
-test("lege opslag start geldig op FINAL V5 en toont W41 als ORANGE", () => {
+const saved = (harness) => JSON.parse(harness.localStorage.getItem(STORAGE_KEY));
+const navigate = (harness, view) => harness.click({ "[data-view]": { dataset: { view } } });
+const openWorkout = (harness, id) => harness.click({ "[data-open-workout]": { dataset: { openWorkout: id } } });
+
+test("lege opslag opent V6 geldig zonder grafieken, statistieken of logformulier", () => {
   const harness = createHarness();
   assert.match(harness.app.innerHTML, /Vandaag/);
-  assert.equal(harness.context.window.MARATHON_PLAN.config.planSubtitle, "FINAL V5 · Garmin / Outdoor");
-  assert.equal(harness.context.window.MARATHON_MODEL.resolvePlan({ workoutLogs: {}, userSettings: { weekDecisions: {} } })[0].status, "orange");
-  const saved = JSON.parse(harness.localStorage.getItem(STORAGE_KEY));
-  assert.equal(saved.appDataVersion, 11);
-  assert.equal(saved.activePlanId, "marathon-final-v5-2026");
-  assert.deepEqual(saved.workoutLogs, {});
-});
-
-test("Week toont direct vijf genummerde trainingen zonder kleurpaneel of bevestigingsflow", () => {
-  const harness = createHarness();
-  harness.click({ "[data-view]": { dataset: { view: "week" } } });
-  assert.match(harness.app.innerHTML, /Week 41/);
-  assert.doesNotMatch(harness.app.innerHTML, /Herstelbesluit|GREEN|ORANGE|RED|Voorwaarden en bevestiging|data-week-status|data-week-decision/);
-  assert.equal((harness.app.innerHTML.match(/<article class="training-card/g) || []).length, 5);
-  assert.equal((harness.app.innerHTML.match(/class="rest-day-card"/g) || []).length, 0);
-  assert.match(harness.app.innerHTML, /Rustig fietsen/);
-  assert.doesNotMatch(harness.app.innerHTML, /Herstel en progressie|Vaste planning|dinsdag|donderdag|vrijdag|zaterdag|zondag/);
-  const numbers = [...harness.app.innerHTML.matchAll(/class="training-number">(Training \d+)<\/span>/g)].map((match) => match[1]);
-  assert.deepEqual(numbers, ["Training 1", "Training 2", "Training 3", "Training 4", "Training 5"]);
-  assert.match(harness.app.innerHTML, /Training 3[\s\S]*?Fietsen[\s\S]*?Rustig fietsen/);
-  assert.ok(harness.app.innerHTML.indexOf('class="training-card') < harness.app.innerHTML.indexOf("Over deze week"));
-  assert.match(harness.app.innerHTML, /aria-label="Weekvoortgang"[^>]*aria-valuenow="0"/);
-  assert.doesNotMatch(harness.app.innerHTML, /Sessie A|Sessie B|krachttraining/i);
-});
-
-test("trainingdetail toont exacte Garmin-keuzes en ondubbelzinnige tijden", () => {
-  const harness = createHarness();
-  const workout = harness.context.window.MARATHON_PLAN.weekVariants[41].max[0];
-  harness.click({ "[data-view]": { dataset: { view: "week" } } });
-  harness.click({ "[data-toggle-workout]": { dataset: { toggleWorkout: workout.workoutId } } });
-  assert.match(harness.app.innerHTML, /Programmeer in Garmin als/i);
-  assert.match(harness.app.innerHTML, /Dit vul je in Garmin Connect in/);
-  assert.match(harness.app.innerHTML, /<dt>Staptype<\/dt><dd>Warm-up<\/dd>/);
-  assert.match(harness.app.innerHTML, /<dt>Type duur<\/dt><dd>Tijd<\/dd>/);
-  assert.match(harness.app.innerHTML, /00:05:00<\/strong><span> — 5 minuten/);
-  assert.match(harness.app.innerHTML, /00:20:00<\/strong><span> — 20 minuten/);
-  assert.equal((harness.app.innerHTML.match(/<dt>Type doel<\/dt><dd>Geen doel<\/dd>/g) || []).length, 3);
-  assert.match(harness.app.innerHTML, /<dt>Voeg notities toe<\/dt>/);
-  assert.doesNotMatch(harness.app.innerHTML, /<dt>Doelwaarde<\/dt>|Druk op de knop Lap/);
-  assert.match(harness.app.innerHTML, /Loopband/);
-  harness.click({ "[data-workout-mode][data-workout-id]": { dataset: { workoutMode: "treadmill", workoutId: workout.workoutId } } });
-  assert.match(harness.app.innerHTML, /7–8,5 km\/u/);
-  assert.match(harness.app.innerHTML, />0%?</);
-});
-
-test("Schema, Fases, Statistiek, Informatie en marathonoverzicht tonen de V5-minutenlogica", () => {
-  const harness = createHarness();
-  harness.click({ "[data-view]": { dataset: { view: "plan" } } });
-  assert.equal((harness.app.innerHTML.match(/<button class="plan-row/g) || []).length, 7);
-  assert.match(harness.app.innerHTML, /FINAL V5/);
-  assert.match(harness.app.innerHTML, /165 min loopsessies · 145 min lopen · 20 min wandelen · 60 min fiets/);
-  assert.doesNotMatch(harness.app.innerHTML, /km totaal/);
-
-  harness.click({ "[data-view]": { dataset: { view: "phases" } } });
-  assert.equal((harness.app.innerHTML.match(/class="phase-card/g) || []).length, 8);
-  assert.match(harness.app.innerHTML, /Herstelgestuurde heropbouw/i);
-  assert.match(harness.app.innerHTML, /0% helling/);
-
-  harness.click({ "[data-view]": { dataset: { view: "stats" } } });
-  assert.match(harness.app.innerHTML, /Loopsessietijd per week/);
-  assert.match(harness.app.innerHTML, /Cumulatieve loopsessieminuten/);
-  assert.match(harness.app.innerHTML, /0 min/);
-
-  harness.click({ "[data-view]": { dataset: { view: "info" } } });
-  assert.match(harness.app.innerHTML, /Actief tijdsdoel/);
-  assert.match(harness.app.innerHTML, /Nog niet vastgesteld/);
-  assert.match(harness.app.innerHTML, /Historische ambitie/);
-  assert.match(harness.app.innerHTML, /Versie 2026\.10\.05-2/);
-  assert.doesNotMatch(harness.app.innerHTML, /12,1 km\/u|4:59\/km/);
-
-  harness.brandHome.click();
-  assert.match(harness.app.innerHTML, /Marathon 2026/);
-  assert.match(harness.app.innerHTML, /Actief tijdsdoel/);
-  assert.match(harness.app.innerHTML, /Taperbasis/);
-  assert.match(harness.app.innerHTML, /afstand wordt alleen uit je eigen logs/i);
-});
-
-test("werkelijke invoer wordt meteen in dezelfde centrale opslag opgeslagen", () => {
-  const harness = createHarness();
-  const workout = harness.context.window.MARATHON_PLAN.weekVariants[41].max[0];
-  harness.input({
-    "[data-workout-log][data-workout-field]": true,
-    dataset: { workoutLog: workout.workoutId, workoutField: "actualTotalMinutes" },
-    value: "27",
-  });
-  harness.input({
-    "[data-workout-log][data-workout-field]": true,
-    dataset: { workoutLog: workout.workoutId, workoutField: "actualDistanceKm" },
-    value: "3.42",
-  });
-  const saved = JSON.parse(harness.localStorage.getItem(STORAGE_KEY));
-  assert.equal(saved.workoutLogs[workout.workoutId].actualTotalMinutes, 27);
-  assert.equal(saved.workoutLogs[workout.workoutId].actualDistanceKm, 3.42);
-  assert.equal(saved.workoutLogs[workout.workoutId].activityType, "run");
-  assert.equal(saved.workoutLogs[workout.workoutId].role, "short");
-});
-
-test("voltooien bewaart V5-metadata en blijft na herladen zichtbaar", () => {
-  const storage = new Map();
-  let harness = createHarness(storage);
-  const workout = harness.context.window.MARATHON_PLAN.weekVariants[41].max[0];
-  harness.click({ "[data-toggle-complete]": { dataset: { toggleComplete: workout.workoutId } } });
-  let saved = JSON.parse(storage.get(STORAGE_KEY));
-  assert.equal(saved.workoutLogs[workout.workoutId].completed, true);
-  assert.equal(saved.workoutLogs[workout.workoutId].schemaVersion, "marathon-final-v5-garmin-outdoor-2026.10.03-1");
-  assert.equal(saved.workoutLogs[workout.workoutId].activityType, "run");
-
-  harness = createHarness(storage);
-  harness.click({ "[data-view]": { dataset: { view: "week" } } });
-  assert.match(harness.app.innerHTML, /Voltooid/);
-});
-
-test("een oud V4-logboek wordt idempotent gearchiveerd en niet aan V5 gekoppeld", () => {
-  const oldId = "week43-training5";
-  const seed = new Map([[STORAGE_KEY, JSON.stringify({
-    appDataVersion: 10,
-    createdAt: "2026-09-30T10:00:00.000Z",
-    updatedAt: "2026-09-30T10:00:00.000Z",
-    workoutLogs: { [oldId]: { workoutId: oldId, completed: true, note: "historische notitie" } },
-    completedSessions: { [oldId]: { completedAt: "2026-09-30" } },
-    userSettings: {},
-    meta: { schemaVersion: "marathon-final-v4" },
-  })]]);
-  const first = createHarness(seed);
-  const saved = JSON.parse(first.localStorage.getItem(STORAGE_KEY));
-  assert.equal(saved.workoutLogs[oldId], undefined);
-  assert.equal(saved.completedSessions[oldId], undefined);
-  assert.equal(saved.legacyData.finalV5Migration.workoutLogs[oldId].note, "historische notitie");
-  const archivedAt = saved.legacyData.finalV5Migration.migratedAt;
-
-  createHarness(seed);
-  const reloaded = JSON.parse(seed.get(STORAGE_KEY));
-  assert.equal(reloaded.legacyData.finalV5Migration.migratedAt, archivedAt);
-  assert.equal(reloaded.legacyData.finalV5Migration.workoutLogs[oldId].note, "historische notitie");
-});
-
-test("W45 blijft zonder taperbasis begrensd en details zijn zonder vragen toegankelijk", () => {
-  const harness = createHarness(new Map(), "?date=2026-11-02");
-  harness.click({ "[data-view]": { dataset: { view: "week" } } });
-  assert.equal(harness.context.window.MARATHON_MODEL.deriveTaperBasis({}).basisMinutes, 0);
-  assert.match(harness.app.innerHTML, /Kalenderreferentie: een goed verdragen taperbasis is nog niet vastgesteld/);
-  assert.doesNotMatch(harness.app.innerHTML, /data-week-status|data-week-decision|GREEN|ORANGE|RED/);
-  const workout = harness.context.window.MARATHON_MODEL.resolvePlan({})[4].workouts[0];
-  harness.click({ "[data-toggle-workout]": { dataset: { toggleWorkout: workout.workoutId } } });
-  assert.match(harness.app.innerHTML, /Dit vul je in Garmin Connect in/);
-  assert.match(harness.app.innerHTML, /00:25:00/);
-  const continuous = harness.context.window.MARATHON_MODEL.resolvePlan({})[4].workouts.find((item) => item.role === "continuous");
-  harness.click({ "[data-toggle-workout]": { dataset: { toggleWorkout: continuous.workoutId } } });
-  assert.match(harness.app.innerHTML, /uitsluitend na alle V5-checkpoints/);
-  assert.doesNotMatch(harness.app.innerHTML, /data-optional-workout/);
-});
-
-test("Vandaag kiest de volgende open sessie op iedere dag van de week, niet een kalenderdag", () => {
-  for (const day of ["05", "06", "07", "08", "09", "10", "11"]) {
-    const harness = createHarness(new Map(), `?date=2026-10-${day}`);
-    assert.match(harness.app.innerHTML, /class="training-number">Training 1</);
-    assert.doesNotMatch(harness.app.innerHTML, /Rustdag|rest-day-card|Vaste kalenderplanning/);
+  assert.match(harness.app.innerHTML, /data-open-garmin="V6-W41-T1"/);
+  assert.match(harness.app.innerHTML, /data-open-treadmill="V6-W41-T1"/);
+  assert.equal(saved(harness).appDataVersion,12);
+  assert.equal(saved(harness).activePlanId,"marathon-final-v6-sub4-2026");
+  assert.deepEqual(saved(harness).workoutLogs,{});
+  for (const view of ["today","week","plan","more","phases","info","nutrition","marathon","data"]) {
+    navigate(harness,view);
+    assert.doesNotMatch(harness.app.innerHTML,/onleesbare|Nog geen leesbare|data-workout-log|data-fuel-field|<svg|<canvas|data-view="stats"/i);
   }
-  const storage = new Map();
-  let harness = createHarness(storage);
-  const week = harness.context.window.MARATHON_MODEL.resolvePlan({})[0];
-  harness.click({ "[data-toggle-complete]": { dataset: { toggleComplete: week.workouts[0].workoutId } } });
-  assert.match(harness.app.innerHTML, /class="training-number">Training 2</);
-  harness = createHarness(storage, "?date=2026-10-07");
-  assert.match(harness.app.innerHTML, /class="training-number">Training 2</);
-  for (const workout of week.workouts.slice(1)) harness.click({ "[data-toggle-complete]": { dataset: { toggleComplete: workout.workoutId } } });
-  assert.match(harness.app.innerHTML, /Week voltooid/);
-  assert.equal((harness.app.innerHTML.match(/data-workout-card=/g) || []).length, 0);
+  navigate(harness,"data");
+  assert.match(harness.app.innerHTML,/<dd>leeg<\/dd>/);
+  assert.match(harness.app.innerHTML,/Data &amp; app|Data & app/);
 });
 
-test("alle weken tonen alleen genummerde sessies, met dezelfde IDs en zonder trainingsdatums", () => {
+test("alle 34 trainingen renderen afzonderlijk; terug houdt de gekozen week vast", () => {
   const harness = createHarness();
-  const weeks = harness.context.window.MARATHON_MODEL.resolvePlan({});
-  harness.click({ "[data-view]": { dataset: { view: "week" } } });
-  for (const [index, week] of weeks.entries()) {
-    harness.change({ "[data-week-select]": true, value: String(index) });
-    const numbers = [...harness.app.innerHTML.matchAll(/class="training-number">Training (\d+)<\/span>/g)].map((match) => Number(match[1]));
-    assert.deepEqual(numbers, Array.from({ length: week.workouts.length }, (_, i) => i + 1));
-    assert.doesNotMatch(harness.app.innerHTML, /calendar-week|rest-day-card|calendar-training-day|Herstel en progressie/);
+  const plan = harness.context.window.MARATHON_PLAN;
+  for (const [index,week] of plan.weeks.entries()) {
+    navigate(harness,"week");
+    harness.change({"[data-week-select]":true,value:String(index)});
+    assert.equal((harness.app.innerHTML.match(/<article class="training-card/g)||[]).length,week.workouts.length);
+    assert.doesNotMatch(harness.app.innerHTML,/GREEN|ORANGE|RED|V5|Kalendermaximum|no-basis|data-week-decision/);
+    assert.equal(week.workouts.at(-1).activityType,week.weekNumber===47?"race":"bike");
     for (const workout of week.workouts) {
-      assert.ok(harness.app.innerHTML.includes(`data-workout-card="${workout.workoutId}"`));
-      harness.click({ "[data-toggle-workout]": { dataset: { toggleWorkout: workout.workoutId } } });
-      const context = harness.app.innerHTML.match(/class="detail-context">([^<]+)</)?.[1];
-      assert.ok(context.includes(`Week ${week.weekNumber}`));
-      assert.ok(!context.includes(workout.dateLabel));
-      harness.click({ "[data-toggle-workout]": { dataset: { toggleWorkout: workout.workoutId } } });
+      openWorkout(harness,workout.workoutId);
+      assert.equal(harness.context.window.MarathonApp.state.view,"detail");
+      assert.match(harness.app.innerHTML,/data-close-workout/);
+      assert.ok(harness.app.innerHTML.includes(workout.title.replace(/&/g,"&amp;")));
+      assert.ok(harness.app.innerHTML.includes(workout.garmin.programSummary.replace(/&/g,"&amp;")));
+      assert.doesNotMatch(harness.app.innerHTML,/Werkelijke uitvoering loggen|RPE achteraf|Voedingsregistratie/);
+      assert.equal((harness.app.innerHTML.match(/class="training-card/g)||[]).length,0);
+      harness.click({"[data-close-workout]":{}});
+      assert.match(harness.app.innerHTML,new RegExp(`Week ${week.weekNumber}`));
     }
   }
 });
 
-test("uitklappen en navigeren wijzigen geen trainingsdata; loopband blijft vanuit details bereikbaar", () => {
+test("Garmin en Loopband blijven apart; MP toont Tempo-target en 5:35–5:50/km", () => {
   const harness = createHarness();
-  const stored = harness.localStorage.getItem(STORAGE_KEY);
-  const workout = harness.context.window.MARATHON_MODEL.resolvePlan({})[0].workouts[0];
-  for (const view of ["week", "plan", "phases", "stats", "info", "today"]) harness.click({ "[data-view]": { dataset: { view } } });
-  harness.click({ "[data-toggle-workout]": { dataset: { toggleWorkout: workout.workoutId } } });
-  assert.match(harness.app.innerHTML, /data-open-treadmill=/);
-  assert.match(harness.app.innerHTML, /Werkelijke uitvoering loggen/);
-  assert.match(harness.app.innerHTML, /Doel, herstel en achtergrond/);
-  assert.equal(harness.localStorage.getItem(STORAGE_KEY), stored);
-  harness.click({ "[data-open-treadmill]": { dataset: { openTreadmill: workout.workoutId } } });
-  assert.match(harness.app.innerHTML, /Loopbandmodus/);
-  assert.match(harness.app.innerHTML, /Start training/);
-  assert.equal(harness.localStorage.getItem(STORAGE_KEY), stored);
+  harness.click({"[data-open-garmin]":{dataset:{openGarmin:"V6-W42-T2"}}});
+  assert.match(harness.app.innerHTML,/<dt>Type doel<\/dt><dd>Tempo<\/dd>/);
+  assert.match(harness.app.innerHTML,/<dt>Doelwaarde<\/dt><dd>5:35–5:50\/km<\/dd>/);
+  assert.match(harness.app.innerHTML,/Herhaalgroep: 3 keer/);
+  assert.match(harness.app.innerHTML,/hersteljog blijft ook na de laatste herhaling aanwezig/);
+  harness.click({"[data-workout-mode][data-workout-id]":{dataset:{workoutMode:"treadmill",workoutId:"V6-W42-T2"}}});
+  assert.match(harness.app.innerHTML,/10,3–10,7 km\/u/);
+  assert.match(harness.app.innerHTML,/>0%</);
+  assert.match(harness.app.innerHTML,/0% starthelling/);
 });
 
-test("Vandaag opent de huidige week, ook nadat een andere week is bekeken", () => {
+test("Schema en Fases tonen V6-totalen, zonder oud taper- of kleurmodel", () => {
   const harness = createHarness();
-  harness.click({ "[data-view]": { dataset: { view: "week" } } });
-  harness.change({ "[data-week-select]": true, value: "4" });
-  assert.match(harness.app.innerHTML, /Week 45/);
-  harness.click({ "[data-view]": { dataset: { view: "today" } } });
-  assert.match(harness.app.innerHTML, /class="today-week-link"[^>]*data-open-week="0"/);
-  harness.click({ "[data-open-week]": { dataset: { openWeek: "0" } } });
-  assert.match(harness.app.innerHTML, /Week 41/);
+  navigate(harness,"plan");
+  assert.equal((harness.app.innerHTML.match(/<button class="plan-row/g)||[]).length,7);
+  assert.match(harness.app.innerHTML,/185 min loopsessies · 164 min lopen \+ 21 min wandelen · 60 min fiets/);
+  assert.match(harness.app.innerHTML,/275 min loopsessies · 40 min fiets · 30 min MP/);
+  assert.match(harness.app.innerHTML,/marathon apart/);
+  navigate(harness,"phases");
+  assert.match(harness.app.innerHTML,/85 → 110 → 135 → maximaal 150/);
+  assert.doesNotMatch(harness.app.innerHTML,/95-minuten|no-basis|ORANGE|V5|Geen huidig eindtijddoel/);
 });
 
-test("de optionele ritmeproef blijft bereikbaar en de samenvatting benoemt ritmeblokken", () => {
-  const storage = new Map();
-  const initial = createHarness(storage);
-  const data = JSON.parse(storage.get(STORAGE_KEY));
-  for (const weekNumber of [41, 42, 43, 44]) {
-    for (const workout of initial.context.window.MARATHON_PLAN.weekVariants[weekNumber].max) {
-      data.workoutLogs[workout.workoutId] = { workoutId: workout.workoutId, completed: true, activityType: "run", role: workout.role, weekNumber, actualTotalMinutes: workout.plannedSessionMinutes, actualRunMinutes: workout.plannedRunMinutes };
-    }
-    data.userSettings.weekDecisions[weekNumber] = { status: "green", wellTolerated: true, recoveryConfirmed: true, criteria: { noPain: true, normalRecovery: true, easyImproved: true, continuousEvidence: true, notStoppedEarly: true, w41NinetyPercent: true } };
-  }
-  data.userSettings.weekDecisions[45] = { status: "green", wellTolerated: true, recoveryConfirmed: true, criteria: { noPain: true, normalRecovery: true, easyImproved: true, continuousEvidence: true, notStoppedEarly: true, twoContinuousOutdoor: true, longRunWalkOutdoor: true, nutritionTolerated: true, noRecentSetback: true } };
-  data.userSettings.optionalWorkoutChoices[45] = "rhythm";
-  storage.set(STORAGE_KEY, JSON.stringify(data));
-  const harness = createHarness(storage, "?date=2026-11-02");
-  harness.click({ "[data-view]": { dataset: { view: "week" } } });
-  assert.equal((harness.app.innerHTML.match(/<article class="training-card/g) || []).length, 5);
-  assert.match(harness.app.innerHTML, /5 min ritme → 3 min easy → 5 min ritme/);
-  const rhythm = harness.context.window.MARATHON_PLAN.allWorkouts.find((workout) => workout.role === "rhythm");
-  harness.click({ "[data-toggle-workout]": { dataset: { toggleWorkout: rhythm.workoutId } } });
-  assert.match(harness.app.innerHTML, /data-optional-workout="45"/);
-  assert.match(harness.app.innerHTML, /Vervangt de easy-run; geen extra training/);
-});
-
-test("loopbandtimer start, pauzeert, hervat en stopt alleen na bevestiging zonder logs te wijzigen", () => {
-  const harness = createHarness();
-  const stored = harness.localStorage.getItem(STORAGE_KEY);
-  const workout = harness.context.window.MARATHON_MODEL.resolvePlan({})[0].workouts[0];
-  harness.click({ "[data-open-treadmill]": { dataset: { openTreadmill: workout.workoutId } } });
-  harness.click({ "[data-timer-start]": { dataset: { timerStart: workout.workoutId } } });
-  assert.match(harness.app.innerHTML, /Actieve loopbandcockpit/);
-  assert.match(harness.app.innerHTML, /data-timer-pause/);
-  harness.click({ "[data-timer-pause]": {} });
-  assert.match(harness.app.innerHTML, /Gepauzeerd/);
-  harness.click({ "[data-timer-resume]": {} });
-  assert.match(harness.app.innerHTML, /data-timer-pause/);
-  harness.context.window.confirm = () => false;
-  harness.click({ "[data-timer-stop]": {} });
-  assert.match(harness.app.innerHTML, /Actieve loopbandcockpit/);
-  harness.context.window.confirm = () => true;
-  harness.click({ "[data-timer-stop]": {} });
-  assert.doesNotMatch(harness.app.innerHTML, /Actieve loopbandcockpit/);
-  assert.match(harness.app.innerHTML, /Start training/);
-  assert.equal(harness.localStorage.getItem(STORAGE_KEY), stored);
-});
-
-test("run-walk benoemt 11 volledige groepen, wandelen en exact 65 minuten", () => {
-  const harness = createHarness();
-  const workout = harness.context.window.MARATHON_PLAN.weekVariants[41].max.find((item) => item.role === "runwalk");
-  harness.click({ "[data-view]": { dataset: { view: "week" } } });
-  harness.click({ "[data-toggle-workout]": { dataset: { toggleWorkout: workout.workoutId } } });
-  assert.match(harness.app.innerHTML, /Herhaalgroep: 11 keer/);
-  assert.match(harness.app.innerHTML, /<dt>Staptype<\/dt><dd>Wandelen<\/dd>/);
-  assert.match(harness.app.innerHTML, /Wandelen, niet joggen/);
-  assert.match(harness.app.innerHTML, /wandelpauze blijft ook na de laatste herhaling aanwezig/);
-  assert.match(harness.app.innerHTML, /Totaal: 1 uur en 5 minuten, waarvan 44 minuten hardlopen en 21 minuten wandelen/);
-  assert.doesNotMatch(harness.app.innerHTML, /Laatste herstel overslaan|Druk op de knop Lap/);
-});
-
-test("strides tonen seconden en hersteljogs; fietsen toont geen verzonnen Garmin-keuzes", () => {
-  const harness = createHarness();
-  const week = harness.context.window.MARATHON_MODEL.resolvePlan({})[0];
-  const strides = week.workouts.find((item) => item.role === "strides");
-  const bike = week.workouts.find((item) => item.activityType === "bike");
-  harness.click({ "[data-view]": { dataset: { view: "week" } } });
-  harness.click({ "[data-toggle-workout]": { dataset: { toggleWorkout: strides.workoutId } } });
-  assert.match(harness.app.innerHTML, /00:00:20<\/strong><span> — 20 seconden/);
-  assert.match(harness.app.innerHTML, /00:01:10<\/strong><span> — 1 minuut en 10 seconden/);
-  assert.match(harness.app.innerHTML, /<dt>Staptype<\/dt><dd>Herstel<\/dd>/);
-  assert.match(harness.app.innerHTML, /Zeer rustig joggen/);
-  assert.match(harness.app.innerHTML, /Strides zijn optioneel/);
-  harness.click({ "[data-toggle-workout]": { dataset: { toggleWorkout: strides.workoutId } } });
-  harness.click({ "[data-toggle-workout]": { dataset: { toggleWorkout: bike.workoutId } } });
-  assert.match(harness.app.innerHTML, /exacte Garmin-velden voor een fietsworkout zijn nog niet vastgesteld/);
-  assert.match(harness.app.innerHTML, /00:10:00/);
-  assert.match(harness.app.innerHTML, /00:40:00/);
-  assert.doesNotMatch(harness.app.innerHTML, /<dt>Staptype<\/dt>|<dt>Type doel<\/dt>/);
-});
-
-test("nieuwe displaynummering behoudt fietsnotities, voeding en voltooiing na herladen", () => {
+test("voltooien is direct opgeslagen en blijft zichtbaar na refresh en navigatie", () => {
   const storage = new Map();
   let harness = createHarness(storage);
-  const bike = harness.context.window.MARATHON_PLAN.weekVariants[41].shared.find((item) => item.activityType === "bike");
-  const saved = JSON.parse(storage.get(STORAGE_KEY));
-  saved.workoutLogs[bike.workoutId] = { workoutId: bike.workoutId, planId: saved.activePlanId, completed: true, activityType: "bike", weekNumber: 41, note: "fietstest behouden", actualBikeMinutes: 42 };
-  saved.completedSessions[bike.workoutId] = { completedAt: "2026-10-09" };
-  saved.nutritionLogs[bike.workoutId] = { note: "voedingsnotitie behouden" };
-  storage.set(STORAGE_KEY, JSON.stringify(saved));
+  harness.click({"[data-toggle-complete]":{dataset:{toggleComplete:"V6-W41-T1"}}});
+  assert.match(saved(harness).completedSessions["V6-W41-T1"].completedAt,/^\d{4}-\d{2}-\d{2}$/);
+  assert.equal(saved(harness).workoutLogs["V6-W41-T1"].completed,true);
   harness = createHarness(storage);
-  harness.click({ "[data-view]": { dataset: { view: "week" } } });
-  assert.match(harness.app.innerHTML, /Training 3[\s\S]*?Voltooid/);
-  const reloaded = JSON.parse(storage.get(STORAGE_KEY));
-  assert.equal(reloaded.workoutLogs[bike.workoutId].note, "fietstest behouden");
-  assert.equal(reloaded.nutritionLogs[bike.workoutId].note, "voedingsnotitie behouden");
-  assert.deepEqual(reloaded.completedSessions[bike.workoutId], saved.completedSessions[bike.workoutId]);
+  assert.match(harness.app.innerHTML,/class="training-number">Training 2</);
+  navigate(harness,"week");
+  assert.match(harness.app.innerHTML,/Voltooid/);
+  const original = storage.get(STORAGE_KEY);
+  for (const view of ["more","plan","phases","info","nutrition","data","marathon","today"]) navigate(harness,view);
+  assert.equal(storage.get(STORAGE_KEY),original);
+});
+
+test("oude V5-logs, completion, notities, voeding en tests blijven idempotent in geschiedenis", () => {
+  const oldId="V5-W41-RUN-2026-10-06";
+  const original={appDataVersion:11,createdAt:"2026-10-01",workoutLogs:{[oldId]:{completed:true,note:"historische notitie",actualDistanceKm:4.2}},completedSessions:{[oldId]:{completedAt:"2026-10-06"}},testResults:{[oldId]:{rpe:3}},nutritionLogs:{[oldId]:{note:"oude voeding"}},userSettings:{pushClient:{installId:"abc"},weekDecisions:{42:{status:"red"}},optionalWorkoutChoices:{45:"rhythm"},raceTarget:{time:"3:30"}},meta:{schemaVersion:"V5"}};
+  const storage=new Map([[STORAGE_KEY,JSON.stringify(original)],["other-app","unrelated"]]);
+  let harness=createHarness(storage);
+  const archive=saved(harness).legacyData.finalV6History[0];
+  assert.deepEqual(archive.workoutLogs,original.workoutLogs);
+  assert.deepEqual(archive.testResults,original.testResults);
+  assert.deepEqual(archive.completedSessions,original.completedSessions);
+  assert.deepEqual(archive.nutritionLogs,original.nutritionLogs);
+  assert.deepEqual(archive.weekDecisions,original.userSettings.weekDecisions);
+  assert.deepEqual(saved(harness).userSettings.pushClient,original.userSettings.pushClient);
+  assert.deepEqual(saved(harness).completedSessions,{});
+  assert.equal(harness.context.window.MarathonApp.isCompleted("V6-W41-T1"),false);
+  harness=createHarness(storage);
+  assert.equal(saved(harness).legacyData.finalV6History.length,1);
+  assert.equal(storage.get("other-app"),"unrelated");
+  assert.deepEqual(JSON.parse(harness.context.window.MarathonApp.exportAppData()).legacyData.finalV6History[0].workoutLogs,original.workoutLogs);
+});
+
+test("Data werkt bij echte corrupte JSON en overschrijft die niet tijdens navigatie", () => {
+  const storage=new Map([[STORAGE_KEY,"{broken"]]);
+  const harness=createHarness(storage);
+  navigate(harness,"data");
+  assert.match(harness.app.innerHTML,/Niet leesbaar/);
+  assert.match(harness.app.innerHTML,/App-diagnose/);
+  harness.listeners.visibilitychange();
+  assert.equal(storage.get(STORAGE_KEY),"{broken");
+  assert.equal(harness.context.window.MarathonApp.exportAppData(),"{broken");
+});
+
+test("een afwijkende historische archiefvorm blijft bij migratie bewaard", () => {
+  const old = { appDataVersion: 11, workoutLogs: { old: { note: "behouden" } }, completedSessions: {}, legacyData: { finalV6History: { previous: "bestaand archief" } } };
+  const harness = createHarness(new Map([[STORAGE_KEY,JSON.stringify(old)]]));
+  const archive = saved(harness).legacyData.finalV6History[0];
+  assert.deepEqual(archive.previousV6History, old.legacyData.finalV6History);
+  assert.deepEqual(archive.workoutLogs, old.workoutLogs);
+});
+
+test("import valideert en vraagt eerst bevestiging; annuleren verandert niets", () => {
+  const harness=createHarness();
+  const appApi=harness.context.window.MarathonApp;
+  const original=harness.localStorage.getItem(STORAGE_KEY);
+  appApi.prepareImport("geen JSON");
+  assert.match(harness.app.innerHTML,/Import geweigerd/);
+  assert.equal(harness.localStorage.getItem(STORAGE_KEY),original);
+  appApi.prepareImport(JSON.stringify({workoutLogs:[],completedSessions:{}}));
+  assert.match(harness.app.innerHTML,/Import geweigerd/);
+  const backup=saved(harness);
+  backup.completedSessions["V6-W42-T2"]={completedAt:"2026-10-14"};
+  appApi.prepareImport(JSON.stringify(backup));
+  assert.match(harness.app.innerHTML,/Dit vervangt je huidige lokale trainingsdata/);
+  assert.equal(harness.localStorage.getItem(STORAGE_KEY),original);
+  harness.click({"[data-data-action]":{dataset:{dataAction:"close"}}});
+  assert.equal(harness.localStorage.getItem(STORAGE_KEY),original);
+  appApi.prepareImport(JSON.stringify(backup));
+  appApi.confirmImport();
+  assert.equal(saved(harness).completedSessions["V6-W42-T2"].completedAt,"2026-10-14");
+  assert.match(harness.app.innerHTML,/Backup teruggezet/);
+});
+
+test("countdown, compact dashboard en checkpoints gebruiken sub-4 zonder grafieken", () => {
+  const harness=createHarness(new Map(),"?date=2026-10-05");
+  harness.brandHome.click();
+  assert.equal(harness.context.window.MarathonApp.daysUntilMarathon(),48);
+  assert.match(harness.app.innerHTML,/6 weken en 6 dagen/);
+  assert.match(harness.app.innerHTML,/0 van 33 trainingen afgevinkt · 33 te gaan \+ marathon/);
+  assert.match(harness.app.innerHTML,/Sub 4:00/);
+  assert.doesNotMatch(harness.app.innerHTML,/Cumulatieve|chart|werkelijk lopen|Taperbasis/i);
+  navigate(harness,"info");
+  assert.match(harness.app.innerHTML,/1–3 november/);
+  assert.match(harness.app.innerHTML,/5:41,27\/km/);
+  assert.doesNotMatch(harness.app.innerHTML,/Log per sessie:/);
+  navigate(harness,"nutrition");
+  assert.match(harness.app.innerHTML,/60–80 g\/u/);
+  assert.match(harness.app.innerHTML,/15, 45, 75, 105, 135, 165, 195 en 225/);
+});
+
+test("alle tijdlijnen zijn cumulatief en identiek aan hun trainingsduren", () => {
+  const harness=createHarness();
+  for (const workout of harness.context.window.MARATHON_PLAN.allWorkouts.filter((w)=>w.activityType==="run")) {
+    const timeline=harness.context.window.MarathonApp.buildTreadmillTimeline(workout);
+    assert.equal(timeline.hasCompleteTiming,true);
+    assert.equal(timeline.blocks[0].startSeconds,0);
+    assert.equal(timeline.totalSeconds,workout.totalPlannedSeconds);
+    for (const [i,block] of timeline.blocks.entries()) {
+      assert.equal(block.endSeconds-block.startSeconds,block.durationSeconds);
+      if(i)assert.equal(block.startSeconds,timeline.blocks[i-1].endSeconds);
+    }
+  }
+});
+
+test("timer, pauze, hervatten en stop werken zonder completion automatisch te wijzigen", () => {
+  const harness=createHarness();
+  const original=harness.localStorage.getItem(STORAGE_KEY);
+  harness.click({"[data-open-treadmill]":{dataset:{openTreadmill:"V6-W42-T2"}}});
+  harness.click({"[data-timer-start]":{dataset:{timerStart:"V6-W42-T2"}}});
+  assert.match(harness.app.innerHTML,/Actieve loopbandcockpit/);
+  assert.match(harness.app.innerHTML,/7–8,5/);
+  harness.click({"[data-timer-pause]":{}});
+  assert.match(harness.app.innerHTML,/Gepauzeerd/);
+  harness.click({"[data-timer-resume]":{}});
+  harness.context.window.confirm=()=>false;
+  harness.click({"[data-timer-stop]":{}});
+  assert.match(harness.app.innerHTML,/Actieve loopbandcockpit/);
+  harness.context.window.confirm=()=>true;
+  harness.click({"[data-timer-stop]":{}});
+  assert.match(harness.app.innerHTML,/Start training/);
+  assert.equal(harness.localStorage.getItem(STORAGE_KEY),original);
 });
