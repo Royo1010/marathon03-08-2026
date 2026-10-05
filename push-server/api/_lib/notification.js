@@ -19,6 +19,11 @@ export function switchNotification(item, extendedEnabled = true) {
   const nextSpeed = formatSpeed(item.nextSpeedRangeKmh, item.nextSpeedKmh);
   const previousSpeed = formatSpeed(item.previousSpeedRangeKmh, item.previousSpeedKmh);
   const nextIncline = formatNumber(item.nextInclinePercent);
+  if (item.previousSpeedMode === "self-paced" || item.nextSpeedMode === "self-paced") {
+    const before = item.previousSpeedMode === "self-paced" ? "Praattempo / RPE" : `${previousSpeed} km/u`;
+    const after = item.nextSpeedMode === "self-paced" ? "Praattempo / RPE" : `${nextSpeed} km/u`;
+    return { title, body: extendedEnabled ? `Snelheid ${before} → ${after}\nHelling ${nextIncline}%\nTot ${end}` : `${after} · ${nextIncline}%\nTot ${end}` };
+  }
   if (!extendedEnabled) return { title, body: `${nextSpeed} km/u · ${nextIncline}%\nTot ${end}` };
   const speed = previousSpeed === nextSpeed
     ? `Snelheid blijft ${nextSpeed} km/u`

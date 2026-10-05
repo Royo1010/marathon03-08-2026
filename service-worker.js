@@ -1,4 +1,4 @@
-const APP_VERSION = "2026.10.05-3";
+const APP_VERSION = "2026.10.05-4";
 const APP_CACHE_PREFIXES = ["marathon-330-", "marathon-app-"];
 
 // Blijvende netwerk-eerst worker: oude appcaches worden opgeruimd, maar de worker
@@ -33,8 +33,8 @@ self.addEventListener("push", (event) => {
       tag: String(payload.tag || `marathon-${Date.now()}`),
       renotify: true,
       silent: payload.silent === true,
-      icon: new URL("./apple-touch-icon.png", self.registration.scope).href,
-      badge: new URL("./apple-touch-icon.png", self.registration.scope).href,
+      icon: new URL(`./apple-touch-icon.png?v=${APP_VERSION}`, self.registration.scope).href,
+      badge: new URL(`./apple-touch-icon.png?v=${APP_VERSION}`, self.registration.scope).href,
       data: {
         workoutId: payload.workoutId || null,
         url: payload.url || (payload.workoutId ? `./?treadmill=${encodeURIComponent(payload.workoutId)}` : "./"),

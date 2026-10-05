@@ -15,6 +15,20 @@ const blocks = [
   { startSeconds: 1380, endSeconds: 1560, speedKmh: 9.5, inclinePercent: 0.5, blockName: "Herstel" },
 ];
 
+test("V8 wisselt tussen praattempo en 11 km/u zonder een easy-snelheid te verzinnen", () => {
+  const switches = model.buildSwitchPlan([
+    {startSeconds:0,endSeconds:900,speedKmh:null,speedMode:"self-paced",inclinePercent:0},
+    {startSeconds:900,endSeconds:1260,speedKmh:11,inclinePercent:0},
+    {startSeconds:1260,endSeconds:1440,speedKmh:null,speedMode:"self-paced",inclinePercent:0},
+    {startSeconds:1440,endSeconds:1740,speedKmh:null,speedMode:"self-paced",inclinePercent:0},
+  ],{warningSeconds:30});
+  assert.equal(switches.length,2);
+  assert.equal(switches[0].warningAtSeconds,870);
+  assert.match(switches[0].body,/Praattempo \/ RPE → 11 km\/u/);
+  assert.match(switches[1].body,/11 km\/u → Praattempo \/ RPE/);
+  assert.doesNotMatch(switches[1].body,/0 km\/u|Praattempo \/ RPE km\/u/);
+});
+
 test("30 en 45 seconden worden exact van de absolute switchtijd afgetrokken", () => {
   const thirty = model.buildSwitchPlan(blocks, { warningSeconds: 30 });
   const fortyFive = model.buildSwitchPlan(blocks, { warningSeconds: 45 });

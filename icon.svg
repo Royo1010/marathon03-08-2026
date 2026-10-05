@@ -1,6 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="96" fill="#0F141A"/>
-  <path d="M138 326c32-88 74-140 126-156 38-12 76-4 110 24" fill="none" stroke="#3B82F6" stroke-width="34" stroke-linecap="round"/>
-  <path d="M128 356h256" stroke="#22C55E" stroke-width="34" stroke-linecap="round"/>
-  <path d="M206 256h100" stroke="#F59E0B" stroke-width="34" stroke-linecap="round"/>
+  <title>Marathon - lopen volgens plan</title>
+  <rect width="512" height="512" fill="#edf3ff"/>
+  <rect x="88" y="94" width="336" height="330" rx="54" fill="#fff"/>
+  <path d="M142 94h228a54 54 0 0 1 54 54v28H88v-28a54 54 0 0 1 54-54Z" fill="#245edb"/>
+  <g fill="none" stroke="#245edb" stroke-width="18" stroke-linecap="round">
+    <path d="M168 80v42M344 80v42"/>
+  </g>
+  <circle cx="290" cy="210" r="23" fill="#245edb"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+    <path d="m274 252-30 47m24-42-33-17-28 25m61-14 38 24 29-18" stroke="#245edb"/>
+    <path d="m245 298-31 38-42 14m74-52 39 33 46 7" stroke="#167862"/>
+  </g>
+  <g fill="#245edb">
+    <rect x="150" y="382" width="50" height="10" rx="5"/>
+    <rect x="212" y="382" width="50" height="10" rx="5"/>
+  </g>
+  <rect x="274" y="382" width="50" height="10" rx="5" fill="#167862"/>
+  <circle cx="348" cy="387" r="5" fill="#dfe6eb"/>
 </svg>

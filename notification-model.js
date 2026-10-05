@@ -52,6 +52,11 @@
     const previousSpeed = rangeLabel(change.previousSpeedRangeKmh, change.previousSpeedKmh);
     const previousIncline = formatNumber(change.previousInclinePercent);
     const title = `SWITCH BIJ ${switchLabel}`;
+    if (change.previousSpeedMode === "self-paced" || change.nextSpeedMode === "self-paced") {
+      const before = change.previousSpeedMode === "self-paced" ? "Praattempo / RPE" : `${previousSpeed} km/u`;
+      const after = change.nextSpeedMode === "self-paced" ? "Praattempo / RPE" : `${nextSpeed} km/u`;
+      return { title, body: extendedEnabled ? `Snelheid ${before} → ${after}\nHelling ${nextIncline}%\nTot ${endLabel}` : `${after} · ${nextIncline}%\nTot ${endLabel}` };
+    }
 
     if (!extendedEnabled) {
       return {
@@ -86,8 +91,8 @@
 
       if (
         switchAtSeconds == null || switchAtSeconds <= 0 || nextEndsAtSeconds == null ||
-        previousSpeedKmh == null || previousInclinePercent == null ||
-        nextSpeedKmh == null || nextInclinePercent == null
+        (previousSpeedKmh == null && previous.speedMode !== "self-paced") || previousInclinePercent == null ||
+        (nextSpeedKmh == null && next.speedMode !== "self-paced") || nextInclinePercent == null
       ) continue;
 
       const speedChanged = previousSpeedKmh !== nextSpeedKmh || JSON.stringify(previous.speedRangeKmh || null) !== JSON.stringify(next.speedRangeKmh || null);
@@ -102,8 +107,10 @@
         warningAtSeconds: Math.max(0, switchAtSeconds - settings.warningSeconds),
         nextEndsAtSeconds,
         previousSpeedKmh,
+        previousSpeedMode: previous.speedMode === "self-paced" ? "self-paced" : "prescribed",
         previousInclinePercent,
         nextSpeedKmh,
+        nextSpeedMode: next.speedMode === "self-paced" ? "self-paced" : "prescribed",
         previousSpeedRangeKmh: previous.speedRangeKmh || null,
         nextSpeedRangeKmh: next.speedRangeKmh || null,
         nextInclinePercent,

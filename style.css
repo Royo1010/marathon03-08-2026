@@ -3577,6 +3577,9 @@ body.treadmill-focus-active .content {
 .header-brand { display: flex; align-items: center; gap: 9px; padding: 0; }
 .header-brand strong { margin: 0; font-size: 16px; font-weight: 650; }
 .header-brand .icon { color: var(--accent); }
+.brand-mark { display: block; width: 30px; height: 30px; flex: 0 0 30px; border-radius: 6px; }
+.focus-speed strong b.is-self-paced { font-size: 22px; white-space: nowrap; }
+.focus-queue-speed strong b.is-self-paced { font-size: 16px; white-space: nowrap; }
 .content { padding: var(--space-4) var(--space-4) calc(96px + env(safe-area-inset-bottom)); }
 .bottom-nav {
   padding: 7px 5px calc(7px + env(safe-area-inset-bottom));

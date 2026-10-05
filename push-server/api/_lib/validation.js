@@ -45,12 +45,16 @@ export function validateSchedule(body) {
   if (!Array.isArray(body.switches) || body.switches.length > 128) badRequest("INVALID_SWITCHES");
 
   const switches = body.switches.map((item, index) => {
-    const values = [item.switchAtSeconds, item.nextEndsAtSeconds, item.previousSpeedKmh, item.previousInclinePercent, item.nextSpeedKmh, item.nextInclinePercent]
+    const previousSpeedMode = item.previousSpeedMode === "self-paced" ? "self-paced" : "prescribed";
+    const nextSpeedMode = item.nextSpeedMode === "self-paced" ? "self-paced" : "prescribed";
+    const values = [item.switchAtSeconds, item.nextEndsAtSeconds, item.previousInclinePercent, item.nextInclinePercent]
       .map((value) => requiredNumber(value, `INVALID_SWITCH_${index}`));
-    const [switchAtSeconds, nextEndsAtSeconds, previousSpeedKmh, previousInclinePercent, nextSpeedKmh, nextInclinePercent] = values;
+    const [switchAtSeconds, nextEndsAtSeconds, previousInclinePercent, nextInclinePercent] = values;
+    const previousSpeedKmh = previousSpeedMode === "self-paced" ? null : requiredNumber(item.previousSpeedKmh, `INVALID_SWITCH_${index}`);
+    const nextSpeedKmh = nextSpeedMode === "self-paced" ? null : requiredNumber(item.nextSpeedKmh, `INVALID_SWITCH_${index}`);
     const previousSpeedRangeKmh = optionalSpeedRange(item.previousSpeedRangeKmh, `INVALID_SPEED_RANGE_${index}`);
     const nextSpeedRangeKmh = optionalSpeedRange(item.nextSpeedRangeKmh, `INVALID_SPEED_RANGE_${index}`);
-    if (switchAtSeconds <= 0 || nextEndsAtSeconds <= switchAtSeconds || previousSpeedKmh <= 0 || nextSpeedKmh <= 0) badRequest(`INVALID_SWITCH_${index}`);
+    if (switchAtSeconds <= 0 || nextEndsAtSeconds <= switchAtSeconds || (previousSpeedKmh != null && (previousSpeedKmh <= 0 || previousSpeedKmh > 40)) || (nextSpeedKmh != null && (nextSpeedKmh <= 0 || nextSpeedKmh > 40))) badRequest(`INVALID_SWITCH_${index}`);
     if (previousInclinePercent < 0 || nextInclinePercent < 0 || previousInclinePercent > 20 || nextInclinePercent > 20) badRequest(`INVALID_INCLINE_${index}`);
     if (previousSpeedKmh === nextSpeedKmh && previousInclinePercent === nextInclinePercent && JSON.stringify(previousSpeedRangeKmh) === JSON.stringify(nextSpeedRangeKmh)) badRequest(`UNCHANGED_SWITCH_${index}`);
     return {
@@ -59,8 +63,10 @@ export function validateSchedule(body) {
       switchAtSeconds,
       nextEndsAtSeconds,
       previousSpeedKmh,
+      previousSpeedMode,
       previousInclinePercent,
       nextSpeedKmh,
+      nextSpeedMode,
       nextInclinePercent,
       previousSpeedRangeKmh,
       nextSpeedRangeKmh,

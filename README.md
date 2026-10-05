@@ -1,16 +1,17 @@
-# Marathon 2026 · Sub 4
+# Marathon 2026 · 3:50
 
 Statische trainingsplanner voor Roy, geoptimaliseerd voor iPhone en GitHub Pages.
-Actieve build: **2026.10.05-3**.
+Actieve build: **2026.10.05-4**.
 
 ## Inhoudelijke Bron
 
-`marathonschema_Roy_FINAL_V6_SUB4_2026-10-05.md` is de enige actieve schemabron.
-V4/V5-bestanden blijven historische documenten, niet actieve databronnen.
+`marathonschema_Roy_FINAL_V8_350_GARMIN_OUTDOOR_2026-10-05.md` is de enige actieve schemabron.
+Oudere schema's en hun generators blijven historische documenten, niet actieve databronnen.
 
-V6 omvat W41–47, 34 genummerde sessies inclusief zes fietsritten en de marathon.
-Doel: sub 4:00 op 22 november 2026; praktisch raceritme circa 5:40/km.
-Vier runs en een fietsrit per week, drie korte runs plus race in W47.
+V8 omvat W41–47, 33 genummerde sessies: 31 gewone runs, een fietsrit en de marathon.
+A-doel 3:50:00; B-doel PR onder 3:55:50; C-doel sub 4:00 op 22 november 2026.
+Doeltempo 5:27/km, Garmin MP 5:24–5:30/km.
+W41 vier runs en een fietsrit; W42–45 vijf runs; W46 vier; W47 drie korte runs plus race.
 Vrije dagkeuze, met minimaal 48 uur tussen MP en langere duur (piek liever 72),
 een volledige rustdag na langere duur en 6–8 dagen tussen langere duurlopen.
 Laatste langere duur uiterlijk 8 november; taper vanaf 9 november.
@@ -28,12 +29,12 @@ van indicatieve loopbandstartbereiken.
 | Week | Loopsessie | Rentijd | Wandelen | Fiets | MP |
 |---|---:|---:|---:|---:|---:|
 | 41 | 185 | 164 | 21 | 60 | 0 |
-| 42 | 200 | 200 | 0 | 60 | 15 |
-| 43 | 245 | 245 | 0 | 50 | 24 |
-| 44 | 275 | 275 | 0 | 45 | 30 |
-| 45 | 275 | 275 | 0 | 40 | 30 |
-| 46 | 170 | 170 | 0 | 30 | 12 |
-| 47 vóór race | 70 | 70 | 0 | 0 | 6 |
+| 42 | 240 | 240 | 0 | 0 | 24 |
+| 43 | 295 | 295 | 0 | 0 | 30 |
+| 44 | 320 | 320 | 0 | 0 | 40 |
+| 45 | 330 | 330 | 0 | 0 | 40 |
+| 46 | 195 | 195 | 0 | 0 | 20 |
+| 47 vóór race | 65 | 65 | 0 | 0 | 8 |
 
 Alle waarden in minuten; marathonbelasting telt apart.
 
@@ -42,9 +43,11 @@ Alle waarden in minuten; marathonbelasting telt apart.
 - Vandaag / Week / Schema / Meer.
 - Meer bevat Fases, Voeding & herstel, Informatie, marathonoverzicht en Data & app.
 - Iedere gewone run heeft directe Garmin- en Loopbandacties en een eigen detailscherm.
-- Garmin easy: Geen doel. MP: Tempo 5:35–5:50/km, richtpunt 5:40–5:45.
+- Garmin easy: Geen doel. MP: Tempo 5:24–5:30/km, richtpunt 5:27.
 - Repeats bevatten ook herstel na de laatste herhaling; geen losse eerste repeat.
-- Loopband: dezelfde minuten/repeats, 0% starthelling, snelheidsranges volgens V6.
+- Loopband: dezelfde minuten/repeats en 0% starthelling. Vanaf W42 easy op praattempo/RPE zonder vaste snelheid; MP 11,0 km/u. Alleen W41 behoudt de bronranges.
+- Voorkeursdatums staan bij iedere training; vrije dagkeuze en spreidingsregels blijven behouden.
+- Afstandsschattingen gebruiken easy 6:30–7:30/km en MP 5:24–5:30/km, nooit als kilometerquotum. Marathon apart.
 - Fietsen: timer/tijdalerts op FR165; geen onbevestigde Connect-workoutsync.
 - Race: gewone Hardlopen-activiteit tot officiële finish. Geen GPS-afstand als stopopdracht.
 - Statistieken, grafieken en invoer na afloop zijn verwijderd; Garmin registreert activiteiten.
@@ -53,10 +56,12 @@ Alle waarden in minuten; marathonbelasting telt apart.
 
 ## Opslag En Backups
 
-Vaste hoofdkey: `marathon330TrainingAppData_v1`, dataversie **12**.
-V6 heeft eigen protocol-IDs. Migratie archiveert oudere activiteiten, completion,
-notities, testresultaten, voeding en oude plankeuzes in `legacyData.finalV6History`.
-Ze markeren geen inhoudelijk andere V6-training voltooid. Persoonlijke instellingen,
+Vaste hoofdkey: `marathon330TrainingAppData_v1`, dataversie **13**.
+V8 heeft eigen protocol-IDs. Migratie archiveert oudere activiteiten, completion,
+notities, testresultaten, voeding en oude plankeuzes in `legacyData.finalV8History`.
+Ze markeren geen inhoudelijk andere V8-training voltooid. Alleen de onafhankelijk
+geverifieerde, identieke W41-protocollen nemen hun vinkje mee, als "Al uitgevoerd (V6)".
+De originele uitvoering wordt niet als V8-log gekopieerd. Persoonlijke instellingen,
 pushregistratie en eerdere archieven blijven behouden; migratie is idempotent.
 
 Data & app werkt onafhankelijk van trainingsberekeningen. Het biedt opslagstatus,
@@ -75,7 +80,11 @@ Publiceer `index.html`, `app.js`, `training-data.js`, `style.css`,
 Geen nieuw framework of backend nodig. De reeds bestaande optionele pushserver
 en zijn configuratie blijven intact; zie `PUSH-DEPLOYMENT.md`.
 Publiceer ook de gewijzigde bestaande pushserver als je Lock Screen-meldingen
-gebruikt: de validator en meldingstekst ondersteunen nu V6-snelheidsranges.
+gebruikt: de validator en meldingstekst ondersteunen nu ook zelfgestuurd easy-tempo
+naast numerieke MP-targets. Zonder die serverupdate werken nieuwe V8-pushwissels niet.
+
+Het nieuwe kalender/hardloperlogo staat in `icon.svg`, `apple-touch-icon.png`,
+`app-icon-192.png` en `app-icon-512.png`. Alle iconverwijzingen zijn versioned.
 
 De service worker blijft netwerkgestuurd, verwijdert alleen oude appcaches en
 blijft geregistreerd voor push. Safari en beginscherm-app laden dezelfde versie.

@@ -5,6 +5,18 @@ import vm from "node:vm";
 
 const read = (file) => fs.readFileSync(new URL(`../${file}`, import.meta.url), "utf8");
 
+test("nieuw kalender/hardloperlogo is lokaal, versioned en beschikbaar als iPhone- en PWA-PNG", () => {
+  assert.match(read("icon.svg"),/#245edb/);
+  assert.match(read("icon.svg"),/#167862/);
+  assert.match(read("index.html"),/class="brand-mark"/);
+  for (const [file,size] of [["apple-touch-icon.png",180],["app-icon-192.png",192],["app-icon-512.png",512]]) {
+    const png=fs.readFileSync(new URL(`../${file}`,import.meta.url));
+    assert.equal(png.readUInt32BE(16),size);
+    assert.equal(png.readUInt32BE(20),size);
+  }
+  assert.ok(JSON.parse(read("manifest.json")).icons.every((icon)=>/v=2026\.10\.05-4/.test(icon.src)));
+});
+
 test("manifest en assets gebruiken GitHub Pages-veilige relatieve paden", () => {
   const manifest = JSON.parse(read("manifest.json"));
   const html = read("index.html");
@@ -15,13 +27,13 @@ test("manifest en assets gebruiken GitHub Pages-veilige relatieve paden", () => 
   assert.equal(manifest.display, "standalone");
   assert.ok(manifest.icons.every((icon) => icon.src.startsWith("./")));
   assert.match(html, /apple-mobile-web-app-capable/);
-  assert.match(html, /apple-touch-icon\.png\?v=2026\.10\.05-3/);
-  assert.match(html, /manifest\.json\?v=2026\.10\.05-3/);
-  assert.match(html, /training-data\.js\?v=2026\.10\.05-3/);
-  assert.match(html, /notification-model\.js\?v=2026\.10\.05-3/);
-  assert.match(html, /push-config\.js\?v=2026\.10\.05-3/);
-  assert.match(read("app.js"), /APP_VERSION = "2026\.10\.05-3"/);
-  assert.match(read("service-worker.js"), /APP_VERSION = "2026\.10\.05-3"/);
+  assert.match(html, /apple-touch-icon\.png\?v=2026\.10\.05-4/);
+  assert.match(html, /manifest\.json\?v=2026\.10\.05-4/);
+  assert.match(html, /training-data\.js\?v=2026\.10\.05-4/);
+  assert.match(html, /notification-model\.js\?v=2026\.10\.05-4/);
+  assert.match(html, /push-config\.js\?v=2026\.10\.05-4/);
+  assert.match(read("app.js"), /APP_VERSION = "2026\.10\.05-4"/);
+  assert.match(read("service-worker.js"), /APP_VERSION = "2026\.10\.05-4"/);
   assert.doesNotMatch(html, /(?:href|src)="\//);
   assert.match(html, /<strong>Marathon 2026<\/strong>/);
   assert.doesNotMatch(html, /header-brand[\s\S]*?<strong>Marathon 2026\s*<i/);
@@ -108,15 +120,15 @@ test("nieuwe pushworker verwijdert oude appcaches, blijft actief en gebruikt net
   assert.equal(messages[0].workoutId, "week36-training2");
 });
 
-test("FINAL V6 is de actieve bron met sub-4, zonder oude actieve V4/V5-doelen", () => {
-  const markdown = read("marathonschema_Roy_FINAL_V6_SUB4_2026-10-05.md");
+test("FINAL V8 is de actieve bron met 3:50, zonder oude actieve V6/V7-doelen", () => {
+  const markdown = read("marathonschema_Roy_FINAL_V8_350_GARMIN_OUTDOOR_2026-10-05.md");
   const data = read("training-data.js");
-  assert.match(markdown, /Marathonschema Roy — FINAL V6 — SUB 4 — Garmin \/ Outdoor/);
+  assert.match(markdown, /FINAL V8/);
   assert.match(markdown, /## Week 47/i);
-  assert.match(data, /"sourceFile": "marathonschema_Roy_FINAL_V6_SUB4_2026-10-05\.md"/);
-  assert.match(data, /"schemaVersion": "marathon-final-v6-sub4-2026\.10\.05-1"/);
+  assert.match(data, /"sourceFile": "marathonschema_Roy_FINAL_V8_350_GARMIN_OUTDOOR_2026-10-05\.md"/);
+  assert.match(data, /"schemaVersion": "marathon-final-v8-350-2026\.10\.05-1"/);
   assert.match(data, /"defaultExecutionMode": "garmin"/);
-  assert.match(data, /"targetTime": "Sub 4:00"/);
+  assert.match(data, /"targetTime": "3:50:00"/);
   assert.doesNotMatch(data, /"strength"\s*:\s*\{/);
   assert.doesNotMatch(data, /Sessie A|Sessie B|A-light|B-light/);
   assert.doesNotMatch(read("index.html"), /Marathon 3:30/);

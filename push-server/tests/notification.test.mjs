@@ -15,6 +15,16 @@ const item = {
   nextInclinePercent: 0.5,
 };
 
+test("V8-server bewaart expliciet zelfgestuurd easy-tempo bij MP-wissels", () => {
+  const switches = [{...item,previousSpeedKmh:null,previousSpeedMode:"self-paced",nextSpeedKmh:11,nextSpeedMode:"prescribed",previousInclinePercent:0,nextInclinePercent:0}];
+  const base = {sessionId:"v8-session",workoutId:"V8-W42-T2",generation:1,warningSeconds:30,startedAt:new Date().toISOString(),switches};
+  const result = validateSchedule(base);
+  assert.equal(result.switches[0].previousSpeedKmh,null);
+  assert.equal(result.switches[0].previousSpeedMode,"self-paced");
+  assert.match(switchNotification(result.switches[0]).body,/Praattempo \/ RPE → 11 km\/u/);
+  assert.throws(()=>validateSchedule({...base,switches:[{...switches[0],previousSpeedMode:undefined}]}),/INVALID_SWITCH/);
+});
+
 test("server maakt dezelfde absolute switchmelding", () => {
   const result = switchNotification(item, true);
   assert.equal(result.title, "SWITCH BIJ 10:00");

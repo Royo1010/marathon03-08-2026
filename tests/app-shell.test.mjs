@@ -18,7 +18,7 @@ function createStorage(seed = new Map()) {
   return { values: seed, getItem(key) { return this.values.has(key) ? this.values.get(key) : null; }, setItem(key, value) { this.values.set(key, String(value)); }, removeItem(key) { this.values.delete(key); } };
 }
 
-function createHarness(storageValues = new Map(), search = "?date=2026-10-05") {
+function createHarness(storageValues = new Map(), search = "?date=2026-10-05", clock = null) {
   const listeners = {};
   const windowListeners = {};
   const app = { innerHTML: "", querySelector() { return null; }, querySelectorAll() { return []; } };
@@ -33,6 +33,7 @@ function createHarness(storageValues = new Map(), search = "?date=2026-10-05") {
     addEventListener(type, handler) { listeners[type] = handler; },
   };
   const localStorage = createStorage(storageValues);
+  let timerCallback = null;
   const window = {
     document,
     localStorage,
@@ -40,14 +41,15 @@ function createHarness(storageValues = new Map(), search = "?date=2026-10-05") {
     navigator: {},
     confirm() { return true; },
     scrollTo() {},
-    setInterval() { return 1; },
+    setInterval(callback) { timerCallback = callback; return 1; },
     clearInterval() {},
     setTimeout(callback) { callback(); },
     addEventListener(type, handler) { windowListeners[type] = handler; },
     matchMedia() { return { matches: false }; },
   };
   window.window = window;
-  const context = vm.createContext({ console, Date, Intl, URL, URLSearchParams, Blob, window, document, localStorage, navigator: window.navigator, structuredClone });
+  const HarnessDate = clock ? class extends Date { constructor(...args) { super(...(args.length ? args : [clock.now])); } static now() { return clock.now; } } : Date;
+  const context = vm.createContext({ console, Date: HarnessDate, Intl, URL, URLSearchParams, Blob, window, document, localStorage, navigator: window.navigator, structuredClone });
   vm.runInContext(trainingDataCode, context, { filename: "training-data.js" });
   vm.runInContext(notificationModelCode, context, { filename: "notification-model.js" });
   vm.runInContext(pushConfigCode, context, { filename: "push-config.js" });
@@ -63,20 +65,42 @@ function createHarness(storageValues = new Map(), search = "?date=2026-10-05") {
   const click = (matchers) => listeners.click({ target: targetFor(matchers), stopPropagation() {} });
   const change = (matchers) => listeners.change({ target: targetFor(matchers) });
   const input = (matchers) => listeners.input({ target: targetFor(matchers) });
-  return { app, brandHome, click, change, input, context, localStorage, listeners, windowListeners, navButtons, storageWarning };
+  return { app, brandHome, click, change, input, context, localStorage, listeners, windowListeners, navButtons, storageWarning, tick: () => timerCallback?.() };
 }
 
 const saved = (harness) => JSON.parse(harness.localStorage.getItem(STORAGE_KEY));
 const navigate = (harness, view) => harness.click({ "[data-view]": { dataset: { view } } });
 const openWorkout = (harness, id) => harness.click({ "[data-open-workout]": { dataset: { openWorkout: id } } });
 
-test("lege opslag opent V6 geldig zonder grafieken, statistieken of logformulier", () => {
+test("V6-uitvoeringen blijven oorspronkelijk; alleen identieke W41-protocollen nemen voortgang mee", () => {
+  const original = { appDataVersion:12, workoutLogs:{"V6-W41-T1":{completed:true,completedDate:"2026-10-06",note:"echt uitgevoerd",actualDistanceKm:4},"V6-W42-T2":{completed:true,note:"oud protocol"}}, completedSessions:{"V6-W41-T1":{completedAt:"2026-10-06"},"V6-W42-T2":{completedAt:"2026-10-14"}}, testResults:{"V6-W41-T1":{rpe:3}},nutritionLogs:{"V6-W41-T1":{gel:1}}, userSettings:{notificationSettings:{"V6-W41-T1":{enabled:false}},pushClient:{installId:"kept"}},legacyData:{previousPlan:{note:"oude historie"}},meta:{schemaVersion:"marathon-final-v6-sub4-2026.10.05-1"}};
+  const storage = new Map([[STORAGE_KEY,JSON.stringify(original)]]);
+  let harness = createHarness(storage);
+  const data = saved(harness);
+  assert.equal(data.completedSessions["V8-W41-T1"].carriedFromWorkoutId,"V6-W41-T1");
+  assert.equal(data.completedSessions["V8-W41-T1"].completedAt,"2026-10-06");
+  assert.equal(data.workoutLogs["V8-W41-T1"],undefined);
+  assert.equal(data.completedSessions["V8-W42-T2"],undefined);
+  assert.deepEqual(data.legacyData.finalV8History[0].workoutLogs,original.workoutLogs);
+  assert.deepEqual(data.legacyData.finalV8History[0].testResults,original.testResults);
+  assert.deepEqual(data.legacyData.finalV8History[0].nutritionLogs,original.nutritionLogs);
+  assert.deepEqual(data.legacyData.previousPlan,original.legacyData.previousPlan);
+  assert.equal(data.userSettings.notificationSettings["V8-W41-T1"].enabled,false);
+  openWorkout(harness,"V8-W41-T1");
+  assert.match(harness.app.innerHTML,/Al uitgevoerd \(V6\)/);
+  assert.match(harness.app.innerHTML,/geen nieuwe V8-uitvoering/);
+  harness = createHarness(storage);
+  assert.equal(saved(harness).legacyData.finalV8History.length,1);
+  assert.equal(saved(harness).userSettings.pushClient.installId,"kept");
+});
+
+test("lege opslag opent V8 geldig zonder grafieken, statistieken of logformulier", () => {
   const harness = createHarness();
   assert.match(harness.app.innerHTML, /Vandaag/);
-  assert.match(harness.app.innerHTML, /data-open-garmin="V6-W41-T1"/);
-  assert.match(harness.app.innerHTML, /data-open-treadmill="V6-W41-T1"/);
-  assert.equal(saved(harness).appDataVersion,12);
-  assert.equal(saved(harness).activePlanId,"marathon-final-v6-sub4-2026");
+  assert.match(harness.app.innerHTML, /data-open-garmin="V8-W41-T1"/);
+  assert.match(harness.app.innerHTML, /data-open-treadmill="V8-W41-T1"/);
+  assert.equal(saved(harness).appDataVersion,13);
+  assert.equal(saved(harness).activePlanId,"marathon-final-v8-350-2026");
   assert.deepEqual(saved(harness).workoutLogs,{});
   for (const view of ["today","week","plan","more","phases","info","nutrition","marathon","data"]) {
     navigate(harness,view);
@@ -87,7 +111,7 @@ test("lege opslag opent V6 geldig zonder grafieken, statistieken of logformulier
   assert.match(harness.app.innerHTML,/Data &amp; app|Data & app/);
 });
 
-test("alle 34 trainingen renderen afzonderlijk; terug houdt de gekozen week vast", () => {
+test("alle 33 trainingen renderen afzonderlijk; terug houdt de gekozen week vast", () => {
   const harness = createHarness();
   const plan = harness.context.window.MARATHON_PLAN;
   for (const [index,week] of plan.weeks.entries()) {
@@ -95,7 +119,7 @@ test("alle 34 trainingen renderen afzonderlijk; terug houdt de gekozen week vast
     harness.change({"[data-week-select]":true,value:String(index)});
     assert.equal((harness.app.innerHTML.match(/<article class="training-card/g)||[]).length,week.workouts.length);
     assert.doesNotMatch(harness.app.innerHTML,/GREEN|ORANGE|RED|V5|Kalendermaximum|no-basis|data-week-decision/);
-    assert.equal(week.workouts.at(-1).activityType,week.weekNumber===47?"race":"bike");
+    assert.equal(week.workouts.at(-1).activityType,week.weekNumber===47?"race":week.weekNumber===41?"bike":"run");
     for (const workout of week.workouts) {
       openWorkout(harness,workout.workoutId);
       assert.equal(harness.context.window.MarathonApp.state.view,"detail");
@@ -110,37 +134,39 @@ test("alle 34 trainingen renderen afzonderlijk; terug houdt de gekozen week vast
   }
 });
 
-test("Garmin en Loopband blijven apart; MP toont Tempo-target en 5:35–5:50/km", () => {
+test("Garmin en Loopband blijven apart; MP toont Tempo-target en 5:24–5:30/km", () => {
   const harness = createHarness();
-  harness.click({"[data-open-garmin]":{dataset:{openGarmin:"V6-W42-T2"}}});
+  harness.click({"[data-open-garmin]":{dataset:{openGarmin:"V8-W42-T2"}}});
   assert.match(harness.app.innerHTML,/<dt>Type doel<\/dt><dd>Tempo<\/dd>/);
-  assert.match(harness.app.innerHTML,/<dt>Doelwaarde<\/dt><dd>5:35–5:50\/km<\/dd>/);
-  assert.match(harness.app.innerHTML,/Herhaalgroep: 3 keer/);
+  assert.match(harness.app.innerHTML,/<dt>Doelwaarde<\/dt><dd>5:24–5:30\/km<\/dd>/);
+  assert.match(harness.app.innerHTML,/Herhaalgroep: 4 keer/);
   assert.match(harness.app.innerHTML,/hersteljog blijft ook na de laatste herhaling aanwezig/);
-  harness.click({"[data-workout-mode][data-workout-id]":{dataset:{workoutMode:"treadmill",workoutId:"V6-W42-T2"}}});
-  assert.match(harness.app.innerHTML,/10,3–10,7 km\/u/);
+  harness.click({"[data-workout-mode][data-workout-id]":{dataset:{workoutMode:"treadmill",workoutId:"V8-W42-T2"}}});
+  assert.match(harness.app.innerHTML,/11(?:,0)? km\/u/);
+  assert.match(harness.app.innerHTML,/praattempo/);
   assert.match(harness.app.innerHTML,/>0%</);
   assert.match(harness.app.innerHTML,/0% starthelling/);
 });
 
-test("Schema en Fases tonen V6-totalen, zonder oud taper- of kleurmodel", () => {
+test("Schema en Fases tonen V8-totalen, zonder oud taper- of kleurmodel", () => {
   const harness = createHarness();
   navigate(harness,"plan");
   assert.equal((harness.app.innerHTML.match(/<button class="plan-row/g)||[]).length,7);
   assert.match(harness.app.innerHTML,/185 min loopsessies · 164 min lopen \+ 21 min wandelen · 60 min fiets/);
-  assert.match(harness.app.innerHTML,/275 min loopsessies · 40 min fiets · 30 min MP/);
+  assert.match(harness.app.innerHTML,/330 min loopsessies · 40 min MP/);
+  assert.match(harness.app.innerHTML,/Schatting 45,9–52 km/);
   assert.match(harness.app.innerHTML,/marathon apart/);
   navigate(harness,"phases");
-  assert.match(harness.app.innerHTML,/85 → 110 → 135 → maximaal 150/);
+  assert.match(harness.app.innerHTML,/95 → 120 → 145 → maximaal 165/);
   assert.doesNotMatch(harness.app.innerHTML,/95-minuten|no-basis|ORANGE|V5|Geen huidig eindtijddoel/);
 });
 
 test("voltooien is direct opgeslagen en blijft zichtbaar na refresh en navigatie", () => {
   const storage = new Map();
   let harness = createHarness(storage);
-  harness.click({"[data-toggle-complete]":{dataset:{toggleComplete:"V6-W41-T1"}}});
-  assert.match(saved(harness).completedSessions["V6-W41-T1"].completedAt,/^\d{4}-\d{2}-\d{2}$/);
-  assert.equal(saved(harness).workoutLogs["V6-W41-T1"].completed,true);
+  harness.click({"[data-toggle-complete]":{dataset:{toggleComplete:"V8-W41-T1"}}});
+  assert.match(saved(harness).completedSessions["V8-W41-T1"].completedAt,/^\d{4}-\d{2}-\d{2}$/);
+  assert.equal(saved(harness).workoutLogs["V8-W41-T1"].completed,true);
   harness = createHarness(storage);
   assert.match(harness.app.innerHTML,/class="training-number">Training 2</);
   navigate(harness,"week");
@@ -155,7 +181,7 @@ test("oude V5-logs, completion, notities, voeding en tests blijven idempotent in
   const original={appDataVersion:11,createdAt:"2026-10-01",workoutLogs:{[oldId]:{completed:true,note:"historische notitie",actualDistanceKm:4.2}},completedSessions:{[oldId]:{completedAt:"2026-10-06"}},testResults:{[oldId]:{rpe:3}},nutritionLogs:{[oldId]:{note:"oude voeding"}},userSettings:{pushClient:{installId:"abc"},weekDecisions:{42:{status:"red"}},optionalWorkoutChoices:{45:"rhythm"},raceTarget:{time:"3:30"}},meta:{schemaVersion:"V5"}};
   const storage=new Map([[STORAGE_KEY,JSON.stringify(original)],["other-app","unrelated"]]);
   let harness=createHarness(storage);
-  const archive=saved(harness).legacyData.finalV6History[0];
+  const archive=saved(harness).legacyData.finalV8History[0];
   assert.deepEqual(archive.workoutLogs,original.workoutLogs);
   assert.deepEqual(archive.testResults,original.testResults);
   assert.deepEqual(archive.completedSessions,original.completedSessions);
@@ -163,11 +189,11 @@ test("oude V5-logs, completion, notities, voeding en tests blijven idempotent in
   assert.deepEqual(archive.weekDecisions,original.userSettings.weekDecisions);
   assert.deepEqual(saved(harness).userSettings.pushClient,original.userSettings.pushClient);
   assert.deepEqual(saved(harness).completedSessions,{});
-  assert.equal(harness.context.window.MarathonApp.isCompleted("V6-W41-T1"),false);
+  assert.equal(harness.context.window.MarathonApp.isCompleted("V8-W41-T1"),false);
   harness=createHarness(storage);
-  assert.equal(saved(harness).legacyData.finalV6History.length,1);
+  assert.equal(saved(harness).legacyData.finalV8History.length,1);
   assert.equal(storage.get("other-app"),"unrelated");
-  assert.deepEqual(JSON.parse(harness.context.window.MarathonApp.exportAppData()).legacyData.finalV6History[0].workoutLogs,original.workoutLogs);
+  assert.deepEqual(JSON.parse(harness.context.window.MarathonApp.exportAppData()).legacyData.finalV8History[0].workoutLogs,original.workoutLogs);
 });
 
 test("Data werkt bij echte corrupte JSON en overschrijft die niet tijdens navigatie", () => {
@@ -182,10 +208,10 @@ test("Data werkt bij echte corrupte JSON en overschrijft die niet tijdens naviga
 });
 
 test("een afwijkende historische archiefvorm blijft bij migratie bewaard", () => {
-  const old = { appDataVersion: 11, workoutLogs: { old: { note: "behouden" } }, completedSessions: {}, legacyData: { finalV6History: { previous: "bestaand archief" } } };
+  const old = { appDataVersion: 11, workoutLogs: { old: { note: "behouden" } }, completedSessions: {}, legacyData: { finalV8History: { previous: "bestaand archief" } } };
   const harness = createHarness(new Map([[STORAGE_KEY,JSON.stringify(old)]]));
-  const archive = saved(harness).legacyData.finalV6History[0];
-  assert.deepEqual(archive.previousV6History, old.legacyData.finalV6History);
+  const archive = saved(harness).legacyData.finalV8History[0];
+  assert.deepEqual(archive.previousV8History, old.legacyData.finalV8History);
   assert.deepEqual(archive.workoutLogs, old.workoutLogs);
 });
 
@@ -199,7 +225,7 @@ test("import valideert en vraagt eerst bevestiging; annuleren verandert niets", 
   appApi.prepareImport(JSON.stringify({workoutLogs:[],completedSessions:{}}));
   assert.match(harness.app.innerHTML,/Import geweigerd/);
   const backup=saved(harness);
-  backup.completedSessions["V6-W42-T2"]={completedAt:"2026-10-14"};
+  backup.completedSessions["V8-W42-T2"]={completedAt:"2026-10-14"};
   appApi.prepareImport(JSON.stringify(backup));
   assert.match(harness.app.innerHTML,/Dit vervangt je huidige lokale trainingsdata/);
   assert.equal(harness.localStorage.getItem(STORAGE_KEY),original);
@@ -207,25 +233,27 @@ test("import valideert en vraagt eerst bevestiging; annuleren verandert niets", 
   assert.equal(harness.localStorage.getItem(STORAGE_KEY),original);
   appApi.prepareImport(JSON.stringify(backup));
   appApi.confirmImport();
-  assert.equal(saved(harness).completedSessions["V6-W42-T2"].completedAt,"2026-10-14");
+  assert.equal(saved(harness).completedSessions["V8-W42-T2"].completedAt,"2026-10-14");
   assert.match(harness.app.innerHTML,/Backup teruggezet/);
 });
 
-test("countdown, compact dashboard en checkpoints gebruiken sub-4 zonder grafieken", () => {
+test("countdown, compact dashboard en checkpoints gebruiken V8-doelen zonder grafieken", () => {
   const harness=createHarness(new Map(),"?date=2026-10-05");
   harness.brandHome.click();
   assert.equal(harness.context.window.MarathonApp.daysUntilMarathon(),48);
   assert.match(harness.app.innerHTML,/6 weken en 6 dagen/);
-  assert.match(harness.app.innerHTML,/0 van 33 trainingen afgevinkt · 33 te gaan \+ marathon/);
+  assert.match(harness.app.innerHTML,/0 van 32 trainingen afgevinkt · 32 te gaan \+ marathon/);
+  assert.match(harness.app.innerHTML,/3:50:00/);
+  assert.match(harness.app.innerHTML,/&lt;3:55:50/);
   assert.match(harness.app.innerHTML,/Sub 4:00/);
   assert.doesNotMatch(harness.app.innerHTML,/Cumulatieve|chart|werkelijk lopen|Taperbasis/i);
   navigate(harness,"info");
   assert.match(harness.app.innerHTML,/1–3 november/);
-  assert.match(harness.app.innerHTML,/5:41,27\/km/);
-  assert.doesNotMatch(harness.app.innerHTML,/Log per sessie:/);
+  assert.match(harness.app.innerHTML,/5:27,05\/km/);
+  assert.doesNotMatch(harness.app.innerHTML,/Log per sessie:|Log na iedere training:/);
   navigate(harness,"nutrition");
-  assert.match(harness.app.innerHTML,/60–80 g\/u/);
-  assert.match(harness.app.innerHTML,/15, 45, 75, 105, 135, 165, 195 en 225/);
+  assert.match(harness.app.innerHTML,/75–90 g koolhydraten per uur/);
+  assert.match(harness.app.innerHTML,/15, 45, 75, 105, 135, 165, 195 en 220/);
 });
 
 test("alle tijdlijnen zijn cumulatief en identiek aan hun trainingsduren", () => {
@@ -245,10 +273,10 @@ test("alle tijdlijnen zijn cumulatief en identiek aan hun trainingsduren", () =>
 test("timer, pauze, hervatten en stop werken zonder completion automatisch te wijzigen", () => {
   const harness=createHarness();
   const original=harness.localStorage.getItem(STORAGE_KEY);
-  harness.click({"[data-open-treadmill]":{dataset:{openTreadmill:"V6-W42-T2"}}});
-  harness.click({"[data-timer-start]":{dataset:{timerStart:"V6-W42-T2"}}});
+  harness.click({"[data-open-treadmill]":{dataset:{openTreadmill:"V8-W42-T2"}}});
+  harness.click({"[data-timer-start]":{dataset:{timerStart:"V8-W42-T2"}}});
   assert.match(harness.app.innerHTML,/Actieve loopbandcockpit/);
-  assert.match(harness.app.innerHTML,/7–8,5/);
+  assert.match(harness.app.innerHTML,/Praattempo/);
   harness.click({"[data-timer-pause]":{}});
   assert.match(harness.app.innerHTML,/Gepauzeerd/);
   harness.click({"[data-timer-resume]":{}});
@@ -258,5 +286,28 @@ test("timer, pauze, hervatten en stop werken zonder completion automatisch te wi
   harness.context.window.confirm=()=>true;
   harness.click({"[data-timer-stop]":{}});
   assert.match(harness.app.innerHTML,/Start training/);
+  assert.equal(harness.localStorage.getItem(STORAGE_KEY),original);
+});
+
+test("actieve cockpit schakelt ook de eenheid en tekststijl van praattempo naar MP en terug", () => {
+  const clock={now:Date.UTC(2026,9,14,10)};
+  const harness=createHarness(new Map(),"?date=2026-10-14",clock);
+  const original=harness.localStorage.getItem(STORAGE_KEY);
+  harness.click({"[data-open-treadmill]":{dataset:{openTreadmill:"V8-W42-T2"}}});
+  harness.click({"[data-timer-start]":{dataset:{timerStart:"V8-W42-T2"}}});
+  const speed={textContent:"",classList:createClassList()};
+  const unit={textContent:""};
+  const cockpit={classList:createClassList()};
+  harness.app.querySelector=(selector)=>({"[data-focus-current-speed]":speed,"[data-focus-speed-unit]":unit,"[data-focus-cockpit]":cockpit}[selector]||null);
+  clock.now+=900000;
+  harness.tick();
+  assert.equal(speed.textContent,"11");
+  assert.equal(unit.textContent,"km/u");
+  assert.equal(speed.classList.contains("is-self-paced"),false);
+  clock.now+=360000;
+  harness.tick();
+  assert.equal(speed.textContent,"Praattempo");
+  assert.equal(unit.textContent,"RPE 2–3");
+  assert.equal(speed.classList.contains("is-self-paced"),true);
   assert.equal(harness.localStorage.getItem(STORAGE_KEY),original);
 });
