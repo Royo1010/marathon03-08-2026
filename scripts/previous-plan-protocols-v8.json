@@ -1,0 +1,1496 @@
+[
+  {
+    "id": "V8-W41-T1",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 1200,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W41-T2",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 3000,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W41-T3",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 1200,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W41-T4",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "repeat",
+        "repetitions": 11,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 240,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          },
+          {
+            "name": "Herstel",
+            "durationSeconds": 60,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W41-T5",
+    "activityType": "bike",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 600,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": null
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Fietsen",
+            "durationSeconds": 2400,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": null
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 600,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W42-T1",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 1200,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W42-T2",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 900,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "repeat",
+        "repetitions": 4,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 360,
+            "targetType": "Tempo",
+            "targetValue": "5:24–5:30/km",
+            "inclinePercent": 0
+          },
+          {
+            "name": "Herstel",
+            "durationSeconds": 180,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W42-T3",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 900,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W42-T4",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 1440,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W42-T5",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 600,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 4800,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W43-T1",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 1500,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W43-T2",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 900,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "repeat",
+        "repetitions": 3,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 600,
+            "targetType": "Tempo",
+            "targetValue": "5:24–5:30/km",
+            "inclinePercent": 0
+          },
+          {
+            "name": "Herstel",
+            "durationSeconds": 180,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 360,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W43-T3",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 1200,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W43-T4",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 2400,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W43-T5",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 600,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 6300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W44-T1",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 1500,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W44-T2",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 900,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "repeat",
+        "repetitions": 2,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 1200,
+            "targetType": "Tempo",
+            "targetValue": "5:24–5:30/km",
+            "inclinePercent": 0
+          },
+          {
+            "name": "Herstel",
+            "durationSeconds": 180,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W44-T3",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 900,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W44-T4",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 2340,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W44-T5",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 600,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 7800,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W45-T1",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 1680,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W45-T2",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 900,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "repeat",
+        "repetitions": 2,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 1200,
+            "targetType": "Tempo",
+            "targetValue": "5:24–5:30/km",
+            "inclinePercent": 0
+          },
+          {
+            "name": "Herstel",
+            "durationSeconds": 180,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W45-T3",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 900,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W45-T4",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 1560,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W45-T5",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 600,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 9000,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W46-T1",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 1500,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W46-T2",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 900,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "repeat",
+        "repetitions": 2,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 600,
+            "targetType": "Tempo",
+            "targetValue": "5:24–5:30/km",
+            "inclinePercent": 0
+          },
+          {
+            "name": "Herstel",
+            "durationSeconds": 180,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 420,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W46-T3",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 1320,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W46-T4",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 600,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 3900,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W47-T1",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 900,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W47-T2",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 600,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "repeat",
+        "repetitions": 2,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 240,
+            "targetType": "Tempo",
+            "targetValue": "5:24–5:30/km",
+            "inclinePercent": 0
+          },
+          {
+            "name": "Herstel",
+            "durationSeconds": 120,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 180,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W47-T3",
+    "activityType": "run",
+    "groups": [
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Warming-up",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Hardlopen",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      },
+      {
+        "kind": "sequence",
+        "repetitions": 1,
+        "segments": [
+          {
+            "name": "Cooldown",
+            "durationSeconds": 300,
+            "targetType": "Vrij",
+            "targetValue": null,
+            "inclinePercent": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "V8-W47-T4-RACE",
+    "activityType": "race",
+    "groups": []
+  }
+]

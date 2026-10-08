@@ -1,13 +1,13 @@
-// Generated from marathonschema_Roy_FINAL_V8_350_GARMIN_OUTDOOR_2026-10-05.md. Edit the source/generator, then regenerate.
+// Generated from marathonschema_Roy_FINAL_V9_2_350_GARMIN_OUTDOOR_2026-10-08.md. Edit the source/generator, then regenerate.
 window.MARATHON_PLAN = {
   "config": {
-    "planId": "marathon-final-v8-350-2026",
-    "planVersion": 15,
-    "schemaVersion": "marathon-final-v8-350-2026.10.05-1",
-    "sourceFile": "marathonschema_Roy_FINAL_V8_350_GARMIN_OUTDOOR_2026-10-05.md",
-    "sourceSha256": "90111196cdbc17f47a8aac5c52b6e6f354dda63cf6960ad672e6edef929c316c",
+    "planId": "marathon-final-v9-2-350-2026",
+    "planVersion": 16,
+    "schemaVersion": "marathon-final-v9-2-350-2026.10.08-1",
+    "sourceFile": "marathonschema_Roy_FINAL_V9_2_350_GARMIN_OUTDOOR_2026-10-08.md",
+    "sourceSha256": "6f130248df9d59914fc2f274f324b9ea297c03fd74322ec067dcb740ee26f09d",
     "planName": "Marathon 3:50",
-    "planSubtitle": "FINAL V8 · 3:50 · Garmin / Outdoor",
+    "planSubtitle": "FINAL V9.2 · 3:50 · Garmin / Outdoor",
     "startDate": "2026-10-05",
     "endDate": "2026-11-22",
     "marathonDate": "2026-11-22",
@@ -21,11 +21,56 @@ window.MARATHON_PLAN = {
     "historicalAmbition": "3:30 (historisch)",
     "volumeUnit": "minutes"
   },
+  "reportedActivities": [
+    {
+      "activityId": "roy-garmin-2026-10-07",
+      "workoutId": "V9_2-W41-T2",
+      "date": "2026-10-07",
+      "actualDurationSeconds": 3536,
+      "actualDistanceKm": 10.09,
+      "averagePace": "5:51/km",
+      "averageHeartRate": 129,
+      "averageCadence": 176,
+      "sensor": "Polar H9",
+      "source": "Door Roy gerapporteerd in V9.2; geen automatische Garmin-import",
+      "note": "Uitgevoerd, Garmin FIT: 10,09 km; totale tijd 58:56; gemiddeld 5:51/km; gemiddelde hartslag 129 bpm; cadans circa 176 spm. Polar H9 gedragen en verbonden. Gebruiker had het gevoel nog circa 30 min gemakkelijk door te kunnen lopen.",
+      "actualStepsVerified": false
+    }
+  ],
+  "workoutAliases": {
+    "V8-W41-T1": "V9_2-W41-T1",
+    "V6-W41-T1": "V9_2-W41-T1",
+    "V8-W41-T2": "V9_2-W41-T2",
+    "V6-W41-T2": "V9_2-W41-T2",
+    "V8-W41-T3": "V9_2-W41-T3",
+    "V6-W41-T3": "V9_2-W41-T3",
+    "V8-W41-T5": "V9_2-W41-T5",
+    "V6-W41-T5": "V9_2-W41-T5",
+    "V8-W42-T1": "V9_2-W42-T1",
+    "V8-W42-T2": "V9_2-W42-T2",
+    "V8-W42-T3": "V9_2-W42-T3",
+    "V8-W42-T4": "V9_2-W42-T4",
+    "V8-W42-T5": "V9_2-W42-T5",
+    "V8-W43-T2": "V9_2-W43-T2",
+    "V8-W43-T3": "V9_2-W43-T3",
+    "V8-W43-T5": "V9_2-W43-T5",
+    "V8-W44-T2": "V9_2-W44-T2",
+    "V8-W44-T3": "V9_2-W44-T3",
+    "V8-W45-T3": "V9_2-W45-T3",
+    "V8-W46-T1": "V9_2-W46-T1",
+    "V8-W46-T2": "V9_2-W46-T2",
+    "V8-W46-T3": "V9_2-W46-T3",
+    "V8-W46-T4": "V9_2-W46-T4",
+    "V8-W47-T1": "V9_2-W47-T1",
+    "V8-W47-T2": "V9_2-W47-T2",
+    "V8-W47-T3": "V9_2-W47-T3",
+    "V8-W47-T4-RACE": "V9_2-W47-T4-RACE"
+  },
   "weeks": [
     {
       "weekNumber": 41,
-      "weekId": "marathon-v8-w41",
-      "phaseId": "v8-phase-41",
+      "weekId": "marathon-v9-2-w41",
+      "phaseId": "v9-2-phase-41",
       "phaseName": "Actief herstel",
       "weekType": "Actief herstel",
       "startDate": "2026-10-05",
@@ -35,19 +80,23 @@ window.MARATHON_PLAN = {
       "planningMode": "flexible",
       "includesMarathon": false,
       "distanceEstimate": null,
-      "plannedSessionMinutes": 185,
-      "plannedRunMinutes": 164,
-      "plannedWalkMinutes": 21,
+      "restDays": [
+        "maandag",
+        "zondag"
+      ],
+      "plannedSessionMinutes": 170,
+      "plannedRunMinutes": 170,
+      "plannedWalkMinutes": 0,
       "plannedBikeMinutes": 60,
       "plannedMpMinutes": 0,
       "workouts": [
         {
-          "workoutId": "V8-W41-T1",
-          "trainingId": "V8-W41-T1",
+          "workoutId": "V9_2-W41-T1",
+          "trainingId": "V9_2-W41-T1",
           "trainingNumber": 1,
           "weekNumber": 41,
-          "weekId": "marathon-v8-w41",
-          "phaseId": "v8-phase-41",
+          "weekId": "marathon-v9-2-w41",
+          "phaseId": "v9-2-phase-41",
           "phaseName": "Actief herstel",
           "date": null,
           "preferredDate": "2026-10-06",
@@ -69,30 +118,31 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Loopritme behouden; eindig met reserve",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
           "orderWarning": "",
           "locationStatus": "Outdoor / Garmin · loopband als alternatief",
           "outsideVariant": "Outdoor is de standaard. MP-sessies en langere duur in W43–45 bij voorkeur buiten; een bandrun bewijst niet automatisch dezelfde buitenbelastbaarheid.",
-          "treadmillInstruction": "dezelfde stapduren en repeats, 0% starthelling. Easy 7–9,5 km/u; warming-up/cooldown/herstel 7–8,5 km/u, aangepast aan RPE. Tempo op de band zelf instellen; gevoel gaat voor",
+          "treadmillInstruction": "dezelfde stapduren en repeats, 0% starthelling. Geen vaste snelheid: stel warming-up, easy en cooldown afzonderlijk in op ontspannen praattest/RPE. Tempo op de band zelf instellen; gevoel gaat voor",
           "bikeInstruction": "",
           "hometrainerInstruction": "",
           "durationCheck": "5 + 20 + 5 = 30 min. Geen repeats of apart herstelblok",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W41-T1-g1",
+              "groupId": "V9_2-W41-T1-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W41-T1-s1",
+                  "segmentId": "V9_2-W41-T1-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -104,24 +154,21 @@ window.MARATHON_PLAN = {
                   "cue": "Zeer easy RPE 2; soepel starten",
                   "instruction": "Zeer easy RPE 2; soepel starten",
                   "inclinePercent": 0,
-                  "speedRangeKmh": [
-                    7,
-                    8.5
-                  ],
-                  "speedKmh": 7.75,
-                  "speedMode": "prescribed",
+                  "speedRangeKmh": null,
+                  "speedKmh": null,
+                  "speedMode": "self-paced",
                   "distanceKm": null
                 }
               ]
             },
             {
-              "groupId": "V8-W41-T1-g2",
+              "groupId": "V9_2-W41-T1-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W41-T1-s2",
+                  "segmentId": "V9_2-W41-T1-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
@@ -133,24 +180,21 @@ window.MARATHON_PLAN = {
                   "cue": "Easy RPE 2–3; volledige zinnen",
                   "instruction": "Easy RPE 2–3; volledige zinnen",
                   "inclinePercent": 0,
-                  "speedRangeKmh": [
-                    7,
-                    9.5
-                  ],
-                  "speedKmh": 8.25,
-                  "speedMode": "prescribed",
+                  "speedRangeKmh": null,
+                  "speedKmh": null,
+                  "speedMode": "self-paced",
                   "distanceKm": null
                 }
               ]
             },
             {
-              "groupId": "V8-W41-T1-g3",
+              "groupId": "V9_2-W41-T1-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W41-T1-s3",
+                  "segmentId": "V9_2-W41-T1-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -162,12 +206,9 @@ window.MARATHON_PLAN = {
                   "cue": "Zeer easy RPE 2; ontspannen afronden",
                   "instruction": "Zeer easy RPE 2; ontspannen afronden",
                   "inclinePercent": 0,
-                  "speedRangeKmh": [
-                    7,
-                    8.5
-                  ],
-                  "speedKmh": 7.75,
-                  "speedMode": "prescribed",
+                  "speedRangeKmh": null,
+                  "speedKmh": null,
+                  "speedMode": "self-paced",
                   "distanceKm": null
                 }
               ]
@@ -176,13 +217,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W41-T1-g1",
+                "groupId": "V9_2-W41-T1-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W41-T1-s1",
+                    "segmentId": "V9_2-W41-T1-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -194,24 +235,21 @@ window.MARATHON_PLAN = {
                     "cue": "Zeer easy RPE 2; soepel starten",
                     "instruction": "Zeer easy RPE 2; soepel starten",
                     "inclinePercent": 0,
-                    "speedRangeKmh": [
-                      7,
-                      8.5
-                    ],
-                    "speedKmh": 7.75,
-                    "speedMode": "prescribed",
+                    "speedRangeKmh": null,
+                    "speedKmh": null,
+                    "speedMode": "self-paced",
                     "distanceKm": null
                   }
                 ]
               },
               {
-                "groupId": "V8-W41-T1-g2",
+                "groupId": "V9_2-W41-T1-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W41-T1-s2",
+                    "segmentId": "V9_2-W41-T1-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
@@ -223,24 +261,21 @@ window.MARATHON_PLAN = {
                     "cue": "Easy RPE 2–3; volledige zinnen",
                     "instruction": "Easy RPE 2–3; volledige zinnen",
                     "inclinePercent": 0,
-                    "speedRangeKmh": [
-                      7,
-                      9.5
-                    ],
-                    "speedKmh": 8.25,
-                    "speedMode": "prescribed",
+                    "speedRangeKmh": null,
+                    "speedKmh": null,
+                    "speedMode": "self-paced",
                     "distanceKm": null
                   }
                 ]
               },
               {
-                "groupId": "V8-W41-T1-g3",
+                "groupId": "V9_2-W41-T1-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W41-T1-s3",
+                    "segmentId": "V9_2-W41-T1-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -252,12 +287,9 @@ window.MARATHON_PLAN = {
                     "cue": "Zeer easy RPE 2; ontspannen afronden",
                     "instruction": "Zeer easy RPE 2; ontspannen afronden",
                     "inclinePercent": 0,
-                    "speedRangeKmh": [
-                      7,
-                      8.5
-                    ],
-                    "speedKmh": 7.75,
-                    "speedMode": "prescribed",
+                    "speedRangeKmh": null,
+                    "speedKmh": null,
+                    "speedMode": "self-paced",
                     "distanceKm": null
                   }
                 ]
@@ -267,18 +299,19 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "679a8c163deeca57ee0af0824b3087292542748d66dbe1ae92b3070362689e3f",
+          "protocolSignature": "7bfd76a1051bede70c98d31c9c2299928b1521a0d5ae0416c33c994eb9a78c7b",
           "compatiblePreviousIds": [
+            "V8-W41-T1",
             "V6-W41-T1"
           ]
         },
         {
-          "workoutId": "V8-W41-T2",
-          "trainingId": "V8-W41-T2",
+          "workoutId": "V9_2-W41-T2",
+          "trainingId": "V9_2-W41-T2",
           "trainingNumber": 2,
           "weekNumber": 41,
-          "weekId": "marathon-v8-w41",
-          "phaseId": "v8-phase-41",
+          "weekId": "marathon-v9-2-w41",
+          "phaseId": "v9-2-phase-41",
           "phaseName": "Actief herstel",
           "date": null,
           "preferredDate": "2026-10-07",
@@ -300,30 +333,31 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
-          "goal": "Alleen de volledige 60 min als dit comfortabel voelt. Geen test; bij zware benen 30–45 min en zonder tempo-eis afronden",
+          "confidence": false,
+          "goal": "bijna het geplande uur aaneengesloten gelopen; ervaren reserves van circa 30 min. Planstappen blijven ter documentatie staan; er wordt niet beweerd dat de handmatige Garmin-stepovergangen exact zo zijn gevolgd",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
           "orderWarning": "",
           "locationStatus": "Outdoor / Garmin · loopband als alternatief",
           "outsideVariant": "Outdoor is de standaard. MP-sessies en langere duur in W43–45 bij voorkeur buiten; een bandrun bewijst niet automatisch dezelfde buitenbelastbaarheid.",
-          "treadmillInstruction": "dezelfde stapduren en repeats, 0% starthelling. Easy 7–9,5 km/u; warming-up/cooldown/herstel 7–8,5 km/u, aangepast aan RPE. Tempo op de band zelf instellen; gevoel gaat voor",
+          "treadmillInstruction": "dezelfde stapduren en repeats, 0% starthelling. Geen vaste snelheid: stel warming-up, easy en cooldown afzonderlijk in op ontspannen praattest/RPE. Tempo op de band zelf instellen; gevoel gaat voor",
           "bikeInstruction": "",
           "hometrainerInstruction": "",
           "durationCheck": "5 + 50 + 5 = 60 min. Geen repeats of apart herstelblok",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W41-T2-g1",
+              "groupId": "V9_2-W41-T2-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W41-T2-s1",
+                  "segmentId": "V9_2-W41-T2-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -335,24 +369,21 @@ window.MARATHON_PLAN = {
                   "cue": "Zeer easy RPE 2; soepel starten",
                   "instruction": "Zeer easy RPE 2; soepel starten",
                   "inclinePercent": 0,
-                  "speedRangeKmh": [
-                    7,
-                    8.5
-                  ],
-                  "speedKmh": 7.75,
-                  "speedMode": "prescribed",
+                  "speedRangeKmh": null,
+                  "speedKmh": null,
+                  "speedMode": "self-paced",
                   "distanceKm": null
                 }
               ]
             },
             {
-              "groupId": "V8-W41-T2-g2",
+              "groupId": "V9_2-W41-T2-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W41-T2-s2",
+                  "segmentId": "V9_2-W41-T2-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
@@ -364,24 +395,21 @@ window.MARATHON_PLAN = {
                   "cue": "Easy RPE 2–3; volledige zinnen",
                   "instruction": "Easy RPE 2–3; volledige zinnen",
                   "inclinePercent": 0,
-                  "speedRangeKmh": [
-                    7,
-                    9.5
-                  ],
-                  "speedKmh": 8.25,
-                  "speedMode": "prescribed",
+                  "speedRangeKmh": null,
+                  "speedKmh": null,
+                  "speedMode": "self-paced",
                   "distanceKm": null
                 }
               ]
             },
             {
-              "groupId": "V8-W41-T2-g3",
+              "groupId": "V9_2-W41-T2-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W41-T2-s3",
+                  "segmentId": "V9_2-W41-T2-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -393,12 +421,9 @@ window.MARATHON_PLAN = {
                   "cue": "Zeer easy RPE 2; ontspannen afronden",
                   "instruction": "Zeer easy RPE 2; ontspannen afronden",
                   "inclinePercent": 0,
-                  "speedRangeKmh": [
-                    7,
-                    8.5
-                  ],
-                  "speedKmh": 7.75,
-                  "speedMode": "prescribed",
+                  "speedRangeKmh": null,
+                  "speedKmh": null,
+                  "speedMode": "self-paced",
                   "distanceKm": null
                 }
               ]
@@ -407,13 +432,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W41-T2-g1",
+                "groupId": "V9_2-W41-T2-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W41-T2-s1",
+                    "segmentId": "V9_2-W41-T2-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -425,24 +450,21 @@ window.MARATHON_PLAN = {
                     "cue": "Zeer easy RPE 2; soepel starten",
                     "instruction": "Zeer easy RPE 2; soepel starten",
                     "inclinePercent": 0,
-                    "speedRangeKmh": [
-                      7,
-                      8.5
-                    ],
-                    "speedKmh": 7.75,
-                    "speedMode": "prescribed",
+                    "speedRangeKmh": null,
+                    "speedKmh": null,
+                    "speedMode": "self-paced",
                     "distanceKm": null
                   }
                 ]
               },
               {
-                "groupId": "V8-W41-T2-g2",
+                "groupId": "V9_2-W41-T2-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W41-T2-s2",
+                    "segmentId": "V9_2-W41-T2-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
@@ -454,24 +476,21 @@ window.MARATHON_PLAN = {
                     "cue": "Easy RPE 2–3; volledige zinnen",
                     "instruction": "Easy RPE 2–3; volledige zinnen",
                     "inclinePercent": 0,
-                    "speedRangeKmh": [
-                      7,
-                      9.5
-                    ],
-                    "speedKmh": 8.25,
-                    "speedMode": "prescribed",
+                    "speedRangeKmh": null,
+                    "speedKmh": null,
+                    "speedMode": "self-paced",
                     "distanceKm": null
                   }
                 ]
               },
               {
-                "groupId": "V8-W41-T2-g3",
+                "groupId": "V9_2-W41-T2-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W41-T2-s3",
+                    "segmentId": "V9_2-W41-T2-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -483,12 +502,9 @@ window.MARATHON_PLAN = {
                     "cue": "Zeer easy RPE 2; ontspannen afronden",
                     "instruction": "Zeer easy RPE 2; ontspannen afronden",
                     "inclinePercent": 0,
-                    "speedRangeKmh": [
-                      7,
-                      8.5
-                    ],
-                    "speedKmh": 7.75,
-                    "speedMode": "prescribed",
+                    "speedRangeKmh": null,
+                    "speedKmh": null,
+                    "speedMode": "self-paced",
                     "distanceKm": null
                   }
                 ]
@@ -498,18 +514,33 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "32e1685993dcbdf22f1b5533b736bd72e10a975ade138d01feae18c90a46b9ae",
+          "protocolSignature": "43bd4e7bce9e80d7fe9e749a38182b115c4ad6c73eae68956f222ac057e3cd80",
           "compatiblePreviousIds": [
+            "V8-W41-T2",
             "V6-W41-T2"
-          ]
+          ],
+          "reportedExecution": {
+            "activityId": "roy-garmin-2026-10-07",
+            "workoutId": "V9_2-W41-T2",
+            "date": "2026-10-07",
+            "actualDurationSeconds": 3536,
+            "actualDistanceKm": 10.09,
+            "averagePace": "5:51/km",
+            "averageHeartRate": 129,
+            "averageCadence": 176,
+            "sensor": "Polar H9",
+            "source": "Door Roy gerapporteerd in V9.2; geen automatische Garmin-import",
+            "note": "Uitgevoerd, Garmin FIT: 10,09 km; totale tijd 58:56; gemiddeld 5:51/km; gemiddelde hartslag 129 bpm; cadans circa 176 spm. Polar H9 gedragen en verbonden. Gebruiker had het gevoel nog circa 30 min gemakkelijk door te kunnen lopen.",
+            "actualStepsVerified": false
+          }
         },
         {
-          "workoutId": "V8-W41-T3",
-          "trainingId": "V8-W41-T3",
+          "workoutId": "V9_2-W41-T3",
+          "trainingId": "V9_2-W41-T3",
           "trainingNumber": 3,
           "weekNumber": 41,
-          "weekId": "marathon-v8-w41",
-          "phaseId": "v8-phase-41",
+          "weekId": "marathon-v9-2-w41",
+          "phaseId": "v9-2-phase-41",
           "phaseName": "Actief herstel",
           "date": null,
           "preferredDate": "2026-10-09",
@@ -531,30 +562,31 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Benen soepel houden. Geen strides deze herstelweek",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
           "orderWarning": "",
           "locationStatus": "Outdoor / Garmin · loopband als alternatief",
           "outsideVariant": "Outdoor is de standaard. MP-sessies en langere duur in W43–45 bij voorkeur buiten; een bandrun bewijst niet automatisch dezelfde buitenbelastbaarheid.",
-          "treadmillInstruction": "dezelfde stapduren en repeats, 0% starthelling. Easy 7–9,5 km/u; warming-up/cooldown/herstel 7–8,5 km/u, aangepast aan RPE. Tempo op de band zelf instellen; gevoel gaat voor",
+          "treadmillInstruction": "dezelfde stapduren en repeats, 0% starthelling. Geen vaste snelheid: stel warming-up, easy en cooldown afzonderlijk in op ontspannen praattest/RPE. Tempo op de band zelf instellen; gevoel gaat voor",
           "bikeInstruction": "",
           "hometrainerInstruction": "",
           "durationCheck": "5 + 20 + 5 = 30 min. Geen repeats of apart herstelblok",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W41-T3-g1",
+              "groupId": "V9_2-W41-T3-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W41-T3-s1",
+                  "segmentId": "V9_2-W41-T3-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -566,24 +598,21 @@ window.MARATHON_PLAN = {
                   "cue": "Zeer easy RPE 2; soepel starten",
                   "instruction": "Zeer easy RPE 2; soepel starten",
                   "inclinePercent": 0,
-                  "speedRangeKmh": [
-                    7,
-                    8.5
-                  ],
-                  "speedKmh": 7.75,
-                  "speedMode": "prescribed",
+                  "speedRangeKmh": null,
+                  "speedKmh": null,
+                  "speedMode": "self-paced",
                   "distanceKm": null
                 }
               ]
             },
             {
-              "groupId": "V8-W41-T3-g2",
+              "groupId": "V9_2-W41-T3-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W41-T3-s2",
+                  "segmentId": "V9_2-W41-T3-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
@@ -595,24 +624,21 @@ window.MARATHON_PLAN = {
                   "cue": "Easy RPE 2–3; volledige zinnen",
                   "instruction": "Easy RPE 2–3; volledige zinnen",
                   "inclinePercent": 0,
-                  "speedRangeKmh": [
-                    7,
-                    9.5
-                  ],
-                  "speedKmh": 8.25,
-                  "speedMode": "prescribed",
+                  "speedRangeKmh": null,
+                  "speedKmh": null,
+                  "speedMode": "self-paced",
                   "distanceKm": null
                 }
               ]
             },
             {
-              "groupId": "V8-W41-T3-g3",
+              "groupId": "V9_2-W41-T3-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W41-T3-s3",
+                  "segmentId": "V9_2-W41-T3-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -624,12 +650,9 @@ window.MARATHON_PLAN = {
                   "cue": "Zeer easy RPE 2; ontspannen afronden",
                   "instruction": "Zeer easy RPE 2; ontspannen afronden",
                   "inclinePercent": 0,
-                  "speedRangeKmh": [
-                    7,
-                    8.5
-                  ],
-                  "speedKmh": 7.75,
-                  "speedMode": "prescribed",
+                  "speedRangeKmh": null,
+                  "speedKmh": null,
+                  "speedMode": "self-paced",
                   "distanceKm": null
                 }
               ]
@@ -638,13 +661,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W41-T3-g1",
+                "groupId": "V9_2-W41-T3-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W41-T3-s1",
+                    "segmentId": "V9_2-W41-T3-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -656,24 +679,21 @@ window.MARATHON_PLAN = {
                     "cue": "Zeer easy RPE 2; soepel starten",
                     "instruction": "Zeer easy RPE 2; soepel starten",
                     "inclinePercent": 0,
-                    "speedRangeKmh": [
-                      7,
-                      8.5
-                    ],
-                    "speedKmh": 7.75,
-                    "speedMode": "prescribed",
+                    "speedRangeKmh": null,
+                    "speedKmh": null,
+                    "speedMode": "self-paced",
                     "distanceKm": null
                   }
                 ]
               },
               {
-                "groupId": "V8-W41-T3-g2",
+                "groupId": "V9_2-W41-T3-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W41-T3-s2",
+                    "segmentId": "V9_2-W41-T3-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
@@ -685,24 +705,21 @@ window.MARATHON_PLAN = {
                     "cue": "Easy RPE 2–3; volledige zinnen",
                     "instruction": "Easy RPE 2–3; volledige zinnen",
                     "inclinePercent": 0,
-                    "speedRangeKmh": [
-                      7,
-                      9.5
-                    ],
-                    "speedKmh": 8.25,
-                    "speedMode": "prescribed",
+                    "speedRangeKmh": null,
+                    "speedKmh": null,
+                    "speedMode": "self-paced",
                     "distanceKm": null
                   }
                 ]
               },
               {
-                "groupId": "V8-W41-T3-g3",
+                "groupId": "V9_2-W41-T3-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W41-T3-s3",
+                    "segmentId": "V9_2-W41-T3-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -714,12 +731,9 @@ window.MARATHON_PLAN = {
                     "cue": "Zeer easy RPE 2; ontspannen afronden",
                     "instruction": "Zeer easy RPE 2; ontspannen afronden",
                     "inclinePercent": 0,
-                    "speedRangeKmh": [
-                      7,
-                      8.5
-                    ],
-                    "speedKmh": 7.75,
-                    "speedMode": "prescribed",
+                    "speedRangeKmh": null,
+                    "speedKmh": null,
+                    "speedMode": "self-paced",
                     "distanceKm": null
                   }
                 ]
@@ -729,161 +743,131 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "89a7e9651a9494a616a02f93f50d27255d2f9ea0fc2188c76b78470a335e2422",
+          "protocolSignature": "ed4b3ab18a3ca722cebe24edb7c826b674d05c79d2095b633a880b03f7cde9f2",
           "compatiblePreviousIds": [
+            "V8-W41-T3",
             "V6-W41-T3"
           ]
         },
         {
-          "workoutId": "V8-W41-T4",
-          "trainingId": "V8-W41-T4",
+          "workoutId": "V9_2-W41-T4",
+          "trainingId": "V9_2-W41-T4",
           "trainingNumber": 4,
           "weekNumber": 41,
-          "weekId": "marathon-v8-w41",
-          "phaseId": "v8-phase-41",
+          "weekId": "marathon-v9-2-w41",
+          "phaseId": "v9-2-phase-41",
           "phaseName": "Actief herstel",
           "date": null,
           "preferredDate": "2026-10-10",
-          "title": "Rustige run-walk",
+          "title": "Ontspannen continu",
           "activityType": "run",
           "category": "rustige-duur",
-          "role": "runwalk",
+          "role": "easy",
           "surface": "buiten",
           "defaultExecutionMode": "garmin",
           "treadmillAvailable": true,
-          "totalPlannedSeconds": 3900,
-          "totalPlannedLabel": "65 min",
+          "totalPlannedSeconds": 3000,
+          "totalPlannedLabel": "50 min",
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": null,
-          "plannedSessionMinutes": 65,
-          "plannedRunMinutes": 44,
-          "plannedWalkMinutes": 21,
+          "plannedSessionMinutes": 50,
+          "plannedRunMinutes": 50,
+          "plannedWalkMinutes": 0,
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
-          "goal": "44 min lopen + 21 min wandelen. De 1 min wandelen hoort ook bij de laatste herhaling. Geen extra jogminuten",
+          "confidence": false,
+          "goal": "50 min rustig aaneengesloten hardlopen. Het doel is geen tempo- of vermoeidheidstest. Dit vervangt de oude 65 min run-walk met 44 min lopen + 21 min wandelen. Bij klachten gelden de stopregels uit §2",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
           "orderWarning": "",
           "locationStatus": "Outdoor / Garmin · loopband als alternatief",
           "outsideVariant": "Outdoor is de standaard. MP-sessies en langere duur in W43–45 bij voorkeur buiten; een bandrun bewijst niet automatisch dezelfde buitenbelastbaarheid.",
-          "treadmillInstruction": "dezelfde stapduren en repeats, 0% starthelling. Loopblokken 7–9 km/u; alle wandelstappen 4–5,5 km/u, naar comfort. Tempo op de band zelf instellen; gevoel gaat voor",
+          "treadmillInstruction": "dezelfde stappen 5+40+5, 0% beginhelling; snelheid vrij volgens praattest, geen vaste km/u-eis",
           "bikeInstruction": "",
           "hometrainerInstruction": "",
-          "durationCheck": "5 + 11×(4 + 1) + 5 = 65 min. Herstel ook na het laatste werkblok; geen extra repeats",
-          "nutrition": "Water naar behoefte; desgewenst één bekend voedingsmoment, geen hoge inname afdwingen",
+          "durationCheck": "5 + 40 + 5 = 50 min. Geen repeats, geen wandelminuten",
+          "nutrition": "Water naar behoefte; geen hoge inname nodig tijdens deze kortere easy-run",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
-          "labels": [
-            "RUN-WALK"
-          ],
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
+          "labels": [],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W41-T4-g1",
+              "groupId": "V9_2-W41-T4-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W41-T4-s1",
+                  "segmentId": "V9_2-W41-T4-s1",
                   "name": "Warming-up",
-                  "type": "wandelen",
+                  "type": "warming-up",
                   "basis": "time",
                   "durationSeconds": 300,
                   "display": "5 min",
                   "isRecovery": false,
                   "targetType": "Vrij",
                   "targetValue": null,
-                  "cue": "Wandelen, rustig starten",
-                  "instruction": "Wandelen, rustig starten",
+                  "cue": "Zeer rustig dribbelen, RPE 2",
+                  "instruction": "Zeer rustig dribbelen, RPE 2",
                   "inclinePercent": 0,
-                  "speedRangeKmh": [
-                    4,
-                    5.5
-                  ],
-                  "speedKmh": 4.75,
-                  "speedMode": "prescribed",
+                  "speedRangeKmh": null,
+                  "speedKmh": null,
+                  "speedMode": "self-paced",
                   "distanceKm": null
                 }
               ]
             },
             {
-              "groupId": "V8-W41-T4-g2",
-              "kind": "repeat",
-              "repetitions": 11,
-              "label": "Werk + herstel",
+              "groupId": "V9_2-W41-T4-g2",
+              "kind": "sequence",
+              "repetitions": 1,
+              "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W41-T4-s2",
+                  "segmentId": "V9_2-W41-T4-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
-                  "durationSeconds": 240,
-                  "display": "4 min",
+                  "durationSeconds": 2400,
+                  "display": "40 min",
                   "isRecovery": false,
                   "targetType": "Vrij",
                   "targetValue": null,
                   "cue": "Easy RPE 2–3; volledige zinnen",
                   "instruction": "Easy RPE 2–3; volledige zinnen",
                   "inclinePercent": 0,
-                  "speedRangeKmh": [
-                    7,
-                    9
-                  ],
-                  "speedKmh": 8,
-                  "speedMode": "prescribed",
-                  "distanceKm": null
-                },
-                {
-                  "segmentId": "V8-W41-T4-s3",
-                  "name": "Herstel",
-                  "type": "wandelen",
-                  "basis": "time",
-                  "durationSeconds": 60,
-                  "display": "1 min",
-                  "isRecovery": true,
-                  "targetType": "Vrij",
-                  "targetValue": null,
-                  "cue": "Wandelen, ontspannen",
-                  "instruction": "Wandelen, ontspannen",
-                  "inclinePercent": 0,
-                  "speedRangeKmh": [
-                    4,
-                    5.5
-                  ],
-                  "speedKmh": 4.75,
-                  "speedMode": "prescribed",
+                  "speedRangeKmh": null,
+                  "speedKmh": null,
+                  "speedMode": "self-paced",
                   "distanceKm": null
                 }
               ]
             },
             {
-              "groupId": "V8-W41-T4-g3",
+              "groupId": "V9_2-W41-T4-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W41-T4-s4",
+                  "segmentId": "V9_2-W41-T4-s3",
                   "name": "Cooldown",
-                  "type": "wandelen",
+                  "type": "cooling-down",
                   "basis": "time",
                   "durationSeconds": 300,
                   "display": "5 min",
                   "isRecovery": false,
                   "targetType": "Vrij",
                   "targetValue": null,
-                  "cue": "Wandelen, rustig afronden",
-                  "instruction": "Wandelen, rustig afronden",
+                  "cue": "Zeer easy dribbelen, ontspannen afronden",
+                  "instruction": "Zeer easy dribbelen, ontspannen afronden",
                   "inclinePercent": 0,
-                  "speedRangeKmh": [
-                    4,
-                    5.5
-                  ],
-                  "speedKmh": 4.75,
-                  "speedMode": "prescribed",
+                  "speedRangeKmh": null,
+                  "speedKmh": null,
+                  "speedMode": "self-paced",
                   "distanceKm": null
                 }
               ]
@@ -892,130 +876,97 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W41-T4-g1",
+                "groupId": "V9_2-W41-T4-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W41-T4-s1",
+                    "segmentId": "V9_2-W41-T4-s1",
                     "name": "Warming-up",
-                    "type": "wandelen",
+                    "type": "warming-up",
                     "basis": "time",
                     "durationSeconds": 300,
                     "display": "5 min",
                     "isRecovery": false,
                     "targetType": "Vrij",
                     "targetValue": null,
-                    "cue": "Wandelen, rustig starten",
-                    "instruction": "Wandelen, rustig starten",
+                    "cue": "Zeer rustig dribbelen, RPE 2",
+                    "instruction": "Zeer rustig dribbelen, RPE 2",
                     "inclinePercent": 0,
-                    "speedRangeKmh": [
-                      4,
-                      5.5
-                    ],
-                    "speedKmh": 4.75,
-                    "speedMode": "prescribed",
+                    "speedRangeKmh": null,
+                    "speedKmh": null,
+                    "speedMode": "self-paced",
                     "distanceKm": null
                   }
                 ]
               },
               {
-                "groupId": "V8-W41-T4-g2",
-                "kind": "repeat",
-                "repetitions": 11,
-                "label": "Werk + herstel",
+                "groupId": "V9_2-W41-T4-g2",
+                "kind": "sequence",
+                "repetitions": 1,
+                "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W41-T4-s2",
+                    "segmentId": "V9_2-W41-T4-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
-                    "durationSeconds": 240,
-                    "display": "4 min",
+                    "durationSeconds": 2400,
+                    "display": "40 min",
                     "isRecovery": false,
                     "targetType": "Vrij",
                     "targetValue": null,
                     "cue": "Easy RPE 2–3; volledige zinnen",
                     "instruction": "Easy RPE 2–3; volledige zinnen",
                     "inclinePercent": 0,
-                    "speedRangeKmh": [
-                      7,
-                      9
-                    ],
-                    "speedKmh": 8,
-                    "speedMode": "prescribed",
-                    "distanceKm": null
-                  },
-                  {
-                    "segmentId": "V8-W41-T4-s3",
-                    "name": "Herstel",
-                    "type": "wandelen",
-                    "basis": "time",
-                    "durationSeconds": 60,
-                    "display": "1 min",
-                    "isRecovery": true,
-                    "targetType": "Vrij",
-                    "targetValue": null,
-                    "cue": "Wandelen, ontspannen",
-                    "instruction": "Wandelen, ontspannen",
-                    "inclinePercent": 0,
-                    "speedRangeKmh": [
-                      4,
-                      5.5
-                    ],
-                    "speedKmh": 4.75,
-                    "speedMode": "prescribed",
+                    "speedRangeKmh": null,
+                    "speedKmh": null,
+                    "speedMode": "self-paced",
                     "distanceKm": null
                   }
                 ]
               },
               {
-                "groupId": "V8-W41-T4-g3",
+                "groupId": "V9_2-W41-T4-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W41-T4-s4",
+                    "segmentId": "V9_2-W41-T4-s3",
                     "name": "Cooldown",
-                    "type": "wandelen",
+                    "type": "cooling-down",
                     "basis": "time",
                     "durationSeconds": 300,
                     "display": "5 min",
                     "isRecovery": false,
                     "targetType": "Vrij",
                     "targetValue": null,
-                    "cue": "Wandelen, rustig afronden",
-                    "instruction": "Wandelen, rustig afronden",
+                    "cue": "Zeer easy dribbelen, ontspannen afronden",
+                    "instruction": "Zeer easy dribbelen, ontspannen afronden",
                     "inclinePercent": 0,
-                    "speedRangeKmh": [
-                      4,
-                      5.5
-                    ],
-                    "speedKmh": 4.75,
-                    "speedMode": "prescribed",
+                    "speedRangeKmh": null,
+                    "speedKmh": null,
+                    "speedMode": "self-paced",
                     "distanceKm": null
                   }
                 ]
               }
             ],
-            "programSummary": "5 min wandelen Geen doel / Vrij → REPEAT 11× [4 min easy Geen doel / Vrij + 1 min wandelen Geen doel / Vrij] → 5 min wandelen Geen doel / Vrij",
+            "programSummary": "5 min warming-up Vrij → 40 min Hardlopen Vrij → 5 min cooldown Vrij",
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "ee9f7ed6f5efb82cb9f0b571386b9ae60944caeee7566c0ad33a82ceb82c06a3",
-          "compatiblePreviousIds": [
-            "V6-W41-T4"
-          ]
+          "protocolSignature": "ac055767e963a9badbceebf0e19e4bc33d145d50d7807c067c41970c1adf49d7"
         },
         {
-          "workoutId": "V8-W41-T5",
-          "trainingId": "V8-W41-T5",
+          "workoutId": "V9_2-W41-T5",
+          "trainingId": "V9_2-W41-T5",
           "trainingNumber": 5,
           "weekNumber": 41,
-          "weekId": "marathon-v8-w41",
-          "phaseId": "v8-phase-41",
+          "weekId": "marathon-v9-2-w41",
+          "phaseId": "v9-2-phase-41",
           "phaseName": "Actief herstel",
           "date": null,
           "preferredDate": "2026-10-08",
@@ -1037,6 +988,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 60,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Aerobe beweging met weinig impact; geen zwaar verzet",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -1049,18 +1001,18 @@ window.MARATHON_PLAN = {
           "durationCheck": "10 + 40 + 10 = 60 min. Geen repeats of apart herstelblok",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W41-T5-g1",
+              "groupId": "V9_2-W41-T5-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W41-T5-s1",
+                  "segmentId": "V9_2-W41-T5-s1",
                   "name": "Warming-up",
                   "type": "fiets",
                   "basis": "time",
@@ -1080,13 +1032,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W41-T5-g2",
+              "groupId": "V9_2-W41-T5-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Fietsen",
               "segments": [
                 {
-                  "segmentId": "V8-W41-T5-s2",
+                  "segmentId": "V9_2-W41-T5-s2",
                   "name": "Fietsen",
                   "type": "fiets",
                   "basis": "time",
@@ -1106,13 +1058,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W41-T5-g3",
+              "groupId": "V9_2-W41-T5-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W41-T5-s3",
+                  "segmentId": "V9_2-W41-T5-s3",
                   "name": "Cooldown",
                   "type": "fiets",
                   "basis": "time",
@@ -1135,13 +1087,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W41-T5-g1",
+                "groupId": "V9_2-W41-T5-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W41-T5-s1",
+                    "segmentId": "V9_2-W41-T5-s1",
                     "name": "Warming-up",
                     "type": "fiets",
                     "basis": "time",
@@ -1161,13 +1113,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W41-T5-g2",
+                "groupId": "V9_2-W41-T5-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Fietsen",
                 "segments": [
                   {
-                    "segmentId": "V8-W41-T5-s2",
+                    "segmentId": "V9_2-W41-T5-s2",
                     "name": "Fietsen",
                     "type": "fiets",
                     "basis": "time",
@@ -1187,13 +1139,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W41-T5-g3",
+                "groupId": "V9_2-W41-T5-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W41-T5-s3",
+                    "segmentId": "V9_2-W41-T5-s3",
                     "name": "Cooldown",
                     "type": "fiets",
                     "basis": "time",
@@ -1217,8 +1169,9 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "a47e59bf0b3572c41010c7cedd9047131af457866f365f013c023e18c66bcdc1",
+          "protocolSignature": "94bd4b9ed989dc64b73d7c6be5d379cb52dab4ead84e363bf0a365017e28c435",
           "compatiblePreviousIds": [
+            "V8-W41-T5",
             "V6-W41-T5"
           ]
         }
@@ -1234,14 +1187,14 @@ window.MARATHON_PLAN = {
           "Rustige herstelweek: vier loopcontacten en één rustige fietsrit; geen MP of snellere prikkels."
         ],
         "targetLink": "A: 3:50:00 · B: PR <3:55:50 · C: sub 4:00. Checkpoints verfijnen de uitvoering, geen eindtijdgarantie.",
-        "whyNotMore": "Geen kilometerquotum, extra tests of late inhaalpiek. Lange duur maximaal 165 minuten; taper vanaf 9 november.",
+        "whyNotMore": "Geen kilometerquotum, extra tests of late inhaalpiek. Lange duur maximaal 160 minuten; taper vanaf 9 november.",
         "confidence": "Vertrouwen komt uit goed verwerkte buitenweken, gecontroleerde MP en passend herstel."
       }
     },
     {
       "weekNumber": 42,
-      "weekId": "marathon-v8-w42",
-      "phaseId": "v8-phase-42",
+      "weekId": "marathon-v9-2-w42",
+      "phaseId": "v9-2-phase-42",
       "phaseName": "Herstart met vijf runs",
       "weekType": "Herstart met vijf runs",
       "startDate": "2026-10-12",
@@ -1251,10 +1204,14 @@ window.MARATHON_PLAN = {
       "planningMode": "flexible",
       "includesMarathon": false,
       "distanceEstimate": {
-        "min": 33.163636363636364,
-        "max": 37.67521367521367,
-        "middle": 35.26009937888199
+        "min": 37.63443895553987,
+        "max": 40.403669724770644,
+        "middle": 38.96366972477064
       },
+      "restDays": [
+        "maandag",
+        "vrijdag"
+      ],
       "plannedSessionMinutes": 240,
       "plannedRunMinutes": 240,
       "plannedWalkMinutes": 0,
@@ -1262,12 +1219,12 @@ window.MARATHON_PLAN = {
       "plannedMpMinutes": 24,
       "workouts": [
         {
-          "workoutId": "V8-W42-T1",
-          "trainingId": "V8-W42-T1",
+          "workoutId": "V9_2-W42-T1",
+          "trainingId": "V9_2-W42-T1",
           "trainingNumber": 1,
           "weekNumber": 42,
-          "weekId": "marathon-v8-w42",
-          "phaseId": "v8-phase-42",
+          "weekId": "marathon-v9-2-w42",
+          "phaseId": "v9-2-phase-42",
           "phaseName": "Herstart met vijf runs",
           "date": null,
           "preferredDate": "2026-10-13",
@@ -1283,9 +1240,9 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 4,
-            "max": 4.615384615384615,
-            "middle": 4.285714285714286
+            "min": 4.615384615384615,
+            "max": 5,
+            "middle": 4.8
           },
           "plannedSessionMinutes": 30,
           "plannedRunMinutes": 30,
@@ -1293,6 +1250,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -1305,18 +1263,18 @@ window.MARATHON_PLAN = {
           "durationCheck": "5 + 20 + 5 = 30 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W42-T1-g1",
+              "groupId": "V9_2-W42-T1-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W42-T1-s1",
+                  "segmentId": "V9_2-W42-T1-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -1336,13 +1294,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W42-T1-g2",
+              "groupId": "V9_2-W42-T1-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W42-T1-s2",
+                  "segmentId": "V9_2-W42-T1-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
@@ -1362,13 +1320,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W42-T1-g3",
+              "groupId": "V9_2-W42-T1-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W42-T1-s3",
+                  "segmentId": "V9_2-W42-T1-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -1391,13 +1349,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W42-T1-g1",
+                "groupId": "V9_2-W42-T1-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W42-T1-s1",
+                    "segmentId": "V9_2-W42-T1-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -1417,13 +1375,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W42-T1-g2",
+                "groupId": "V9_2-W42-T1-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W42-T1-s2",
+                    "segmentId": "V9_2-W42-T1-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
@@ -1443,13 +1401,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W42-T1-g3",
+                "groupId": "V9_2-W42-T1-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W42-T1-s3",
+                    "segmentId": "V9_2-W42-T1-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -1473,15 +1431,18 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "aed957cdad6d93c699dda16faccba269de3d49accbc4f784d160fbd168ed0999"
+          "protocolSignature": "f01c3ba438a204fbe301af8f130e9b98e1497885ab983c28c361fc524d7f5087",
+          "compatiblePreviousIds": [
+            "V8-W42-T1"
+          ]
         },
         {
-          "workoutId": "V8-W42-T2",
-          "trainingId": "V8-W42-T2",
+          "workoutId": "V9_2-W42-T2",
+          "trainingId": "V9_2-W42-T2",
           "trainingNumber": 2,
           "weekNumber": 42,
-          "weekId": "marathon-v8-w42",
-          "phaseId": "v8-phase-42",
+          "weekId": "marathon-v9-2-w42",
+          "phaseId": "v9-2-phase-42",
           "phaseName": "Herstart met vijf runs",
           "date": null,
           "preferredDate": "2026-10-14",
@@ -1497,9 +1458,9 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 8.630303030303029,
-            "max": 9.367521367521366,
-            "middle": 8.974385093167701
+            "min": 9.326746647847566,
+            "max": 9.737003058103976,
+            "middle": 9.523669724770642
           },
           "plannedSessionMinutes": 56,
           "plannedRunMinutes": 56,
@@ -1507,6 +1468,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 24,
           "targetRpe": "2–3 easy · 4–5 MP",
+          "confidence": false,
           "goal": "Leer het 3:50-ritme in vier beheersbare blokken. Geen snellere laatste herhaling. Normaal gevoed starten. Voeding volgens §6; deze sessie is geen nuchtere test",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -1519,20 +1481,20 @@ window.MARATHON_PLAN = {
           "durationCheck": "15 + 4×(6 + 3) + 5 = 56 min. MP-totaal: 24 min; jogherstel: 12 min. De laatste herstelstap komt vóór de aparte cooldown",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [
             "MARATHONPACE"
           ],
           "tone": "quality",
           "groups": [
             {
-              "groupId": "V8-W42-T2-g1",
+              "groupId": "V9_2-W42-T2-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W42-T2-s1",
+                  "segmentId": "V9_2-W42-T2-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -1552,13 +1514,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W42-T2-g2",
+              "groupId": "V9_2-W42-T2-g2",
               "kind": "repeat",
               "repetitions": 4,
               "label": "Werk + herstel",
               "segments": [
                 {
-                  "segmentId": "V8-W42-T2-s2",
+                  "segmentId": "V9_2-W42-T2-s2",
                   "name": "Hardlopen",
                   "type": "marathonpace",
                   "basis": "time",
@@ -1576,7 +1538,7 @@ window.MARATHON_PLAN = {
                   "distanceKm": null
                 },
                 {
-                  "segmentId": "V8-W42-T2-s3",
+                  "segmentId": "V9_2-W42-T2-s3",
                   "name": "Herstel",
                   "type": "herstel",
                   "basis": "time",
@@ -1596,13 +1558,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W42-T2-g3",
+              "groupId": "V9_2-W42-T2-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W42-T2-s4",
+                  "segmentId": "V9_2-W42-T2-s4",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -1625,13 +1587,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W42-T2-g1",
+                "groupId": "V9_2-W42-T2-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W42-T2-s1",
+                    "segmentId": "V9_2-W42-T2-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -1651,13 +1613,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W42-T2-g2",
+                "groupId": "V9_2-W42-T2-g2",
                 "kind": "repeat",
                 "repetitions": 4,
                 "label": "Werk + herstel",
                 "segments": [
                   {
-                    "segmentId": "V8-W42-T2-s2",
+                    "segmentId": "V9_2-W42-T2-s2",
                     "name": "Hardlopen",
                     "type": "marathonpace",
                     "basis": "time",
@@ -1675,7 +1637,7 @@ window.MARATHON_PLAN = {
                     "distanceKm": null
                   },
                   {
-                    "segmentId": "V8-W42-T2-s3",
+                    "segmentId": "V9_2-W42-T2-s3",
                     "name": "Herstel",
                     "type": "herstel",
                     "basis": "time",
@@ -1695,13 +1657,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W42-T2-g3",
+                "groupId": "V9_2-W42-T2-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W42-T2-s4",
+                    "segmentId": "V9_2-W42-T2-s4",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -1725,15 +1687,18 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "386ef54e129247541094275573f2571d2903e265c605b286a7f5a4a5790a2c79"
+          "protocolSignature": "9211777ff6eee120535b9db179a95b4a0c5570fcb5e297d0f4bcebee4b72e097",
+          "compatiblePreviousIds": [
+            "V8-W42-T2"
+          ]
         },
         {
-          "workoutId": "V8-W42-T3",
-          "trainingId": "V8-W42-T3",
+          "workoutId": "V9_2-W42-T3",
+          "trainingId": "V9_2-W42-T3",
           "trainingNumber": 3,
           "weekNumber": 42,
-          "weekId": "marathon-v8-w42",
-          "phaseId": "v8-phase-42",
+          "weekId": "marathon-v9-2-w42",
+          "phaseId": "v9-2-phase-42",
           "phaseName": "Herstart met vijf runs",
           "date": null,
           "preferredDate": "2026-10-15",
@@ -1749,9 +1714,9 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 3.3333333333333335,
-            "max": 3.8461538461538463,
-            "middle": 3.5714285714285716
+            "min": 3.8461538461538463,
+            "max": 4.166666666666667,
+            "middle": 4
           },
           "plannedSessionMinutes": 25,
           "plannedRunMinutes": 25,
@@ -1759,6 +1724,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -1771,20 +1737,20 @@ window.MARATHON_PLAN = {
           "durationCheck": "5 + 15 + 5 = 25 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [
             "RECOVERY"
           ],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W42-T3-g1",
+              "groupId": "V9_2-W42-T3-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W42-T3-s1",
+                  "segmentId": "V9_2-W42-T3-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -1804,13 +1770,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W42-T3-g2",
+              "groupId": "V9_2-W42-T3-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W42-T3-s2",
+                  "segmentId": "V9_2-W42-T3-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
@@ -1830,13 +1796,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W42-T3-g3",
+              "groupId": "V9_2-W42-T3-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W42-T3-s3",
+                  "segmentId": "V9_2-W42-T3-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -1859,13 +1825,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W42-T3-g1",
+                "groupId": "V9_2-W42-T3-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W42-T3-s1",
+                    "segmentId": "V9_2-W42-T3-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -1885,13 +1851,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W42-T3-g2",
+                "groupId": "V9_2-W42-T3-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W42-T3-s2",
+                    "segmentId": "V9_2-W42-T3-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
@@ -1911,13 +1877,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W42-T3-g3",
+                "groupId": "V9_2-W42-T3-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W42-T3-s3",
+                    "segmentId": "V9_2-W42-T3-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -1941,15 +1907,18 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "f07925ddcdfc7842e87767c21bb309647a102ce2adf2544e298fb52787d33962"
+          "protocolSignature": "b486f16aeb1f36e8b3d858ded5e3a4800aa412df7256ebe5000a5a94250bc67e",
+          "compatiblePreviousIds": [
+            "V8-W42-T3"
+          ]
         },
         {
-          "workoutId": "V8-W42-T4",
-          "trainingId": "V8-W42-T4",
+          "workoutId": "V9_2-W42-T4",
+          "trainingId": "V9_2-W42-T4",
           "trainingNumber": 4,
           "weekNumber": 42,
-          "weekId": "marathon-v8-w42",
-          "phaseId": "v8-phase-42",
+          "weekId": "marathon-v9-2-w42",
+          "phaseId": "v9-2-phase-42",
           "phaseName": "Herstart met vijf runs",
           "date": null,
           "preferredDate": "2026-10-17",
@@ -1965,9 +1934,9 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 4.533333333333333,
-            "max": 5.230769230769231,
-            "middle": 4.857142857142857
+            "min": 5.230769230769231,
+            "max": 5.666666666666667,
+            "middle": 5.44
           },
           "plannedSessionMinutes": 34,
           "plannedRunMinutes": 34,
@@ -1975,6 +1944,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -1987,20 +1957,20 @@ window.MARATHON_PLAN = {
           "durationCheck": "5 + 24 + 5 = 34 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [
             "AEROBIC SUPPORT"
           ],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W42-T4-g1",
+              "groupId": "V9_2-W42-T4-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W42-T4-s1",
+                  "segmentId": "V9_2-W42-T4-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -2020,13 +1990,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W42-T4-g2",
+              "groupId": "V9_2-W42-T4-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W42-T4-s2",
+                  "segmentId": "V9_2-W42-T4-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
@@ -2046,13 +2016,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W42-T4-g3",
+              "groupId": "V9_2-W42-T4-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W42-T4-s3",
+                  "segmentId": "V9_2-W42-T4-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -2075,13 +2045,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W42-T4-g1",
+                "groupId": "V9_2-W42-T4-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W42-T4-s1",
+                    "segmentId": "V9_2-W42-T4-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -2101,13 +2071,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W42-T4-g2",
+                "groupId": "V9_2-W42-T4-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W42-T4-s2",
+                    "segmentId": "V9_2-W42-T4-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
@@ -2127,13 +2097,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W42-T4-g3",
+                "groupId": "V9_2-W42-T4-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W42-T4-s3",
+                    "segmentId": "V9_2-W42-T4-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -2157,15 +2127,18 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "4175aa449312b23d8b3b568454d3b370b92f0c49a112f212eab96c1f6e882dc4"
+          "protocolSignature": "4757f92ac49490292ddac971634577e7d40374027b76aeafe11f07c6bcf4d2be",
+          "compatiblePreviousIds": [
+            "V8-W42-T4"
+          ]
         },
         {
-          "workoutId": "V8-W42-T5",
-          "trainingId": "V8-W42-T5",
+          "workoutId": "V9_2-W42-T5",
+          "trainingId": "V9_2-W42-T5",
           "trainingNumber": 5,
           "weekNumber": 42,
-          "weekId": "marathon-v8-w42",
-          "phaseId": "v8-phase-42",
+          "weekId": "marathon-v9-2-w42",
+          "phaseId": "v9-2-phase-42",
           "phaseName": "Herstart met vijf runs",
           "date": null,
           "preferredDate": "2026-10-18",
@@ -2181,9 +2154,9 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 12.666666666666666,
-            "max": 14.615384615384615,
-            "middle": 13.571428571428571
+            "min": 14.615384615384615,
+            "max": 15.833333333333334,
+            "middle": 15.2
           },
           "plannedSessionMinutes": 95,
           "plannedRunMinutes": 95,
@@ -2191,6 +2164,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "volledig aaneengesloten easy, inclusief rustig ingelopen start en rustige laatste vijf minuten. Geen standaard run-walk, geen MP-blokken en geen fast finish",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -2201,20 +2175,20 @@ window.MARATHON_PLAN = {
           "bikeInstruction": "",
           "hometrainerInstruction": "",
           "durationCheck": "10 + 80 + 5 = 95 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
-          "nutrition": "3 gels van 40 g op 20, 50 en 80 min: 120 g / 95 min = 75,8 g/u. Dit zijn concrete oefenpatronen voor reeds passende tolerantie; de stapsgewijze instap en waterlogistiek staan in §6",
+          "nutrition": "Standaard instap: twee vertrouwde gels van 40 g op 25 en 65 min = 80 g / 95 min = 50,5 g/u. Neem water naar behoefte en oefen het gebruik van passende waterpunten. Alleen bij reeds bewezen tolerantie kan een hogere inname worden gekozen; zie §6",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W42-T5-g1",
+              "groupId": "V9_2-W42-T5-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W42-T5-s1",
+                  "segmentId": "V9_2-W42-T5-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -2234,13 +2208,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W42-T5-g2",
+              "groupId": "V9_2-W42-T5-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W42-T5-s2",
+                  "segmentId": "V9_2-W42-T5-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
@@ -2260,13 +2234,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W42-T5-g3",
+              "groupId": "V9_2-W42-T5-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W42-T5-s3",
+                  "segmentId": "V9_2-W42-T5-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -2289,13 +2263,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W42-T5-g1",
+                "groupId": "V9_2-W42-T5-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W42-T5-s1",
+                    "segmentId": "V9_2-W42-T5-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -2315,13 +2289,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W42-T5-g2",
+                "groupId": "V9_2-W42-T5-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W42-T5-s2",
+                    "segmentId": "V9_2-W42-T5-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
@@ -2341,13 +2315,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W42-T5-g3",
+                "groupId": "V9_2-W42-T5-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W42-T5-s3",
+                    "segmentId": "V9_2-W42-T5-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -2371,7 +2345,10 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "0240398372cbcae39d00a1939e38cd7131056bf7b4cb164942f256a9435f20d5"
+          "protocolSignature": "f653637cfedf422fe4ad84415e734b9a01e408ef2bb2c54811cd02e3a62875ec",
+          "compatiblePreviousIds": [
+            "V8-W42-T5"
+          ]
         }
       ],
       "weekPhilosophy": {
@@ -2385,41 +2362,45 @@ window.MARATHON_PLAN = {
           "Serieuze herstart: vijf loopdagen en 24 minuten 3:50-marathonpace."
         ],
         "targetLink": "A: 3:50:00 · B: PR <3:55:50 · C: sub 4:00. Checkpoints verfijnen de uitvoering, geen eindtijdgarantie.",
-        "whyNotMore": "Geen kilometerquotum, extra tests of late inhaalpiek. Lange duur maximaal 165 minuten; taper vanaf 9 november.",
+        "whyNotMore": "Geen kilometerquotum, extra tests of late inhaalpiek. Lange duur maximaal 160 minuten; taper vanaf 9 november.",
         "confidence": "Vertrouwen komt uit goed verwerkte buitenweken, gecontroleerde MP en passend herstel."
       }
     },
     {
       "weekNumber": 43,
-      "weekId": "marathon-v8-w43",
-      "phaseId": "v8-phase-43",
-      "phaseName": "Duuropbouw",
-      "weekType": "Duuropbouw",
+      "weekId": "marathon-v9-2-w43",
+      "phaseId": "v9-2-phase-43",
+      "phaseName": "Two-Hour Confidence",
+      "weekType": "Two-Hour Confidence",
       "startDate": "2026-10-19",
       "endDate": "2026-10-25",
       "periodLabel": "19 oktober – 25 oktober",
-      "focus": "Meer duurvolume; MP-blokken verlengen tot 10 minuten.",
+      "focus": "Serieuze duurprogressie, eerste twee-uur-confidence run en 3×10 minuten MP.",
       "planningMode": "flexible",
       "includesMarathon": false,
       "distanceEstimate": {
-        "min": 40.78787878787879,
-        "max": 46.324786324786324,
-        "middle": 43.360838509316764
+        "min": 44.735356386732526,
+        "max": 48.00458715596331,
+        "middle": 46.304587155963304
       },
-      "plannedSessionMinutes": 295,
-      "plannedRunMinutes": 295,
+      "restDays": [
+        "maandag",
+        "vrijdag"
+      ],
+      "plannedSessionMinutes": 285,
+      "plannedRunMinutes": 285,
       "plannedWalkMinutes": 0,
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 30,
       "workouts": [
         {
-          "workoutId": "V8-W43-T1",
-          "trainingId": "V8-W43-T1",
+          "workoutId": "V9_2-W43-T1",
+          "trainingId": "V9_2-W43-T1",
           "trainingNumber": 1,
           "weekNumber": 43,
-          "weekId": "marathon-v8-w43",
-          "phaseId": "v8-phase-43",
-          "phaseName": "Duuropbouw",
+          "weekId": "marathon-v9-2-w43",
+          "phaseId": "v9-2-phase-43",
+          "phaseName": "Two-Hour Confidence",
           "date": null,
           "preferredDate": "2026-10-20",
           "title": "Easy run",
@@ -2429,21 +2410,22 @@ window.MARATHON_PLAN = {
           "surface": "buiten",
           "defaultExecutionMode": "garmin",
           "treadmillAvailable": true,
-          "totalPlannedSeconds": 2100,
-          "totalPlannedLabel": "35 min",
+          "totalPlannedSeconds": 2700,
+          "totalPlannedLabel": "45 min",
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 4.666666666666667,
-            "max": 5.384615384615385,
-            "middle": 5
+            "min": 6.923076923076923,
+            "max": 7.5,
+            "middle": 7.2
           },
-          "plannedSessionMinutes": 35,
-          "plannedRunMinutes": 35,
+          "plannedSessionMinutes": 45,
+          "plannedRunMinutes": 45,
           "plannedWalkMinutes": 0,
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -2453,21 +2435,21 @@ window.MARATHON_PLAN = {
           "treadmillInstruction": "dezelfde drie tijdstappen, 0% starthelling; alle stappen op praattempo/RPE. Geen verplichte snelheid of afstand, geen extra minuten. Outdoor heeft voor lange duur de voorkeur",
           "bikeInstruction": "",
           "hometrainerInstruction": "",
-          "durationCheck": "5 + 25 + 5 = 35 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
+          "durationCheck": "5 + 35 + 5 = 45 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W43-T1-g1",
+              "groupId": "V9_2-W43-T1-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W43-T1-s1",
+                  "segmentId": "V9_2-W43-T1-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -2487,18 +2469,18 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W43-T1-g2",
+              "groupId": "V9_2-W43-T1-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W43-T1-s2",
+                  "segmentId": "V9_2-W43-T1-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
-                  "durationSeconds": 1500,
-                  "display": "25 min",
+                  "durationSeconds": 2100,
+                  "display": "35 min",
                   "isRecovery": false,
                   "targetType": "Vrij",
                   "targetValue": null,
@@ -2513,13 +2495,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W43-T1-g3",
+              "groupId": "V9_2-W43-T1-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W43-T1-s3",
+                  "segmentId": "V9_2-W43-T1-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -2542,13 +2524,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W43-T1-g1",
+                "groupId": "V9_2-W43-T1-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W43-T1-s1",
+                    "segmentId": "V9_2-W43-T1-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -2568,18 +2550,18 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W43-T1-g2",
+                "groupId": "V9_2-W43-T1-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W43-T1-s2",
+                    "segmentId": "V9_2-W43-T1-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
-                    "durationSeconds": 1500,
-                    "display": "25 min",
+                    "durationSeconds": 2100,
+                    "display": "35 min",
                     "isRecovery": false,
                     "targetType": "Vrij",
                     "targetValue": null,
@@ -2594,13 +2576,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W43-T1-g3",
+                "groupId": "V9_2-W43-T1-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W43-T1-s3",
+                    "segmentId": "V9_2-W43-T1-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -2620,20 +2602,20 @@ window.MARATHON_PLAN = {
                 ]
               }
             ],
-            "programSummary": "5 min warming-up Vrij → 25 min Hardlopen Vrij → 5 min cooldown Vrij",
+            "programSummary": "5 min warming-up Vrij → 35 min Hardlopen Vrij → 5 min cooldown Vrij",
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "0687d4ef8af76267875e0af9e1d567e9254f34d5c022a786a77bff15466bf729"
+          "protocolSignature": "61c6d06cca21e3e9802833f88c19039cd176b4cbdd2fc05c57a6ed607b418021"
         },
         {
-          "workoutId": "V8-W43-T2",
-          "trainingId": "V8-W43-T2",
+          "workoutId": "V9_2-W43-T2",
+          "trainingId": "V9_2-W43-T2",
           "trainingNumber": 2,
           "weekNumber": 43,
-          "weekId": "marathon-v8-w43",
-          "phaseId": "v8-phase-43",
-          "phaseName": "Duuropbouw",
+          "weekId": "marathon-v9-2-w43",
+          "phaseId": "v9-2-phase-43",
+          "phaseName": "Two-Hour Confidence",
           "date": null,
           "preferredDate": "2026-10-21",
           "title": "Marathonpace 3×10 min",
@@ -2648,9 +2630,9 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 9.454545454545453,
-            "max": 10.17094017094017,
-            "middle": 9.789409937888198
+            "min": 10.119971771347917,
+            "max": 10.504587155963304,
+            "middle": 10.304587155963302
           },
           "plannedSessionMinutes": 60,
           "plannedRunMinutes": 60,
@@ -2658,6 +2640,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 30,
           "targetRpe": "2–3 easy · 4–5 MP",
+          "confidence": false,
           "goal": "Houd dezelfde pace over drie langere blokken. Het laatste blok blijft technisch ontspannen. Normaal gevoed starten. Voeding volgens §6; deze sessie is geen nuchtere test",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -2670,20 +2653,20 @@ window.MARATHON_PLAN = {
           "durationCheck": "15 + 3×(10 + 3) + 6 = 60 min. MP-totaal: 30 min; jogherstel: 9 min. De laatste herstelstap komt vóór de aparte cooldown",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [
             "MARATHONPACE"
           ],
           "tone": "quality",
           "groups": [
             {
-              "groupId": "V8-W43-T2-g1",
+              "groupId": "V9_2-W43-T2-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W43-T2-s1",
+                  "segmentId": "V9_2-W43-T2-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -2703,13 +2686,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W43-T2-g2",
+              "groupId": "V9_2-W43-T2-g2",
               "kind": "repeat",
               "repetitions": 3,
               "label": "Werk + herstel",
               "segments": [
                 {
-                  "segmentId": "V8-W43-T2-s2",
+                  "segmentId": "V9_2-W43-T2-s2",
                   "name": "Hardlopen",
                   "type": "marathonpace",
                   "basis": "time",
@@ -2727,7 +2710,7 @@ window.MARATHON_PLAN = {
                   "distanceKm": null
                 },
                 {
-                  "segmentId": "V8-W43-T2-s3",
+                  "segmentId": "V9_2-W43-T2-s3",
                   "name": "Herstel",
                   "type": "herstel",
                   "basis": "time",
@@ -2747,13 +2730,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W43-T2-g3",
+              "groupId": "V9_2-W43-T2-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W43-T2-s4",
+                  "segmentId": "V9_2-W43-T2-s4",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -2776,13 +2759,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W43-T2-g1",
+                "groupId": "V9_2-W43-T2-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W43-T2-s1",
+                    "segmentId": "V9_2-W43-T2-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -2802,13 +2785,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W43-T2-g2",
+                "groupId": "V9_2-W43-T2-g2",
                 "kind": "repeat",
                 "repetitions": 3,
                 "label": "Werk + herstel",
                 "segments": [
                   {
-                    "segmentId": "V8-W43-T2-s2",
+                    "segmentId": "V9_2-W43-T2-s2",
                     "name": "Hardlopen",
                     "type": "marathonpace",
                     "basis": "time",
@@ -2826,7 +2809,7 @@ window.MARATHON_PLAN = {
                     "distanceKm": null
                   },
                   {
-                    "segmentId": "V8-W43-T2-s3",
+                    "segmentId": "V9_2-W43-T2-s3",
                     "name": "Herstel",
                     "type": "herstel",
                     "basis": "time",
@@ -2846,13 +2829,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W43-T2-g3",
+                "groupId": "V9_2-W43-T2-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W43-T2-s4",
+                    "segmentId": "V9_2-W43-T2-s4",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -2876,16 +2859,19 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "3692f13e2016d55e3a7af91f823186dd1ef309d5d9bec92dbed9553c46d00c2a"
+          "protocolSignature": "2a6f9dd876c8eac2ea8158f0d873ac98df6b2fc5cf77f732d066abeb572bb122",
+          "compatiblePreviousIds": [
+            "V8-W43-T2"
+          ]
         },
         {
-          "workoutId": "V8-W43-T3",
-          "trainingId": "V8-W43-T3",
+          "workoutId": "V9_2-W43-T3",
+          "trainingId": "V9_2-W43-T3",
           "trainingNumber": 3,
           "weekNumber": 43,
-          "weekId": "marathon-v8-w43",
-          "phaseId": "v8-phase-43",
-          "phaseName": "Duuropbouw",
+          "weekId": "marathon-v9-2-w43",
+          "phaseId": "v9-2-phase-43",
+          "phaseName": "Two-Hour Confidence",
           "date": null,
           "preferredDate": "2026-10-22",
           "title": "Recovery easy",
@@ -2900,9 +2886,9 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 4,
-            "max": 4.615384615384615,
-            "middle": 4.285714285714286
+            "min": 4.615384615384615,
+            "max": 5,
+            "middle": 4.8
           },
           "plannedSessionMinutes": 30,
           "plannedRunMinutes": 30,
@@ -2910,6 +2896,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -2922,20 +2909,20 @@ window.MARATHON_PLAN = {
           "durationCheck": "5 + 20 + 5 = 30 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [
             "RECOVERY"
           ],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W43-T3-g1",
+              "groupId": "V9_2-W43-T3-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W43-T3-s1",
+                  "segmentId": "V9_2-W43-T3-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -2955,13 +2942,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W43-T3-g2",
+              "groupId": "V9_2-W43-T3-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W43-T3-s2",
+                  "segmentId": "V9_2-W43-T3-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
@@ -2981,13 +2968,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W43-T3-g3",
+              "groupId": "V9_2-W43-T3-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W43-T3-s3",
+                  "segmentId": "V9_2-W43-T3-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -3010,13 +2997,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W43-T3-g1",
+                "groupId": "V9_2-W43-T3-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W43-T3-s1",
+                    "segmentId": "V9_2-W43-T3-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -3036,13 +3023,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W43-T3-g2",
+                "groupId": "V9_2-W43-T3-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W43-T3-s2",
+                    "segmentId": "V9_2-W43-T3-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
@@ -3062,13 +3049,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W43-T3-g3",
+                "groupId": "V9_2-W43-T3-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W43-T3-s3",
+                    "segmentId": "V9_2-W43-T3-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -3092,16 +3079,19 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "1350b9e8d8931c4da6fd73162bb6c7a823264754f0751d4958a76def29aafb3d"
+          "protocolSignature": "8573ad4df0031ffbc89cb884650803375ef71a62e517708fa09e1f9845ac4264",
+          "compatiblePreviousIds": [
+            "V8-W43-T3"
+          ]
         },
         {
-          "workoutId": "V8-W43-T4",
-          "trainingId": "V8-W43-T4",
+          "workoutId": "V9_2-W43-T4",
+          "trainingId": "V9_2-W43-T4",
           "trainingNumber": 4,
           "weekNumber": 43,
-          "weekId": "marathon-v8-w43",
-          "phaseId": "v8-phase-43",
-          "phaseName": "Duuropbouw",
+          "weekId": "marathon-v9-2-w43",
+          "phaseId": "v9-2-phase-43",
+          "phaseName": "Two-Hour Confidence",
           "date": null,
           "preferredDate": "2026-10-24",
           "title": "Easy / aerobic support",
@@ -3111,21 +3101,22 @@ window.MARATHON_PLAN = {
           "surface": "buiten",
           "defaultExecutionMode": "garmin",
           "treadmillAvailable": true,
-          "totalPlannedSeconds": 3000,
-          "totalPlannedLabel": "50 min",
+          "totalPlannedSeconds": 1800,
+          "totalPlannedLabel": "30 min",
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 6.666666666666667,
-            "max": 7.6923076923076925,
-            "middle": 7.142857142857143
+            "min": 4.615384615384615,
+            "max": 5,
+            "middle": 4.8
           },
-          "plannedSessionMinutes": 50,
-          "plannedRunMinutes": 50,
+          "plannedSessionMinutes": 30,
+          "plannedRunMinutes": 30,
           "plannedWalkMinutes": 0,
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -3135,23 +3126,23 @@ window.MARATHON_PLAN = {
           "treadmillInstruction": "dezelfde drie tijdstappen, 0% starthelling; alle stappen op praattempo/RPE. Geen verplichte snelheid of afstand, geen extra minuten. Outdoor heeft voor lange duur de voorkeur",
           "bikeInstruction": "",
           "hometrainerInstruction": "",
-          "durationCheck": "5 + 40 + 5 = 50 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
+          "durationCheck": "5 + 20 + 5 = 30 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [
             "AEROBIC SUPPORT"
           ],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W43-T4-g1",
+              "groupId": "V9_2-W43-T4-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W43-T4-s1",
+                  "segmentId": "V9_2-W43-T4-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -3171,18 +3162,18 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W43-T4-g2",
+              "groupId": "V9_2-W43-T4-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W43-T4-s2",
+                  "segmentId": "V9_2-W43-T4-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
-                  "durationSeconds": 2400,
-                  "display": "40 min",
+                  "durationSeconds": 1200,
+                  "display": "20 min",
                   "isRecovery": false,
                   "targetType": "Vrij",
                   "targetValue": null,
@@ -3197,13 +3188,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W43-T4-g3",
+              "groupId": "V9_2-W43-T4-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W43-T4-s3",
+                  "segmentId": "V9_2-W43-T4-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -3226,13 +3217,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W43-T4-g1",
+                "groupId": "V9_2-W43-T4-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W43-T4-s1",
+                    "segmentId": "V9_2-W43-T4-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -3252,18 +3243,18 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W43-T4-g2",
+                "groupId": "V9_2-W43-T4-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W43-T4-s2",
+                    "segmentId": "V9_2-W43-T4-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
-                    "durationSeconds": 2400,
-                    "display": "40 min",
+                    "durationSeconds": 1200,
+                    "display": "20 min",
                     "isRecovery": false,
                     "targetType": "Vrij",
                     "targetValue": null,
@@ -3278,13 +3269,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W43-T4-g3",
+                "groupId": "V9_2-W43-T4-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W43-T4-s3",
+                    "segmentId": "V9_2-W43-T4-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -3304,23 +3295,23 @@ window.MARATHON_PLAN = {
                 ]
               }
             ],
-            "programSummary": "5 min warming-up Vrij → 40 min Hardlopen Vrij → 5 min cooldown Vrij",
+            "programSummary": "5 min warming-up Vrij → 20 min Hardlopen Vrij → 5 min cooldown Vrij",
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "00a5e2c140dbaf8ba6a7e517afc0255f53d704b3153f6763b40eab43879b59ca"
+          "protocolSignature": "7e202ccece6a4f58520fcdd0ff4ca056977a6294c919a16c9aaf9a1645defddf"
         },
         {
-          "workoutId": "V8-W43-T5",
-          "trainingId": "V8-W43-T5",
+          "workoutId": "V9_2-W43-T5",
+          "trainingId": "V9_2-W43-T5",
           "trainingNumber": 5,
           "weekNumber": 43,
-          "weekId": "marathon-v8-w43",
-          "phaseId": "v8-phase-43",
-          "phaseName": "Duuropbouw",
+          "weekId": "marathon-v9-2-w43",
+          "phaseId": "v9-2-phase-43",
+          "phaseName": "Two-Hour Confidence",
           "date": null,
           "preferredDate": "2026-10-25",
-          "title": "Lange duur easy",
+          "title": "Two-Hour Distance Confidence",
           "activityType": "run",
           "category": "lange-duur",
           "role": "long",
@@ -3332,9 +3323,9 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 16,
-            "max": 18.46153846153846,
-            "middle": 17.142857142857142
+            "min": 18.46153846153846,
+            "max": 20,
+            "middle": 19.2
           },
           "plannedSessionMinutes": 120,
           "plannedRunMinutes": 120,
@@ -3342,7 +3333,8 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
-          "goal": "volledig aaneengesloten easy, inclusief rustig ingelopen start en rustige laatste vijf minuten. Geen standaard run-walk, geen MP-blokken en geen fast finish",
+          "confidence": true,
+          "goal": "twee uur rustig aaneengesloten lopen. Bij ongeveer 6:00/km zou dat circa 20 km zijn, bij 6:30/km ongeveer 18,5 km. Houd de tijd en ontspannen inspanning aan: geen kilometertest, geen MP-blokken en geen fast finish. Noteer techniek, voeding, gevoel en herstel na 24–48 uur",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
           "orderWarning": "",
@@ -3352,20 +3344,22 @@ window.MARATHON_PLAN = {
           "bikeInstruction": "",
           "hometrainerInstruction": "",
           "durationCheck": "10 + 105 + 5 = 120 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
-          "nutrition": "4 gels van 40 g op 15, 45, 75 en 105 min: 160 g / 120 min = 80,0 g/u. Dit zijn concrete oefenpatronen voor reeds passende tolerantie; de stapsgewijze instap en waterlogistiek staan in §6",
+          "nutrition": "Standaard: drie gels van 40 g rond 20, 60 en 100 min = 120 g / 120 min = 60 g/u. Plan een route met drinkmogelijkheid en gebruik vertrouwde producten. Zie §6",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
-          "labels": [],
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
+          "labels": [
+            "CONFIDENCE"
+          ],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W43-T5-g1",
+              "groupId": "V9_2-W43-T5-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W43-T5-s1",
+                  "segmentId": "V9_2-W43-T5-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -3385,13 +3379,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W43-T5-g2",
+              "groupId": "V9_2-W43-T5-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W43-T5-s2",
+                  "segmentId": "V9_2-W43-T5-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
@@ -3411,13 +3405,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W43-T5-g3",
+              "groupId": "V9_2-W43-T5-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W43-T5-s3",
+                  "segmentId": "V9_2-W43-T5-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -3440,13 +3434,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W43-T5-g1",
+                "groupId": "V9_2-W43-T5-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W43-T5-s1",
+                    "segmentId": "V9_2-W43-T5-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -3466,13 +3460,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W43-T5-g2",
+                "groupId": "V9_2-W43-T5-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W43-T5-s2",
+                    "segmentId": "V9_2-W43-T5-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
@@ -3492,13 +3486,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W43-T5-g3",
+                "groupId": "V9_2-W43-T5-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W43-T5-s3",
+                    "segmentId": "V9_2-W43-T5-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -3522,55 +3516,62 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "be3ee94f9881055b754cbb9fc8b2ae1df67db34aa1728d2907e6fabf52e55be6"
+          "protocolSignature": "64a4ddbee4b16f3901b990421d318fcbb65ac2042214aa2ebc34c51662f83287",
+          "compatiblePreviousIds": [
+            "V8-W43-T5"
+          ]
         }
       ],
       "weekPhilosophy": {
-        "theme": "Duuropbouw",
-        "summary": "Meer duurvolume; MP-blokken verlengen tot 10 minuten.",
+        "theme": "Two-Hour Confidence",
+        "summary": "Serieuze duurprogressie, eerste twee-uur-confidence run en 3×10 minuten MP.",
         "adaptations": [
           "3:50 A-DOEL",
           "VOORKEURSDAGEN"
         ],
         "why": [
-          "Meer duurvolume; MP-blokken verlengen tot 10 minuten."
+          "Serieuze duurprogressie, eerste twee-uur-confidence run en 3×10 minuten MP."
         ],
         "targetLink": "A: 3:50:00 · B: PR <3:55:50 · C: sub 4:00. Checkpoints verfijnen de uitvoering, geen eindtijdgarantie.",
-        "whyNotMore": "Geen kilometerquotum, extra tests of late inhaalpiek. Lange duur maximaal 165 minuten; taper vanaf 9 november.",
+        "whyNotMore": "Geen kilometerquotum, extra tests of late inhaalpiek. Lange duur maximaal 160 minuten; taper vanaf 9 november.",
         "confidence": "Vertrouwen komt uit goed verwerkte buitenweken, gecontroleerde MP en passend herstel."
       }
     },
     {
       "weekNumber": 44,
-      "weekId": "marathon-v8-w44",
-      "phaseId": "v8-phase-44",
-      "phaseName": "Specifiek zwaar",
-      "weekType": "Specifiek zwaar",
+      "weekId": "marathon-v9-2-w44",
+      "phaseId": "v9-2-phase-44",
+      "phaseName": "Half Marathon+ Confidence",
+      "weekType": "Half Marathon+ Confidence",
       "startDate": "2026-10-26",
       "endDate": "2026-11-01",
       "periodLabel": "26 oktober – 1 november",
-      "focus": "Specifieke zware week: twee lange MP-blokken en 145 minuten duur.",
+      "focus": "Twee lange MP-blokken en een Half Marathon+ Confidence Run van 140 minuten.",
       "planningMode": "flexible",
       "includesMarathon": false,
       "distanceEstimate": {
-        "min": 44.60606060606061,
-        "max": 50.484330484330485,
-        "middle": 47.33826086956522
+        "min": 48.87791107974594,
+        "max": 52.3394495412844,
+        "middle": 50.5394495412844
       },
-      "plannedSessionMinutes": 320,
-      "plannedRunMinutes": 320,
+      "restDays": [
+        "maandag",
+        "vrijdag"
+      ],
+      "plannedSessionMinutes": 310,
+      "plannedRunMinutes": 310,
       "plannedWalkMinutes": 0,
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 40,
       "workouts": [
         {
-          "workoutId": "V8-W44-T1",
-          "trainingId": "V8-W44-T1",
+          "workoutId": "V9_2-W44-T1",
+          "trainingId": "V9_2-W44-T1",
           "trainingNumber": 1,
           "weekNumber": 44,
-          "weekId": "marathon-v8-w44",
-          "phaseId": "v8-phase-44",
-          "phaseName": "Specifiek zwaar",
+          "weekId": "marathon-v9-2-w44",
+          "phaseId": "v9-2-phase-44",
+          "phaseName": "Half Marathon+ Confidence",
           "date": null,
           "preferredDate": "2026-10-27",
           "title": "Easy run",
@@ -3580,21 +3581,22 @@ window.MARATHON_PLAN = {
           "surface": "buiten",
           "defaultExecutionMode": "garmin",
           "treadmillAvailable": true,
-          "totalPlannedSeconds": 2100,
-          "totalPlannedLabel": "35 min",
+          "totalPlannedSeconds": 3000,
+          "totalPlannedLabel": "50 min",
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 4.666666666666667,
-            "max": 5.384615384615385,
-            "middle": 5
+            "min": 7.6923076923076925,
+            "max": 8.333333333333334,
+            "middle": 8
           },
-          "plannedSessionMinutes": 35,
-          "plannedRunMinutes": 35,
+          "plannedSessionMinutes": 50,
+          "plannedRunMinutes": 50,
           "plannedWalkMinutes": 0,
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -3604,21 +3606,21 @@ window.MARATHON_PLAN = {
           "treadmillInstruction": "dezelfde drie tijdstappen, 0% starthelling; alle stappen op praattempo/RPE. Geen verplichte snelheid of afstand, geen extra minuten. Outdoor heeft voor lange duur de voorkeur",
           "bikeInstruction": "",
           "hometrainerInstruction": "",
-          "durationCheck": "5 + 25 + 5 = 35 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
+          "durationCheck": "5 + 40 + 5 = 50 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W44-T1-g1",
+              "groupId": "V9_2-W44-T1-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W44-T1-s1",
+                  "segmentId": "V9_2-W44-T1-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -3638,18 +3640,18 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W44-T1-g2",
+              "groupId": "V9_2-W44-T1-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W44-T1-s2",
+                  "segmentId": "V9_2-W44-T1-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
-                  "durationSeconds": 1500,
-                  "display": "25 min",
+                  "durationSeconds": 2400,
+                  "display": "40 min",
                   "isRecovery": false,
                   "targetType": "Vrij",
                   "targetValue": null,
@@ -3664,13 +3666,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W44-T1-g3",
+              "groupId": "V9_2-W44-T1-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W44-T1-s3",
+                  "segmentId": "V9_2-W44-T1-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -3693,13 +3695,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W44-T1-g1",
+                "groupId": "V9_2-W44-T1-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W44-T1-s1",
+                    "segmentId": "V9_2-W44-T1-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -3719,18 +3721,18 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W44-T1-g2",
+                "groupId": "V9_2-W44-T1-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W44-T1-s2",
+                    "segmentId": "V9_2-W44-T1-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
-                    "durationSeconds": 1500,
-                    "display": "25 min",
+                    "durationSeconds": 2400,
+                    "display": "40 min",
                     "isRecovery": false,
                     "targetType": "Vrij",
                     "targetValue": null,
@@ -3745,13 +3747,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W44-T1-g3",
+                "groupId": "V9_2-W44-T1-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W44-T1-s3",
+                    "segmentId": "V9_2-W44-T1-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -3771,20 +3773,20 @@ window.MARATHON_PLAN = {
                 ]
               }
             ],
-            "programSummary": "5 min warming-up Vrij → 25 min Hardlopen Vrij → 5 min cooldown Vrij",
+            "programSummary": "5 min warming-up Vrij → 40 min Hardlopen Vrij → 5 min cooldown Vrij",
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "9c115c99662d59ff3499075d3b5a38f8b6e219b0c138fb5fe2b1b978094deb01"
+          "protocolSignature": "19ac07db8525a35ba72225fbea5d0393060e42b839faae201a73273651e58d73"
         },
         {
-          "workoutId": "V8-W44-T2",
-          "trainingId": "V8-W44-T2",
+          "workoutId": "V9_2-W44-T2",
+          "trainingId": "V9_2-W44-T2",
           "trainingNumber": 2,
           "weekNumber": 44,
-          "weekId": "marathon-v8-w44",
-          "phaseId": "v8-phase-44",
-          "phaseName": "Specifiek zwaar",
+          "weekId": "marathon-v9-2-w44",
+          "phaseId": "v9-2-phase-44",
+          "phaseName": "Half Marathon+ Confidence",
           "date": null,
           "preferredDate": "2026-10-28",
           "title": "Marathonpace 2×20 min",
@@ -3799,9 +3801,9 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 10.739393939393938,
-            "max": 11.407407407407407,
-            "middle": 11.052546583850932
+            "min": 11.339449541284402,
+            "max": 11.672782874617736,
+            "middle": 11.499449541284402
           },
           "plannedSessionMinutes": 66,
           "plannedRunMinutes": 66,
@@ -3809,6 +3811,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 40,
           "targetRpe": "2–3 easy · 4–5 MP",
+          "confidence": false,
           "goal": "Twintig minuten per blok maakt dit een substantiële specifieke training. Houd beide blokken gelijkmatig; geen maximale test. Normaal gevoed starten. Voeding volgens §6; deze sessie is geen nuchtere test",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -3821,20 +3824,20 @@ window.MARATHON_PLAN = {
           "durationCheck": "15 + 2×(20 + 3) + 5 = 66 min. MP-totaal: 40 min; jogherstel: 6 min. De laatste herstelstap komt vóór de aparte cooldown",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [
             "MARATHONPACE"
           ],
           "tone": "quality",
           "groups": [
             {
-              "groupId": "V8-W44-T2-g1",
+              "groupId": "V9_2-W44-T2-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W44-T2-s1",
+                  "segmentId": "V9_2-W44-T2-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -3854,13 +3857,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W44-T2-g2",
+              "groupId": "V9_2-W44-T2-g2",
               "kind": "repeat",
               "repetitions": 2,
               "label": "Werk + herstel",
               "segments": [
                 {
-                  "segmentId": "V8-W44-T2-s2",
+                  "segmentId": "V9_2-W44-T2-s2",
                   "name": "Hardlopen",
                   "type": "marathonpace",
                   "basis": "time",
@@ -3878,7 +3881,7 @@ window.MARATHON_PLAN = {
                   "distanceKm": null
                 },
                 {
-                  "segmentId": "V8-W44-T2-s3",
+                  "segmentId": "V9_2-W44-T2-s3",
                   "name": "Herstel",
                   "type": "herstel",
                   "basis": "time",
@@ -3898,13 +3901,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W44-T2-g3",
+              "groupId": "V9_2-W44-T2-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W44-T2-s4",
+                  "segmentId": "V9_2-W44-T2-s4",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -3927,13 +3930,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W44-T2-g1",
+                "groupId": "V9_2-W44-T2-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W44-T2-s1",
+                    "segmentId": "V9_2-W44-T2-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -3953,13 +3956,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W44-T2-g2",
+                "groupId": "V9_2-W44-T2-g2",
                 "kind": "repeat",
                 "repetitions": 2,
                 "label": "Werk + herstel",
                 "segments": [
                   {
-                    "segmentId": "V8-W44-T2-s2",
+                    "segmentId": "V9_2-W44-T2-s2",
                     "name": "Hardlopen",
                     "type": "marathonpace",
                     "basis": "time",
@@ -3977,7 +3980,7 @@ window.MARATHON_PLAN = {
                     "distanceKm": null
                   },
                   {
-                    "segmentId": "V8-W44-T2-s3",
+                    "segmentId": "V9_2-W44-T2-s3",
                     "name": "Herstel",
                     "type": "herstel",
                     "basis": "time",
@@ -3997,13 +4000,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W44-T2-g3",
+                "groupId": "V9_2-W44-T2-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W44-T2-s4",
+                    "segmentId": "V9_2-W44-T2-s4",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -4027,16 +4030,19 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "bd59e71b6acb9ce59cd4bcde936f6578882916ecf690d08bebd9a16e9fc488fd"
+          "protocolSignature": "28bf6d27d69220e1ef71fe52c7a4ee47a03a46e45a5a56970bda5b6005122ade",
+          "compatiblePreviousIds": [
+            "V8-W44-T2"
+          ]
         },
         {
-          "workoutId": "V8-W44-T3",
-          "trainingId": "V8-W44-T3",
+          "workoutId": "V9_2-W44-T3",
+          "trainingId": "V9_2-W44-T3",
           "trainingNumber": 3,
           "weekNumber": 44,
-          "weekId": "marathon-v8-w44",
-          "phaseId": "v8-phase-44",
-          "phaseName": "Specifiek zwaar",
+          "weekId": "marathon-v9-2-w44",
+          "phaseId": "v9-2-phase-44",
+          "phaseName": "Half Marathon+ Confidence",
           "date": null,
           "preferredDate": "2026-10-29",
           "title": "Recovery easy",
@@ -4051,9 +4057,9 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 3.3333333333333335,
-            "max": 3.8461538461538463,
-            "middle": 3.5714285714285716
+            "min": 3.8461538461538463,
+            "max": 4.166666666666667,
+            "middle": 4
           },
           "plannedSessionMinutes": 25,
           "plannedRunMinutes": 25,
@@ -4061,6 +4067,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -4073,20 +4080,20 @@ window.MARATHON_PLAN = {
           "durationCheck": "5 + 15 + 5 = 25 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [
             "RECOVERY"
           ],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W44-T3-g1",
+              "groupId": "V9_2-W44-T3-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W44-T3-s1",
+                  "segmentId": "V9_2-W44-T3-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -4106,13 +4113,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W44-T3-g2",
+              "groupId": "V9_2-W44-T3-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W44-T3-s2",
+                  "segmentId": "V9_2-W44-T3-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
@@ -4132,13 +4139,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W44-T3-g3",
+              "groupId": "V9_2-W44-T3-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W44-T3-s3",
+                  "segmentId": "V9_2-W44-T3-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -4161,13 +4168,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W44-T3-g1",
+                "groupId": "V9_2-W44-T3-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W44-T3-s1",
+                    "segmentId": "V9_2-W44-T3-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -4187,13 +4194,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W44-T3-g2",
+                "groupId": "V9_2-W44-T3-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W44-T3-s2",
+                    "segmentId": "V9_2-W44-T3-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
@@ -4213,13 +4220,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W44-T3-g3",
+                "groupId": "V9_2-W44-T3-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W44-T3-s3",
+                    "segmentId": "V9_2-W44-T3-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -4243,16 +4250,19 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "e2383f12789e36315f505a062f111ac2a39f5cfad53c2b7d0ef2048133f60d95"
+          "protocolSignature": "8da14cf4d5030f5fbf9bb26d1b896830b1b02562bd8580ae1d41cb4b85413fb6",
+          "compatiblePreviousIds": [
+            "V8-W44-T3"
+          ]
         },
         {
-          "workoutId": "V8-W44-T4",
-          "trainingId": "V8-W44-T4",
+          "workoutId": "V9_2-W44-T4",
+          "trainingId": "V9_2-W44-T4",
           "trainingNumber": 4,
           "weekNumber": 44,
-          "weekId": "marathon-v8-w44",
-          "phaseId": "v8-phase-44",
-          "phaseName": "Specifiek zwaar",
+          "weekId": "marathon-v9-2-w44",
+          "phaseId": "v9-2-phase-44",
+          "phaseName": "Half Marathon+ Confidence",
           "date": null,
           "preferredDate": "2026-10-31",
           "title": "Easy / aerobic support",
@@ -4262,21 +4272,22 @@ window.MARATHON_PLAN = {
           "surface": "buiten",
           "defaultExecutionMode": "garmin",
           "treadmillAvailable": true,
-          "totalPlannedSeconds": 2940,
-          "totalPlannedLabel": "49 min",
+          "totalPlannedSeconds": 1740,
+          "totalPlannedLabel": "29 min",
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 6.533333333333333,
-            "max": 7.538461538461538,
-            "middle": 7
+            "min": 4.461538461538462,
+            "max": 4.833333333333333,
+            "middle": 4.64
           },
-          "plannedSessionMinutes": 49,
-          "plannedRunMinutes": 49,
+          "plannedSessionMinutes": 29,
+          "plannedRunMinutes": 29,
           "plannedWalkMinutes": 0,
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -4286,23 +4297,23 @@ window.MARATHON_PLAN = {
           "treadmillInstruction": "dezelfde drie tijdstappen, 0% starthelling; alle stappen op praattempo/RPE. Geen verplichte snelheid of afstand, geen extra minuten. Outdoor heeft voor lange duur de voorkeur",
           "bikeInstruction": "",
           "hometrainerInstruction": "",
-          "durationCheck": "5 + 39 + 5 = 49 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
+          "durationCheck": "5 + 19 + 5 = 29 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [
             "AEROBIC SUPPORT"
           ],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W44-T4-g1",
+              "groupId": "V9_2-W44-T4-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W44-T4-s1",
+                  "segmentId": "V9_2-W44-T4-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -4322,18 +4333,18 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W44-T4-g2",
+              "groupId": "V9_2-W44-T4-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W44-T4-s2",
+                  "segmentId": "V9_2-W44-T4-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
-                  "durationSeconds": 2340,
-                  "display": "39 min",
+                  "durationSeconds": 1140,
+                  "display": "19 min",
                   "isRecovery": false,
                   "targetType": "Vrij",
                   "targetValue": null,
@@ -4348,13 +4359,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W44-T4-g3",
+              "groupId": "V9_2-W44-T4-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W44-T4-s3",
+                  "segmentId": "V9_2-W44-T4-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -4377,13 +4388,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W44-T4-g1",
+                "groupId": "V9_2-W44-T4-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W44-T4-s1",
+                    "segmentId": "V9_2-W44-T4-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -4403,18 +4414,18 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W44-T4-g2",
+                "groupId": "V9_2-W44-T4-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W44-T4-s2",
+                    "segmentId": "V9_2-W44-T4-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
-                    "durationSeconds": 2340,
-                    "display": "39 min",
+                    "durationSeconds": 1140,
+                    "display": "19 min",
                     "isRecovery": false,
                     "targetType": "Vrij",
                     "targetValue": null,
@@ -4429,13 +4440,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W44-T4-g3",
+                "groupId": "V9_2-W44-T4-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W44-T4-s3",
+                    "segmentId": "V9_2-W44-T4-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -4455,45 +4466,46 @@ window.MARATHON_PLAN = {
                 ]
               }
             ],
-            "programSummary": "5 min warming-up Vrij → 39 min Hardlopen Vrij → 5 min cooldown Vrij",
+            "programSummary": "5 min warming-up Vrij → 19 min Hardlopen Vrij → 5 min cooldown Vrij",
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "b8b1fe92c5eb992ad878697df4842b982ca8c7182ad1fab9b238ea21372f6230"
+          "protocolSignature": "e0be200ff43ecf6b3f53580f278f5e633bb4a76b4ec2c0603ca1ae020c4330e2"
         },
         {
-          "workoutId": "V8-W44-T5",
-          "trainingId": "V8-W44-T5",
+          "workoutId": "V9_2-W44-T5",
+          "trainingId": "V9_2-W44-T5",
           "trainingNumber": 5,
           "weekNumber": 44,
-          "weekId": "marathon-v8-w44",
-          "phaseId": "v8-phase-44",
-          "phaseName": "Specifiek zwaar",
+          "weekId": "marathon-v9-2-w44",
+          "phaseId": "v9-2-phase-44",
+          "phaseName": "Half Marathon+ Confidence",
           "date": null,
           "preferredDate": "2026-11-01",
-          "title": "Lange duur easy",
+          "title": "Half Marathon+ Confidence",
           "activityType": "run",
           "category": "lange-duur",
           "role": "long",
           "surface": "buiten",
           "defaultExecutionMode": "garmin",
           "treadmillAvailable": true,
-          "totalPlannedSeconds": 8700,
-          "totalPlannedLabel": "145 min",
+          "totalPlannedSeconds": 8400,
+          "totalPlannedLabel": "140 min",
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 19.333333333333332,
-            "max": 22.307692307692307,
-            "middle": 20.714285714285715
+            "min": 21.53846153846154,
+            "max": 23.333333333333332,
+            "middle": 22.4
           },
-          "plannedSessionMinutes": 145,
-          "plannedRunMinutes": 145,
+          "plannedSessionMinutes": 140,
+          "plannedRunMinutes": 140,
           "plannedWalkMinutes": 0,
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
-          "goal": "volledig aaneengesloten easy, inclusief rustig ingelopen start en rustige laatste vijf minuten. Geen standaard run-walk, geen MP-blokken en geen fast finish",
+          "confidence": true,
+          "goal": "maak van 21,1 kilometer een mogelijk tussenpunt, niet een verplicht afstandsdoel. Bij 6:00–6:30/km komt 140 minuten neer op circa 21,5–23,3 km. Blijf de volle 140 minuten op ontspannen praattempo lopen, niet versnellen voor een getal. Oefen voeding en drinklogistiek; let op herstel in de 24–48 uur daarna",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
           "orderWarning": "",
@@ -4502,21 +4514,23 @@ window.MARATHON_PLAN = {
           "treadmillInstruction": "dezelfde drie tijdstappen, 0% starthelling; alle stappen op praattempo/RPE. Geen verplichte snelheid of afstand, geen extra minuten. Outdoor heeft voor lange duur de voorkeur",
           "bikeInstruction": "",
           "hometrainerInstruction": "",
-          "durationCheck": "10 + 130 + 5 = 145 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
-          "nutrition": "5 gels van 40 g op 15, 45, 75, 105 en 135 min: 200 g / 145 min = 82,8 g/u. Dit zijn concrete oefenpatronen voor reeds passende tolerantie; de stapsgewijze instap en waterlogistiek staan in §6",
+          "durationCheck": "10 + 125 + 5 = 140 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
+          "nutrition": "Standaard: vier gels van 40 g rond 15, 50, 85 en 120 min = 160 g / 140 min = 68,6 g/u. Laat de timing meebewegen met de feitelijk bereikbare waterpunten; zie §6",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
-          "labels": [],
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
+          "labels": [
+            "CONFIDENCE"
+          ],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W44-T5-g1",
+              "groupId": "V9_2-W44-T5-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W44-T5-s1",
+                  "segmentId": "V9_2-W44-T5-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -4536,18 +4550,18 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W44-T5-g2",
+              "groupId": "V9_2-W44-T5-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W44-T5-s2",
+                  "segmentId": "V9_2-W44-T5-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
-                  "durationSeconds": 7800,
-                  "display": "130 min",
+                  "durationSeconds": 7500,
+                  "display": "125 min",
                   "isRecovery": false,
                   "targetType": "Vrij",
                   "targetValue": null,
@@ -4562,13 +4576,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W44-T5-g3",
+              "groupId": "V9_2-W44-T5-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W44-T5-s3",
+                  "segmentId": "V9_2-W44-T5-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -4591,13 +4605,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W44-T5-g1",
+                "groupId": "V9_2-W44-T5-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W44-T5-s1",
+                    "segmentId": "V9_2-W44-T5-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -4617,18 +4631,18 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W44-T5-g2",
+                "groupId": "V9_2-W44-T5-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W44-T5-s2",
+                    "segmentId": "V9_2-W44-T5-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
-                    "durationSeconds": 7800,
-                    "display": "130 min",
+                    "durationSeconds": 7500,
+                    "display": "125 min",
                     "isRecovery": false,
                     "targetType": "Vrij",
                     "targetValue": null,
@@ -4643,13 +4657,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W44-T5-g3",
+                "groupId": "V9_2-W44-T5-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W44-T5-s3",
+                    "segmentId": "V9_2-W44-T5-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -4669,59 +4683,63 @@ window.MARATHON_PLAN = {
                 ]
               }
             ],
-            "programSummary": "10 min warming-up Vrij → 130 min Hardlopen Vrij → 5 min cooldown Vrij",
+            "programSummary": "10 min warming-up Vrij → 125 min Hardlopen Vrij → 5 min cooldown Vrij",
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "32ab34338d757c35521f16bbb21a121d219cbf2284805a90488bf370acae966b"
+          "protocolSignature": "d273baacafe80c9a75e5697b0a1d8c9231353c5d74f9f8e252fddde2805ca778"
         }
       ],
       "weekPhilosophy": {
-        "theme": "Specifiek zwaar",
-        "summary": "Specifieke zware week: twee lange MP-blokken en 145 minuten duur.",
+        "theme": "Half Marathon+ Confidence",
+        "summary": "Twee lange MP-blokken en een Half Marathon+ Confidence Run van 140 minuten.",
         "adaptations": [
           "3:50 A-DOEL",
           "VOORKEURSDAGEN"
         ],
         "why": [
-          "Specifieke zware week: twee lange MP-blokken en 145 minuten duur."
+          "Twee lange MP-blokken en een Half Marathon+ Confidence Run van 140 minuten."
         ],
         "targetLink": "A: 3:50:00 · B: PR <3:55:50 · C: sub 4:00. Checkpoints verfijnen de uitvoering, geen eindtijdgarantie.",
-        "whyNotMore": "Geen kilometerquotum, extra tests of late inhaalpiek. Lange duur maximaal 165 minuten; taper vanaf 9 november.",
+        "whyNotMore": "Geen kilometerquotum, extra tests of late inhaalpiek. Lange duur maximaal 160 minuten; taper vanaf 9 november.",
         "confidence": "Vertrouwen komt uit goed verwerkte buitenweken, gecontroleerde MP en passend herstel."
       }
     },
     {
       "weekNumber": 45,
-      "weekId": "marathon-v8-w45",
-      "phaseId": "v8-phase-45",
-      "phaseName": "Piek + generale repetitie",
-      "weekType": "Piek + generale repetitie",
+      "weekId": "marathon-v9-2-w45",
+      "phaseId": "v9-2-phase-45",
+      "phaseName": "Piek + dubbele confidence",
+      "weekType": "Piek + dubbele confidence",
       "startDate": "2026-11-02",
       "endDate": "2026-11-08",
       "periodLabel": "2 november – 8 november",
-      "focus": "Piekweek: 40 minuten MP in twee lange blokken en de laatste lange duur als generale repetitie.",
+      "focus": "Piekweek met twee verschillende confidence runs: woensdag 35 minuten aaneengesloten MP; zondag 160 minuten easy duur.",
       "planningMode": "flexible",
       "includesMarathon": false,
       "distanceEstimate": {
-        "min": 45.93939393939394,
-        "max": 52.02279202279202,
-        "middle": 48.76683229813665
+        "min": 50.268172194777705,
+        "max": 53.92201834862386,
+        "middle": 52.02201834862386
       },
-      "plannedSessionMinutes": 330,
-      "plannedRunMinutes": 330,
+      "restDays": [
+        "maandag",
+        "vrijdag"
+      ],
+      "plannedSessionMinutes": 320,
+      "plannedRunMinutes": 320,
       "plannedWalkMinutes": 0,
       "plannedBikeMinutes": 0,
-      "plannedMpMinutes": 40,
+      "plannedMpMinutes": 35,
       "workouts": [
         {
-          "workoutId": "V8-W45-T1",
-          "trainingId": "V8-W45-T1",
+          "workoutId": "V9_2-W45-T1",
+          "trainingId": "V9_2-W45-T1",
           "trainingNumber": 1,
           "weekNumber": 45,
-          "weekId": "marathon-v8-w45",
-          "phaseId": "v8-phase-45",
-          "phaseName": "Piek + generale repetitie",
+          "weekId": "marathon-v9-2-w45",
+          "phaseId": "v9-2-phase-45",
+          "phaseName": "Piek + dubbele confidence",
           "date": null,
           "preferredDate": "2026-11-03",
           "title": "Easy run",
@@ -4731,21 +4749,22 @@ window.MARATHON_PLAN = {
           "surface": "buiten",
           "defaultExecutionMode": "garmin",
           "treadmillAvailable": true,
-          "totalPlannedSeconds": 2280,
-          "totalPlannedLabel": "38 min",
+          "totalPlannedSeconds": 3000,
+          "totalPlannedLabel": "50 min",
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 5.066666666666666,
-            "max": 5.846153846153846,
-            "middle": 5.428571428571429
+            "min": 7.6923076923076925,
+            "max": 8.333333333333334,
+            "middle": 8
           },
-          "plannedSessionMinutes": 38,
-          "plannedRunMinutes": 38,
+          "plannedSessionMinutes": 50,
+          "plannedRunMinutes": 50,
           "plannedWalkMinutes": 0,
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -4755,21 +4774,21 @@ window.MARATHON_PLAN = {
           "treadmillInstruction": "dezelfde drie tijdstappen, 0% starthelling; alle stappen op praattempo/RPE. Geen verplichte snelheid of afstand, geen extra minuten. Outdoor heeft voor lange duur de voorkeur",
           "bikeInstruction": "",
           "hometrainerInstruction": "",
-          "durationCheck": "5 + 28 + 5 = 38 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
+          "durationCheck": "5 + 40 + 5 = 50 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W45-T1-g1",
+              "groupId": "V9_2-W45-T1-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W45-T1-s1",
+                  "segmentId": "V9_2-W45-T1-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -4789,18 +4808,18 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W45-T1-g2",
+              "groupId": "V9_2-W45-T1-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W45-T1-s2",
+                  "segmentId": "V9_2-W45-T1-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
-                  "durationSeconds": 1680,
-                  "display": "28 min",
+                  "durationSeconds": 2400,
+                  "display": "40 min",
                   "isRecovery": false,
                   "targetType": "Vrij",
                   "targetValue": null,
@@ -4815,13 +4834,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W45-T1-g3",
+              "groupId": "V9_2-W45-T1-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W45-T1-s3",
+                  "segmentId": "V9_2-W45-T1-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -4844,13 +4863,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W45-T1-g1",
+                "groupId": "V9_2-W45-T1-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W45-T1-s1",
+                    "segmentId": "V9_2-W45-T1-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -4870,18 +4889,18 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W45-T1-g2",
+                "groupId": "V9_2-W45-T1-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W45-T1-s2",
+                    "segmentId": "V9_2-W45-T1-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
-                    "durationSeconds": 1680,
-                    "display": "28 min",
+                    "durationSeconds": 2400,
+                    "display": "40 min",
                     "isRecovery": false,
                     "targetType": "Vrij",
                     "targetValue": null,
@@ -4896,13 +4915,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W45-T1-g3",
+                "groupId": "V9_2-W45-T1-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W45-T1-s3",
+                    "segmentId": "V9_2-W45-T1-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -4922,70 +4941,72 @@ window.MARATHON_PLAN = {
                 ]
               }
             ],
-            "programSummary": "5 min warming-up Vrij → 28 min Hardlopen Vrij → 5 min cooldown Vrij",
+            "programSummary": "5 min warming-up Vrij → 40 min Hardlopen Vrij → 5 min cooldown Vrij",
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "9d55dee69ae474108a2e1a30d23615c2e43199ca91d370db18d8516e2df5d963"
+          "protocolSignature": "da30b64a15b60232dacef397dc8f60a24741fdbcd286e2976df485c35dadd255"
         },
         {
-          "workoutId": "V8-W45-T2",
-          "trainingId": "V8-W45-T2",
+          "workoutId": "V9_2-W45-T2",
+          "trainingId": "V9_2-W45-T2",
           "trainingNumber": 2,
           "weekNumber": 45,
-          "weekId": "marathon-v8-w45",
-          "phaseId": "v8-phase-45",
-          "phaseName": "Piek + generale repetitie",
+          "weekId": "marathon-v9-2-w45",
+          "phaseId": "v9-2-phase-45",
+          "phaseName": "Piek + dubbele confidence",
           "date": null,
           "preferredDate": "2026-11-04",
-          "title": "Marathonpace 2×20 min",
+          "title": "Marathonpace Confidence Run",
           "activityType": "run",
           "category": "kwaliteit",
           "role": "marathonpace",
           "surface": "buiten",
           "defaultExecutionMode": "garmin",
           "treadmillAvailable": true,
-          "totalPlannedSeconds": 3960,
-          "totalPlannedLabel": "66 min",
+          "totalPlannedSeconds": 3300,
+          "totalPlannedLabel": "55 min",
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 10.739393939393938,
-            "max": 11.407407407407407,
-            "middle": 11.052546583850932
+            "min": 9.49894142554693,
+            "max": 9.755351681957187,
+            "middle": 9.622018348623854
           },
-          "plannedSessionMinutes": 66,
-          "plannedRunMinutes": 66,
+          "plannedSessionMinutes": 55,
+          "plannedRunMinutes": 55,
           "plannedWalkMinutes": 0,
           "plannedBikeMinutes": 0,
-          "plannedMpMinutes": 40,
+          "plannedMpMinutes": 35,
           "targetRpe": "2–3 easy · 4–5 MP",
-          "goal": "Twee blokken leveren 40 minuten specifiek werk. Beide blokken blijven gelijkmatig rond 5:27/km; de laatste duurloop is deze week de grootste nieuwe prikkel. Na het laatste blok volg je 3 minuten herstel en 5 minuten cooldown. Normaal gevoed starten. Voeding volgens §6; deze sessie is geen nuchtere test",
+          "confidence": true,
+          "goal": "laat voelen dat je 5:27/km voor 35 minuten onder controle kunt houden, zonder versnellen naar 5:00/km of een maximale test te maken. Noteer ritme, hartslagverloop, subjectieve inspanning en herstel. Het bewijst niet dat 42,195 km op dit tempo vanzelf lukt. Normaal gevoed starten; desgewenst een bekend gelmoment oefenen",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
           "orderWarning": "",
           "locationStatus": "Outdoor / Garmin · loopband als alternatief",
           "outsideVariant": "Outdoor is de standaard. MP-sessies en langere duur in W43–45 bij voorkeur buiten; een bandrun bewijst niet automatisch dezelfde buitenbelastbaarheid.",
-          "treadmillInstruction": "exact dezelfde stappen en repeats; MP 11,0 km/u, alle rustige stappen op praattempo, 0% starthelling. Geen extra minuten. Zie §3 voor exacte conversies",
+          "treadmillInstruction": "identieke stappen zonder herhalingen; tijdens MP ongeveer 11,0 km/u op de band; in- en uitlopen op ontspannen praattempo, starthelling 0%. Geen extra minuten. Zie §3 voor conversies",
           "bikeInstruction": "",
           "hometrainerInstruction": "",
-          "durationCheck": "15 + 2×(20 + 3) + 5 = 66 min. MP-totaal: 40 min; jogherstel: 6 min. De laatste herstelstap komt vóór de aparte cooldown",
+          "durationCheck": "15 + 35 + 5 = 55 min. MP-totaal: 35 min; geen repeats, geen herstelpauzes, één aaneengesloten MP-werkblok",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [
+            "CONFIDENCE",
             "MARATHONPACE"
           ],
           "tone": "quality",
           "groups": [
             {
-              "groupId": "V8-W45-T2-g1",
+              "groupId": "V9_2-W45-T2-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W45-T2-s1",
+                  "segmentId": "V9_2-W45-T2-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -4994,8 +5015,8 @@ window.MARATHON_PLAN = {
                   "isRecovery": false,
                   "targetType": "Vrij",
                   "targetValue": null,
-                  "cue": "Easy jog",
-                  "instruction": "Easy jog",
+                  "cue": "Easy jog; soepel beginnen",
+                  "instruction": "Easy jog; soepel beginnen",
                   "inclinePercent": 0,
                   "speedRangeKmh": null,
                   "speedKmh": null,
@@ -5005,57 +5026,39 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W45-T2-g2",
-              "kind": "repeat",
-              "repetitions": 2,
-              "label": "Werk + herstel",
+              "groupId": "V9_2-W45-T2-g2",
+              "kind": "sequence",
+              "repetitions": 1,
+              "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W45-T2-s2",
+                  "segmentId": "V9_2-W45-T2-s2",
                   "name": "Hardlopen",
                   "type": "marathonpace",
                   "basis": "time",
-                  "durationSeconds": 1200,
-                  "display": "20 min",
+                  "durationSeconds": 2100,
+                  "display": "35 min",
                   "isRecovery": false,
                   "targetType": "Tempo",
                   "targetValue": "5:24–5:30/km",
-                  "cue": "5:24–5:30/km; richt op 5:27",
-                  "instruction": "5:24–5:30/km; richt op 5:27",
+                  "cue": "Richt op 5:27/km, gelijkmatig en gecontroleerd",
+                  "instruction": "Richt op 5:27/km, gelijkmatig en gecontroleerd",
                   "inclinePercent": 0,
                   "speedRangeKmh": null,
                   "speedKmh": 11,
                   "speedMode": "prescribed",
                   "distanceKm": null
-                },
-                {
-                  "segmentId": "V8-W45-T2-s3",
-                  "name": "Herstel",
-                  "type": "herstel",
-                  "basis": "time",
-                  "durationSeconds": 180,
-                  "display": "3 min",
-                  "isRecovery": true,
-                  "targetType": "Vrij",
-                  "targetValue": null,
-                  "cue": "Easy jog; ook na laatste repeat",
-                  "instruction": "Easy jog; ook na laatste repeat",
-                  "inclinePercent": 0,
-                  "speedRangeKmh": null,
-                  "speedKmh": null,
-                  "speedMode": "self-paced",
-                  "distanceKm": null
                 }
               ]
             },
             {
-              "groupId": "V8-W45-T2-g3",
+              "groupId": "V9_2-W45-T2-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W45-T2-s4",
+                  "segmentId": "V9_2-W45-T2-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -5078,13 +5081,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W45-T2-g1",
+                "groupId": "V9_2-W45-T2-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W45-T2-s1",
+                    "segmentId": "V9_2-W45-T2-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -5093,8 +5096,8 @@ window.MARATHON_PLAN = {
                     "isRecovery": false,
                     "targetType": "Vrij",
                     "targetValue": null,
-                    "cue": "Easy jog",
-                    "instruction": "Easy jog",
+                    "cue": "Easy jog; soepel beginnen",
+                    "instruction": "Easy jog; soepel beginnen",
                     "inclinePercent": 0,
                     "speedRangeKmh": null,
                     "speedKmh": null,
@@ -5104,57 +5107,39 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W45-T2-g2",
-                "kind": "repeat",
-                "repetitions": 2,
-                "label": "Werk + herstel",
+                "groupId": "V9_2-W45-T2-g2",
+                "kind": "sequence",
+                "repetitions": 1,
+                "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W45-T2-s2",
+                    "segmentId": "V9_2-W45-T2-s2",
                     "name": "Hardlopen",
                     "type": "marathonpace",
                     "basis": "time",
-                    "durationSeconds": 1200,
-                    "display": "20 min",
+                    "durationSeconds": 2100,
+                    "display": "35 min",
                     "isRecovery": false,
                     "targetType": "Tempo",
                     "targetValue": "5:24–5:30/km",
-                    "cue": "5:24–5:30/km; richt op 5:27",
-                    "instruction": "5:24–5:30/km; richt op 5:27",
+                    "cue": "Richt op 5:27/km, gelijkmatig en gecontroleerd",
+                    "instruction": "Richt op 5:27/km, gelijkmatig en gecontroleerd",
                     "inclinePercent": 0,
                     "speedRangeKmh": null,
                     "speedKmh": 11,
                     "speedMode": "prescribed",
                     "distanceKm": null
-                  },
-                  {
-                    "segmentId": "V8-W45-T2-s3",
-                    "name": "Herstel",
-                    "type": "herstel",
-                    "basis": "time",
-                    "durationSeconds": 180,
-                    "display": "3 min",
-                    "isRecovery": true,
-                    "targetType": "Vrij",
-                    "targetValue": null,
-                    "cue": "Easy jog; ook na laatste repeat",
-                    "instruction": "Easy jog; ook na laatste repeat",
-                    "inclinePercent": 0,
-                    "speedRangeKmh": null,
-                    "speedKmh": null,
-                    "speedMode": "self-paced",
-                    "distanceKm": null
                   }
                 ]
               },
               {
-                "groupId": "V8-W45-T2-g3",
+                "groupId": "V9_2-W45-T2-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W45-T2-s4",
+                    "segmentId": "V9_2-W45-T2-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -5174,20 +5159,20 @@ window.MARATHON_PLAN = {
                 ]
               }
             ],
-            "programSummary": "15 min warming-up Vrij → HERHAAL 2× [20 min Hardlopen Tempo 5:24–5:30/km + 3 min Herstel Vrij] → 5 min cooldown Vrij",
+            "programSummary": "15 min warming-up Vrij → 35 min Hardlopen Tempo 5:24–5:30/km → 5 min cooldown Vrij",
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "99160137ba0c166e683d1c8b802ab71717e7530e3fc159706334c9866c9f358b"
+          "protocolSignature": "a8586bdbe0e97f2d318336a93189f6d586f17443e84050c370925513e9003a26"
         },
         {
-          "workoutId": "V8-W45-T3",
-          "trainingId": "V8-W45-T3",
+          "workoutId": "V9_2-W45-T3",
+          "trainingId": "V9_2-W45-T3",
           "trainingNumber": 3,
           "weekNumber": 45,
-          "weekId": "marathon-v8-w45",
-          "phaseId": "v8-phase-45",
-          "phaseName": "Piek + generale repetitie",
+          "weekId": "marathon-v9-2-w45",
+          "phaseId": "v9-2-phase-45",
+          "phaseName": "Piek + dubbele confidence",
           "date": null,
           "preferredDate": "2026-11-05",
           "title": "Recovery easy",
@@ -5202,9 +5187,9 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 3.3333333333333335,
-            "max": 3.8461538461538463,
-            "middle": 3.5714285714285716
+            "min": 3.8461538461538463,
+            "max": 4.166666666666667,
+            "middle": 4
           },
           "plannedSessionMinutes": 25,
           "plannedRunMinutes": 25,
@@ -5212,6 +5197,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -5224,20 +5210,20 @@ window.MARATHON_PLAN = {
           "durationCheck": "5 + 15 + 5 = 25 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [
             "RECOVERY"
           ],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W45-T3-g1",
+              "groupId": "V9_2-W45-T3-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W45-T3-s1",
+                  "segmentId": "V9_2-W45-T3-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -5257,13 +5243,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W45-T3-g2",
+              "groupId": "V9_2-W45-T3-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W45-T3-s2",
+                  "segmentId": "V9_2-W45-T3-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
@@ -5283,13 +5269,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W45-T3-g3",
+              "groupId": "V9_2-W45-T3-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W45-T3-s3",
+                  "segmentId": "V9_2-W45-T3-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -5312,13 +5298,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W45-T3-g1",
+                "groupId": "V9_2-W45-T3-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W45-T3-s1",
+                    "segmentId": "V9_2-W45-T3-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -5338,13 +5324,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W45-T3-g2",
+                "groupId": "V9_2-W45-T3-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W45-T3-s2",
+                    "segmentId": "V9_2-W45-T3-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
@@ -5364,13 +5350,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W45-T3-g3",
+                "groupId": "V9_2-W45-T3-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W45-T3-s3",
+                    "segmentId": "V9_2-W45-T3-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -5394,16 +5380,19 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "554c508de89d7461ee62efb35f366fb4c891de84908eda4b416bc15a01fddeaf"
+          "protocolSignature": "2a745da101c51b0d45be2502bfdb685bfb052f5f5d1cf1abed156147e23c618a",
+          "compatiblePreviousIds": [
+            "V8-W45-T3"
+          ]
         },
         {
-          "workoutId": "V8-W45-T4",
-          "trainingId": "V8-W45-T4",
+          "workoutId": "V9_2-W45-T4",
+          "trainingId": "V9_2-W45-T4",
           "trainingNumber": 4,
           "weekNumber": 45,
-          "weekId": "marathon-v8-w45",
-          "phaseId": "v8-phase-45",
-          "phaseName": "Piek + generale repetitie",
+          "weekId": "marathon-v9-2-w45",
+          "phaseId": "v9-2-phase-45",
+          "phaseName": "Piek + dubbele confidence",
           "date": null,
           "preferredDate": "2026-11-07",
           "title": "Easy / aerobic support",
@@ -5413,21 +5402,22 @@ window.MARATHON_PLAN = {
           "surface": "buiten",
           "defaultExecutionMode": "garmin",
           "treadmillAvailable": true,
-          "totalPlannedSeconds": 2160,
-          "totalPlannedLabel": "36 min",
+          "totalPlannedSeconds": 1800,
+          "totalPlannedLabel": "30 min",
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 4.8,
-            "max": 5.538461538461538,
-            "middle": 5.142857142857143
+            "min": 4.615384615384615,
+            "max": 5,
+            "middle": 4.8
           },
-          "plannedSessionMinutes": 36,
-          "plannedRunMinutes": 36,
+          "plannedSessionMinutes": 30,
+          "plannedRunMinutes": 30,
           "plannedWalkMinutes": 0,
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -5437,23 +5427,23 @@ window.MARATHON_PLAN = {
           "treadmillInstruction": "dezelfde drie tijdstappen, 0% starthelling; alle stappen op praattempo/RPE. Geen verplichte snelheid of afstand, geen extra minuten. Outdoor heeft voor lange duur de voorkeur",
           "bikeInstruction": "",
           "hometrainerInstruction": "",
-          "durationCheck": "5 + 26 + 5 = 36 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
+          "durationCheck": "5 + 20 + 5 = 30 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [
             "AEROBIC SUPPORT"
           ],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W45-T4-g1",
+              "groupId": "V9_2-W45-T4-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W45-T4-s1",
+                  "segmentId": "V9_2-W45-T4-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -5473,18 +5463,18 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W45-T4-g2",
+              "groupId": "V9_2-W45-T4-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W45-T4-s2",
+                  "segmentId": "V9_2-W45-T4-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
-                  "durationSeconds": 1560,
-                  "display": "26 min",
+                  "durationSeconds": 1200,
+                  "display": "20 min",
                   "isRecovery": false,
                   "targetType": "Vrij",
                   "targetValue": null,
@@ -5499,13 +5489,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W45-T4-g3",
+              "groupId": "V9_2-W45-T4-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W45-T4-s3",
+                  "segmentId": "V9_2-W45-T4-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -5528,13 +5518,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W45-T4-g1",
+                "groupId": "V9_2-W45-T4-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W45-T4-s1",
+                    "segmentId": "V9_2-W45-T4-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -5554,18 +5544,18 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W45-T4-g2",
+                "groupId": "V9_2-W45-T4-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W45-T4-s2",
+                    "segmentId": "V9_2-W45-T4-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
-                    "durationSeconds": 1560,
-                    "display": "26 min",
+                    "durationSeconds": 1200,
+                    "display": "20 min",
                     "isRecovery": false,
                     "targetType": "Vrij",
                     "targetValue": null,
@@ -5580,13 +5570,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W45-T4-g3",
+                "groupId": "V9_2-W45-T4-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W45-T4-s3",
+                    "segmentId": "V9_2-W45-T4-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -5606,45 +5596,46 @@ window.MARATHON_PLAN = {
                 ]
               }
             ],
-            "programSummary": "5 min warming-up Vrij → 26 min Hardlopen Vrij → 5 min cooldown Vrij",
+            "programSummary": "5 min warming-up Vrij → 20 min Hardlopen Vrij → 5 min cooldown Vrij",
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "aa1db400cd01c64fa52c651837804542ec3ef91f65f6b031926bee7e57430ea0"
+          "protocolSignature": "be88f726c99007f084de696b9bd75c326545f3680459068f04eabff48ac7dcc5"
         },
         {
-          "workoutId": "V8-W45-T5",
-          "trainingId": "V8-W45-T5",
+          "workoutId": "V9_2-W45-T5",
+          "trainingId": "V9_2-W45-T5",
           "trainingNumber": 5,
           "weekNumber": 45,
-          "weekId": "marathon-v8-w45",
-          "phaseId": "v8-phase-45",
-          "phaseName": "Piek + generale repetitie",
+          "weekId": "marathon-v9-2-w45",
+          "phaseId": "v9-2-phase-45",
+          "phaseName": "Piek + dubbele confidence",
           "date": null,
           "preferredDate": "2026-11-08",
-          "title": "Lange duur / generale repetitie",
+          "title": "Final Distance Confidence",
           "activityType": "run",
           "category": "lange-duur",
           "role": "long",
           "surface": "buiten",
           "defaultExecutionMode": "garmin",
           "treadmillAvailable": true,
-          "totalPlannedSeconds": 9900,
-          "totalPlannedLabel": "165 min",
+          "totalPlannedSeconds": 9600,
+          "totalPlannedLabel": "160 min",
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 22,
-            "max": 25.384615384615383,
-            "middle": 23.571428571428573
+            "min": 24.615384615384617,
+            "max": 26.666666666666668,
+            "middle": 25.6
           },
-          "plannedSessionMinutes": 165,
-          "plannedRunMinutes": 165,
+          "plannedSessionMinutes": 160,
+          "plannedRunMinutes": 160,
           "plannedWalkMinutes": 0,
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
-          "goal": "volledig aaneengesloten easy, inclusief rustig ingelopen start en rustige laatste vijf minuten. Geen standaard run-walk, geen MP-blokken en geen fast finish",
+          "confidence": true,
+          "goal": "160 minuten rustig en bij voorkeur continu hardlopen; bij 6:00–6:30/km is dat ongeveer 24,6–26,7 km. De afstand is een gevolg van passend tempo, geen verplicht quota. Dit is de generale repetitie voor duur en wedstrijdlogistiek, nadrukkelijk geen 160 minuten op marathonpace of fast finish. Beoordeel na afloop vooral benen, techniek, voeding en herstel",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
           "orderWarning": "",
@@ -5653,21 +5644,23 @@ window.MARATHON_PLAN = {
           "treadmillInstruction": "dezelfde drie tijdstappen, 0% starthelling; alle stappen op praattempo/RPE. Geen verplichte snelheid of afstand, geen extra minuten. Outdoor heeft voor lange duur de voorkeur",
           "bikeInstruction": "",
           "hometrainerInstruction": "",
-          "durationCheck": "10 + 150 + 5 = 165 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
-          "nutrition": "5 gels van 40 g op 15, 45, 75, 105 en 135 min plus 20 g in sportdrank verdeeld over de sessie: 220 g / 165 min = 80,0 g/u. Dit zijn concrete oefenpatronen voor reeds passende tolerantie; de stapsgewijze instap en waterlogistiek staan in §6",
-          "rehearsal": "gebruik hetzelfde ontbijt en tijdsinterval tot de start als gepland voor de marathon; test gels, drinkmomenten, elektrolyten volgens je beproefde etiketplan, kleding, raceschoenen, gelopslag, Garmin, H9 en GPS. Organiseer water onderweg. Houd alle 165 min easy; de repetitie betreft duur en logistiek, geen wedstrijdsimulatie op MP",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
-          "labels": [],
+          "durationCheck": "10 + 145 + 5 = 160 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
+          "nutrition": "Standaard: vijf gels van 40 g rond 15, 45, 75, 105 en 135 min = 200 g / 160 min = 75,0 g/u. Wie 75 g/u al goed verdraagt kan daarnaast circa 10 g koolhydraten uit eerder geteste sportdrank nemen: 210 g / 160 min = 78,8 g/u. Waterposten vooraf plannen. Zie §6",
+          "rehearsal": "gebruik hetzelfde ontbijt en tijdsinterval tot de start als gepland voor de marathon; test gels, drinkmomenten, elektrolyten volgens je beproefde etiketplan, kleding, raceschoenen, gelopslag, Garmin, H9 en GPS. Organiseer water onderweg. Houd alle 160 min easy; de repetitie betreft duur en logistiek, geen wedstrijdsimulatie op MP",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
+          "labels": [
+            "CONFIDENCE"
+          ],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W45-T5-g1",
+              "groupId": "V9_2-W45-T5-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W45-T5-s1",
+                  "segmentId": "V9_2-W45-T5-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -5687,18 +5680,18 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W45-T5-g2",
+              "groupId": "V9_2-W45-T5-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W45-T5-s2",
+                  "segmentId": "V9_2-W45-T5-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
-                  "durationSeconds": 9000,
-                  "display": "150 min",
+                  "durationSeconds": 8700,
+                  "display": "145 min",
                   "isRecovery": false,
                   "targetType": "Vrij",
                   "targetValue": null,
@@ -5713,13 +5706,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W45-T5-g3",
+              "groupId": "V9_2-W45-T5-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W45-T5-s3",
+                  "segmentId": "V9_2-W45-T5-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -5742,13 +5735,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W45-T5-g1",
+                "groupId": "V9_2-W45-T5-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W45-T5-s1",
+                    "segmentId": "V9_2-W45-T5-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -5768,18 +5761,18 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W45-T5-g2",
+                "groupId": "V9_2-W45-T5-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W45-T5-s2",
+                    "segmentId": "V9_2-W45-T5-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
-                    "durationSeconds": 9000,
-                    "display": "150 min",
+                    "durationSeconds": 8700,
+                    "display": "145 min",
                     "isRecovery": false,
                     "targetType": "Vrij",
                     "targetValue": null,
@@ -5794,13 +5787,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W45-T5-g3",
+                "groupId": "V9_2-W45-T5-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W45-T5-s3",
+                    "segmentId": "V9_2-W45-T5-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -5820,33 +5813,33 @@ window.MARATHON_PLAN = {
                 ]
               }
             ],
-            "programSummary": "10 min warming-up Vrij → 150 min Hardlopen Vrij → 5 min cooldown Vrij",
+            "programSummary": "10 min warming-up Vrij → 145 min Hardlopen Vrij → 5 min cooldown Vrij",
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "ee961eef88416c1b04f315483a5f41c05d6f276ca3dc7da2e5688034bebfd4b6",
+          "protocolSignature": "4410bbb7bb5d3ee870b5eb1b62ec9be66331d41db51bc37f243c982225de2b88",
           "latestDate": "2026-11-08"
         }
       ],
       "weekPhilosophy": {
-        "theme": "Piek + generale repetitie",
-        "summary": "Piekweek: 40 minuten MP in twee lange blokken en de laatste lange duur als generale repetitie.",
+        "theme": "Piek + dubbele confidence",
+        "summary": "Piekweek met twee verschillende confidence runs: woensdag 35 minuten aaneengesloten MP; zondag 160 minuten easy duur.",
         "adaptations": [
           "3:50 A-DOEL",
           "VOORKEURSDAGEN"
         ],
         "why": [
-          "Piekweek: 40 minuten MP in twee lange blokken en de laatste lange duur als generale repetitie."
+          "Piekweek met twee verschillende confidence runs: woensdag 35 minuten aaneengesloten MP; zondag 160 minuten easy duur."
         ],
         "targetLink": "A: 3:50:00 · B: PR <3:55:50 · C: sub 4:00. Checkpoints verfijnen de uitvoering, geen eindtijdgarantie.",
-        "whyNotMore": "Geen kilometerquotum, extra tests of late inhaalpiek. Lange duur maximaal 165 minuten; taper vanaf 9 november.",
+        "whyNotMore": "Geen kilometerquotum, extra tests of late inhaalpiek. Lange duur maximaal 160 minuten; taper vanaf 9 november.",
         "confidence": "Vertrouwen komt uit goed verwerkte buitenweken, gecontroleerde MP en passend herstel."
       }
     },
     {
       "weekNumber": 46,
-      "weekId": "marathon-v8-w46",
-      "phaseId": "v8-phase-46",
+      "weekId": "marathon-v9-2-w46",
+      "phaseId": "v9-2-phase-46",
       "phaseName": "Taper",
       "weekType": "Taper",
       "startDate": "2026-11-09",
@@ -5856,10 +5849,15 @@ window.MARATHON_PLAN = {
       "planningMode": "flexible",
       "includesMarathon": false,
       "distanceEstimate": {
-        "min": 26.96969696969697,
-        "max": 30.62678062678063,
-        "middle": 28.66913043478261
+        "min": 30.592801693719125,
+        "max": 32.83639143730887,
+        "middle": 31.6697247706422
       },
+      "restDays": [
+        "maandag",
+        "donderdag",
+        "zaterdag"
+      ],
       "plannedSessionMinutes": 195,
       "plannedRunMinutes": 195,
       "plannedWalkMinutes": 0,
@@ -5867,12 +5865,12 @@ window.MARATHON_PLAN = {
       "plannedMpMinutes": 20,
       "workouts": [
         {
-          "workoutId": "V8-W46-T1",
-          "trainingId": "V8-W46-T1",
+          "workoutId": "V9_2-W46-T1",
+          "trainingId": "V9_2-W46-T1",
           "trainingNumber": 1,
           "weekNumber": 46,
-          "weekId": "marathon-v8-w46",
-          "phaseId": "v8-phase-46",
+          "weekId": "marathon-v9-2-w46",
+          "phaseId": "v9-2-phase-46",
           "phaseName": "Taper",
           "date": null,
           "preferredDate": "2026-11-10",
@@ -5888,9 +5886,9 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 4.666666666666667,
-            "max": 5.384615384615385,
-            "middle": 5
+            "min": 5.384615384615385,
+            "max": 5.833333333333333,
+            "middle": 5.6
           },
           "plannedSessionMinutes": 35,
           "plannedRunMinutes": 35,
@@ -5898,6 +5896,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -5910,18 +5909,18 @@ window.MARATHON_PLAN = {
           "durationCheck": "5 + 25 + 5 = 35 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W46-T1-g1",
+              "groupId": "V9_2-W46-T1-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W46-T1-s1",
+                  "segmentId": "V9_2-W46-T1-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -5941,13 +5940,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W46-T1-g2",
+              "groupId": "V9_2-W46-T1-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W46-T1-s2",
+                  "segmentId": "V9_2-W46-T1-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
@@ -5967,13 +5966,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W46-T1-g3",
+              "groupId": "V9_2-W46-T1-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W46-T1-s3",
+                  "segmentId": "V9_2-W46-T1-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -5996,13 +5995,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W46-T1-g1",
+                "groupId": "V9_2-W46-T1-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W46-T1-s1",
+                    "segmentId": "V9_2-W46-T1-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -6022,13 +6021,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W46-T1-g2",
+                "groupId": "V9_2-W46-T1-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W46-T1-s2",
+                    "segmentId": "V9_2-W46-T1-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
@@ -6048,13 +6047,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W46-T1-g3",
+                "groupId": "V9_2-W46-T1-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W46-T1-s3",
+                    "segmentId": "V9_2-W46-T1-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -6078,15 +6077,18 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "a8728f71890b61b496df000df509df9cbccd323a99bc6b444dd6b28979b3be4c"
+          "protocolSignature": "69b9bb6537154d4687ffc33735933d93a13cbee564c0127d650c446cb4e4a1e2",
+          "compatiblePreviousIds": [
+            "V8-W46-T1"
+          ]
         },
         {
-          "workoutId": "V8-W46-T2",
-          "trainingId": "V8-W46-T2",
+          "workoutId": "V9_2-W46-T2",
+          "trainingId": "V9_2-W46-T2",
           "trainingNumber": 2,
           "weekNumber": 46,
-          "weekId": "marathon-v8-w46",
-          "phaseId": "v8-phase-46",
+          "weekId": "marathon-v9-2-w46",
+          "phaseId": "v9-2-phase-46",
           "phaseName": "Taper",
           "date": null,
           "preferredDate": "2026-11-11",
@@ -6102,9 +6104,9 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 7.369696969696969,
-            "max": 8.01139601139601,
-            "middle": 7.669130434782609
+            "min": 7.9774170783345095,
+            "max": 8.336391437308869,
+            "middle": 8.149724770642202
           },
           "plannedSessionMinutes": 48,
           "plannedRunMinutes": 48,
@@ -6112,6 +6114,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 20,
           "targetRpe": "2–3 easy · 4–5 MP",
+          "confidence": false,
           "goal": "Twintig minuten MP houdt het ritme vast terwijl het weekvolume daalt. Normaal gevoed starten. Voeding volgens §6; deze sessie is geen nuchtere test",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -6124,20 +6127,20 @@ window.MARATHON_PLAN = {
           "durationCheck": "15 + 2×(10 + 3) + 7 = 48 min. MP-totaal: 20 min; jogherstel: 6 min. De laatste herstelstap komt vóór de aparte cooldown",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [
             "MARATHONPACE"
           ],
           "tone": "quality",
           "groups": [
             {
-              "groupId": "V8-W46-T2-g1",
+              "groupId": "V9_2-W46-T2-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W46-T2-s1",
+                  "segmentId": "V9_2-W46-T2-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -6157,13 +6160,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W46-T2-g2",
+              "groupId": "V9_2-W46-T2-g2",
               "kind": "repeat",
               "repetitions": 2,
               "label": "Werk + herstel",
               "segments": [
                 {
-                  "segmentId": "V8-W46-T2-s2",
+                  "segmentId": "V9_2-W46-T2-s2",
                   "name": "Hardlopen",
                   "type": "marathonpace",
                   "basis": "time",
@@ -6181,7 +6184,7 @@ window.MARATHON_PLAN = {
                   "distanceKm": null
                 },
                 {
-                  "segmentId": "V8-W46-T2-s3",
+                  "segmentId": "V9_2-W46-T2-s3",
                   "name": "Herstel",
                   "type": "herstel",
                   "basis": "time",
@@ -6201,13 +6204,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W46-T2-g3",
+              "groupId": "V9_2-W46-T2-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W46-T2-s4",
+                  "segmentId": "V9_2-W46-T2-s4",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -6230,13 +6233,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W46-T2-g1",
+                "groupId": "V9_2-W46-T2-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W46-T2-s1",
+                    "segmentId": "V9_2-W46-T2-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -6256,13 +6259,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W46-T2-g2",
+                "groupId": "V9_2-W46-T2-g2",
                 "kind": "repeat",
                 "repetitions": 2,
                 "label": "Werk + herstel",
                 "segments": [
                   {
-                    "segmentId": "V8-W46-T2-s2",
+                    "segmentId": "V9_2-W46-T2-s2",
                     "name": "Hardlopen",
                     "type": "marathonpace",
                     "basis": "time",
@@ -6280,7 +6283,7 @@ window.MARATHON_PLAN = {
                     "distanceKm": null
                   },
                   {
-                    "segmentId": "V8-W46-T2-s3",
+                    "segmentId": "V9_2-W46-T2-s3",
                     "name": "Herstel",
                     "type": "herstel",
                     "basis": "time",
@@ -6300,13 +6303,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W46-T2-g3",
+                "groupId": "V9_2-W46-T2-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W46-T2-s4",
+                    "segmentId": "V9_2-W46-T2-s4",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -6330,15 +6333,18 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "679a283a77c929b8219d4bbc9adb8428e3eaf08048e95e9902f9c98dd048051e"
+          "protocolSignature": "e017ed9c7f6143a2dc3462163662e061287dc22759e1971b88f5c1ef2e0d8b63",
+          "compatiblePreviousIds": [
+            "V8-W46-T2"
+          ]
         },
         {
-          "workoutId": "V8-W46-T3",
-          "trainingId": "V8-W46-T3",
+          "workoutId": "V9_2-W46-T3",
+          "trainingId": "V9_2-W46-T3",
           "trainingNumber": 3,
           "weekNumber": 46,
-          "weekId": "marathon-v8-w46",
-          "phaseId": "v8-phase-46",
+          "weekId": "marathon-v9-2-w46",
+          "phaseId": "v9-2-phase-46",
           "phaseName": "Taper",
           "date": null,
           "preferredDate": "2026-11-13",
@@ -6354,9 +6360,9 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 4.266666666666667,
-            "max": 4.923076923076923,
-            "middle": 4.571428571428571
+            "min": 4.923076923076923,
+            "max": 5.333333333333333,
+            "middle": 5.12
           },
           "plannedSessionMinutes": 32,
           "plannedRunMinutes": 32,
@@ -6364,6 +6370,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -6376,20 +6383,20 @@ window.MARATHON_PLAN = {
           "durationCheck": "5 + 22 + 5 = 32 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [
             "RECOVERY"
           ],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W46-T3-g1",
+              "groupId": "V9_2-W46-T3-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W46-T3-s1",
+                  "segmentId": "V9_2-W46-T3-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -6409,13 +6416,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W46-T3-g2",
+              "groupId": "V9_2-W46-T3-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W46-T3-s2",
+                  "segmentId": "V9_2-W46-T3-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
@@ -6435,13 +6442,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W46-T3-g3",
+              "groupId": "V9_2-W46-T3-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W46-T3-s3",
+                  "segmentId": "V9_2-W46-T3-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -6464,13 +6471,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W46-T3-g1",
+                "groupId": "V9_2-W46-T3-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W46-T3-s1",
+                    "segmentId": "V9_2-W46-T3-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -6490,13 +6497,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W46-T3-g2",
+                "groupId": "V9_2-W46-T3-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W46-T3-s2",
+                    "segmentId": "V9_2-W46-T3-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
@@ -6516,13 +6523,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W46-T3-g3",
+                "groupId": "V9_2-W46-T3-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W46-T3-s3",
+                    "segmentId": "V9_2-W46-T3-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -6546,15 +6553,18 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "9afc197f17545b9d392f261e5857c4b312e6e631007ce1d58000734d4716a89d"
+          "protocolSignature": "3a5a149510ffa2ac6d42f6123cbe28f421022f52f2cc261a39d43975834f695c",
+          "compatiblePreviousIds": [
+            "V8-W46-T3"
+          ]
         },
         {
-          "workoutId": "V8-W46-T4",
-          "trainingId": "V8-W46-T4",
+          "workoutId": "V9_2-W46-T4",
+          "trainingId": "V9_2-W46-T4",
           "trainingNumber": 4,
           "weekNumber": 46,
-          "weekId": "marathon-v8-w46",
-          "phaseId": "v8-phase-46",
+          "weekId": "marathon-v9-2-w46",
+          "phaseId": "v9-2-phase-46",
           "phaseName": "Taper",
           "date": null,
           "preferredDate": "2026-11-15",
@@ -6570,9 +6580,9 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 10.666666666666666,
-            "max": 12.307692307692308,
-            "middle": 11.428571428571429
+            "min": 12.307692307692308,
+            "max": 13.333333333333334,
+            "middle": 12.8
           },
           "plannedSessionMinutes": 80,
           "plannedRunMinutes": 80,
@@ -6580,6 +6590,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "volledig aaneengesloten easy, inclusief rustig ingelopen start en rustige laatste vijf minuten. Geen standaard run-walk, geen MP-blokken en geen fast finish",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -6592,18 +6603,18 @@ window.MARATHON_PLAN = {
           "durationCheck": "10 + 65 + 5 = 80 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
           "nutrition": "Bijvoorbeeld 2 gels op 20 en 50 min: 80 g / 80 min = 60,0 g/u. Geen hoge voedingsinname afdwingen om tapertraining zwaar te maken. Dit zijn concrete oefenpatronen voor reeds passende tolerantie; de stapsgewijze instap en waterlogistiek staan in §6",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W46-T4-g1",
+              "groupId": "V9_2-W46-T4-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W46-T4-s1",
+                  "segmentId": "V9_2-W46-T4-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -6623,13 +6634,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W46-T4-g2",
+              "groupId": "V9_2-W46-T4-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W46-T4-s2",
+                  "segmentId": "V9_2-W46-T4-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
@@ -6649,13 +6660,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W46-T4-g3",
+              "groupId": "V9_2-W46-T4-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W46-T4-s3",
+                  "segmentId": "V9_2-W46-T4-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -6678,13 +6689,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W46-T4-g1",
+                "groupId": "V9_2-W46-T4-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W46-T4-s1",
+                    "segmentId": "V9_2-W46-T4-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -6704,13 +6715,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W46-T4-g2",
+                "groupId": "V9_2-W46-T4-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W46-T4-s2",
+                    "segmentId": "V9_2-W46-T4-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
@@ -6730,13 +6741,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W46-T4-g3",
+                "groupId": "V9_2-W46-T4-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W46-T4-s3",
+                    "segmentId": "V9_2-W46-T4-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -6760,7 +6771,10 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "0bd811cf3ba7b5da6f9e645b79b39b94c258f86f1a9894bc4ef5a50ffb1b7c56"
+          "protocolSignature": "5d5e88432493ceb189a472f1bb54a734aa8f46dd2ae528f00968422329a952f2",
+          "compatiblePreviousIds": [
+            "V8-W46-T4"
+          ]
         }
       ],
       "weekPhilosophy": {
@@ -6774,14 +6788,14 @@ window.MARATHON_PLAN = {
           "Taper: vier looptrainingen, minder volume en 20 minuten MP."
         ],
         "targetLink": "A: 3:50:00 · B: PR <3:55:50 · C: sub 4:00. Checkpoints verfijnen de uitvoering, geen eindtijdgarantie.",
-        "whyNotMore": "Geen kilometerquotum, extra tests of late inhaalpiek. Lange duur maximaal 165 minuten; taper vanaf 9 november.",
+        "whyNotMore": "Geen kilometerquotum, extra tests of late inhaalpiek. Lange duur maximaal 160 minuten; taper vanaf 9 november.",
         "confidence": "Vertrouwen komt uit goed verwerkte buitenweken, gecontroleerde MP en passend herstel."
       }
     },
     {
       "weekNumber": 47,
-      "weekId": "marathon-v8-w47",
-      "phaseId": "v8-phase-47",
+      "weekId": "marathon-v9-2-w47",
+      "phaseId": "v9-2-phase-47",
       "phaseName": "Marathonweek",
       "weekType": "Marathonweek",
       "startDate": "2026-11-16",
@@ -6791,10 +6805,15 @@ window.MARATHON_PLAN = {
       "planningMode": "flexible",
       "includesMarathon": true,
       "distanceEstimate": {
-        "min": 9.054545454545455,
-        "max": 10.250712250712251,
-        "middle": 9.610509316770186
+        "min": 10.237120677487649,
+        "max": 10.96788990825688,
+        "middle": 10.587889908256882
       },
+      "restDays": [
+        "maandag",
+        "donderdag",
+        "vrijdag"
+      ],
       "plannedSessionMinutes": 65,
       "plannedRunMinutes": 65,
       "plannedWalkMinutes": 0,
@@ -6802,12 +6821,12 @@ window.MARATHON_PLAN = {
       "plannedMpMinutes": 8,
       "workouts": [
         {
-          "workoutId": "V8-W47-T1",
-          "trainingId": "V8-W47-T1",
+          "workoutId": "V9_2-W47-T1",
+          "trainingId": "V9_2-W47-T1",
           "trainingNumber": 1,
           "weekNumber": 47,
-          "weekId": "marathon-v8-w47",
-          "phaseId": "v8-phase-47",
+          "weekId": "marathon-v9-2-w47",
+          "phaseId": "v9-2-phase-47",
           "phaseName": "Marathonweek",
           "date": null,
           "preferredDate": "2026-11-17",
@@ -6823,9 +6842,9 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 3.3333333333333335,
-            "max": 3.8461538461538463,
-            "middle": 3.5714285714285716
+            "min": 3.8461538461538463,
+            "max": 4.166666666666667,
+            "middle": 4
           },
           "plannedSessionMinutes": 25,
           "plannedRunMinutes": 25,
@@ -6833,6 +6852,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Korte, ontspannen run om soepel aan de start te komen; geen extra strides of kilometers",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -6845,18 +6865,18 @@ window.MARATHON_PLAN = {
           "durationCheck": "5 + 15 + 5 = 25 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W47-T1-g1",
+              "groupId": "V9_2-W47-T1-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W47-T1-s1",
+                  "segmentId": "V9_2-W47-T1-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -6876,13 +6896,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W47-T1-g2",
+              "groupId": "V9_2-W47-T1-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W47-T1-s2",
+                  "segmentId": "V9_2-W47-T1-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
@@ -6902,13 +6922,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W47-T1-g3",
+              "groupId": "V9_2-W47-T1-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W47-T1-s3",
+                  "segmentId": "V9_2-W47-T1-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -6931,13 +6951,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W47-T1-g1",
+                "groupId": "V9_2-W47-T1-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W47-T1-s1",
+                    "segmentId": "V9_2-W47-T1-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -6957,13 +6977,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W47-T1-g2",
+                "groupId": "V9_2-W47-T1-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W47-T1-s2",
+                    "segmentId": "V9_2-W47-T1-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
@@ -6983,13 +7003,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W47-T1-g3",
+                "groupId": "V9_2-W47-T1-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W47-T1-s3",
+                    "segmentId": "V9_2-W47-T1-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -7013,15 +7033,18 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "d9a825bcba2e02c780427c312072bb84f298a3f11fad5c009dbf62b389eac0c6"
+          "protocolSignature": "3276b4036d31e81c120f68e7aa4b371da9943468bfef8abb5caf56e9d0b04c1a",
+          "compatiblePreviousIds": [
+            "V8-W47-T1"
+          ]
         },
         {
-          "workoutId": "V8-W47-T2",
-          "trainingId": "V8-W47-T2",
+          "workoutId": "V9_2-W47-T2",
+          "trainingId": "V9_2-W47-T2",
           "trainingNumber": 2,
           "weekNumber": 47,
-          "weekId": "marathon-v8-w47",
-          "phaseId": "v8-phase-47",
+          "weekId": "marathon-v9-2-w47",
+          "phaseId": "v9-2-phase-47",
           "phaseName": "Marathonweek",
           "date": null,
           "preferredDate": "2026-11-18",
@@ -7037,9 +7060,9 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 3.721212121212121,
-            "max": 4.096866096866097,
-            "middle": 3.896223602484472
+            "min": 4.083274523641496,
+            "max": 4.301223241590214,
+            "middle": 4.187889908256881
           },
           "plannedSessionMinutes": 25,
           "plannedRunMinutes": 25,
@@ -7047,6 +7070,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 8,
           "targetRpe": "2–3 easy · 4–5 MP",
+          "confidence": false,
           "goal": "Acht minuten MP als korte herinnering aan racedagtempo; stop na de geprogrammeerde stappen. Normaal gevoed starten. Voeding volgens §6; deze sessie is geen nuchtere test",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -7059,20 +7083,20 @@ window.MARATHON_PLAN = {
           "durationCheck": "10 + 2×(4 + 2) + 3 = 25 min. MP-totaal: 8 min; jogherstel: 4 min. De laatste herstelstap komt vóór de aparte cooldown",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [
             "MARATHONPACE"
           ],
           "tone": "quality",
           "groups": [
             {
-              "groupId": "V8-W47-T2-g1",
+              "groupId": "V9_2-W47-T2-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W47-T2-s1",
+                  "segmentId": "V9_2-W47-T2-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -7092,13 +7116,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W47-T2-g2",
+              "groupId": "V9_2-W47-T2-g2",
               "kind": "repeat",
               "repetitions": 2,
               "label": "Werk + herstel",
               "segments": [
                 {
-                  "segmentId": "V8-W47-T2-s2",
+                  "segmentId": "V9_2-W47-T2-s2",
                   "name": "Hardlopen",
                   "type": "marathonpace",
                   "basis": "time",
@@ -7116,7 +7140,7 @@ window.MARATHON_PLAN = {
                   "distanceKm": null
                 },
                 {
-                  "segmentId": "V8-W47-T2-s3",
+                  "segmentId": "V9_2-W47-T2-s3",
                   "name": "Herstel",
                   "type": "herstel",
                   "basis": "time",
@@ -7136,13 +7160,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W47-T2-g3",
+              "groupId": "V9_2-W47-T2-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W47-T2-s4",
+                  "segmentId": "V9_2-W47-T2-s4",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -7165,13 +7189,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W47-T2-g1",
+                "groupId": "V9_2-W47-T2-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W47-T2-s1",
+                    "segmentId": "V9_2-W47-T2-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -7191,13 +7215,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W47-T2-g2",
+                "groupId": "V9_2-W47-T2-g2",
                 "kind": "repeat",
                 "repetitions": 2,
                 "label": "Werk + herstel",
                 "segments": [
                   {
-                    "segmentId": "V8-W47-T2-s2",
+                    "segmentId": "V9_2-W47-T2-s2",
                     "name": "Hardlopen",
                     "type": "marathonpace",
                     "basis": "time",
@@ -7215,7 +7239,7 @@ window.MARATHON_PLAN = {
                     "distanceKm": null
                   },
                   {
-                    "segmentId": "V8-W47-T2-s3",
+                    "segmentId": "V9_2-W47-T2-s3",
                     "name": "Herstel",
                     "type": "herstel",
                     "basis": "time",
@@ -7235,13 +7259,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W47-T2-g3",
+                "groupId": "V9_2-W47-T2-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W47-T2-s4",
+                    "segmentId": "V9_2-W47-T2-s4",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -7265,15 +7289,18 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "c2215fcaad4e50e78967eb30b96b394de4ea0902267599378bc6c5030d38b8a3"
+          "protocolSignature": "ac63dff203e377794193903fbf40614045733299fdfe444919f6c6efc145dcae",
+          "compatiblePreviousIds": [
+            "V8-W47-T2"
+          ]
         },
         {
-          "workoutId": "V8-W47-T3",
-          "trainingId": "V8-W47-T3",
+          "workoutId": "V9_2-W47-T3",
+          "trainingId": "V9_2-W47-T3",
           "trainingNumber": 3,
           "weekNumber": 47,
-          "weekId": "marathon-v8-w47",
-          "phaseId": "v8-phase-47",
+          "weekId": "marathon-v9-2-w47",
+          "phaseId": "v9-2-phase-47",
           "phaseName": "Marathonweek",
           "date": null,
           "preferredDate": "2026-11-21",
@@ -7289,9 +7316,9 @@ window.MARATHON_PLAN = {
           "estimatedDistanceKm": null,
           "estimatedDistanceLabel": "Geen kilometerdoel",
           "distanceEstimate": {
-            "min": 2,
-            "max": 2.3076923076923075,
-            "middle": 2.142857142857143
+            "min": 2.3076923076923075,
+            "max": 2.5,
+            "middle": 2.4
           },
           "plannedSessionMinutes": 15,
           "plannedRunMinutes": 15,
@@ -7299,6 +7326,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "2–3",
+          "confidence": false,
           "goal": "Korte, ontspannen run om soepel aan de start te komen; geen extra strides of kilometers",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -7311,18 +7339,18 @@ window.MARATHON_PLAN = {
           "durationCheck": "5 + 5 + 5 = 15 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [],
           "tone": "easy",
           "groups": [
             {
-              "groupId": "V8-W47-T3-g1",
+              "groupId": "V9_2-W47-T3-g1",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Warming-up",
               "segments": [
                 {
-                  "segmentId": "V8-W47-T3-s1",
+                  "segmentId": "V9_2-W47-T3-s1",
                   "name": "Warming-up",
                   "type": "warming-up",
                   "basis": "time",
@@ -7342,13 +7370,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W47-T3-g2",
+              "groupId": "V9_2-W47-T3-g2",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Hardlopen",
               "segments": [
                 {
-                  "segmentId": "V8-W47-T3-s2",
+                  "segmentId": "V9_2-W47-T3-s2",
                   "name": "Hardlopen",
                   "type": "easy",
                   "basis": "time",
@@ -7368,13 +7396,13 @@ window.MARATHON_PLAN = {
               ]
             },
             {
-              "groupId": "V8-W47-T3-g3",
+              "groupId": "V9_2-W47-T3-g3",
               "kind": "sequence",
               "repetitions": 1,
               "label": "Cooldown",
               "segments": [
                 {
-                  "segmentId": "V8-W47-T3-s3",
+                  "segmentId": "V9_2-W47-T3-s3",
                   "name": "Cooldown",
                   "type": "cooling-down",
                   "basis": "time",
@@ -7397,13 +7425,13 @@ window.MARATHON_PLAN = {
           "garmin": {
             "groups": [
               {
-                "groupId": "V8-W47-T3-g1",
+                "groupId": "V9_2-W47-T3-g1",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Warming-up",
                 "segments": [
                   {
-                    "segmentId": "V8-W47-T3-s1",
+                    "segmentId": "V9_2-W47-T3-s1",
                     "name": "Warming-up",
                     "type": "warming-up",
                     "basis": "time",
@@ -7423,13 +7451,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W47-T3-g2",
+                "groupId": "V9_2-W47-T3-g2",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Hardlopen",
                 "segments": [
                   {
-                    "segmentId": "V8-W47-T3-s2",
+                    "segmentId": "V9_2-W47-T3-s2",
                     "name": "Hardlopen",
                     "type": "easy",
                     "basis": "time",
@@ -7449,13 +7477,13 @@ window.MARATHON_PLAN = {
                 ]
               },
               {
-                "groupId": "V8-W47-T3-g3",
+                "groupId": "V9_2-W47-T3-g3",
                 "kind": "sequence",
                 "repetitions": 1,
                 "label": "Cooldown",
                 "segments": [
                   {
-                    "segmentId": "V8-W47-T3-s3",
+                    "segmentId": "V9_2-W47-T3-s3",
                     "name": "Cooldown",
                     "type": "cooling-down",
                     "basis": "time",
@@ -7479,15 +7507,18 @@ window.MARATHON_PLAN = {
             "referenceDistanceLabel": "Geen afstandsdoel",
             "isRacePlan": false
           },
-          "protocolSignature": "f6321df34a760edc7a2af9aea2a31e235eba0df672a216d6ebfd55fe799cdd13"
+          "protocolSignature": "6f4db9e10a994cbd276b09d7e205636a1dbf6246d49d7bcceebe00101fb61e78",
+          "compatiblePreviousIds": [
+            "V8-W47-T3"
+          ]
         },
         {
-          "workoutId": "V8-W47-T4-RACE",
-          "trainingId": "V8-W47-T4-RACE",
+          "workoutId": "V9_2-W47-T4-RACE",
+          "trainingId": "V9_2-W47-T4-RACE",
           "trainingNumber": 4,
           "weekNumber": 47,
-          "weekId": "marathon-v8-w47",
-          "phaseId": "v8-phase-47",
+          "weekId": "marathon-v9-2-w47",
+          "phaseId": "v9-2-phase-47",
           "phaseName": "Marathonweek",
           "date": "2026-11-22",
           "preferredDate": "2026-11-22",
@@ -7509,6 +7540,7 @@ window.MARATHON_PLAN = {
           "plannedBikeMinutes": 0,
           "plannedMpMinutes": 0,
           "targetRpe": "Gecontroleerd starten",
+          "confidence": false,
           "goal": "A: 3:50:00 · B: PR <3:55:50 · C: sub 4:00. Officiële finish en geteste uitvoering zijn leidend.",
           "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
           "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -7521,7 +7553,7 @@ window.MARATHON_PLAN = {
           "durationCheck": "",
           "nutrition": "",
           "rehearsal": "",
-          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+          "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
           "labels": [
             "RACE"
           ],
@@ -7755,7 +7787,10 @@ window.MARATHON_PLAN = {
               }
             ]
           },
-          "protocolSignature": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          "protocolSignature": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "compatiblePreviousIds": [
+            "V8-W47-T4-RACE"
+          ]
         }
       ],
       "weekPhilosophy": {
@@ -7769,19 +7804,19 @@ window.MARATHON_PLAN = {
           "Raceweek: drie korte loopprikkels en de marathon op zondag."
         ],
         "targetLink": "A: 3:50:00 · B: PR <3:55:50 · C: sub 4:00. Checkpoints verfijnen de uitvoering, geen eindtijdgarantie.",
-        "whyNotMore": "Geen kilometerquotum, extra tests of late inhaalpiek. Lange duur maximaal 165 minuten; taper vanaf 9 november.",
+        "whyNotMore": "Geen kilometerquotum, extra tests of late inhaalpiek. Lange duur maximaal 160 minuten; taper vanaf 9 november.",
         "confidence": "Vertrouwen komt uit goed verwerkte buitenweken, gecontroleerde MP en passend herstel."
       }
     }
   ],
   "allWorkouts": [
     {
-      "workoutId": "V8-W41-T1",
-      "trainingId": "V8-W41-T1",
+      "workoutId": "V9_2-W41-T1",
+      "trainingId": "V9_2-W41-T1",
       "trainingNumber": 1,
       "weekNumber": 41,
-      "weekId": "marathon-v8-w41",
-      "phaseId": "v8-phase-41",
+      "weekId": "marathon-v9-2-w41",
+      "phaseId": "v9-2-phase-41",
       "phaseName": "Actief herstel",
       "date": null,
       "preferredDate": "2026-10-06",
@@ -7803,30 +7838,31 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Loopritme behouden; eindig met reserve",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
       "orderWarning": "",
       "locationStatus": "Outdoor / Garmin · loopband als alternatief",
       "outsideVariant": "Outdoor is de standaard. MP-sessies en langere duur in W43–45 bij voorkeur buiten; een bandrun bewijst niet automatisch dezelfde buitenbelastbaarheid.",
-      "treadmillInstruction": "dezelfde stapduren en repeats, 0% starthelling. Easy 7–9,5 km/u; warming-up/cooldown/herstel 7–8,5 km/u, aangepast aan RPE. Tempo op de band zelf instellen; gevoel gaat voor",
+      "treadmillInstruction": "dezelfde stapduren en repeats, 0% starthelling. Geen vaste snelheid: stel warming-up, easy en cooldown afzonderlijk in op ontspannen praattest/RPE. Tempo op de band zelf instellen; gevoel gaat voor",
       "bikeInstruction": "",
       "hometrainerInstruction": "",
       "durationCheck": "5 + 20 + 5 = 30 min. Geen repeats of apart herstelblok",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W41-T1-g1",
+          "groupId": "V9_2-W41-T1-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W41-T1-s1",
+              "segmentId": "V9_2-W41-T1-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -7838,24 +7874,21 @@ window.MARATHON_PLAN = {
               "cue": "Zeer easy RPE 2; soepel starten",
               "instruction": "Zeer easy RPE 2; soepel starten",
               "inclinePercent": 0,
-              "speedRangeKmh": [
-                7,
-                8.5
-              ],
-              "speedKmh": 7.75,
-              "speedMode": "prescribed",
+              "speedRangeKmh": null,
+              "speedKmh": null,
+              "speedMode": "self-paced",
               "distanceKm": null
             }
           ]
         },
         {
-          "groupId": "V8-W41-T1-g2",
+          "groupId": "V9_2-W41-T1-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W41-T1-s2",
+              "segmentId": "V9_2-W41-T1-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
@@ -7867,24 +7900,21 @@ window.MARATHON_PLAN = {
               "cue": "Easy RPE 2–3; volledige zinnen",
               "instruction": "Easy RPE 2–3; volledige zinnen",
               "inclinePercent": 0,
-              "speedRangeKmh": [
-                7,
-                9.5
-              ],
-              "speedKmh": 8.25,
-              "speedMode": "prescribed",
+              "speedRangeKmh": null,
+              "speedKmh": null,
+              "speedMode": "self-paced",
               "distanceKm": null
             }
           ]
         },
         {
-          "groupId": "V8-W41-T1-g3",
+          "groupId": "V9_2-W41-T1-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W41-T1-s3",
+              "segmentId": "V9_2-W41-T1-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -7896,12 +7926,9 @@ window.MARATHON_PLAN = {
               "cue": "Zeer easy RPE 2; ontspannen afronden",
               "instruction": "Zeer easy RPE 2; ontspannen afronden",
               "inclinePercent": 0,
-              "speedRangeKmh": [
-                7,
-                8.5
-              ],
-              "speedKmh": 7.75,
-              "speedMode": "prescribed",
+              "speedRangeKmh": null,
+              "speedKmh": null,
+              "speedMode": "self-paced",
               "distanceKm": null
             }
           ]
@@ -7910,13 +7937,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W41-T1-g1",
+            "groupId": "V9_2-W41-T1-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W41-T1-s1",
+                "segmentId": "V9_2-W41-T1-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -7928,24 +7955,21 @@ window.MARATHON_PLAN = {
                 "cue": "Zeer easy RPE 2; soepel starten",
                 "instruction": "Zeer easy RPE 2; soepel starten",
                 "inclinePercent": 0,
-                "speedRangeKmh": [
-                  7,
-                  8.5
-                ],
-                "speedKmh": 7.75,
-                "speedMode": "prescribed",
+                "speedRangeKmh": null,
+                "speedKmh": null,
+                "speedMode": "self-paced",
                 "distanceKm": null
               }
             ]
           },
           {
-            "groupId": "V8-W41-T1-g2",
+            "groupId": "V9_2-W41-T1-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W41-T1-s2",
+                "segmentId": "V9_2-W41-T1-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
@@ -7957,24 +7981,21 @@ window.MARATHON_PLAN = {
                 "cue": "Easy RPE 2–3; volledige zinnen",
                 "instruction": "Easy RPE 2–3; volledige zinnen",
                 "inclinePercent": 0,
-                "speedRangeKmh": [
-                  7,
-                  9.5
-                ],
-                "speedKmh": 8.25,
-                "speedMode": "prescribed",
+                "speedRangeKmh": null,
+                "speedKmh": null,
+                "speedMode": "self-paced",
                 "distanceKm": null
               }
             ]
           },
           {
-            "groupId": "V8-W41-T1-g3",
+            "groupId": "V9_2-W41-T1-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W41-T1-s3",
+                "segmentId": "V9_2-W41-T1-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -7986,12 +8007,9 @@ window.MARATHON_PLAN = {
                 "cue": "Zeer easy RPE 2; ontspannen afronden",
                 "instruction": "Zeer easy RPE 2; ontspannen afronden",
                 "inclinePercent": 0,
-                "speedRangeKmh": [
-                  7,
-                  8.5
-                ],
-                "speedKmh": 7.75,
-                "speedMode": "prescribed",
+                "speedRangeKmh": null,
+                "speedKmh": null,
+                "speedMode": "self-paced",
                 "distanceKm": null
               }
             ]
@@ -8001,18 +8019,19 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "679a8c163deeca57ee0af0824b3087292542748d66dbe1ae92b3070362689e3f",
+      "protocolSignature": "7bfd76a1051bede70c98d31c9c2299928b1521a0d5ae0416c33c994eb9a78c7b",
       "compatiblePreviousIds": [
+        "V8-W41-T1",
         "V6-W41-T1"
       ]
     },
     {
-      "workoutId": "V8-W41-T2",
-      "trainingId": "V8-W41-T2",
+      "workoutId": "V9_2-W41-T2",
+      "trainingId": "V9_2-W41-T2",
       "trainingNumber": 2,
       "weekNumber": 41,
-      "weekId": "marathon-v8-w41",
-      "phaseId": "v8-phase-41",
+      "weekId": "marathon-v9-2-w41",
+      "phaseId": "v9-2-phase-41",
       "phaseName": "Actief herstel",
       "date": null,
       "preferredDate": "2026-10-07",
@@ -8034,30 +8053,31 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
-      "goal": "Alleen de volledige 60 min als dit comfortabel voelt. Geen test; bij zware benen 30–45 min en zonder tempo-eis afronden",
+      "confidence": false,
+      "goal": "bijna het geplande uur aaneengesloten gelopen; ervaren reserves van circa 30 min. Planstappen blijven ter documentatie staan; er wordt niet beweerd dat de handmatige Garmin-stepovergangen exact zo zijn gevolgd",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
       "orderWarning": "",
       "locationStatus": "Outdoor / Garmin · loopband als alternatief",
       "outsideVariant": "Outdoor is de standaard. MP-sessies en langere duur in W43–45 bij voorkeur buiten; een bandrun bewijst niet automatisch dezelfde buitenbelastbaarheid.",
-      "treadmillInstruction": "dezelfde stapduren en repeats, 0% starthelling. Easy 7–9,5 km/u; warming-up/cooldown/herstel 7–8,5 km/u, aangepast aan RPE. Tempo op de band zelf instellen; gevoel gaat voor",
+      "treadmillInstruction": "dezelfde stapduren en repeats, 0% starthelling. Geen vaste snelheid: stel warming-up, easy en cooldown afzonderlijk in op ontspannen praattest/RPE. Tempo op de band zelf instellen; gevoel gaat voor",
       "bikeInstruction": "",
       "hometrainerInstruction": "",
       "durationCheck": "5 + 50 + 5 = 60 min. Geen repeats of apart herstelblok",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W41-T2-g1",
+          "groupId": "V9_2-W41-T2-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W41-T2-s1",
+              "segmentId": "V9_2-W41-T2-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -8069,24 +8089,21 @@ window.MARATHON_PLAN = {
               "cue": "Zeer easy RPE 2; soepel starten",
               "instruction": "Zeer easy RPE 2; soepel starten",
               "inclinePercent": 0,
-              "speedRangeKmh": [
-                7,
-                8.5
-              ],
-              "speedKmh": 7.75,
-              "speedMode": "prescribed",
+              "speedRangeKmh": null,
+              "speedKmh": null,
+              "speedMode": "self-paced",
               "distanceKm": null
             }
           ]
         },
         {
-          "groupId": "V8-W41-T2-g2",
+          "groupId": "V9_2-W41-T2-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W41-T2-s2",
+              "segmentId": "V9_2-W41-T2-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
@@ -8098,24 +8115,21 @@ window.MARATHON_PLAN = {
               "cue": "Easy RPE 2–3; volledige zinnen",
               "instruction": "Easy RPE 2–3; volledige zinnen",
               "inclinePercent": 0,
-              "speedRangeKmh": [
-                7,
-                9.5
-              ],
-              "speedKmh": 8.25,
-              "speedMode": "prescribed",
+              "speedRangeKmh": null,
+              "speedKmh": null,
+              "speedMode": "self-paced",
               "distanceKm": null
             }
           ]
         },
         {
-          "groupId": "V8-W41-T2-g3",
+          "groupId": "V9_2-W41-T2-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W41-T2-s3",
+              "segmentId": "V9_2-W41-T2-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -8127,12 +8141,9 @@ window.MARATHON_PLAN = {
               "cue": "Zeer easy RPE 2; ontspannen afronden",
               "instruction": "Zeer easy RPE 2; ontspannen afronden",
               "inclinePercent": 0,
-              "speedRangeKmh": [
-                7,
-                8.5
-              ],
-              "speedKmh": 7.75,
-              "speedMode": "prescribed",
+              "speedRangeKmh": null,
+              "speedKmh": null,
+              "speedMode": "self-paced",
               "distanceKm": null
             }
           ]
@@ -8141,13 +8152,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W41-T2-g1",
+            "groupId": "V9_2-W41-T2-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W41-T2-s1",
+                "segmentId": "V9_2-W41-T2-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -8159,24 +8170,21 @@ window.MARATHON_PLAN = {
                 "cue": "Zeer easy RPE 2; soepel starten",
                 "instruction": "Zeer easy RPE 2; soepel starten",
                 "inclinePercent": 0,
-                "speedRangeKmh": [
-                  7,
-                  8.5
-                ],
-                "speedKmh": 7.75,
-                "speedMode": "prescribed",
+                "speedRangeKmh": null,
+                "speedKmh": null,
+                "speedMode": "self-paced",
                 "distanceKm": null
               }
             ]
           },
           {
-            "groupId": "V8-W41-T2-g2",
+            "groupId": "V9_2-W41-T2-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W41-T2-s2",
+                "segmentId": "V9_2-W41-T2-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
@@ -8188,24 +8196,21 @@ window.MARATHON_PLAN = {
                 "cue": "Easy RPE 2–3; volledige zinnen",
                 "instruction": "Easy RPE 2–3; volledige zinnen",
                 "inclinePercent": 0,
-                "speedRangeKmh": [
-                  7,
-                  9.5
-                ],
-                "speedKmh": 8.25,
-                "speedMode": "prescribed",
+                "speedRangeKmh": null,
+                "speedKmh": null,
+                "speedMode": "self-paced",
                 "distanceKm": null
               }
             ]
           },
           {
-            "groupId": "V8-W41-T2-g3",
+            "groupId": "V9_2-W41-T2-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W41-T2-s3",
+                "segmentId": "V9_2-W41-T2-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -8217,12 +8222,9 @@ window.MARATHON_PLAN = {
                 "cue": "Zeer easy RPE 2; ontspannen afronden",
                 "instruction": "Zeer easy RPE 2; ontspannen afronden",
                 "inclinePercent": 0,
-                "speedRangeKmh": [
-                  7,
-                  8.5
-                ],
-                "speedKmh": 7.75,
-                "speedMode": "prescribed",
+                "speedRangeKmh": null,
+                "speedKmh": null,
+                "speedMode": "self-paced",
                 "distanceKm": null
               }
             ]
@@ -8232,18 +8234,33 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "32e1685993dcbdf22f1b5533b736bd72e10a975ade138d01feae18c90a46b9ae",
+      "protocolSignature": "43bd4e7bce9e80d7fe9e749a38182b115c4ad6c73eae68956f222ac057e3cd80",
       "compatiblePreviousIds": [
+        "V8-W41-T2",
         "V6-W41-T2"
-      ]
+      ],
+      "reportedExecution": {
+        "activityId": "roy-garmin-2026-10-07",
+        "workoutId": "V9_2-W41-T2",
+        "date": "2026-10-07",
+        "actualDurationSeconds": 3536,
+        "actualDistanceKm": 10.09,
+        "averagePace": "5:51/km",
+        "averageHeartRate": 129,
+        "averageCadence": 176,
+        "sensor": "Polar H9",
+        "source": "Door Roy gerapporteerd in V9.2; geen automatische Garmin-import",
+        "note": "Uitgevoerd, Garmin FIT: 10,09 km; totale tijd 58:56; gemiddeld 5:51/km; gemiddelde hartslag 129 bpm; cadans circa 176 spm. Polar H9 gedragen en verbonden. Gebruiker had het gevoel nog circa 30 min gemakkelijk door te kunnen lopen.",
+        "actualStepsVerified": false
+      }
     },
     {
-      "workoutId": "V8-W41-T3",
-      "trainingId": "V8-W41-T3",
+      "workoutId": "V9_2-W41-T3",
+      "trainingId": "V9_2-W41-T3",
       "trainingNumber": 3,
       "weekNumber": 41,
-      "weekId": "marathon-v8-w41",
-      "phaseId": "v8-phase-41",
+      "weekId": "marathon-v9-2-w41",
+      "phaseId": "v9-2-phase-41",
       "phaseName": "Actief herstel",
       "date": null,
       "preferredDate": "2026-10-09",
@@ -8265,30 +8282,31 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Benen soepel houden. Geen strides deze herstelweek",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
       "orderWarning": "",
       "locationStatus": "Outdoor / Garmin · loopband als alternatief",
       "outsideVariant": "Outdoor is de standaard. MP-sessies en langere duur in W43–45 bij voorkeur buiten; een bandrun bewijst niet automatisch dezelfde buitenbelastbaarheid.",
-      "treadmillInstruction": "dezelfde stapduren en repeats, 0% starthelling. Easy 7–9,5 km/u; warming-up/cooldown/herstel 7–8,5 km/u, aangepast aan RPE. Tempo op de band zelf instellen; gevoel gaat voor",
+      "treadmillInstruction": "dezelfde stapduren en repeats, 0% starthelling. Geen vaste snelheid: stel warming-up, easy en cooldown afzonderlijk in op ontspannen praattest/RPE. Tempo op de band zelf instellen; gevoel gaat voor",
       "bikeInstruction": "",
       "hometrainerInstruction": "",
       "durationCheck": "5 + 20 + 5 = 30 min. Geen repeats of apart herstelblok",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W41-T3-g1",
+          "groupId": "V9_2-W41-T3-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W41-T3-s1",
+              "segmentId": "V9_2-W41-T3-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -8300,24 +8318,21 @@ window.MARATHON_PLAN = {
               "cue": "Zeer easy RPE 2; soepel starten",
               "instruction": "Zeer easy RPE 2; soepel starten",
               "inclinePercent": 0,
-              "speedRangeKmh": [
-                7,
-                8.5
-              ],
-              "speedKmh": 7.75,
-              "speedMode": "prescribed",
+              "speedRangeKmh": null,
+              "speedKmh": null,
+              "speedMode": "self-paced",
               "distanceKm": null
             }
           ]
         },
         {
-          "groupId": "V8-W41-T3-g2",
+          "groupId": "V9_2-W41-T3-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W41-T3-s2",
+              "segmentId": "V9_2-W41-T3-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
@@ -8329,24 +8344,21 @@ window.MARATHON_PLAN = {
               "cue": "Easy RPE 2–3; volledige zinnen",
               "instruction": "Easy RPE 2–3; volledige zinnen",
               "inclinePercent": 0,
-              "speedRangeKmh": [
-                7,
-                9.5
-              ],
-              "speedKmh": 8.25,
-              "speedMode": "prescribed",
+              "speedRangeKmh": null,
+              "speedKmh": null,
+              "speedMode": "self-paced",
               "distanceKm": null
             }
           ]
         },
         {
-          "groupId": "V8-W41-T3-g3",
+          "groupId": "V9_2-W41-T3-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W41-T3-s3",
+              "segmentId": "V9_2-W41-T3-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -8358,12 +8370,9 @@ window.MARATHON_PLAN = {
               "cue": "Zeer easy RPE 2; ontspannen afronden",
               "instruction": "Zeer easy RPE 2; ontspannen afronden",
               "inclinePercent": 0,
-              "speedRangeKmh": [
-                7,
-                8.5
-              ],
-              "speedKmh": 7.75,
-              "speedMode": "prescribed",
+              "speedRangeKmh": null,
+              "speedKmh": null,
+              "speedMode": "self-paced",
               "distanceKm": null
             }
           ]
@@ -8372,13 +8381,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W41-T3-g1",
+            "groupId": "V9_2-W41-T3-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W41-T3-s1",
+                "segmentId": "V9_2-W41-T3-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -8390,24 +8399,21 @@ window.MARATHON_PLAN = {
                 "cue": "Zeer easy RPE 2; soepel starten",
                 "instruction": "Zeer easy RPE 2; soepel starten",
                 "inclinePercent": 0,
-                "speedRangeKmh": [
-                  7,
-                  8.5
-                ],
-                "speedKmh": 7.75,
-                "speedMode": "prescribed",
+                "speedRangeKmh": null,
+                "speedKmh": null,
+                "speedMode": "self-paced",
                 "distanceKm": null
               }
             ]
           },
           {
-            "groupId": "V8-W41-T3-g2",
+            "groupId": "V9_2-W41-T3-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W41-T3-s2",
+                "segmentId": "V9_2-W41-T3-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
@@ -8419,24 +8425,21 @@ window.MARATHON_PLAN = {
                 "cue": "Easy RPE 2–3; volledige zinnen",
                 "instruction": "Easy RPE 2–3; volledige zinnen",
                 "inclinePercent": 0,
-                "speedRangeKmh": [
-                  7,
-                  9.5
-                ],
-                "speedKmh": 8.25,
-                "speedMode": "prescribed",
+                "speedRangeKmh": null,
+                "speedKmh": null,
+                "speedMode": "self-paced",
                 "distanceKm": null
               }
             ]
           },
           {
-            "groupId": "V8-W41-T3-g3",
+            "groupId": "V9_2-W41-T3-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W41-T3-s3",
+                "segmentId": "V9_2-W41-T3-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -8448,12 +8451,9 @@ window.MARATHON_PLAN = {
                 "cue": "Zeer easy RPE 2; ontspannen afronden",
                 "instruction": "Zeer easy RPE 2; ontspannen afronden",
                 "inclinePercent": 0,
-                "speedRangeKmh": [
-                  7,
-                  8.5
-                ],
-                "speedKmh": 7.75,
-                "speedMode": "prescribed",
+                "speedRangeKmh": null,
+                "speedKmh": null,
+                "speedMode": "self-paced",
                 "distanceKm": null
               }
             ]
@@ -8463,161 +8463,131 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "89a7e9651a9494a616a02f93f50d27255d2f9ea0fc2188c76b78470a335e2422",
+      "protocolSignature": "ed4b3ab18a3ca722cebe24edb7c826b674d05c79d2095b633a880b03f7cde9f2",
       "compatiblePreviousIds": [
+        "V8-W41-T3",
         "V6-W41-T3"
       ]
     },
     {
-      "workoutId": "V8-W41-T4",
-      "trainingId": "V8-W41-T4",
+      "workoutId": "V9_2-W41-T4",
+      "trainingId": "V9_2-W41-T4",
       "trainingNumber": 4,
       "weekNumber": 41,
-      "weekId": "marathon-v8-w41",
-      "phaseId": "v8-phase-41",
+      "weekId": "marathon-v9-2-w41",
+      "phaseId": "v9-2-phase-41",
       "phaseName": "Actief herstel",
       "date": null,
       "preferredDate": "2026-10-10",
-      "title": "Rustige run-walk",
+      "title": "Ontspannen continu",
       "activityType": "run",
       "category": "rustige-duur",
-      "role": "runwalk",
+      "role": "easy",
       "surface": "buiten",
       "defaultExecutionMode": "garmin",
       "treadmillAvailable": true,
-      "totalPlannedSeconds": 3900,
-      "totalPlannedLabel": "65 min",
+      "totalPlannedSeconds": 3000,
+      "totalPlannedLabel": "50 min",
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": null,
-      "plannedSessionMinutes": 65,
-      "plannedRunMinutes": 44,
-      "plannedWalkMinutes": 21,
+      "plannedSessionMinutes": 50,
+      "plannedRunMinutes": 50,
+      "plannedWalkMinutes": 0,
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
-      "goal": "44 min lopen + 21 min wandelen. De 1 min wandelen hoort ook bij de laatste herhaling. Geen extra jogminuten",
+      "confidence": false,
+      "goal": "50 min rustig aaneengesloten hardlopen. Het doel is geen tempo- of vermoeidheidstest. Dit vervangt de oude 65 min run-walk met 44 min lopen + 21 min wandelen. Bij klachten gelden de stopregels uit §2",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
       "orderWarning": "",
       "locationStatus": "Outdoor / Garmin · loopband als alternatief",
       "outsideVariant": "Outdoor is de standaard. MP-sessies en langere duur in W43–45 bij voorkeur buiten; een bandrun bewijst niet automatisch dezelfde buitenbelastbaarheid.",
-      "treadmillInstruction": "dezelfde stapduren en repeats, 0% starthelling. Loopblokken 7–9 km/u; alle wandelstappen 4–5,5 km/u, naar comfort. Tempo op de band zelf instellen; gevoel gaat voor",
+      "treadmillInstruction": "dezelfde stappen 5+40+5, 0% beginhelling; snelheid vrij volgens praattest, geen vaste km/u-eis",
       "bikeInstruction": "",
       "hometrainerInstruction": "",
-      "durationCheck": "5 + 11×(4 + 1) + 5 = 65 min. Herstel ook na het laatste werkblok; geen extra repeats",
-      "nutrition": "Water naar behoefte; desgewenst één bekend voedingsmoment, geen hoge inname afdwingen",
+      "durationCheck": "5 + 40 + 5 = 50 min. Geen repeats, geen wandelminuten",
+      "nutrition": "Water naar behoefte; geen hoge inname nodig tijdens deze kortere easy-run",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
-      "labels": [
-        "RUN-WALK"
-      ],
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
+      "labels": [],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W41-T4-g1",
+          "groupId": "V9_2-W41-T4-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W41-T4-s1",
+              "segmentId": "V9_2-W41-T4-s1",
               "name": "Warming-up",
-              "type": "wandelen",
+              "type": "warming-up",
               "basis": "time",
               "durationSeconds": 300,
               "display": "5 min",
               "isRecovery": false,
               "targetType": "Vrij",
               "targetValue": null,
-              "cue": "Wandelen, rustig starten",
-              "instruction": "Wandelen, rustig starten",
+              "cue": "Zeer rustig dribbelen, RPE 2",
+              "instruction": "Zeer rustig dribbelen, RPE 2",
               "inclinePercent": 0,
-              "speedRangeKmh": [
-                4,
-                5.5
-              ],
-              "speedKmh": 4.75,
-              "speedMode": "prescribed",
+              "speedRangeKmh": null,
+              "speedKmh": null,
+              "speedMode": "self-paced",
               "distanceKm": null
             }
           ]
         },
         {
-          "groupId": "V8-W41-T4-g2",
-          "kind": "repeat",
-          "repetitions": 11,
-          "label": "Werk + herstel",
+          "groupId": "V9_2-W41-T4-g2",
+          "kind": "sequence",
+          "repetitions": 1,
+          "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W41-T4-s2",
+              "segmentId": "V9_2-W41-T4-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
-              "durationSeconds": 240,
-              "display": "4 min",
+              "durationSeconds": 2400,
+              "display": "40 min",
               "isRecovery": false,
               "targetType": "Vrij",
               "targetValue": null,
               "cue": "Easy RPE 2–3; volledige zinnen",
               "instruction": "Easy RPE 2–3; volledige zinnen",
               "inclinePercent": 0,
-              "speedRangeKmh": [
-                7,
-                9
-              ],
-              "speedKmh": 8,
-              "speedMode": "prescribed",
-              "distanceKm": null
-            },
-            {
-              "segmentId": "V8-W41-T4-s3",
-              "name": "Herstel",
-              "type": "wandelen",
-              "basis": "time",
-              "durationSeconds": 60,
-              "display": "1 min",
-              "isRecovery": true,
-              "targetType": "Vrij",
-              "targetValue": null,
-              "cue": "Wandelen, ontspannen",
-              "instruction": "Wandelen, ontspannen",
-              "inclinePercent": 0,
-              "speedRangeKmh": [
-                4,
-                5.5
-              ],
-              "speedKmh": 4.75,
-              "speedMode": "prescribed",
+              "speedRangeKmh": null,
+              "speedKmh": null,
+              "speedMode": "self-paced",
               "distanceKm": null
             }
           ]
         },
         {
-          "groupId": "V8-W41-T4-g3",
+          "groupId": "V9_2-W41-T4-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W41-T4-s4",
+              "segmentId": "V9_2-W41-T4-s3",
               "name": "Cooldown",
-              "type": "wandelen",
+              "type": "cooling-down",
               "basis": "time",
               "durationSeconds": 300,
               "display": "5 min",
               "isRecovery": false,
               "targetType": "Vrij",
               "targetValue": null,
-              "cue": "Wandelen, rustig afronden",
-              "instruction": "Wandelen, rustig afronden",
+              "cue": "Zeer easy dribbelen, ontspannen afronden",
+              "instruction": "Zeer easy dribbelen, ontspannen afronden",
               "inclinePercent": 0,
-              "speedRangeKmh": [
-                4,
-                5.5
-              ],
-              "speedKmh": 4.75,
-              "speedMode": "prescribed",
+              "speedRangeKmh": null,
+              "speedKmh": null,
+              "speedMode": "self-paced",
               "distanceKm": null
             }
           ]
@@ -8626,130 +8596,97 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W41-T4-g1",
+            "groupId": "V9_2-W41-T4-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W41-T4-s1",
+                "segmentId": "V9_2-W41-T4-s1",
                 "name": "Warming-up",
-                "type": "wandelen",
+                "type": "warming-up",
                 "basis": "time",
                 "durationSeconds": 300,
                 "display": "5 min",
                 "isRecovery": false,
                 "targetType": "Vrij",
                 "targetValue": null,
-                "cue": "Wandelen, rustig starten",
-                "instruction": "Wandelen, rustig starten",
+                "cue": "Zeer rustig dribbelen, RPE 2",
+                "instruction": "Zeer rustig dribbelen, RPE 2",
                 "inclinePercent": 0,
-                "speedRangeKmh": [
-                  4,
-                  5.5
-                ],
-                "speedKmh": 4.75,
-                "speedMode": "prescribed",
+                "speedRangeKmh": null,
+                "speedKmh": null,
+                "speedMode": "self-paced",
                 "distanceKm": null
               }
             ]
           },
           {
-            "groupId": "V8-W41-T4-g2",
-            "kind": "repeat",
-            "repetitions": 11,
-            "label": "Werk + herstel",
+            "groupId": "V9_2-W41-T4-g2",
+            "kind": "sequence",
+            "repetitions": 1,
+            "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W41-T4-s2",
+                "segmentId": "V9_2-W41-T4-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
-                "durationSeconds": 240,
-                "display": "4 min",
+                "durationSeconds": 2400,
+                "display": "40 min",
                 "isRecovery": false,
                 "targetType": "Vrij",
                 "targetValue": null,
                 "cue": "Easy RPE 2–3; volledige zinnen",
                 "instruction": "Easy RPE 2–3; volledige zinnen",
                 "inclinePercent": 0,
-                "speedRangeKmh": [
-                  7,
-                  9
-                ],
-                "speedKmh": 8,
-                "speedMode": "prescribed",
-                "distanceKm": null
-              },
-              {
-                "segmentId": "V8-W41-T4-s3",
-                "name": "Herstel",
-                "type": "wandelen",
-                "basis": "time",
-                "durationSeconds": 60,
-                "display": "1 min",
-                "isRecovery": true,
-                "targetType": "Vrij",
-                "targetValue": null,
-                "cue": "Wandelen, ontspannen",
-                "instruction": "Wandelen, ontspannen",
-                "inclinePercent": 0,
-                "speedRangeKmh": [
-                  4,
-                  5.5
-                ],
-                "speedKmh": 4.75,
-                "speedMode": "prescribed",
+                "speedRangeKmh": null,
+                "speedKmh": null,
+                "speedMode": "self-paced",
                 "distanceKm": null
               }
             ]
           },
           {
-            "groupId": "V8-W41-T4-g3",
+            "groupId": "V9_2-W41-T4-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W41-T4-s4",
+                "segmentId": "V9_2-W41-T4-s3",
                 "name": "Cooldown",
-                "type": "wandelen",
+                "type": "cooling-down",
                 "basis": "time",
                 "durationSeconds": 300,
                 "display": "5 min",
                 "isRecovery": false,
                 "targetType": "Vrij",
                 "targetValue": null,
-                "cue": "Wandelen, rustig afronden",
-                "instruction": "Wandelen, rustig afronden",
+                "cue": "Zeer easy dribbelen, ontspannen afronden",
+                "instruction": "Zeer easy dribbelen, ontspannen afronden",
                 "inclinePercent": 0,
-                "speedRangeKmh": [
-                  4,
-                  5.5
-                ],
-                "speedKmh": 4.75,
-                "speedMode": "prescribed",
+                "speedRangeKmh": null,
+                "speedKmh": null,
+                "speedMode": "self-paced",
                 "distanceKm": null
               }
             ]
           }
         ],
-        "programSummary": "5 min wandelen Geen doel / Vrij → REPEAT 11× [4 min easy Geen doel / Vrij + 1 min wandelen Geen doel / Vrij] → 5 min wandelen Geen doel / Vrij",
+        "programSummary": "5 min warming-up Vrij → 40 min Hardlopen Vrij → 5 min cooldown Vrij",
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "ee9f7ed6f5efb82cb9f0b571386b9ae60944caeee7566c0ad33a82ceb82c06a3",
-      "compatiblePreviousIds": [
-        "V6-W41-T4"
-      ]
+      "protocolSignature": "ac055767e963a9badbceebf0e19e4bc33d145d50d7807c067c41970c1adf49d7"
     },
     {
-      "workoutId": "V8-W41-T5",
-      "trainingId": "V8-W41-T5",
+      "workoutId": "V9_2-W41-T5",
+      "trainingId": "V9_2-W41-T5",
       "trainingNumber": 5,
       "weekNumber": 41,
-      "weekId": "marathon-v8-w41",
-      "phaseId": "v8-phase-41",
+      "weekId": "marathon-v9-2-w41",
+      "phaseId": "v9-2-phase-41",
       "phaseName": "Actief herstel",
       "date": null,
       "preferredDate": "2026-10-08",
@@ -8771,6 +8708,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 60,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Aerobe beweging met weinig impact; geen zwaar verzet",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -8783,18 +8721,18 @@ window.MARATHON_PLAN = {
       "durationCheck": "10 + 40 + 10 = 60 min. Geen repeats of apart herstelblok",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W41-T5-g1",
+          "groupId": "V9_2-W41-T5-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W41-T5-s1",
+              "segmentId": "V9_2-W41-T5-s1",
               "name": "Warming-up",
               "type": "fiets",
               "basis": "time",
@@ -8814,13 +8752,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W41-T5-g2",
+          "groupId": "V9_2-W41-T5-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Fietsen",
           "segments": [
             {
-              "segmentId": "V8-W41-T5-s2",
+              "segmentId": "V9_2-W41-T5-s2",
               "name": "Fietsen",
               "type": "fiets",
               "basis": "time",
@@ -8840,13 +8778,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W41-T5-g3",
+          "groupId": "V9_2-W41-T5-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W41-T5-s3",
+              "segmentId": "V9_2-W41-T5-s3",
               "name": "Cooldown",
               "type": "fiets",
               "basis": "time",
@@ -8869,13 +8807,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W41-T5-g1",
+            "groupId": "V9_2-W41-T5-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W41-T5-s1",
+                "segmentId": "V9_2-W41-T5-s1",
                 "name": "Warming-up",
                 "type": "fiets",
                 "basis": "time",
@@ -8895,13 +8833,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W41-T5-g2",
+            "groupId": "V9_2-W41-T5-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Fietsen",
             "segments": [
               {
-                "segmentId": "V8-W41-T5-s2",
+                "segmentId": "V9_2-W41-T5-s2",
                 "name": "Fietsen",
                 "type": "fiets",
                 "basis": "time",
@@ -8921,13 +8859,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W41-T5-g3",
+            "groupId": "V9_2-W41-T5-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W41-T5-s3",
+                "segmentId": "V9_2-W41-T5-s3",
                 "name": "Cooldown",
                 "type": "fiets",
                 "basis": "time",
@@ -8951,18 +8889,19 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "a47e59bf0b3572c41010c7cedd9047131af457866f365f013c023e18c66bcdc1",
+      "protocolSignature": "94bd4b9ed989dc64b73d7c6be5d379cb52dab4ead84e363bf0a365017e28c435",
       "compatiblePreviousIds": [
+        "V8-W41-T5",
         "V6-W41-T5"
       ]
     },
     {
-      "workoutId": "V8-W42-T1",
-      "trainingId": "V8-W42-T1",
+      "workoutId": "V9_2-W42-T1",
+      "trainingId": "V9_2-W42-T1",
       "trainingNumber": 1,
       "weekNumber": 42,
-      "weekId": "marathon-v8-w42",
-      "phaseId": "v8-phase-42",
+      "weekId": "marathon-v9-2-w42",
+      "phaseId": "v9-2-phase-42",
       "phaseName": "Herstart met vijf runs",
       "date": null,
       "preferredDate": "2026-10-13",
@@ -8978,9 +8917,9 @@ window.MARATHON_PLAN = {
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 4,
-        "max": 4.615384615384615,
-        "middle": 4.285714285714286
+        "min": 4.615384615384615,
+        "max": 5,
+        "middle": 4.8
       },
       "plannedSessionMinutes": 30,
       "plannedRunMinutes": 30,
@@ -8988,6 +8927,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -9000,18 +8940,18 @@ window.MARATHON_PLAN = {
       "durationCheck": "5 + 20 + 5 = 30 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W42-T1-g1",
+          "groupId": "V9_2-W42-T1-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W42-T1-s1",
+              "segmentId": "V9_2-W42-T1-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -9031,13 +8971,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W42-T1-g2",
+          "groupId": "V9_2-W42-T1-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W42-T1-s2",
+              "segmentId": "V9_2-W42-T1-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
@@ -9057,13 +8997,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W42-T1-g3",
+          "groupId": "V9_2-W42-T1-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W42-T1-s3",
+              "segmentId": "V9_2-W42-T1-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -9086,13 +9026,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W42-T1-g1",
+            "groupId": "V9_2-W42-T1-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W42-T1-s1",
+                "segmentId": "V9_2-W42-T1-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -9112,13 +9052,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W42-T1-g2",
+            "groupId": "V9_2-W42-T1-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W42-T1-s2",
+                "segmentId": "V9_2-W42-T1-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
@@ -9138,13 +9078,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W42-T1-g3",
+            "groupId": "V9_2-W42-T1-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W42-T1-s3",
+                "segmentId": "V9_2-W42-T1-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -9168,15 +9108,18 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "aed957cdad6d93c699dda16faccba269de3d49accbc4f784d160fbd168ed0999"
+      "protocolSignature": "f01c3ba438a204fbe301af8f130e9b98e1497885ab983c28c361fc524d7f5087",
+      "compatiblePreviousIds": [
+        "V8-W42-T1"
+      ]
     },
     {
-      "workoutId": "V8-W42-T2",
-      "trainingId": "V8-W42-T2",
+      "workoutId": "V9_2-W42-T2",
+      "trainingId": "V9_2-W42-T2",
       "trainingNumber": 2,
       "weekNumber": 42,
-      "weekId": "marathon-v8-w42",
-      "phaseId": "v8-phase-42",
+      "weekId": "marathon-v9-2-w42",
+      "phaseId": "v9-2-phase-42",
       "phaseName": "Herstart met vijf runs",
       "date": null,
       "preferredDate": "2026-10-14",
@@ -9192,9 +9135,9 @@ window.MARATHON_PLAN = {
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 8.630303030303029,
-        "max": 9.367521367521366,
-        "middle": 8.974385093167701
+        "min": 9.326746647847566,
+        "max": 9.737003058103976,
+        "middle": 9.523669724770642
       },
       "plannedSessionMinutes": 56,
       "plannedRunMinutes": 56,
@@ -9202,6 +9145,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 24,
       "targetRpe": "2–3 easy · 4–5 MP",
+      "confidence": false,
       "goal": "Leer het 3:50-ritme in vier beheersbare blokken. Geen snellere laatste herhaling. Normaal gevoed starten. Voeding volgens §6; deze sessie is geen nuchtere test",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -9214,20 +9158,20 @@ window.MARATHON_PLAN = {
       "durationCheck": "15 + 4×(6 + 3) + 5 = 56 min. MP-totaal: 24 min; jogherstel: 12 min. De laatste herstelstap komt vóór de aparte cooldown",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [
         "MARATHONPACE"
       ],
       "tone": "quality",
       "groups": [
         {
-          "groupId": "V8-W42-T2-g1",
+          "groupId": "V9_2-W42-T2-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W42-T2-s1",
+              "segmentId": "V9_2-W42-T2-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -9247,13 +9191,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W42-T2-g2",
+          "groupId": "V9_2-W42-T2-g2",
           "kind": "repeat",
           "repetitions": 4,
           "label": "Werk + herstel",
           "segments": [
             {
-              "segmentId": "V8-W42-T2-s2",
+              "segmentId": "V9_2-W42-T2-s2",
               "name": "Hardlopen",
               "type": "marathonpace",
               "basis": "time",
@@ -9271,7 +9215,7 @@ window.MARATHON_PLAN = {
               "distanceKm": null
             },
             {
-              "segmentId": "V8-W42-T2-s3",
+              "segmentId": "V9_2-W42-T2-s3",
               "name": "Herstel",
               "type": "herstel",
               "basis": "time",
@@ -9291,13 +9235,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W42-T2-g3",
+          "groupId": "V9_2-W42-T2-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W42-T2-s4",
+              "segmentId": "V9_2-W42-T2-s4",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -9320,13 +9264,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W42-T2-g1",
+            "groupId": "V9_2-W42-T2-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W42-T2-s1",
+                "segmentId": "V9_2-W42-T2-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -9346,13 +9290,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W42-T2-g2",
+            "groupId": "V9_2-W42-T2-g2",
             "kind": "repeat",
             "repetitions": 4,
             "label": "Werk + herstel",
             "segments": [
               {
-                "segmentId": "V8-W42-T2-s2",
+                "segmentId": "V9_2-W42-T2-s2",
                 "name": "Hardlopen",
                 "type": "marathonpace",
                 "basis": "time",
@@ -9370,7 +9314,7 @@ window.MARATHON_PLAN = {
                 "distanceKm": null
               },
               {
-                "segmentId": "V8-W42-T2-s3",
+                "segmentId": "V9_2-W42-T2-s3",
                 "name": "Herstel",
                 "type": "herstel",
                 "basis": "time",
@@ -9390,13 +9334,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W42-T2-g3",
+            "groupId": "V9_2-W42-T2-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W42-T2-s4",
+                "segmentId": "V9_2-W42-T2-s4",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -9420,15 +9364,18 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "386ef54e129247541094275573f2571d2903e265c605b286a7f5a4a5790a2c79"
+      "protocolSignature": "9211777ff6eee120535b9db179a95b4a0c5570fcb5e297d0f4bcebee4b72e097",
+      "compatiblePreviousIds": [
+        "V8-W42-T2"
+      ]
     },
     {
-      "workoutId": "V8-W42-T3",
-      "trainingId": "V8-W42-T3",
+      "workoutId": "V9_2-W42-T3",
+      "trainingId": "V9_2-W42-T3",
       "trainingNumber": 3,
       "weekNumber": 42,
-      "weekId": "marathon-v8-w42",
-      "phaseId": "v8-phase-42",
+      "weekId": "marathon-v9-2-w42",
+      "phaseId": "v9-2-phase-42",
       "phaseName": "Herstart met vijf runs",
       "date": null,
       "preferredDate": "2026-10-15",
@@ -9444,9 +9391,9 @@ window.MARATHON_PLAN = {
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 3.3333333333333335,
-        "max": 3.8461538461538463,
-        "middle": 3.5714285714285716
+        "min": 3.8461538461538463,
+        "max": 4.166666666666667,
+        "middle": 4
       },
       "plannedSessionMinutes": 25,
       "plannedRunMinutes": 25,
@@ -9454,6 +9401,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -9466,20 +9414,20 @@ window.MARATHON_PLAN = {
       "durationCheck": "5 + 15 + 5 = 25 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [
         "RECOVERY"
       ],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W42-T3-g1",
+          "groupId": "V9_2-W42-T3-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W42-T3-s1",
+              "segmentId": "V9_2-W42-T3-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -9499,13 +9447,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W42-T3-g2",
+          "groupId": "V9_2-W42-T3-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W42-T3-s2",
+              "segmentId": "V9_2-W42-T3-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
@@ -9525,13 +9473,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W42-T3-g3",
+          "groupId": "V9_2-W42-T3-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W42-T3-s3",
+              "segmentId": "V9_2-W42-T3-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -9554,13 +9502,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W42-T3-g1",
+            "groupId": "V9_2-W42-T3-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W42-T3-s1",
+                "segmentId": "V9_2-W42-T3-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -9580,13 +9528,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W42-T3-g2",
+            "groupId": "V9_2-W42-T3-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W42-T3-s2",
+                "segmentId": "V9_2-W42-T3-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
@@ -9606,13 +9554,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W42-T3-g3",
+            "groupId": "V9_2-W42-T3-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W42-T3-s3",
+                "segmentId": "V9_2-W42-T3-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -9636,15 +9584,18 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "f07925ddcdfc7842e87767c21bb309647a102ce2adf2544e298fb52787d33962"
+      "protocolSignature": "b486f16aeb1f36e8b3d858ded5e3a4800aa412df7256ebe5000a5a94250bc67e",
+      "compatiblePreviousIds": [
+        "V8-W42-T3"
+      ]
     },
     {
-      "workoutId": "V8-W42-T4",
-      "trainingId": "V8-W42-T4",
+      "workoutId": "V9_2-W42-T4",
+      "trainingId": "V9_2-W42-T4",
       "trainingNumber": 4,
       "weekNumber": 42,
-      "weekId": "marathon-v8-w42",
-      "phaseId": "v8-phase-42",
+      "weekId": "marathon-v9-2-w42",
+      "phaseId": "v9-2-phase-42",
       "phaseName": "Herstart met vijf runs",
       "date": null,
       "preferredDate": "2026-10-17",
@@ -9660,9 +9611,9 @@ window.MARATHON_PLAN = {
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 4.533333333333333,
-        "max": 5.230769230769231,
-        "middle": 4.857142857142857
+        "min": 5.230769230769231,
+        "max": 5.666666666666667,
+        "middle": 5.44
       },
       "plannedSessionMinutes": 34,
       "plannedRunMinutes": 34,
@@ -9670,6 +9621,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -9682,20 +9634,20 @@ window.MARATHON_PLAN = {
       "durationCheck": "5 + 24 + 5 = 34 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [
         "AEROBIC SUPPORT"
       ],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W42-T4-g1",
+          "groupId": "V9_2-W42-T4-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W42-T4-s1",
+              "segmentId": "V9_2-W42-T4-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -9715,13 +9667,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W42-T4-g2",
+          "groupId": "V9_2-W42-T4-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W42-T4-s2",
+              "segmentId": "V9_2-W42-T4-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
@@ -9741,13 +9693,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W42-T4-g3",
+          "groupId": "V9_2-W42-T4-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W42-T4-s3",
+              "segmentId": "V9_2-W42-T4-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -9770,13 +9722,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W42-T4-g1",
+            "groupId": "V9_2-W42-T4-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W42-T4-s1",
+                "segmentId": "V9_2-W42-T4-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -9796,13 +9748,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W42-T4-g2",
+            "groupId": "V9_2-W42-T4-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W42-T4-s2",
+                "segmentId": "V9_2-W42-T4-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
@@ -9822,13 +9774,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W42-T4-g3",
+            "groupId": "V9_2-W42-T4-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W42-T4-s3",
+                "segmentId": "V9_2-W42-T4-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -9852,15 +9804,18 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "4175aa449312b23d8b3b568454d3b370b92f0c49a112f212eab96c1f6e882dc4"
+      "protocolSignature": "4757f92ac49490292ddac971634577e7d40374027b76aeafe11f07c6bcf4d2be",
+      "compatiblePreviousIds": [
+        "V8-W42-T4"
+      ]
     },
     {
-      "workoutId": "V8-W42-T5",
-      "trainingId": "V8-W42-T5",
+      "workoutId": "V9_2-W42-T5",
+      "trainingId": "V9_2-W42-T5",
       "trainingNumber": 5,
       "weekNumber": 42,
-      "weekId": "marathon-v8-w42",
-      "phaseId": "v8-phase-42",
+      "weekId": "marathon-v9-2-w42",
+      "phaseId": "v9-2-phase-42",
       "phaseName": "Herstart met vijf runs",
       "date": null,
       "preferredDate": "2026-10-18",
@@ -9876,9 +9831,9 @@ window.MARATHON_PLAN = {
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 12.666666666666666,
-        "max": 14.615384615384615,
-        "middle": 13.571428571428571
+        "min": 14.615384615384615,
+        "max": 15.833333333333334,
+        "middle": 15.2
       },
       "plannedSessionMinutes": 95,
       "plannedRunMinutes": 95,
@@ -9886,6 +9841,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "volledig aaneengesloten easy, inclusief rustig ingelopen start en rustige laatste vijf minuten. Geen standaard run-walk, geen MP-blokken en geen fast finish",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -9896,20 +9852,20 @@ window.MARATHON_PLAN = {
       "bikeInstruction": "",
       "hometrainerInstruction": "",
       "durationCheck": "10 + 80 + 5 = 95 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
-      "nutrition": "3 gels van 40 g op 20, 50 en 80 min: 120 g / 95 min = 75,8 g/u. Dit zijn concrete oefenpatronen voor reeds passende tolerantie; de stapsgewijze instap en waterlogistiek staan in §6",
+      "nutrition": "Standaard instap: twee vertrouwde gels van 40 g op 25 en 65 min = 80 g / 95 min = 50,5 g/u. Neem water naar behoefte en oefen het gebruik van passende waterpunten. Alleen bij reeds bewezen tolerantie kan een hogere inname worden gekozen; zie §6",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W42-T5-g1",
+          "groupId": "V9_2-W42-T5-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W42-T5-s1",
+              "segmentId": "V9_2-W42-T5-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -9929,13 +9885,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W42-T5-g2",
+          "groupId": "V9_2-W42-T5-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W42-T5-s2",
+              "segmentId": "V9_2-W42-T5-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
@@ -9955,13 +9911,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W42-T5-g3",
+          "groupId": "V9_2-W42-T5-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W42-T5-s3",
+              "segmentId": "V9_2-W42-T5-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -9984,13 +9940,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W42-T5-g1",
+            "groupId": "V9_2-W42-T5-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W42-T5-s1",
+                "segmentId": "V9_2-W42-T5-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -10010,13 +9966,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W42-T5-g2",
+            "groupId": "V9_2-W42-T5-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W42-T5-s2",
+                "segmentId": "V9_2-W42-T5-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
@@ -10036,13 +9992,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W42-T5-g3",
+            "groupId": "V9_2-W42-T5-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W42-T5-s3",
+                "segmentId": "V9_2-W42-T5-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -10066,16 +10022,19 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "0240398372cbcae39d00a1939e38cd7131056bf7b4cb164942f256a9435f20d5"
+      "protocolSignature": "f653637cfedf422fe4ad84415e734b9a01e408ef2bb2c54811cd02e3a62875ec",
+      "compatiblePreviousIds": [
+        "V8-W42-T5"
+      ]
     },
     {
-      "workoutId": "V8-W43-T1",
-      "trainingId": "V8-W43-T1",
+      "workoutId": "V9_2-W43-T1",
+      "trainingId": "V9_2-W43-T1",
       "trainingNumber": 1,
       "weekNumber": 43,
-      "weekId": "marathon-v8-w43",
-      "phaseId": "v8-phase-43",
-      "phaseName": "Duuropbouw",
+      "weekId": "marathon-v9-2-w43",
+      "phaseId": "v9-2-phase-43",
+      "phaseName": "Two-Hour Confidence",
       "date": null,
       "preferredDate": "2026-10-20",
       "title": "Easy run",
@@ -10085,21 +10044,22 @@ window.MARATHON_PLAN = {
       "surface": "buiten",
       "defaultExecutionMode": "garmin",
       "treadmillAvailable": true,
-      "totalPlannedSeconds": 2100,
-      "totalPlannedLabel": "35 min",
+      "totalPlannedSeconds": 2700,
+      "totalPlannedLabel": "45 min",
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 4.666666666666667,
-        "max": 5.384615384615385,
-        "middle": 5
+        "min": 6.923076923076923,
+        "max": 7.5,
+        "middle": 7.2
       },
-      "plannedSessionMinutes": 35,
-      "plannedRunMinutes": 35,
+      "plannedSessionMinutes": 45,
+      "plannedRunMinutes": 45,
       "plannedWalkMinutes": 0,
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -10109,21 +10069,21 @@ window.MARATHON_PLAN = {
       "treadmillInstruction": "dezelfde drie tijdstappen, 0% starthelling; alle stappen op praattempo/RPE. Geen verplichte snelheid of afstand, geen extra minuten. Outdoor heeft voor lange duur de voorkeur",
       "bikeInstruction": "",
       "hometrainerInstruction": "",
-      "durationCheck": "5 + 25 + 5 = 35 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
+      "durationCheck": "5 + 35 + 5 = 45 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W43-T1-g1",
+          "groupId": "V9_2-W43-T1-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W43-T1-s1",
+              "segmentId": "V9_2-W43-T1-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -10143,18 +10103,18 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W43-T1-g2",
+          "groupId": "V9_2-W43-T1-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W43-T1-s2",
+              "segmentId": "V9_2-W43-T1-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
-              "durationSeconds": 1500,
-              "display": "25 min",
+              "durationSeconds": 2100,
+              "display": "35 min",
               "isRecovery": false,
               "targetType": "Vrij",
               "targetValue": null,
@@ -10169,13 +10129,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W43-T1-g3",
+          "groupId": "V9_2-W43-T1-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W43-T1-s3",
+              "segmentId": "V9_2-W43-T1-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -10198,13 +10158,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W43-T1-g1",
+            "groupId": "V9_2-W43-T1-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W43-T1-s1",
+                "segmentId": "V9_2-W43-T1-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -10224,18 +10184,18 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W43-T1-g2",
+            "groupId": "V9_2-W43-T1-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W43-T1-s2",
+                "segmentId": "V9_2-W43-T1-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
-                "durationSeconds": 1500,
-                "display": "25 min",
+                "durationSeconds": 2100,
+                "display": "35 min",
                 "isRecovery": false,
                 "targetType": "Vrij",
                 "targetValue": null,
@@ -10250,13 +10210,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W43-T1-g3",
+            "groupId": "V9_2-W43-T1-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W43-T1-s3",
+                "segmentId": "V9_2-W43-T1-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -10276,20 +10236,20 @@ window.MARATHON_PLAN = {
             ]
           }
         ],
-        "programSummary": "5 min warming-up Vrij → 25 min Hardlopen Vrij → 5 min cooldown Vrij",
+        "programSummary": "5 min warming-up Vrij → 35 min Hardlopen Vrij → 5 min cooldown Vrij",
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "0687d4ef8af76267875e0af9e1d567e9254f34d5c022a786a77bff15466bf729"
+      "protocolSignature": "61c6d06cca21e3e9802833f88c19039cd176b4cbdd2fc05c57a6ed607b418021"
     },
     {
-      "workoutId": "V8-W43-T2",
-      "trainingId": "V8-W43-T2",
+      "workoutId": "V9_2-W43-T2",
+      "trainingId": "V9_2-W43-T2",
       "trainingNumber": 2,
       "weekNumber": 43,
-      "weekId": "marathon-v8-w43",
-      "phaseId": "v8-phase-43",
-      "phaseName": "Duuropbouw",
+      "weekId": "marathon-v9-2-w43",
+      "phaseId": "v9-2-phase-43",
+      "phaseName": "Two-Hour Confidence",
       "date": null,
       "preferredDate": "2026-10-21",
       "title": "Marathonpace 3×10 min",
@@ -10304,9 +10264,9 @@ window.MARATHON_PLAN = {
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 9.454545454545453,
-        "max": 10.17094017094017,
-        "middle": 9.789409937888198
+        "min": 10.119971771347917,
+        "max": 10.504587155963304,
+        "middle": 10.304587155963302
       },
       "plannedSessionMinutes": 60,
       "plannedRunMinutes": 60,
@@ -10314,6 +10274,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 30,
       "targetRpe": "2–3 easy · 4–5 MP",
+      "confidence": false,
       "goal": "Houd dezelfde pace over drie langere blokken. Het laatste blok blijft technisch ontspannen. Normaal gevoed starten. Voeding volgens §6; deze sessie is geen nuchtere test",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -10326,20 +10287,20 @@ window.MARATHON_PLAN = {
       "durationCheck": "15 + 3×(10 + 3) + 6 = 60 min. MP-totaal: 30 min; jogherstel: 9 min. De laatste herstelstap komt vóór de aparte cooldown",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [
         "MARATHONPACE"
       ],
       "tone": "quality",
       "groups": [
         {
-          "groupId": "V8-W43-T2-g1",
+          "groupId": "V9_2-W43-T2-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W43-T2-s1",
+              "segmentId": "V9_2-W43-T2-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -10359,13 +10320,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W43-T2-g2",
+          "groupId": "V9_2-W43-T2-g2",
           "kind": "repeat",
           "repetitions": 3,
           "label": "Werk + herstel",
           "segments": [
             {
-              "segmentId": "V8-W43-T2-s2",
+              "segmentId": "V9_2-W43-T2-s2",
               "name": "Hardlopen",
               "type": "marathonpace",
               "basis": "time",
@@ -10383,7 +10344,7 @@ window.MARATHON_PLAN = {
               "distanceKm": null
             },
             {
-              "segmentId": "V8-W43-T2-s3",
+              "segmentId": "V9_2-W43-T2-s3",
               "name": "Herstel",
               "type": "herstel",
               "basis": "time",
@@ -10403,13 +10364,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W43-T2-g3",
+          "groupId": "V9_2-W43-T2-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W43-T2-s4",
+              "segmentId": "V9_2-W43-T2-s4",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -10432,13 +10393,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W43-T2-g1",
+            "groupId": "V9_2-W43-T2-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W43-T2-s1",
+                "segmentId": "V9_2-W43-T2-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -10458,13 +10419,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W43-T2-g2",
+            "groupId": "V9_2-W43-T2-g2",
             "kind": "repeat",
             "repetitions": 3,
             "label": "Werk + herstel",
             "segments": [
               {
-                "segmentId": "V8-W43-T2-s2",
+                "segmentId": "V9_2-W43-T2-s2",
                 "name": "Hardlopen",
                 "type": "marathonpace",
                 "basis": "time",
@@ -10482,7 +10443,7 @@ window.MARATHON_PLAN = {
                 "distanceKm": null
               },
               {
-                "segmentId": "V8-W43-T2-s3",
+                "segmentId": "V9_2-W43-T2-s3",
                 "name": "Herstel",
                 "type": "herstel",
                 "basis": "time",
@@ -10502,13 +10463,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W43-T2-g3",
+            "groupId": "V9_2-W43-T2-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W43-T2-s4",
+                "segmentId": "V9_2-W43-T2-s4",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -10532,16 +10493,19 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "3692f13e2016d55e3a7af91f823186dd1ef309d5d9bec92dbed9553c46d00c2a"
+      "protocolSignature": "2a6f9dd876c8eac2ea8158f0d873ac98df6b2fc5cf77f732d066abeb572bb122",
+      "compatiblePreviousIds": [
+        "V8-W43-T2"
+      ]
     },
     {
-      "workoutId": "V8-W43-T3",
-      "trainingId": "V8-W43-T3",
+      "workoutId": "V9_2-W43-T3",
+      "trainingId": "V9_2-W43-T3",
       "trainingNumber": 3,
       "weekNumber": 43,
-      "weekId": "marathon-v8-w43",
-      "phaseId": "v8-phase-43",
-      "phaseName": "Duuropbouw",
+      "weekId": "marathon-v9-2-w43",
+      "phaseId": "v9-2-phase-43",
+      "phaseName": "Two-Hour Confidence",
       "date": null,
       "preferredDate": "2026-10-22",
       "title": "Recovery easy",
@@ -10556,9 +10520,9 @@ window.MARATHON_PLAN = {
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 4,
-        "max": 4.615384615384615,
-        "middle": 4.285714285714286
+        "min": 4.615384615384615,
+        "max": 5,
+        "middle": 4.8
       },
       "plannedSessionMinutes": 30,
       "plannedRunMinutes": 30,
@@ -10566,6 +10530,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -10578,20 +10543,20 @@ window.MARATHON_PLAN = {
       "durationCheck": "5 + 20 + 5 = 30 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [
         "RECOVERY"
       ],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W43-T3-g1",
+          "groupId": "V9_2-W43-T3-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W43-T3-s1",
+              "segmentId": "V9_2-W43-T3-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -10611,13 +10576,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W43-T3-g2",
+          "groupId": "V9_2-W43-T3-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W43-T3-s2",
+              "segmentId": "V9_2-W43-T3-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
@@ -10637,13 +10602,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W43-T3-g3",
+          "groupId": "V9_2-W43-T3-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W43-T3-s3",
+              "segmentId": "V9_2-W43-T3-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -10666,13 +10631,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W43-T3-g1",
+            "groupId": "V9_2-W43-T3-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W43-T3-s1",
+                "segmentId": "V9_2-W43-T3-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -10692,13 +10657,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W43-T3-g2",
+            "groupId": "V9_2-W43-T3-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W43-T3-s2",
+                "segmentId": "V9_2-W43-T3-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
@@ -10718,13 +10683,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W43-T3-g3",
+            "groupId": "V9_2-W43-T3-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W43-T3-s3",
+                "segmentId": "V9_2-W43-T3-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -10748,16 +10713,19 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "1350b9e8d8931c4da6fd73162bb6c7a823264754f0751d4958a76def29aafb3d"
+      "protocolSignature": "8573ad4df0031ffbc89cb884650803375ef71a62e517708fa09e1f9845ac4264",
+      "compatiblePreviousIds": [
+        "V8-W43-T3"
+      ]
     },
     {
-      "workoutId": "V8-W43-T4",
-      "trainingId": "V8-W43-T4",
+      "workoutId": "V9_2-W43-T4",
+      "trainingId": "V9_2-W43-T4",
       "trainingNumber": 4,
       "weekNumber": 43,
-      "weekId": "marathon-v8-w43",
-      "phaseId": "v8-phase-43",
-      "phaseName": "Duuropbouw",
+      "weekId": "marathon-v9-2-w43",
+      "phaseId": "v9-2-phase-43",
+      "phaseName": "Two-Hour Confidence",
       "date": null,
       "preferredDate": "2026-10-24",
       "title": "Easy / aerobic support",
@@ -10767,21 +10735,22 @@ window.MARATHON_PLAN = {
       "surface": "buiten",
       "defaultExecutionMode": "garmin",
       "treadmillAvailable": true,
-      "totalPlannedSeconds": 3000,
-      "totalPlannedLabel": "50 min",
+      "totalPlannedSeconds": 1800,
+      "totalPlannedLabel": "30 min",
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 6.666666666666667,
-        "max": 7.6923076923076925,
-        "middle": 7.142857142857143
+        "min": 4.615384615384615,
+        "max": 5,
+        "middle": 4.8
       },
-      "plannedSessionMinutes": 50,
-      "plannedRunMinutes": 50,
+      "plannedSessionMinutes": 30,
+      "plannedRunMinutes": 30,
       "plannedWalkMinutes": 0,
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -10791,23 +10760,23 @@ window.MARATHON_PLAN = {
       "treadmillInstruction": "dezelfde drie tijdstappen, 0% starthelling; alle stappen op praattempo/RPE. Geen verplichte snelheid of afstand, geen extra minuten. Outdoor heeft voor lange duur de voorkeur",
       "bikeInstruction": "",
       "hometrainerInstruction": "",
-      "durationCheck": "5 + 40 + 5 = 50 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
+      "durationCheck": "5 + 20 + 5 = 30 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [
         "AEROBIC SUPPORT"
       ],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W43-T4-g1",
+          "groupId": "V9_2-W43-T4-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W43-T4-s1",
+              "segmentId": "V9_2-W43-T4-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -10827,18 +10796,18 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W43-T4-g2",
+          "groupId": "V9_2-W43-T4-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W43-T4-s2",
+              "segmentId": "V9_2-W43-T4-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
-              "durationSeconds": 2400,
-              "display": "40 min",
+              "durationSeconds": 1200,
+              "display": "20 min",
               "isRecovery": false,
               "targetType": "Vrij",
               "targetValue": null,
@@ -10853,13 +10822,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W43-T4-g3",
+          "groupId": "V9_2-W43-T4-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W43-T4-s3",
+              "segmentId": "V9_2-W43-T4-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -10882,13 +10851,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W43-T4-g1",
+            "groupId": "V9_2-W43-T4-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W43-T4-s1",
+                "segmentId": "V9_2-W43-T4-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -10908,18 +10877,18 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W43-T4-g2",
+            "groupId": "V9_2-W43-T4-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W43-T4-s2",
+                "segmentId": "V9_2-W43-T4-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
-                "durationSeconds": 2400,
-                "display": "40 min",
+                "durationSeconds": 1200,
+                "display": "20 min",
                 "isRecovery": false,
                 "targetType": "Vrij",
                 "targetValue": null,
@@ -10934,13 +10903,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W43-T4-g3",
+            "groupId": "V9_2-W43-T4-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W43-T4-s3",
+                "segmentId": "V9_2-W43-T4-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -10960,23 +10929,23 @@ window.MARATHON_PLAN = {
             ]
           }
         ],
-        "programSummary": "5 min warming-up Vrij → 40 min Hardlopen Vrij → 5 min cooldown Vrij",
+        "programSummary": "5 min warming-up Vrij → 20 min Hardlopen Vrij → 5 min cooldown Vrij",
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "00a5e2c140dbaf8ba6a7e517afc0255f53d704b3153f6763b40eab43879b59ca"
+      "protocolSignature": "7e202ccece6a4f58520fcdd0ff4ca056977a6294c919a16c9aaf9a1645defddf"
     },
     {
-      "workoutId": "V8-W43-T5",
-      "trainingId": "V8-W43-T5",
+      "workoutId": "V9_2-W43-T5",
+      "trainingId": "V9_2-W43-T5",
       "trainingNumber": 5,
       "weekNumber": 43,
-      "weekId": "marathon-v8-w43",
-      "phaseId": "v8-phase-43",
-      "phaseName": "Duuropbouw",
+      "weekId": "marathon-v9-2-w43",
+      "phaseId": "v9-2-phase-43",
+      "phaseName": "Two-Hour Confidence",
       "date": null,
       "preferredDate": "2026-10-25",
-      "title": "Lange duur easy",
+      "title": "Two-Hour Distance Confidence",
       "activityType": "run",
       "category": "lange-duur",
       "role": "long",
@@ -10988,9 +10957,9 @@ window.MARATHON_PLAN = {
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 16,
-        "max": 18.46153846153846,
-        "middle": 17.142857142857142
+        "min": 18.46153846153846,
+        "max": 20,
+        "middle": 19.2
       },
       "plannedSessionMinutes": 120,
       "plannedRunMinutes": 120,
@@ -10998,7 +10967,8 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
-      "goal": "volledig aaneengesloten easy, inclusief rustig ingelopen start en rustige laatste vijf minuten. Geen standaard run-walk, geen MP-blokken en geen fast finish",
+      "confidence": true,
+      "goal": "twee uur rustig aaneengesloten lopen. Bij ongeveer 6:00/km zou dat circa 20 km zijn, bij 6:30/km ongeveer 18,5 km. Houd de tijd en ontspannen inspanning aan: geen kilometertest, geen MP-blokken en geen fast finish. Noteer techniek, voeding, gevoel en herstel na 24–48 uur",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
       "orderWarning": "",
@@ -11008,20 +10978,22 @@ window.MARATHON_PLAN = {
       "bikeInstruction": "",
       "hometrainerInstruction": "",
       "durationCheck": "10 + 105 + 5 = 120 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
-      "nutrition": "4 gels van 40 g op 15, 45, 75 en 105 min: 160 g / 120 min = 80,0 g/u. Dit zijn concrete oefenpatronen voor reeds passende tolerantie; de stapsgewijze instap en waterlogistiek staan in §6",
+      "nutrition": "Standaard: drie gels van 40 g rond 20, 60 en 100 min = 120 g / 120 min = 60 g/u. Plan een route met drinkmogelijkheid en gebruik vertrouwde producten. Zie §6",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
-      "labels": [],
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
+      "labels": [
+        "CONFIDENCE"
+      ],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W43-T5-g1",
+          "groupId": "V9_2-W43-T5-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W43-T5-s1",
+              "segmentId": "V9_2-W43-T5-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -11041,13 +11013,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W43-T5-g2",
+          "groupId": "V9_2-W43-T5-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W43-T5-s2",
+              "segmentId": "V9_2-W43-T5-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
@@ -11067,13 +11039,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W43-T5-g3",
+          "groupId": "V9_2-W43-T5-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W43-T5-s3",
+              "segmentId": "V9_2-W43-T5-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -11096,13 +11068,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W43-T5-g1",
+            "groupId": "V9_2-W43-T5-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W43-T5-s1",
+                "segmentId": "V9_2-W43-T5-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -11122,13 +11094,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W43-T5-g2",
+            "groupId": "V9_2-W43-T5-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W43-T5-s2",
+                "segmentId": "V9_2-W43-T5-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
@@ -11148,13 +11120,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W43-T5-g3",
+            "groupId": "V9_2-W43-T5-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W43-T5-s3",
+                "segmentId": "V9_2-W43-T5-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -11178,16 +11150,19 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "be3ee94f9881055b754cbb9fc8b2ae1df67db34aa1728d2907e6fabf52e55be6"
+      "protocolSignature": "64a4ddbee4b16f3901b990421d318fcbb65ac2042214aa2ebc34c51662f83287",
+      "compatiblePreviousIds": [
+        "V8-W43-T5"
+      ]
     },
     {
-      "workoutId": "V8-W44-T1",
-      "trainingId": "V8-W44-T1",
+      "workoutId": "V9_2-W44-T1",
+      "trainingId": "V9_2-W44-T1",
       "trainingNumber": 1,
       "weekNumber": 44,
-      "weekId": "marathon-v8-w44",
-      "phaseId": "v8-phase-44",
-      "phaseName": "Specifiek zwaar",
+      "weekId": "marathon-v9-2-w44",
+      "phaseId": "v9-2-phase-44",
+      "phaseName": "Half Marathon+ Confidence",
       "date": null,
       "preferredDate": "2026-10-27",
       "title": "Easy run",
@@ -11197,21 +11172,22 @@ window.MARATHON_PLAN = {
       "surface": "buiten",
       "defaultExecutionMode": "garmin",
       "treadmillAvailable": true,
-      "totalPlannedSeconds": 2100,
-      "totalPlannedLabel": "35 min",
+      "totalPlannedSeconds": 3000,
+      "totalPlannedLabel": "50 min",
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 4.666666666666667,
-        "max": 5.384615384615385,
-        "middle": 5
+        "min": 7.6923076923076925,
+        "max": 8.333333333333334,
+        "middle": 8
       },
-      "plannedSessionMinutes": 35,
-      "plannedRunMinutes": 35,
+      "plannedSessionMinutes": 50,
+      "plannedRunMinutes": 50,
       "plannedWalkMinutes": 0,
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -11221,21 +11197,21 @@ window.MARATHON_PLAN = {
       "treadmillInstruction": "dezelfde drie tijdstappen, 0% starthelling; alle stappen op praattempo/RPE. Geen verplichte snelheid of afstand, geen extra minuten. Outdoor heeft voor lange duur de voorkeur",
       "bikeInstruction": "",
       "hometrainerInstruction": "",
-      "durationCheck": "5 + 25 + 5 = 35 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
+      "durationCheck": "5 + 40 + 5 = 50 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W44-T1-g1",
+          "groupId": "V9_2-W44-T1-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W44-T1-s1",
+              "segmentId": "V9_2-W44-T1-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -11255,18 +11231,18 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W44-T1-g2",
+          "groupId": "V9_2-W44-T1-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W44-T1-s2",
+              "segmentId": "V9_2-W44-T1-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
-              "durationSeconds": 1500,
-              "display": "25 min",
+              "durationSeconds": 2400,
+              "display": "40 min",
               "isRecovery": false,
               "targetType": "Vrij",
               "targetValue": null,
@@ -11281,13 +11257,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W44-T1-g3",
+          "groupId": "V9_2-W44-T1-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W44-T1-s3",
+              "segmentId": "V9_2-W44-T1-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -11310,13 +11286,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W44-T1-g1",
+            "groupId": "V9_2-W44-T1-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W44-T1-s1",
+                "segmentId": "V9_2-W44-T1-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -11336,18 +11312,18 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W44-T1-g2",
+            "groupId": "V9_2-W44-T1-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W44-T1-s2",
+                "segmentId": "V9_2-W44-T1-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
-                "durationSeconds": 1500,
-                "display": "25 min",
+                "durationSeconds": 2400,
+                "display": "40 min",
                 "isRecovery": false,
                 "targetType": "Vrij",
                 "targetValue": null,
@@ -11362,13 +11338,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W44-T1-g3",
+            "groupId": "V9_2-W44-T1-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W44-T1-s3",
+                "segmentId": "V9_2-W44-T1-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -11388,20 +11364,20 @@ window.MARATHON_PLAN = {
             ]
           }
         ],
-        "programSummary": "5 min warming-up Vrij → 25 min Hardlopen Vrij → 5 min cooldown Vrij",
+        "programSummary": "5 min warming-up Vrij → 40 min Hardlopen Vrij → 5 min cooldown Vrij",
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "9c115c99662d59ff3499075d3b5a38f8b6e219b0c138fb5fe2b1b978094deb01"
+      "protocolSignature": "19ac07db8525a35ba72225fbea5d0393060e42b839faae201a73273651e58d73"
     },
     {
-      "workoutId": "V8-W44-T2",
-      "trainingId": "V8-W44-T2",
+      "workoutId": "V9_2-W44-T2",
+      "trainingId": "V9_2-W44-T2",
       "trainingNumber": 2,
       "weekNumber": 44,
-      "weekId": "marathon-v8-w44",
-      "phaseId": "v8-phase-44",
-      "phaseName": "Specifiek zwaar",
+      "weekId": "marathon-v9-2-w44",
+      "phaseId": "v9-2-phase-44",
+      "phaseName": "Half Marathon+ Confidence",
       "date": null,
       "preferredDate": "2026-10-28",
       "title": "Marathonpace 2×20 min",
@@ -11416,9 +11392,9 @@ window.MARATHON_PLAN = {
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 10.739393939393938,
-        "max": 11.407407407407407,
-        "middle": 11.052546583850932
+        "min": 11.339449541284402,
+        "max": 11.672782874617736,
+        "middle": 11.499449541284402
       },
       "plannedSessionMinutes": 66,
       "plannedRunMinutes": 66,
@@ -11426,6 +11402,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 40,
       "targetRpe": "2–3 easy · 4–5 MP",
+      "confidence": false,
       "goal": "Twintig minuten per blok maakt dit een substantiële specifieke training. Houd beide blokken gelijkmatig; geen maximale test. Normaal gevoed starten. Voeding volgens §6; deze sessie is geen nuchtere test",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -11438,20 +11415,20 @@ window.MARATHON_PLAN = {
       "durationCheck": "15 + 2×(20 + 3) + 5 = 66 min. MP-totaal: 40 min; jogherstel: 6 min. De laatste herstelstap komt vóór de aparte cooldown",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [
         "MARATHONPACE"
       ],
       "tone": "quality",
       "groups": [
         {
-          "groupId": "V8-W44-T2-g1",
+          "groupId": "V9_2-W44-T2-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W44-T2-s1",
+              "segmentId": "V9_2-W44-T2-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -11471,13 +11448,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W44-T2-g2",
+          "groupId": "V9_2-W44-T2-g2",
           "kind": "repeat",
           "repetitions": 2,
           "label": "Werk + herstel",
           "segments": [
             {
-              "segmentId": "V8-W44-T2-s2",
+              "segmentId": "V9_2-W44-T2-s2",
               "name": "Hardlopen",
               "type": "marathonpace",
               "basis": "time",
@@ -11495,7 +11472,7 @@ window.MARATHON_PLAN = {
               "distanceKm": null
             },
             {
-              "segmentId": "V8-W44-T2-s3",
+              "segmentId": "V9_2-W44-T2-s3",
               "name": "Herstel",
               "type": "herstel",
               "basis": "time",
@@ -11515,13 +11492,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W44-T2-g3",
+          "groupId": "V9_2-W44-T2-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W44-T2-s4",
+              "segmentId": "V9_2-W44-T2-s4",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -11544,13 +11521,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W44-T2-g1",
+            "groupId": "V9_2-W44-T2-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W44-T2-s1",
+                "segmentId": "V9_2-W44-T2-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -11570,13 +11547,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W44-T2-g2",
+            "groupId": "V9_2-W44-T2-g2",
             "kind": "repeat",
             "repetitions": 2,
             "label": "Werk + herstel",
             "segments": [
               {
-                "segmentId": "V8-W44-T2-s2",
+                "segmentId": "V9_2-W44-T2-s2",
                 "name": "Hardlopen",
                 "type": "marathonpace",
                 "basis": "time",
@@ -11594,7 +11571,7 @@ window.MARATHON_PLAN = {
                 "distanceKm": null
               },
               {
-                "segmentId": "V8-W44-T2-s3",
+                "segmentId": "V9_2-W44-T2-s3",
                 "name": "Herstel",
                 "type": "herstel",
                 "basis": "time",
@@ -11614,13 +11591,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W44-T2-g3",
+            "groupId": "V9_2-W44-T2-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W44-T2-s4",
+                "segmentId": "V9_2-W44-T2-s4",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -11644,16 +11621,19 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "bd59e71b6acb9ce59cd4bcde936f6578882916ecf690d08bebd9a16e9fc488fd"
+      "protocolSignature": "28bf6d27d69220e1ef71fe52c7a4ee47a03a46e45a5a56970bda5b6005122ade",
+      "compatiblePreviousIds": [
+        "V8-W44-T2"
+      ]
     },
     {
-      "workoutId": "V8-W44-T3",
-      "trainingId": "V8-W44-T3",
+      "workoutId": "V9_2-W44-T3",
+      "trainingId": "V9_2-W44-T3",
       "trainingNumber": 3,
       "weekNumber": 44,
-      "weekId": "marathon-v8-w44",
-      "phaseId": "v8-phase-44",
-      "phaseName": "Specifiek zwaar",
+      "weekId": "marathon-v9-2-w44",
+      "phaseId": "v9-2-phase-44",
+      "phaseName": "Half Marathon+ Confidence",
       "date": null,
       "preferredDate": "2026-10-29",
       "title": "Recovery easy",
@@ -11668,9 +11648,9 @@ window.MARATHON_PLAN = {
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 3.3333333333333335,
-        "max": 3.8461538461538463,
-        "middle": 3.5714285714285716
+        "min": 3.8461538461538463,
+        "max": 4.166666666666667,
+        "middle": 4
       },
       "plannedSessionMinutes": 25,
       "plannedRunMinutes": 25,
@@ -11678,6 +11658,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -11690,20 +11671,20 @@ window.MARATHON_PLAN = {
       "durationCheck": "5 + 15 + 5 = 25 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [
         "RECOVERY"
       ],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W44-T3-g1",
+          "groupId": "V9_2-W44-T3-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W44-T3-s1",
+              "segmentId": "V9_2-W44-T3-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -11723,13 +11704,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W44-T3-g2",
+          "groupId": "V9_2-W44-T3-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W44-T3-s2",
+              "segmentId": "V9_2-W44-T3-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
@@ -11749,13 +11730,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W44-T3-g3",
+          "groupId": "V9_2-W44-T3-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W44-T3-s3",
+              "segmentId": "V9_2-W44-T3-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -11778,13 +11759,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W44-T3-g1",
+            "groupId": "V9_2-W44-T3-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W44-T3-s1",
+                "segmentId": "V9_2-W44-T3-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -11804,13 +11785,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W44-T3-g2",
+            "groupId": "V9_2-W44-T3-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W44-T3-s2",
+                "segmentId": "V9_2-W44-T3-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
@@ -11830,13 +11811,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W44-T3-g3",
+            "groupId": "V9_2-W44-T3-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W44-T3-s3",
+                "segmentId": "V9_2-W44-T3-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -11860,16 +11841,19 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "e2383f12789e36315f505a062f111ac2a39f5cfad53c2b7d0ef2048133f60d95"
+      "protocolSignature": "8da14cf4d5030f5fbf9bb26d1b896830b1b02562bd8580ae1d41cb4b85413fb6",
+      "compatiblePreviousIds": [
+        "V8-W44-T3"
+      ]
     },
     {
-      "workoutId": "V8-W44-T4",
-      "trainingId": "V8-W44-T4",
+      "workoutId": "V9_2-W44-T4",
+      "trainingId": "V9_2-W44-T4",
       "trainingNumber": 4,
       "weekNumber": 44,
-      "weekId": "marathon-v8-w44",
-      "phaseId": "v8-phase-44",
-      "phaseName": "Specifiek zwaar",
+      "weekId": "marathon-v9-2-w44",
+      "phaseId": "v9-2-phase-44",
+      "phaseName": "Half Marathon+ Confidence",
       "date": null,
       "preferredDate": "2026-10-31",
       "title": "Easy / aerobic support",
@@ -11879,21 +11863,22 @@ window.MARATHON_PLAN = {
       "surface": "buiten",
       "defaultExecutionMode": "garmin",
       "treadmillAvailable": true,
-      "totalPlannedSeconds": 2940,
-      "totalPlannedLabel": "49 min",
+      "totalPlannedSeconds": 1740,
+      "totalPlannedLabel": "29 min",
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 6.533333333333333,
-        "max": 7.538461538461538,
-        "middle": 7
+        "min": 4.461538461538462,
+        "max": 4.833333333333333,
+        "middle": 4.64
       },
-      "plannedSessionMinutes": 49,
-      "plannedRunMinutes": 49,
+      "plannedSessionMinutes": 29,
+      "plannedRunMinutes": 29,
       "plannedWalkMinutes": 0,
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -11903,23 +11888,23 @@ window.MARATHON_PLAN = {
       "treadmillInstruction": "dezelfde drie tijdstappen, 0% starthelling; alle stappen op praattempo/RPE. Geen verplichte snelheid of afstand, geen extra minuten. Outdoor heeft voor lange duur de voorkeur",
       "bikeInstruction": "",
       "hometrainerInstruction": "",
-      "durationCheck": "5 + 39 + 5 = 49 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
+      "durationCheck": "5 + 19 + 5 = 29 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [
         "AEROBIC SUPPORT"
       ],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W44-T4-g1",
+          "groupId": "V9_2-W44-T4-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W44-T4-s1",
+              "segmentId": "V9_2-W44-T4-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -11939,18 +11924,18 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W44-T4-g2",
+          "groupId": "V9_2-W44-T4-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W44-T4-s2",
+              "segmentId": "V9_2-W44-T4-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
-              "durationSeconds": 2340,
-              "display": "39 min",
+              "durationSeconds": 1140,
+              "display": "19 min",
               "isRecovery": false,
               "targetType": "Vrij",
               "targetValue": null,
@@ -11965,13 +11950,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W44-T4-g3",
+          "groupId": "V9_2-W44-T4-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W44-T4-s3",
+              "segmentId": "V9_2-W44-T4-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -11994,13 +11979,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W44-T4-g1",
+            "groupId": "V9_2-W44-T4-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W44-T4-s1",
+                "segmentId": "V9_2-W44-T4-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -12020,18 +12005,18 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W44-T4-g2",
+            "groupId": "V9_2-W44-T4-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W44-T4-s2",
+                "segmentId": "V9_2-W44-T4-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
-                "durationSeconds": 2340,
-                "display": "39 min",
+                "durationSeconds": 1140,
+                "display": "19 min",
                 "isRecovery": false,
                 "targetType": "Vrij",
                 "targetValue": null,
@@ -12046,13 +12031,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W44-T4-g3",
+            "groupId": "V9_2-W44-T4-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W44-T4-s3",
+                "segmentId": "V9_2-W44-T4-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -12072,45 +12057,46 @@ window.MARATHON_PLAN = {
             ]
           }
         ],
-        "programSummary": "5 min warming-up Vrij → 39 min Hardlopen Vrij → 5 min cooldown Vrij",
+        "programSummary": "5 min warming-up Vrij → 19 min Hardlopen Vrij → 5 min cooldown Vrij",
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "b8b1fe92c5eb992ad878697df4842b982ca8c7182ad1fab9b238ea21372f6230"
+      "protocolSignature": "e0be200ff43ecf6b3f53580f278f5e633bb4a76b4ec2c0603ca1ae020c4330e2"
     },
     {
-      "workoutId": "V8-W44-T5",
-      "trainingId": "V8-W44-T5",
+      "workoutId": "V9_2-W44-T5",
+      "trainingId": "V9_2-W44-T5",
       "trainingNumber": 5,
       "weekNumber": 44,
-      "weekId": "marathon-v8-w44",
-      "phaseId": "v8-phase-44",
-      "phaseName": "Specifiek zwaar",
+      "weekId": "marathon-v9-2-w44",
+      "phaseId": "v9-2-phase-44",
+      "phaseName": "Half Marathon+ Confidence",
       "date": null,
       "preferredDate": "2026-11-01",
-      "title": "Lange duur easy",
+      "title": "Half Marathon+ Confidence",
       "activityType": "run",
       "category": "lange-duur",
       "role": "long",
       "surface": "buiten",
       "defaultExecutionMode": "garmin",
       "treadmillAvailable": true,
-      "totalPlannedSeconds": 8700,
-      "totalPlannedLabel": "145 min",
+      "totalPlannedSeconds": 8400,
+      "totalPlannedLabel": "140 min",
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 19.333333333333332,
-        "max": 22.307692307692307,
-        "middle": 20.714285714285715
+        "min": 21.53846153846154,
+        "max": 23.333333333333332,
+        "middle": 22.4
       },
-      "plannedSessionMinutes": 145,
-      "plannedRunMinutes": 145,
+      "plannedSessionMinutes": 140,
+      "plannedRunMinutes": 140,
       "plannedWalkMinutes": 0,
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
-      "goal": "volledig aaneengesloten easy, inclusief rustig ingelopen start en rustige laatste vijf minuten. Geen standaard run-walk, geen MP-blokken en geen fast finish",
+      "confidence": true,
+      "goal": "maak van 21,1 kilometer een mogelijk tussenpunt, niet een verplicht afstandsdoel. Bij 6:00–6:30/km komt 140 minuten neer op circa 21,5–23,3 km. Blijf de volle 140 minuten op ontspannen praattempo lopen, niet versnellen voor een getal. Oefen voeding en drinklogistiek; let op herstel in de 24–48 uur daarna",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
       "orderWarning": "",
@@ -12119,21 +12105,23 @@ window.MARATHON_PLAN = {
       "treadmillInstruction": "dezelfde drie tijdstappen, 0% starthelling; alle stappen op praattempo/RPE. Geen verplichte snelheid of afstand, geen extra minuten. Outdoor heeft voor lange duur de voorkeur",
       "bikeInstruction": "",
       "hometrainerInstruction": "",
-      "durationCheck": "10 + 130 + 5 = 145 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
-      "nutrition": "5 gels van 40 g op 15, 45, 75, 105 en 135 min: 200 g / 145 min = 82,8 g/u. Dit zijn concrete oefenpatronen voor reeds passende tolerantie; de stapsgewijze instap en waterlogistiek staan in §6",
+      "durationCheck": "10 + 125 + 5 = 140 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
+      "nutrition": "Standaard: vier gels van 40 g rond 15, 50, 85 en 120 min = 160 g / 140 min = 68,6 g/u. Laat de timing meebewegen met de feitelijk bereikbare waterpunten; zie §6",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
-      "labels": [],
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
+      "labels": [
+        "CONFIDENCE"
+      ],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W44-T5-g1",
+          "groupId": "V9_2-W44-T5-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W44-T5-s1",
+              "segmentId": "V9_2-W44-T5-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -12153,18 +12141,18 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W44-T5-g2",
+          "groupId": "V9_2-W44-T5-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W44-T5-s2",
+              "segmentId": "V9_2-W44-T5-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
-              "durationSeconds": 7800,
-              "display": "130 min",
+              "durationSeconds": 7500,
+              "display": "125 min",
               "isRecovery": false,
               "targetType": "Vrij",
               "targetValue": null,
@@ -12179,13 +12167,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W44-T5-g3",
+          "groupId": "V9_2-W44-T5-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W44-T5-s3",
+              "segmentId": "V9_2-W44-T5-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -12208,13 +12196,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W44-T5-g1",
+            "groupId": "V9_2-W44-T5-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W44-T5-s1",
+                "segmentId": "V9_2-W44-T5-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -12234,18 +12222,18 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W44-T5-g2",
+            "groupId": "V9_2-W44-T5-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W44-T5-s2",
+                "segmentId": "V9_2-W44-T5-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
-                "durationSeconds": 7800,
-                "display": "130 min",
+                "durationSeconds": 7500,
+                "display": "125 min",
                 "isRecovery": false,
                 "targetType": "Vrij",
                 "targetValue": null,
@@ -12260,13 +12248,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W44-T5-g3",
+            "groupId": "V9_2-W44-T5-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W44-T5-s3",
+                "segmentId": "V9_2-W44-T5-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -12286,20 +12274,20 @@ window.MARATHON_PLAN = {
             ]
           }
         ],
-        "programSummary": "10 min warming-up Vrij → 130 min Hardlopen Vrij → 5 min cooldown Vrij",
+        "programSummary": "10 min warming-up Vrij → 125 min Hardlopen Vrij → 5 min cooldown Vrij",
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "32ab34338d757c35521f16bbb21a121d219cbf2284805a90488bf370acae966b"
+      "protocolSignature": "d273baacafe80c9a75e5697b0a1d8c9231353c5d74f9f8e252fddde2805ca778"
     },
     {
-      "workoutId": "V8-W45-T1",
-      "trainingId": "V8-W45-T1",
+      "workoutId": "V9_2-W45-T1",
+      "trainingId": "V9_2-W45-T1",
       "trainingNumber": 1,
       "weekNumber": 45,
-      "weekId": "marathon-v8-w45",
-      "phaseId": "v8-phase-45",
-      "phaseName": "Piek + generale repetitie",
+      "weekId": "marathon-v9-2-w45",
+      "phaseId": "v9-2-phase-45",
+      "phaseName": "Piek + dubbele confidence",
       "date": null,
       "preferredDate": "2026-11-03",
       "title": "Easy run",
@@ -12309,21 +12297,22 @@ window.MARATHON_PLAN = {
       "surface": "buiten",
       "defaultExecutionMode": "garmin",
       "treadmillAvailable": true,
-      "totalPlannedSeconds": 2280,
-      "totalPlannedLabel": "38 min",
+      "totalPlannedSeconds": 3000,
+      "totalPlannedLabel": "50 min",
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 5.066666666666666,
-        "max": 5.846153846153846,
-        "middle": 5.428571428571429
+        "min": 7.6923076923076925,
+        "max": 8.333333333333334,
+        "middle": 8
       },
-      "plannedSessionMinutes": 38,
-      "plannedRunMinutes": 38,
+      "plannedSessionMinutes": 50,
+      "plannedRunMinutes": 50,
       "plannedWalkMinutes": 0,
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -12333,21 +12322,21 @@ window.MARATHON_PLAN = {
       "treadmillInstruction": "dezelfde drie tijdstappen, 0% starthelling; alle stappen op praattempo/RPE. Geen verplichte snelheid of afstand, geen extra minuten. Outdoor heeft voor lange duur de voorkeur",
       "bikeInstruction": "",
       "hometrainerInstruction": "",
-      "durationCheck": "5 + 28 + 5 = 38 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
+      "durationCheck": "5 + 40 + 5 = 50 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W45-T1-g1",
+          "groupId": "V9_2-W45-T1-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W45-T1-s1",
+              "segmentId": "V9_2-W45-T1-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -12367,18 +12356,18 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W45-T1-g2",
+          "groupId": "V9_2-W45-T1-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W45-T1-s2",
+              "segmentId": "V9_2-W45-T1-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
-              "durationSeconds": 1680,
-              "display": "28 min",
+              "durationSeconds": 2400,
+              "display": "40 min",
               "isRecovery": false,
               "targetType": "Vrij",
               "targetValue": null,
@@ -12393,13 +12382,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W45-T1-g3",
+          "groupId": "V9_2-W45-T1-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W45-T1-s3",
+              "segmentId": "V9_2-W45-T1-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -12422,13 +12411,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W45-T1-g1",
+            "groupId": "V9_2-W45-T1-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W45-T1-s1",
+                "segmentId": "V9_2-W45-T1-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -12448,18 +12437,18 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W45-T1-g2",
+            "groupId": "V9_2-W45-T1-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W45-T1-s2",
+                "segmentId": "V9_2-W45-T1-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
-                "durationSeconds": 1680,
-                "display": "28 min",
+                "durationSeconds": 2400,
+                "display": "40 min",
                 "isRecovery": false,
                 "targetType": "Vrij",
                 "targetValue": null,
@@ -12474,13 +12463,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W45-T1-g3",
+            "groupId": "V9_2-W45-T1-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W45-T1-s3",
+                "segmentId": "V9_2-W45-T1-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -12500,70 +12489,72 @@ window.MARATHON_PLAN = {
             ]
           }
         ],
-        "programSummary": "5 min warming-up Vrij → 28 min Hardlopen Vrij → 5 min cooldown Vrij",
+        "programSummary": "5 min warming-up Vrij → 40 min Hardlopen Vrij → 5 min cooldown Vrij",
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "9d55dee69ae474108a2e1a30d23615c2e43199ca91d370db18d8516e2df5d963"
+      "protocolSignature": "da30b64a15b60232dacef397dc8f60a24741fdbcd286e2976df485c35dadd255"
     },
     {
-      "workoutId": "V8-W45-T2",
-      "trainingId": "V8-W45-T2",
+      "workoutId": "V9_2-W45-T2",
+      "trainingId": "V9_2-W45-T2",
       "trainingNumber": 2,
       "weekNumber": 45,
-      "weekId": "marathon-v8-w45",
-      "phaseId": "v8-phase-45",
-      "phaseName": "Piek + generale repetitie",
+      "weekId": "marathon-v9-2-w45",
+      "phaseId": "v9-2-phase-45",
+      "phaseName": "Piek + dubbele confidence",
       "date": null,
       "preferredDate": "2026-11-04",
-      "title": "Marathonpace 2×20 min",
+      "title": "Marathonpace Confidence Run",
       "activityType": "run",
       "category": "kwaliteit",
       "role": "marathonpace",
       "surface": "buiten",
       "defaultExecutionMode": "garmin",
       "treadmillAvailable": true,
-      "totalPlannedSeconds": 3960,
-      "totalPlannedLabel": "66 min",
+      "totalPlannedSeconds": 3300,
+      "totalPlannedLabel": "55 min",
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 10.739393939393938,
-        "max": 11.407407407407407,
-        "middle": 11.052546583850932
+        "min": 9.49894142554693,
+        "max": 9.755351681957187,
+        "middle": 9.622018348623854
       },
-      "plannedSessionMinutes": 66,
-      "plannedRunMinutes": 66,
+      "plannedSessionMinutes": 55,
+      "plannedRunMinutes": 55,
       "plannedWalkMinutes": 0,
       "plannedBikeMinutes": 0,
-      "plannedMpMinutes": 40,
+      "plannedMpMinutes": 35,
       "targetRpe": "2–3 easy · 4–5 MP",
-      "goal": "Twee blokken leveren 40 minuten specifiek werk. Beide blokken blijven gelijkmatig rond 5:27/km; de laatste duurloop is deze week de grootste nieuwe prikkel. Na het laatste blok volg je 3 minuten herstel en 5 minuten cooldown. Normaal gevoed starten. Voeding volgens §6; deze sessie is geen nuchtere test",
+      "confidence": true,
+      "goal": "laat voelen dat je 5:27/km voor 35 minuten onder controle kunt houden, zonder versnellen naar 5:00/km of een maximale test te maken. Noteer ritme, hartslagverloop, subjectieve inspanning en herstel. Het bewijst niet dat 42,195 km op dit tempo vanzelf lukt. Normaal gevoed starten; desgewenst een bekend gelmoment oefenen",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
       "orderWarning": "",
       "locationStatus": "Outdoor / Garmin · loopband als alternatief",
       "outsideVariant": "Outdoor is de standaard. MP-sessies en langere duur in W43–45 bij voorkeur buiten; een bandrun bewijst niet automatisch dezelfde buitenbelastbaarheid.",
-      "treadmillInstruction": "exact dezelfde stappen en repeats; MP 11,0 km/u, alle rustige stappen op praattempo, 0% starthelling. Geen extra minuten. Zie §3 voor exacte conversies",
+      "treadmillInstruction": "identieke stappen zonder herhalingen; tijdens MP ongeveer 11,0 km/u op de band; in- en uitlopen op ontspannen praattempo, starthelling 0%. Geen extra minuten. Zie §3 voor conversies",
       "bikeInstruction": "",
       "hometrainerInstruction": "",
-      "durationCheck": "15 + 2×(20 + 3) + 5 = 66 min. MP-totaal: 40 min; jogherstel: 6 min. De laatste herstelstap komt vóór de aparte cooldown",
+      "durationCheck": "15 + 35 + 5 = 55 min. MP-totaal: 35 min; geen repeats, geen herstelpauzes, één aaneengesloten MP-werkblok",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [
+        "CONFIDENCE",
         "MARATHONPACE"
       ],
       "tone": "quality",
       "groups": [
         {
-          "groupId": "V8-W45-T2-g1",
+          "groupId": "V9_2-W45-T2-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W45-T2-s1",
+              "segmentId": "V9_2-W45-T2-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -12572,8 +12563,8 @@ window.MARATHON_PLAN = {
               "isRecovery": false,
               "targetType": "Vrij",
               "targetValue": null,
-              "cue": "Easy jog",
-              "instruction": "Easy jog",
+              "cue": "Easy jog; soepel beginnen",
+              "instruction": "Easy jog; soepel beginnen",
               "inclinePercent": 0,
               "speedRangeKmh": null,
               "speedKmh": null,
@@ -12583,57 +12574,39 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W45-T2-g2",
-          "kind": "repeat",
-          "repetitions": 2,
-          "label": "Werk + herstel",
+          "groupId": "V9_2-W45-T2-g2",
+          "kind": "sequence",
+          "repetitions": 1,
+          "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W45-T2-s2",
+              "segmentId": "V9_2-W45-T2-s2",
               "name": "Hardlopen",
               "type": "marathonpace",
               "basis": "time",
-              "durationSeconds": 1200,
-              "display": "20 min",
+              "durationSeconds": 2100,
+              "display": "35 min",
               "isRecovery": false,
               "targetType": "Tempo",
               "targetValue": "5:24–5:30/km",
-              "cue": "5:24–5:30/km; richt op 5:27",
-              "instruction": "5:24–5:30/km; richt op 5:27",
+              "cue": "Richt op 5:27/km, gelijkmatig en gecontroleerd",
+              "instruction": "Richt op 5:27/km, gelijkmatig en gecontroleerd",
               "inclinePercent": 0,
               "speedRangeKmh": null,
               "speedKmh": 11,
               "speedMode": "prescribed",
               "distanceKm": null
-            },
-            {
-              "segmentId": "V8-W45-T2-s3",
-              "name": "Herstel",
-              "type": "herstel",
-              "basis": "time",
-              "durationSeconds": 180,
-              "display": "3 min",
-              "isRecovery": true,
-              "targetType": "Vrij",
-              "targetValue": null,
-              "cue": "Easy jog; ook na laatste repeat",
-              "instruction": "Easy jog; ook na laatste repeat",
-              "inclinePercent": 0,
-              "speedRangeKmh": null,
-              "speedKmh": null,
-              "speedMode": "self-paced",
-              "distanceKm": null
             }
           ]
         },
         {
-          "groupId": "V8-W45-T2-g3",
+          "groupId": "V9_2-W45-T2-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W45-T2-s4",
+              "segmentId": "V9_2-W45-T2-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -12656,13 +12629,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W45-T2-g1",
+            "groupId": "V9_2-W45-T2-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W45-T2-s1",
+                "segmentId": "V9_2-W45-T2-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -12671,8 +12644,8 @@ window.MARATHON_PLAN = {
                 "isRecovery": false,
                 "targetType": "Vrij",
                 "targetValue": null,
-                "cue": "Easy jog",
-                "instruction": "Easy jog",
+                "cue": "Easy jog; soepel beginnen",
+                "instruction": "Easy jog; soepel beginnen",
                 "inclinePercent": 0,
                 "speedRangeKmh": null,
                 "speedKmh": null,
@@ -12682,57 +12655,39 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W45-T2-g2",
-            "kind": "repeat",
-            "repetitions": 2,
-            "label": "Werk + herstel",
+            "groupId": "V9_2-W45-T2-g2",
+            "kind": "sequence",
+            "repetitions": 1,
+            "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W45-T2-s2",
+                "segmentId": "V9_2-W45-T2-s2",
                 "name": "Hardlopen",
                 "type": "marathonpace",
                 "basis": "time",
-                "durationSeconds": 1200,
-                "display": "20 min",
+                "durationSeconds": 2100,
+                "display": "35 min",
                 "isRecovery": false,
                 "targetType": "Tempo",
                 "targetValue": "5:24–5:30/km",
-                "cue": "5:24–5:30/km; richt op 5:27",
-                "instruction": "5:24–5:30/km; richt op 5:27",
+                "cue": "Richt op 5:27/km, gelijkmatig en gecontroleerd",
+                "instruction": "Richt op 5:27/km, gelijkmatig en gecontroleerd",
                 "inclinePercent": 0,
                 "speedRangeKmh": null,
                 "speedKmh": 11,
                 "speedMode": "prescribed",
                 "distanceKm": null
-              },
-              {
-                "segmentId": "V8-W45-T2-s3",
-                "name": "Herstel",
-                "type": "herstel",
-                "basis": "time",
-                "durationSeconds": 180,
-                "display": "3 min",
-                "isRecovery": true,
-                "targetType": "Vrij",
-                "targetValue": null,
-                "cue": "Easy jog; ook na laatste repeat",
-                "instruction": "Easy jog; ook na laatste repeat",
-                "inclinePercent": 0,
-                "speedRangeKmh": null,
-                "speedKmh": null,
-                "speedMode": "self-paced",
-                "distanceKm": null
               }
             ]
           },
           {
-            "groupId": "V8-W45-T2-g3",
+            "groupId": "V9_2-W45-T2-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W45-T2-s4",
+                "segmentId": "V9_2-W45-T2-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -12752,20 +12707,20 @@ window.MARATHON_PLAN = {
             ]
           }
         ],
-        "programSummary": "15 min warming-up Vrij → HERHAAL 2× [20 min Hardlopen Tempo 5:24–5:30/km + 3 min Herstel Vrij] → 5 min cooldown Vrij",
+        "programSummary": "15 min warming-up Vrij → 35 min Hardlopen Tempo 5:24–5:30/km → 5 min cooldown Vrij",
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "99160137ba0c166e683d1c8b802ab71717e7530e3fc159706334c9866c9f358b"
+      "protocolSignature": "a8586bdbe0e97f2d318336a93189f6d586f17443e84050c370925513e9003a26"
     },
     {
-      "workoutId": "V8-W45-T3",
-      "trainingId": "V8-W45-T3",
+      "workoutId": "V9_2-W45-T3",
+      "trainingId": "V9_2-W45-T3",
       "trainingNumber": 3,
       "weekNumber": 45,
-      "weekId": "marathon-v8-w45",
-      "phaseId": "v8-phase-45",
-      "phaseName": "Piek + generale repetitie",
+      "weekId": "marathon-v9-2-w45",
+      "phaseId": "v9-2-phase-45",
+      "phaseName": "Piek + dubbele confidence",
       "date": null,
       "preferredDate": "2026-11-05",
       "title": "Recovery easy",
@@ -12780,9 +12735,9 @@ window.MARATHON_PLAN = {
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 3.3333333333333335,
-        "max": 3.8461538461538463,
-        "middle": 3.5714285714285716
+        "min": 3.8461538461538463,
+        "max": 4.166666666666667,
+        "middle": 4
       },
       "plannedSessionMinutes": 25,
       "plannedRunMinutes": 25,
@@ -12790,6 +12745,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -12802,20 +12758,20 @@ window.MARATHON_PLAN = {
       "durationCheck": "5 + 15 + 5 = 25 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [
         "RECOVERY"
       ],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W45-T3-g1",
+          "groupId": "V9_2-W45-T3-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W45-T3-s1",
+              "segmentId": "V9_2-W45-T3-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -12835,13 +12791,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W45-T3-g2",
+          "groupId": "V9_2-W45-T3-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W45-T3-s2",
+              "segmentId": "V9_2-W45-T3-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
@@ -12861,13 +12817,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W45-T3-g3",
+          "groupId": "V9_2-W45-T3-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W45-T3-s3",
+              "segmentId": "V9_2-W45-T3-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -12890,13 +12846,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W45-T3-g1",
+            "groupId": "V9_2-W45-T3-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W45-T3-s1",
+                "segmentId": "V9_2-W45-T3-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -12916,13 +12872,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W45-T3-g2",
+            "groupId": "V9_2-W45-T3-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W45-T3-s2",
+                "segmentId": "V9_2-W45-T3-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
@@ -12942,13 +12898,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W45-T3-g3",
+            "groupId": "V9_2-W45-T3-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W45-T3-s3",
+                "segmentId": "V9_2-W45-T3-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -12972,16 +12928,19 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "554c508de89d7461ee62efb35f366fb4c891de84908eda4b416bc15a01fddeaf"
+      "protocolSignature": "2a745da101c51b0d45be2502bfdb685bfb052f5f5d1cf1abed156147e23c618a",
+      "compatiblePreviousIds": [
+        "V8-W45-T3"
+      ]
     },
     {
-      "workoutId": "V8-W45-T4",
-      "trainingId": "V8-W45-T4",
+      "workoutId": "V9_2-W45-T4",
+      "trainingId": "V9_2-W45-T4",
       "trainingNumber": 4,
       "weekNumber": 45,
-      "weekId": "marathon-v8-w45",
-      "phaseId": "v8-phase-45",
-      "phaseName": "Piek + generale repetitie",
+      "weekId": "marathon-v9-2-w45",
+      "phaseId": "v9-2-phase-45",
+      "phaseName": "Piek + dubbele confidence",
       "date": null,
       "preferredDate": "2026-11-07",
       "title": "Easy / aerobic support",
@@ -12991,21 +12950,22 @@ window.MARATHON_PLAN = {
       "surface": "buiten",
       "defaultExecutionMode": "garmin",
       "treadmillAvailable": true,
-      "totalPlannedSeconds": 2160,
-      "totalPlannedLabel": "36 min",
+      "totalPlannedSeconds": 1800,
+      "totalPlannedLabel": "30 min",
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 4.8,
-        "max": 5.538461538461538,
-        "middle": 5.142857142857143
+        "min": 4.615384615384615,
+        "max": 5,
+        "middle": 4.8
       },
-      "plannedSessionMinutes": 36,
-      "plannedRunMinutes": 36,
+      "plannedSessionMinutes": 30,
+      "plannedRunMinutes": 30,
       "plannedWalkMinutes": 0,
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -13015,23 +12975,23 @@ window.MARATHON_PLAN = {
       "treadmillInstruction": "dezelfde drie tijdstappen, 0% starthelling; alle stappen op praattempo/RPE. Geen verplichte snelheid of afstand, geen extra minuten. Outdoor heeft voor lange duur de voorkeur",
       "bikeInstruction": "",
       "hometrainerInstruction": "",
-      "durationCheck": "5 + 26 + 5 = 36 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
+      "durationCheck": "5 + 20 + 5 = 30 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [
         "AEROBIC SUPPORT"
       ],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W45-T4-g1",
+          "groupId": "V9_2-W45-T4-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W45-T4-s1",
+              "segmentId": "V9_2-W45-T4-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -13051,18 +13011,18 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W45-T4-g2",
+          "groupId": "V9_2-W45-T4-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W45-T4-s2",
+              "segmentId": "V9_2-W45-T4-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
-              "durationSeconds": 1560,
-              "display": "26 min",
+              "durationSeconds": 1200,
+              "display": "20 min",
               "isRecovery": false,
               "targetType": "Vrij",
               "targetValue": null,
@@ -13077,13 +13037,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W45-T4-g3",
+          "groupId": "V9_2-W45-T4-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W45-T4-s3",
+              "segmentId": "V9_2-W45-T4-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -13106,13 +13066,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W45-T4-g1",
+            "groupId": "V9_2-W45-T4-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W45-T4-s1",
+                "segmentId": "V9_2-W45-T4-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -13132,18 +13092,18 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W45-T4-g2",
+            "groupId": "V9_2-W45-T4-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W45-T4-s2",
+                "segmentId": "V9_2-W45-T4-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
-                "durationSeconds": 1560,
-                "display": "26 min",
+                "durationSeconds": 1200,
+                "display": "20 min",
                 "isRecovery": false,
                 "targetType": "Vrij",
                 "targetValue": null,
@@ -13158,13 +13118,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W45-T4-g3",
+            "groupId": "V9_2-W45-T4-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W45-T4-s3",
+                "segmentId": "V9_2-W45-T4-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -13184,45 +13144,46 @@ window.MARATHON_PLAN = {
             ]
           }
         ],
-        "programSummary": "5 min warming-up Vrij → 26 min Hardlopen Vrij → 5 min cooldown Vrij",
+        "programSummary": "5 min warming-up Vrij → 20 min Hardlopen Vrij → 5 min cooldown Vrij",
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "aa1db400cd01c64fa52c651837804542ec3ef91f65f6b031926bee7e57430ea0"
+      "protocolSignature": "be88f726c99007f084de696b9bd75c326545f3680459068f04eabff48ac7dcc5"
     },
     {
-      "workoutId": "V8-W45-T5",
-      "trainingId": "V8-W45-T5",
+      "workoutId": "V9_2-W45-T5",
+      "trainingId": "V9_2-W45-T5",
       "trainingNumber": 5,
       "weekNumber": 45,
-      "weekId": "marathon-v8-w45",
-      "phaseId": "v8-phase-45",
-      "phaseName": "Piek + generale repetitie",
+      "weekId": "marathon-v9-2-w45",
+      "phaseId": "v9-2-phase-45",
+      "phaseName": "Piek + dubbele confidence",
       "date": null,
       "preferredDate": "2026-11-08",
-      "title": "Lange duur / generale repetitie",
+      "title": "Final Distance Confidence",
       "activityType": "run",
       "category": "lange-duur",
       "role": "long",
       "surface": "buiten",
       "defaultExecutionMode": "garmin",
       "treadmillAvailable": true,
-      "totalPlannedSeconds": 9900,
-      "totalPlannedLabel": "165 min",
+      "totalPlannedSeconds": 9600,
+      "totalPlannedLabel": "160 min",
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 22,
-        "max": 25.384615384615383,
-        "middle": 23.571428571428573
+        "min": 24.615384615384617,
+        "max": 26.666666666666668,
+        "middle": 25.6
       },
-      "plannedSessionMinutes": 165,
-      "plannedRunMinutes": 165,
+      "plannedSessionMinutes": 160,
+      "plannedRunMinutes": 160,
       "plannedWalkMinutes": 0,
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
-      "goal": "volledig aaneengesloten easy, inclusief rustig ingelopen start en rustige laatste vijf minuten. Geen standaard run-walk, geen MP-blokken en geen fast finish",
+      "confidence": true,
+      "goal": "160 minuten rustig en bij voorkeur continu hardlopen; bij 6:00–6:30/km is dat ongeveer 24,6–26,7 km. De afstand is een gevolg van passend tempo, geen verplicht quota. Dit is de generale repetitie voor duur en wedstrijdlogistiek, nadrukkelijk geen 160 minuten op marathonpace of fast finish. Beoordeel na afloop vooral benen, techniek, voeding en herstel",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
       "orderWarning": "",
@@ -13231,21 +13192,23 @@ window.MARATHON_PLAN = {
       "treadmillInstruction": "dezelfde drie tijdstappen, 0% starthelling; alle stappen op praattempo/RPE. Geen verplichte snelheid of afstand, geen extra minuten. Outdoor heeft voor lange duur de voorkeur",
       "bikeInstruction": "",
       "hometrainerInstruction": "",
-      "durationCheck": "10 + 150 + 5 = 165 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
-      "nutrition": "5 gels van 40 g op 15, 45, 75, 105 en 135 min plus 20 g in sportdrank verdeeld over de sessie: 220 g / 165 min = 80,0 g/u. Dit zijn concrete oefenpatronen voor reeds passende tolerantie; de stapsgewijze instap en waterlogistiek staan in §6",
-      "rehearsal": "gebruik hetzelfde ontbijt en tijdsinterval tot de start als gepland voor de marathon; test gels, drinkmomenten, elektrolyten volgens je beproefde etiketplan, kleding, raceschoenen, gelopslag, Garmin, H9 en GPS. Organiseer water onderweg. Houd alle 165 min easy; de repetitie betreft duur en logistiek, geen wedstrijdsimulatie op MP",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
-      "labels": [],
+      "durationCheck": "10 + 145 + 5 = 160 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
+      "nutrition": "Standaard: vijf gels van 40 g rond 15, 45, 75, 105 en 135 min = 200 g / 160 min = 75,0 g/u. Wie 75 g/u al goed verdraagt kan daarnaast circa 10 g koolhydraten uit eerder geteste sportdrank nemen: 210 g / 160 min = 78,8 g/u. Waterposten vooraf plannen. Zie §6",
+      "rehearsal": "gebruik hetzelfde ontbijt en tijdsinterval tot de start als gepland voor de marathon; test gels, drinkmomenten, elektrolyten volgens je beproefde etiketplan, kleding, raceschoenen, gelopslag, Garmin, H9 en GPS. Organiseer water onderweg. Houd alle 160 min easy; de repetitie betreft duur en logistiek, geen wedstrijdsimulatie op MP",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
+      "labels": [
+        "CONFIDENCE"
+      ],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W45-T5-g1",
+          "groupId": "V9_2-W45-T5-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W45-T5-s1",
+              "segmentId": "V9_2-W45-T5-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -13265,18 +13228,18 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W45-T5-g2",
+          "groupId": "V9_2-W45-T5-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W45-T5-s2",
+              "segmentId": "V9_2-W45-T5-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
-              "durationSeconds": 9000,
-              "display": "150 min",
+              "durationSeconds": 8700,
+              "display": "145 min",
               "isRecovery": false,
               "targetType": "Vrij",
               "targetValue": null,
@@ -13291,13 +13254,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W45-T5-g3",
+          "groupId": "V9_2-W45-T5-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W45-T5-s3",
+              "segmentId": "V9_2-W45-T5-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -13320,13 +13283,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W45-T5-g1",
+            "groupId": "V9_2-W45-T5-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W45-T5-s1",
+                "segmentId": "V9_2-W45-T5-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -13346,18 +13309,18 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W45-T5-g2",
+            "groupId": "V9_2-W45-T5-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W45-T5-s2",
+                "segmentId": "V9_2-W45-T5-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
-                "durationSeconds": 9000,
-                "display": "150 min",
+                "durationSeconds": 8700,
+                "display": "145 min",
                 "isRecovery": false,
                 "targetType": "Vrij",
                 "targetValue": null,
@@ -13372,13 +13335,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W45-T5-g3",
+            "groupId": "V9_2-W45-T5-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W45-T5-s3",
+                "segmentId": "V9_2-W45-T5-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -13398,20 +13361,20 @@ window.MARATHON_PLAN = {
             ]
           }
         ],
-        "programSummary": "10 min warming-up Vrij → 150 min Hardlopen Vrij → 5 min cooldown Vrij",
+        "programSummary": "10 min warming-up Vrij → 145 min Hardlopen Vrij → 5 min cooldown Vrij",
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "ee961eef88416c1b04f315483a5f41c05d6f276ca3dc7da2e5688034bebfd4b6",
+      "protocolSignature": "4410bbb7bb5d3ee870b5eb1b62ec9be66331d41db51bc37f243c982225de2b88",
       "latestDate": "2026-11-08"
     },
     {
-      "workoutId": "V8-W46-T1",
-      "trainingId": "V8-W46-T1",
+      "workoutId": "V9_2-W46-T1",
+      "trainingId": "V9_2-W46-T1",
       "trainingNumber": 1,
       "weekNumber": 46,
-      "weekId": "marathon-v8-w46",
-      "phaseId": "v8-phase-46",
+      "weekId": "marathon-v9-2-w46",
+      "phaseId": "v9-2-phase-46",
       "phaseName": "Taper",
       "date": null,
       "preferredDate": "2026-11-10",
@@ -13427,9 +13390,9 @@ window.MARATHON_PLAN = {
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 4.666666666666667,
-        "max": 5.384615384615385,
-        "middle": 5
+        "min": 5.384615384615385,
+        "max": 5.833333333333333,
+        "middle": 5.6
       },
       "plannedSessionMinutes": 35,
       "plannedRunMinutes": 35,
@@ -13437,6 +13400,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -13449,18 +13413,18 @@ window.MARATHON_PLAN = {
       "durationCheck": "5 + 25 + 5 = 35 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W46-T1-g1",
+          "groupId": "V9_2-W46-T1-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W46-T1-s1",
+              "segmentId": "V9_2-W46-T1-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -13480,13 +13444,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W46-T1-g2",
+          "groupId": "V9_2-W46-T1-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W46-T1-s2",
+              "segmentId": "V9_2-W46-T1-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
@@ -13506,13 +13470,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W46-T1-g3",
+          "groupId": "V9_2-W46-T1-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W46-T1-s3",
+              "segmentId": "V9_2-W46-T1-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -13535,13 +13499,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W46-T1-g1",
+            "groupId": "V9_2-W46-T1-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W46-T1-s1",
+                "segmentId": "V9_2-W46-T1-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -13561,13 +13525,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W46-T1-g2",
+            "groupId": "V9_2-W46-T1-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W46-T1-s2",
+                "segmentId": "V9_2-W46-T1-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
@@ -13587,13 +13551,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W46-T1-g3",
+            "groupId": "V9_2-W46-T1-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W46-T1-s3",
+                "segmentId": "V9_2-W46-T1-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -13617,15 +13581,18 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "a8728f71890b61b496df000df509df9cbccd323a99bc6b444dd6b28979b3be4c"
+      "protocolSignature": "69b9bb6537154d4687ffc33735933d93a13cbee564c0127d650c446cb4e4a1e2",
+      "compatiblePreviousIds": [
+        "V8-W46-T1"
+      ]
     },
     {
-      "workoutId": "V8-W46-T2",
-      "trainingId": "V8-W46-T2",
+      "workoutId": "V9_2-W46-T2",
+      "trainingId": "V9_2-W46-T2",
       "trainingNumber": 2,
       "weekNumber": 46,
-      "weekId": "marathon-v8-w46",
-      "phaseId": "v8-phase-46",
+      "weekId": "marathon-v9-2-w46",
+      "phaseId": "v9-2-phase-46",
       "phaseName": "Taper",
       "date": null,
       "preferredDate": "2026-11-11",
@@ -13641,9 +13608,9 @@ window.MARATHON_PLAN = {
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 7.369696969696969,
-        "max": 8.01139601139601,
-        "middle": 7.669130434782609
+        "min": 7.9774170783345095,
+        "max": 8.336391437308869,
+        "middle": 8.149724770642202
       },
       "plannedSessionMinutes": 48,
       "plannedRunMinutes": 48,
@@ -13651,6 +13618,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 20,
       "targetRpe": "2–3 easy · 4–5 MP",
+      "confidence": false,
       "goal": "Twintig minuten MP houdt het ritme vast terwijl het weekvolume daalt. Normaal gevoed starten. Voeding volgens §6; deze sessie is geen nuchtere test",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -13663,20 +13631,20 @@ window.MARATHON_PLAN = {
       "durationCheck": "15 + 2×(10 + 3) + 7 = 48 min. MP-totaal: 20 min; jogherstel: 6 min. De laatste herstelstap komt vóór de aparte cooldown",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [
         "MARATHONPACE"
       ],
       "tone": "quality",
       "groups": [
         {
-          "groupId": "V8-W46-T2-g1",
+          "groupId": "V9_2-W46-T2-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W46-T2-s1",
+              "segmentId": "V9_2-W46-T2-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -13696,13 +13664,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W46-T2-g2",
+          "groupId": "V9_2-W46-T2-g2",
           "kind": "repeat",
           "repetitions": 2,
           "label": "Werk + herstel",
           "segments": [
             {
-              "segmentId": "V8-W46-T2-s2",
+              "segmentId": "V9_2-W46-T2-s2",
               "name": "Hardlopen",
               "type": "marathonpace",
               "basis": "time",
@@ -13720,7 +13688,7 @@ window.MARATHON_PLAN = {
               "distanceKm": null
             },
             {
-              "segmentId": "V8-W46-T2-s3",
+              "segmentId": "V9_2-W46-T2-s3",
               "name": "Herstel",
               "type": "herstel",
               "basis": "time",
@@ -13740,13 +13708,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W46-T2-g3",
+          "groupId": "V9_2-W46-T2-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W46-T2-s4",
+              "segmentId": "V9_2-W46-T2-s4",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -13769,13 +13737,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W46-T2-g1",
+            "groupId": "V9_2-W46-T2-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W46-T2-s1",
+                "segmentId": "V9_2-W46-T2-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -13795,13 +13763,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W46-T2-g2",
+            "groupId": "V9_2-W46-T2-g2",
             "kind": "repeat",
             "repetitions": 2,
             "label": "Werk + herstel",
             "segments": [
               {
-                "segmentId": "V8-W46-T2-s2",
+                "segmentId": "V9_2-W46-T2-s2",
                 "name": "Hardlopen",
                 "type": "marathonpace",
                 "basis": "time",
@@ -13819,7 +13787,7 @@ window.MARATHON_PLAN = {
                 "distanceKm": null
               },
               {
-                "segmentId": "V8-W46-T2-s3",
+                "segmentId": "V9_2-W46-T2-s3",
                 "name": "Herstel",
                 "type": "herstel",
                 "basis": "time",
@@ -13839,13 +13807,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W46-T2-g3",
+            "groupId": "V9_2-W46-T2-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W46-T2-s4",
+                "segmentId": "V9_2-W46-T2-s4",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -13869,15 +13837,18 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "679a283a77c929b8219d4bbc9adb8428e3eaf08048e95e9902f9c98dd048051e"
+      "protocolSignature": "e017ed9c7f6143a2dc3462163662e061287dc22759e1971b88f5c1ef2e0d8b63",
+      "compatiblePreviousIds": [
+        "V8-W46-T2"
+      ]
     },
     {
-      "workoutId": "V8-W46-T3",
-      "trainingId": "V8-W46-T3",
+      "workoutId": "V9_2-W46-T3",
+      "trainingId": "V9_2-W46-T3",
       "trainingNumber": 3,
       "weekNumber": 46,
-      "weekId": "marathon-v8-w46",
-      "phaseId": "v8-phase-46",
+      "weekId": "marathon-v9-2-w46",
+      "phaseId": "v9-2-phase-46",
       "phaseName": "Taper",
       "date": null,
       "preferredDate": "2026-11-13",
@@ -13893,9 +13864,9 @@ window.MARATHON_PLAN = {
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 4.266666666666667,
-        "max": 4.923076923076923,
-        "middle": 4.571428571428571
+        "min": 4.923076923076923,
+        "max": 5.333333333333333,
+        "middle": 5.12
       },
       "plannedSessionMinutes": 32,
       "plannedRunMinutes": 32,
@@ -13903,6 +13874,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Praattempo en reserve houden. Aerobic support is extra rustig volume, geen derde kwaliteitstraining",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -13915,20 +13887,20 @@ window.MARATHON_PLAN = {
       "durationCheck": "5 + 22 + 5 = 32 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [
         "RECOVERY"
       ],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W46-T3-g1",
+          "groupId": "V9_2-W46-T3-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W46-T3-s1",
+              "segmentId": "V9_2-W46-T3-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -13948,13 +13920,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W46-T3-g2",
+          "groupId": "V9_2-W46-T3-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W46-T3-s2",
+              "segmentId": "V9_2-W46-T3-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
@@ -13974,13 +13946,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W46-T3-g3",
+          "groupId": "V9_2-W46-T3-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W46-T3-s3",
+              "segmentId": "V9_2-W46-T3-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -14003,13 +13975,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W46-T3-g1",
+            "groupId": "V9_2-W46-T3-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W46-T3-s1",
+                "segmentId": "V9_2-W46-T3-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -14029,13 +14001,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W46-T3-g2",
+            "groupId": "V9_2-W46-T3-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W46-T3-s2",
+                "segmentId": "V9_2-W46-T3-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
@@ -14055,13 +14027,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W46-T3-g3",
+            "groupId": "V9_2-W46-T3-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W46-T3-s3",
+                "segmentId": "V9_2-W46-T3-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -14085,15 +14057,18 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "9afc197f17545b9d392f261e5857c4b312e6e631007ce1d58000734d4716a89d"
+      "protocolSignature": "3a5a149510ffa2ac6d42f6123cbe28f421022f52f2cc261a39d43975834f695c",
+      "compatiblePreviousIds": [
+        "V8-W46-T3"
+      ]
     },
     {
-      "workoutId": "V8-W46-T4",
-      "trainingId": "V8-W46-T4",
+      "workoutId": "V9_2-W46-T4",
+      "trainingId": "V9_2-W46-T4",
       "trainingNumber": 4,
       "weekNumber": 46,
-      "weekId": "marathon-v8-w46",
-      "phaseId": "v8-phase-46",
+      "weekId": "marathon-v9-2-w46",
+      "phaseId": "v9-2-phase-46",
       "phaseName": "Taper",
       "date": null,
       "preferredDate": "2026-11-15",
@@ -14109,9 +14084,9 @@ window.MARATHON_PLAN = {
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 10.666666666666666,
-        "max": 12.307692307692308,
-        "middle": 11.428571428571429
+        "min": 12.307692307692308,
+        "max": 13.333333333333334,
+        "middle": 12.8
       },
       "plannedSessionMinutes": 80,
       "plannedRunMinutes": 80,
@@ -14119,6 +14094,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "volledig aaneengesloten easy, inclusief rustig ingelopen start en rustige laatste vijf minuten. Geen standaard run-walk, geen MP-blokken en geen fast finish",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -14131,18 +14107,18 @@ window.MARATHON_PLAN = {
       "durationCheck": "10 + 65 + 5 = 80 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
       "nutrition": "Bijvoorbeeld 2 gels op 20 en 50 min: 80 g / 80 min = 60,0 g/u. Geen hoge voedingsinname afdwingen om tapertraining zwaar te maken. Dit zijn concrete oefenpatronen voor reeds passende tolerantie; de stapsgewijze instap en waterlogistiek staan in §6",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W46-T4-g1",
+          "groupId": "V9_2-W46-T4-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W46-T4-s1",
+              "segmentId": "V9_2-W46-T4-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -14162,13 +14138,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W46-T4-g2",
+          "groupId": "V9_2-W46-T4-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W46-T4-s2",
+              "segmentId": "V9_2-W46-T4-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
@@ -14188,13 +14164,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W46-T4-g3",
+          "groupId": "V9_2-W46-T4-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W46-T4-s3",
+              "segmentId": "V9_2-W46-T4-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -14217,13 +14193,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W46-T4-g1",
+            "groupId": "V9_2-W46-T4-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W46-T4-s1",
+                "segmentId": "V9_2-W46-T4-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -14243,13 +14219,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W46-T4-g2",
+            "groupId": "V9_2-W46-T4-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W46-T4-s2",
+                "segmentId": "V9_2-W46-T4-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
@@ -14269,13 +14245,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W46-T4-g3",
+            "groupId": "V9_2-W46-T4-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W46-T4-s3",
+                "segmentId": "V9_2-W46-T4-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -14299,15 +14275,18 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "0bd811cf3ba7b5da6f9e645b79b39b94c258f86f1a9894bc4ef5a50ffb1b7c56"
+      "protocolSignature": "5d5e88432493ceb189a472f1bb54a734aa8f46dd2ae528f00968422329a952f2",
+      "compatiblePreviousIds": [
+        "V8-W46-T4"
+      ]
     },
     {
-      "workoutId": "V8-W47-T1",
-      "trainingId": "V8-W47-T1",
+      "workoutId": "V9_2-W47-T1",
+      "trainingId": "V9_2-W47-T1",
       "trainingNumber": 1,
       "weekNumber": 47,
-      "weekId": "marathon-v8-w47",
-      "phaseId": "v8-phase-47",
+      "weekId": "marathon-v9-2-w47",
+      "phaseId": "v9-2-phase-47",
       "phaseName": "Marathonweek",
       "date": null,
       "preferredDate": "2026-11-17",
@@ -14323,9 +14302,9 @@ window.MARATHON_PLAN = {
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 3.3333333333333335,
-        "max": 3.8461538461538463,
-        "middle": 3.5714285714285716
+        "min": 3.8461538461538463,
+        "max": 4.166666666666667,
+        "middle": 4
       },
       "plannedSessionMinutes": 25,
       "plannedRunMinutes": 25,
@@ -14333,6 +14312,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Korte, ontspannen run om soepel aan de start te komen; geen extra strides of kilometers",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -14345,18 +14325,18 @@ window.MARATHON_PLAN = {
       "durationCheck": "5 + 15 + 5 = 25 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W47-T1-g1",
+          "groupId": "V9_2-W47-T1-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W47-T1-s1",
+              "segmentId": "V9_2-W47-T1-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -14376,13 +14356,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W47-T1-g2",
+          "groupId": "V9_2-W47-T1-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W47-T1-s2",
+              "segmentId": "V9_2-W47-T1-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
@@ -14402,13 +14382,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W47-T1-g3",
+          "groupId": "V9_2-W47-T1-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W47-T1-s3",
+              "segmentId": "V9_2-W47-T1-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -14431,13 +14411,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W47-T1-g1",
+            "groupId": "V9_2-W47-T1-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W47-T1-s1",
+                "segmentId": "V9_2-W47-T1-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -14457,13 +14437,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W47-T1-g2",
+            "groupId": "V9_2-W47-T1-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W47-T1-s2",
+                "segmentId": "V9_2-W47-T1-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
@@ -14483,13 +14463,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W47-T1-g3",
+            "groupId": "V9_2-W47-T1-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W47-T1-s3",
+                "segmentId": "V9_2-W47-T1-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -14513,15 +14493,18 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "d9a825bcba2e02c780427c312072bb84f298a3f11fad5c009dbf62b389eac0c6"
+      "protocolSignature": "3276b4036d31e81c120f68e7aa4b371da9943468bfef8abb5caf56e9d0b04c1a",
+      "compatiblePreviousIds": [
+        "V8-W47-T1"
+      ]
     },
     {
-      "workoutId": "V8-W47-T2",
-      "trainingId": "V8-W47-T2",
+      "workoutId": "V9_2-W47-T2",
+      "trainingId": "V9_2-W47-T2",
       "trainingNumber": 2,
       "weekNumber": 47,
-      "weekId": "marathon-v8-w47",
-      "phaseId": "v8-phase-47",
+      "weekId": "marathon-v9-2-w47",
+      "phaseId": "v9-2-phase-47",
       "phaseName": "Marathonweek",
       "date": null,
       "preferredDate": "2026-11-18",
@@ -14537,9 +14520,9 @@ window.MARATHON_PLAN = {
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 3.721212121212121,
-        "max": 4.096866096866097,
-        "middle": 3.896223602484472
+        "min": 4.083274523641496,
+        "max": 4.301223241590214,
+        "middle": 4.187889908256881
       },
       "plannedSessionMinutes": 25,
       "plannedRunMinutes": 25,
@@ -14547,6 +14530,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 8,
       "targetRpe": "2–3 easy · 4–5 MP",
+      "confidence": false,
       "goal": "Acht minuten MP als korte herinnering aan racedagtempo; stop na de geprogrammeerde stappen. Normaal gevoed starten. Voeding volgens §6; deze sessie is geen nuchtere test",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -14559,20 +14543,20 @@ window.MARATHON_PLAN = {
       "durationCheck": "10 + 2×(4 + 2) + 3 = 25 min. MP-totaal: 8 min; jogherstel: 4 min. De laatste herstelstap komt vóór de aparte cooldown",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [
         "MARATHONPACE"
       ],
       "tone": "quality",
       "groups": [
         {
-          "groupId": "V8-W47-T2-g1",
+          "groupId": "V9_2-W47-T2-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W47-T2-s1",
+              "segmentId": "V9_2-W47-T2-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -14592,13 +14576,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W47-T2-g2",
+          "groupId": "V9_2-W47-T2-g2",
           "kind": "repeat",
           "repetitions": 2,
           "label": "Werk + herstel",
           "segments": [
             {
-              "segmentId": "V8-W47-T2-s2",
+              "segmentId": "V9_2-W47-T2-s2",
               "name": "Hardlopen",
               "type": "marathonpace",
               "basis": "time",
@@ -14616,7 +14600,7 @@ window.MARATHON_PLAN = {
               "distanceKm": null
             },
             {
-              "segmentId": "V8-W47-T2-s3",
+              "segmentId": "V9_2-W47-T2-s3",
               "name": "Herstel",
               "type": "herstel",
               "basis": "time",
@@ -14636,13 +14620,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W47-T2-g3",
+          "groupId": "V9_2-W47-T2-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W47-T2-s4",
+              "segmentId": "V9_2-W47-T2-s4",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -14665,13 +14649,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W47-T2-g1",
+            "groupId": "V9_2-W47-T2-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W47-T2-s1",
+                "segmentId": "V9_2-W47-T2-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -14691,13 +14675,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W47-T2-g2",
+            "groupId": "V9_2-W47-T2-g2",
             "kind": "repeat",
             "repetitions": 2,
             "label": "Werk + herstel",
             "segments": [
               {
-                "segmentId": "V8-W47-T2-s2",
+                "segmentId": "V9_2-W47-T2-s2",
                 "name": "Hardlopen",
                 "type": "marathonpace",
                 "basis": "time",
@@ -14715,7 +14699,7 @@ window.MARATHON_PLAN = {
                 "distanceKm": null
               },
               {
-                "segmentId": "V8-W47-T2-s3",
+                "segmentId": "V9_2-W47-T2-s3",
                 "name": "Herstel",
                 "type": "herstel",
                 "basis": "time",
@@ -14735,13 +14719,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W47-T2-g3",
+            "groupId": "V9_2-W47-T2-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W47-T2-s4",
+                "segmentId": "V9_2-W47-T2-s4",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -14765,15 +14749,18 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "c2215fcaad4e50e78967eb30b96b394de4ea0902267599378bc6c5030d38b8a3"
+      "protocolSignature": "ac63dff203e377794193903fbf40614045733299fdfe444919f6c6efc145dcae",
+      "compatiblePreviousIds": [
+        "V8-W47-T2"
+      ]
     },
     {
-      "workoutId": "V8-W47-T3",
-      "trainingId": "V8-W47-T3",
+      "workoutId": "V9_2-W47-T3",
+      "trainingId": "V9_2-W47-T3",
       "trainingNumber": 3,
       "weekNumber": 47,
-      "weekId": "marathon-v8-w47",
-      "phaseId": "v8-phase-47",
+      "weekId": "marathon-v9-2-w47",
+      "phaseId": "v9-2-phase-47",
       "phaseName": "Marathonweek",
       "date": null,
       "preferredDate": "2026-11-21",
@@ -14789,9 +14776,9 @@ window.MARATHON_PLAN = {
       "estimatedDistanceKm": null,
       "estimatedDistanceLabel": "Geen kilometerdoel",
       "distanceEstimate": {
-        "min": 2,
-        "max": 2.3076923076923075,
-        "middle": 2.142857142857143
+        "min": 2.3076923076923075,
+        "max": 2.5,
+        "middle": 2.4
       },
       "plannedSessionMinutes": 15,
       "plannedRunMinutes": 15,
@@ -14799,6 +14786,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "2–3",
+      "confidence": false,
       "goal": "Korte, ontspannen run om soepel aan de start te komen; geen extra strides of kilometers",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -14811,18 +14799,18 @@ window.MARATHON_PLAN = {
       "durationCheck": "5 + 5 + 5 = 15 min. Geen repeats; geen apart herstelblok. Alle minuten zijn hardlopen",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [],
       "tone": "easy",
       "groups": [
         {
-          "groupId": "V8-W47-T3-g1",
+          "groupId": "V9_2-W47-T3-g1",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Warming-up",
           "segments": [
             {
-              "segmentId": "V8-W47-T3-s1",
+              "segmentId": "V9_2-W47-T3-s1",
               "name": "Warming-up",
               "type": "warming-up",
               "basis": "time",
@@ -14842,13 +14830,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W47-T3-g2",
+          "groupId": "V9_2-W47-T3-g2",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Hardlopen",
           "segments": [
             {
-              "segmentId": "V8-W47-T3-s2",
+              "segmentId": "V9_2-W47-T3-s2",
               "name": "Hardlopen",
               "type": "easy",
               "basis": "time",
@@ -14868,13 +14856,13 @@ window.MARATHON_PLAN = {
           ]
         },
         {
-          "groupId": "V8-W47-T3-g3",
+          "groupId": "V9_2-W47-T3-g3",
           "kind": "sequence",
           "repetitions": 1,
           "label": "Cooldown",
           "segments": [
             {
-              "segmentId": "V8-W47-T3-s3",
+              "segmentId": "V9_2-W47-T3-s3",
               "name": "Cooldown",
               "type": "cooling-down",
               "basis": "time",
@@ -14897,13 +14885,13 @@ window.MARATHON_PLAN = {
       "garmin": {
         "groups": [
           {
-            "groupId": "V8-W47-T3-g1",
+            "groupId": "V9_2-W47-T3-g1",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Warming-up",
             "segments": [
               {
-                "segmentId": "V8-W47-T3-s1",
+                "segmentId": "V9_2-W47-T3-s1",
                 "name": "Warming-up",
                 "type": "warming-up",
                 "basis": "time",
@@ -14923,13 +14911,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W47-T3-g2",
+            "groupId": "V9_2-W47-T3-g2",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Hardlopen",
             "segments": [
               {
-                "segmentId": "V8-W47-T3-s2",
+                "segmentId": "V9_2-W47-T3-s2",
                 "name": "Hardlopen",
                 "type": "easy",
                 "basis": "time",
@@ -14949,13 +14937,13 @@ window.MARATHON_PLAN = {
             ]
           },
           {
-            "groupId": "V8-W47-T3-g3",
+            "groupId": "V9_2-W47-T3-g3",
             "kind": "sequence",
             "repetitions": 1,
             "label": "Cooldown",
             "segments": [
               {
-                "segmentId": "V8-W47-T3-s3",
+                "segmentId": "V9_2-W47-T3-s3",
                 "name": "Cooldown",
                 "type": "cooling-down",
                 "basis": "time",
@@ -14979,15 +14967,18 @@ window.MARATHON_PLAN = {
         "referenceDistanceLabel": "Geen afstandsdoel",
         "isRacePlan": false
       },
-      "protocolSignature": "f6321df34a760edc7a2af9aea2a31e235eba0df672a216d6ebfd55fe799cdd13"
+      "protocolSignature": "6f4db9e10a994cbd276b09d7e205636a1dbf6246d49d7bcceebe00101fb61e78",
+      "compatiblePreviousIds": [
+        "V8-W47-T3"
+      ]
     },
     {
-      "workoutId": "V8-W47-T4-RACE",
-      "trainingId": "V8-W47-T4-RACE",
+      "workoutId": "V9_2-W47-T4-RACE",
+      "trainingId": "V9_2-W47-T4-RACE",
       "trainingNumber": 4,
       "weekNumber": 47,
-      "weekId": "marathon-v8-w47",
-      "phaseId": "v8-phase-47",
+      "weekId": "marathon-v9-2-w47",
+      "phaseId": "v9-2-phase-47",
       "phaseName": "Marathonweek",
       "date": "2026-11-22",
       "preferredDate": "2026-11-22",
@@ -15009,6 +15000,7 @@ window.MARATHON_PLAN = {
       "plannedBikeMinutes": 0,
       "plannedMpMinutes": 0,
       "targetRpe": "Gecontroleerd starten",
+      "confidence": false,
       "goal": "A: 3:50:00 · B: PR <3:55:50 · C: sub 4:00. Officiële finish en geteste uitvoering zijn leidend.",
       "mentalGoal": "Gecontroleerd uitvoeren; gevoel en herstel gaan vóór het afmaken van een getal.",
       "recoveryAdvice": "Een volledige rustdag na de langere duur, ook over een weekgrens heen. Minimaal 48 uur tussen MP en lange duur, in beide richtingen; bij voorkeur 72 uur of meer. Langere duurlopen circa 6–8 dagen uit elkaar. Alleen W41 bevat een rustige fietsrit. W42–45: maandag rust, dinsdag T1, woensdag T2 MP, donderdag T3 recovery, vrijdag rust, zaterdag T4 easy, zondag T5 lange duur. Voorkeursdagen, geen verplicht rooster. Geen trainingen samenpersen, twee sessies op één dag of gemiste kilometers inhalen. Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november.",
@@ -15021,7 +15013,7 @@ window.MARATHON_PLAN = {
       "durationCheck": "",
       "nutrition": "",
       "rehearsal": "",
-      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen, kleding en gels in bestaande W44/45-sessies; geen extra kilometers of nieuw model vlak voor de race.",
+      "shoes": "Vertrouwde trainingschoenen. Test raceschoenen en sokken uiterlijk in W43 of W44, niet voor het eerst W45. W45 herhaalt de geteste routine; geen nieuwe schoenen op racedag.",
       "labels": [
         "RACE"
       ],
@@ -15255,12 +15247,15 @@ window.MARATHON_PLAN = {
           }
         ]
       },
-      "protocolSignature": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      "protocolSignature": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "compatiblePreviousIds": [
+        "V8-W47-T4-RACE"
+      ]
     }
   ],
   "phases": [
     {
-      "phaseId": "v8-phase-41",
+      "phaseId": "v9-2-phase-41",
       "name": "Actief herstel",
       "shortName": "Actief herstel",
       "number": 1,
@@ -15271,7 +15266,7 @@ window.MARATHON_PLAN = {
       "description": "Rustige herstelweek: vier loopcontacten en één rustige fietsrit; geen MP of snellere prikkels."
     },
     {
-      "phaseId": "v8-phase-42",
+      "phaseId": "v9-2-phase-42",
       "name": "Herstart met vijf runs",
       "shortName": "Herstart met vijf runs",
       "number": 2,
@@ -15282,40 +15277,40 @@ window.MARATHON_PLAN = {
       "description": "Serieuze herstart: vijf loopdagen en 24 minuten 3:50-marathonpace."
     },
     {
-      "phaseId": "v8-phase-43",
-      "name": "Duuropbouw",
-      "shortName": "Duuropbouw",
+      "phaseId": "v9-2-phase-43",
+      "name": "Two-Hour Confidence",
+      "shortName": "Two-Hour Confidence",
       "number": 3,
       "startWeek": 43,
       "endWeek": 43,
       "startDate": "2026-10-19",
       "endDate": "2026-10-25",
-      "description": "Meer duurvolume; MP-blokken verlengen tot 10 minuten."
+      "description": "Serieuze duurprogressie, eerste twee-uur-confidence run en 3×10 minuten MP."
     },
     {
-      "phaseId": "v8-phase-44",
-      "name": "Specifiek zwaar",
-      "shortName": "Specifiek zwaar",
+      "phaseId": "v9-2-phase-44",
+      "name": "Half Marathon+ Confidence",
+      "shortName": "Half Marathon+ Confidence",
       "number": 4,
       "startWeek": 44,
       "endWeek": 44,
       "startDate": "2026-10-26",
       "endDate": "2026-11-01",
-      "description": "Specifieke zware week: twee lange MP-blokken en 145 minuten duur."
+      "description": "Twee lange MP-blokken en een Half Marathon+ Confidence Run van 140 minuten."
     },
     {
-      "phaseId": "v8-phase-45",
-      "name": "Piek + generale repetitie",
-      "shortName": "Piek + generale repetitie",
+      "phaseId": "v9-2-phase-45",
+      "name": "Piek + dubbele confidence",
+      "shortName": "Piek + dubbele confidence",
       "number": 5,
       "startWeek": 45,
       "endWeek": 45,
       "startDate": "2026-11-02",
       "endDate": "2026-11-08",
-      "description": "Piekweek: 40 minuten MP in twee lange blokken en de laatste lange duur als generale repetitie."
+      "description": "Piekweek met twee verschillende confidence runs: woensdag 35 minuten aaneengesloten MP; zondag 160 minuten easy duur."
     },
     {
-      "phaseId": "v8-phase-46",
+      "phaseId": "v9-2-phase-46",
       "name": "Taper",
       "shortName": "Taper",
       "number": 6,
@@ -15326,7 +15321,7 @@ window.MARATHON_PLAN = {
       "description": "Taper: vier looptrainingen, minder volume en 20 minuten MP."
     },
     {
-      "phaseId": "v8-phase-47",
+      "phaseId": "v9-2-phase-47",
       "name": "Marathonweek",
       "shortName": "Marathonweek",
       "number": 7,
@@ -15348,7 +15343,7 @@ window.MARATHON_PLAN = {
           },
           {
             "type": "paragraph",
-            "text": "3:50 is een ambitie, geen bewezen huidige wedstrijdvorm. Je eerdere PR en halve marathon ondersteunen het doel. De recente moeizame buitentrainingen en vermoeide benen maken de actuele haalbaarheid onzeker. Vier opbouwweken kunnen een ontbrekende maandenlange voorbereiding niet volledig vervangen. Het schema ontwikkelt de duurbelasting en het specifieke tempo zo gericht mogelijk binnen de resterende tijd."
+            "text": "3:50 is een ambitie, geen bewezen huidige wedstrijdvorm. Je eerdere PR en halve marathon ondersteunen het doel. De sterke continue training van 7 oktober is bemoedigend, maar de recente moeizame buitentrainingen en vermoeide benen maken de actuele marathonbelastbaarheid onzeker. Vier opbouwweken kunnen een ontbrekende maandenlange voorbereiding niet volledig vervangen. Het schema ontwikkelt de duurbelasting en het specifieke tempo zo gericht mogelijk binnen de resterende tijd."
           },
           {
             "type": "heading",
@@ -15359,9 +15354,14 @@ window.MARATHON_PLAN = {
             "headers": [
               "Datum / periode",
               "Bekend gegeven",
-              "Betekenis voor V8"
+              "Betekenis voor V9.2"
             ],
             "rows": [
+              [
+                "7 oktober 2026",
+                "Uitgevoerd, Garmin FIT: 10,09 km; totale tijd 58:56; gemiddeld 5:51/km; gemiddelde hartslag 129 bpm; cadans circa 176 spm. Polar H9 gedragen en verbonden. Gebruiker had het gevoel nog circa 30 min gemakkelijk door te kunnen lopen.",
+                "Positief bewijs van een goed verteerbare training van circa een uur; geen bewijs dat 42,195 km op 5:27/km al haalbaar is."
+              ],
               [
                 "2025",
                 "Halve marathon Utrecht circa 1:37; Florence-marathon 30 november 3:55:50, volgens eerdere gebruikersinformatie",
@@ -15394,59 +15394,71 @@ window.MARATHON_PLAN = {
           },
           {
             "type": "heading",
-            "text": "Wijzigingen in V8 ten opzichte van V7"
+            "text": "Wat er in V9.2 is veranderd ten opzichte van V9.1"
           },
           {
-            "type": "item",
-            "text": "W42: 240 in plaats van 260 minuten. T1 35→30 min, T3 30→25 min en T4 44→34 min; MP 4×6 min en lange duur 95 min blijven behouden."
+            "type": "paragraph",
+            "text": "1. Evenwichtiger verdeling zonder extra weekvolume: W42 blijft 30 / 56 / 25 / 34 / 95 = 240 min; W43 wordt 45 / 60 / 30 / 30 / 120 = 285 min; W44 wordt 50 / 66 / 25 / 29 / 140 = 310 min; W45 wordt 50 / 55 / 25 / 30 / 160 = 320 min. Volgorde: dinsdag / woensdag / donderdag / zaterdag / zondag."
           },
           {
-            "type": "item",
-            "text": "W42–45: recovery-run op donderdag, vrijdag volledige rust. Zo verdwijnen de drie opeenvolgende loopdagen vóór de zondagduur."
+            "type": "paragraph",
+            "text": "2. Dinsdag wordt een stevigere maar rustige aerobe training (W43 35→45 min, W44 35→50, W45 44→50); er wordt geen tweede tempo- of intervaldag toegevoegd."
           },
           {
-            "type": "item",
-            "text": "W45: 2×20 in plaats van 3×15 min MP. Totale MP-sessie 74→66 min; de vrijgekomen acht minuten gaan naar dinsdag easy (30→38 min). Het weekvolume blijft 330 min, terwijl de intensieve minuten afnemen."
+            "type": "paragraph",
+            "text": "3. Confidence runs blijven herkenbaar: W43 twee uur (120 min); W44 140 min Half Marathon+; W45 160 min Final Distance Confidence, allemaal easy. De duurlopen van W44/45 zijn telkens vijf minuten korter dan in V9.1; W42/43 blijven ongewijzigd."
           },
           {
-            "type": "item",
-            "text": "A-doel blijft 3:50, vijf loopdagen in W42–45 en dezelfde lange-duurprogressie. Garmin-invoer, data, afstandsschattingen en belastingstabellen zijn opnieuw berekend."
+            "type": "paragraph",
+            "text": "4. Marathonpace blijft intact: W42 4×6, W43 3×10, W44 2×20 en W45 35 minuten continu op 5:24–5:30/km (richtpunt 5:27). Geen MP-finish toevoegen aan de lange zondagtraining."
+          },
+          {
+            "type": "paragraph",
+            "text": "5. Voeding krijgt een praktische opbouw: voor W42–45 circa 50, 60, 69 en 75–79 g koolhydraten/uur als basisscenario als een hogere dosis nog niet is bewezen; gel-timing afgestemd op oefening en beschikbare waterpunten. Het voorlopige racepatroon met acht gels is eerder gelijkmatig verdeeld dan in V9.1, en blijft afhankelijk van tolerantie."
+          },
+          {
+            "type": "paragraph",
+            "text": "6. Concretere evaluatiemomenten na W42, W43 en W44: normaal trainingsvermoeid zijn is niet hetzelfde als alarmsignalen; bij duidelijk mislukte duurtraining/pijn herbeoordelen in plaats van automatisch de volgende duurstap forceren."
+          },
+          {
+            "type": "paragraph",
+            "text": "7. Wedstrijdweek, taper en doel blijven ongewijzigd: W46 195 min, W47 65 min vóór de race, A-doel 3:50 op zondag 22 november. Geen kilometers toevoegen om de lange-duurloopfractie cosmetisch te verlagen."
+          },
+          {
+            "type": "paragraph",
+            "text": "8. De Garmin/Polar-training van 7 oktober blijft de feitelijke referentie: 10,09 km, 58:56, 5:51/km, gemiddeld 129 bpm; het rustige 6:15/km is uitsluitend een planningsvoorbeeld, geen opgelegd easy-tempo."
           },
           {
             "type": "heading",
-            "text": "Opzet van deze zelfstandige versie"
+            "text": "Basisprincipes"
           },
           {
-            "type": "item",
-            "text": "A-doel wordt 3:50; alle MP-workouts gebruiken 5:24–5:30/km."
+            "type": "paragraph",
+            "text": "1. A-doel 3:50:00 (circa 5:27/km); B-doel nieuw PR onder 3:55:50; C-doel sub-4."
           },
           {
-            "type": "item",
-            "text": "W41 blijft vier rustige loopsessies, waaronder run-walk, plus één lichte fietsrit."
+            "type": "paragraph",
+            "text": "2. Week 41: herstel, vier rustige geplande loopcontacten en één rustige fietsrit; de run van 7 oktober is uitgevoerd. De 50-minutenloop is continu easy in plaats van run-walk."
           },
           {
-            "type": "item",
-            "text": "W42–45 krijgen vijf hardlooptrainingen; de vijfde training is de lange duur. De extra easy/aerobic-support-run staat als training 4."
+            "type": "paragraph",
+            "text": "3. W42–45: vijf hardloopdagen, met één woensdagtraining op marathonpace en één zondagse lange duurloop. Overige loopdagen zijn rustig."
           },
           {
-            "type": "item",
-            "text": "Lange duur: 95 → 120 → 145 → 165 min, volledig easy en aaneengesloten."
+            "type": "paragraph",
+            "text": "4. Lange duurlopen: 95 / 120 / 140 / 160 minuten, geheel easy; geen verplicht 20/24/27-kilometerquotum en geen extra snelle finish."
           },
           {
-            "type": "item",
-            "text": "MP-werk: 24 → 30 → 40 → 40 min; taper met 20 en 8 min MP."
+            "type": "paragraph",
+            "text": "5. Marathonpace: 24 / 30 / 40 / 35 minuten in W42–45; 20 en 8 minuten tijdens de taper. De W45-prikkel is continu, niet in herhalingen."
           },
           {
-            "type": "item",
-            "text": "Piekvolume wordt 330 min, circa 49 km bij de rekenaanname 7:00/km voor rustige minuten."
+            "type": "paragraph",
+            "text": "6. Piek en taper: geplande piek 320 minuten, daarna 195 en 65 minuten vóór de wedstrijd. Geen testwedstrijd of ingehaalde kilometers."
           },
           {
-            "type": "item",
-            "text": "W46 krijgt vier runs; W47 drie korte runs plus de marathon. Geen fietsdag vanaf W42."
-          },
-          {
-            "type": "item",
-            "text": "Raceplan en voedingsvoorraad zijn opnieuw berekend voor 3:50."
+            "type": "paragraph",
+            "text": "7. Voorzichtigheid is niet het doel, wel uitvoerbaarheid: de recente succesvolle 10 km is bemoedigend maar garandeert geen belastbaarheid voor circa 26 km buiten of 42,195 km racen."
           }
         ]
       },
@@ -15469,7 +15481,7 @@ window.MARATHON_PLAN = {
               [
                 "Warming-up en cooldown",
                 "Geen doel / Vrij",
-                "Rustig hardlopen; RPE circa 2. Geen wandelminuten buiten de expliciete W41-stappen"
+                "Rustig hardlopen; RPE circa 2. Geen verplichte wandelblokken"
               ],
               [
                 "Herstel tussen MP-blokken",
@@ -15482,11 +15494,6 @@ window.MARATHON_PLAN = {
                 "Richt op 5:27; gecontroleerd, doorgaans RPE circa 4–5, geen maximale test"
               ],
               [
-                "W41-wandelen",
-                "Geen doel / Vrij",
-                "Ontspannen wandelen"
-              ],
-              [
                 "Alleen W41: fietsen",
                 "Vrij",
                 "Licht verzet, RPE 2–3"
@@ -15495,7 +15502,15 @@ window.MARATHON_PLAN = {
           },
           {
             "type": "paragraph",
-            "text": "Rustige tempo's zijn geen opdrachten. Voor afstandsschattingen gebruiken we 6:30–7:30/km, met 7:00 als rekenvoorbeeld. Rustiger lopen mag wanneer dat het juiste praattempo is. Je hoeft niet binnen deze range te blijven. De Polar H9 registreert hartslag als observatie; geen verplichte zone 2, geen universele hartslagcap. Een borstband kalibreert hartslagzones niet automatisch."
+            "text": "Persoonlijke pace-referentie: 5:51/km uit de succesvolle Garmin/Polar-training van 7 oktober (10,09 km, 129 bpm gemiddeld, nog veel reserve volgens je eigen gevoel). Dat is jouw recent gemeten normale ontspannen hardlooppace voor circa een uur; niet een gegarandeerd hersteltempo en ook niet de snelheid waarop je 165 minuten moet hardlopen."
+          },
+          {
+            "type": "paragraph",
+            "text": "Bij easy, recovery en long runs blijft Garmin-target = Geen doel / Vrij. Loop zó dat je gemakkelijk hele zinnen kunt spreken en je het gecontroleerd volhoudt (meestal RPE 2–3/10); recovery en warming-up mogen nadrukkelijk trager. Om te plannen tonen we 6:15/km als middenvoorbeeld, plus de scenario's 6:00 en 6:30/km voor de rustige minuten. Deze rekentempo's zijn geen pace-opdrachten. De werkelijke gemiddelde afstand kan lager liggen, vooral wanneer in- en uitlopen trager gaat of bij zwaardere benen, warmte of hoogteverschil. De H9 registreert de hartslag; er is geen verplichte hartslagzone en de band kalibreert je persoonlijke zones niet automatisch."
+          },
+          {
+            "type": "paragraph",
+            "text": "Start van lange duurlopen: de eerste 10–20 minuten bewust extra ontspannen; versnel niet om een kilometerdoel te halen. Houd de inspanning en praatbaarheid leidend. Er is geen evidence-based individuele hartslagcap van 145 bpm vastgesteld uit één Polar-training."
           },
           {
             "type": "paragraph",
@@ -15613,7 +15628,7 @@ window.MARATHON_PLAN = {
           },
           {
             "type": "item",
-            "text": "Sla op onder het V8-ID, stuur naar de FR165 en synchroniseer. Controleer de stapvolgorde op het horloge vóór vertrek."
+            "text": "Sla op onder het V9.2-ID, stuur naar de FR165 en synchroniseer. Controleer de stapvolgorde op het horloge vóór vertrek."
           },
           {
             "type": "paragraph",
@@ -15642,257 +15657,300 @@ window.MARATHON_PLAN = {
         ]
       },
       "4": {
-        "title": "Weekoverzicht en belasting",
+        "title": "Weekoverzicht, kilometers en verdeling",
         "blocks": [
           {
             "type": "paragraph",
-            "text": "Alle sessietijden bevatten warming-up, werk, herstel en cooldown. W41 omvat wandelen; fietsminuten staan apart. W42–46 zijn alle minuten hardlopen. Afstanden zijn schattingen, geen quota."
+            "text": "De tijden zijn geplande sessieduren, inclusief warming-up, werk, herstel en cooling-down. Op 7 oktober is W41-T2 werkelijk 58:56 uitgevoerd; de weektabel gebruikt de 60-minutenplanwaarde, niet een verzonnen werkelijk weektotaal. De fietsminuten in W41 tellen niet mee als hardloopminuten. Week 47 is exclusief de marathon."
           },
           {
             "type": "table",
             "headers": [
               "Week / periode",
-              "Functie",
-              "Sessies in min, T1 → T5",
-              "Loop-sessietijd",
+              "Thema",
+              "Sessies T1 → T5 (minuten)",
+              "Hardlopen",
               "MP",
-              "Fietsen",
-              "Totaal bewegen"
+              "Fietsen"
             ],
             "rows": [
               [
-                "41 · 5–11 okt",
+                "W41 · 5–11 okt",
                 "Herstel",
-                "30 / 60 / 30 / 65 / fiets 60",
-                "185",
-                "0",
-                "60",
-                "245"
+                "30 / 60 / 30 / 50 / fiets 60",
+                "170 min gepland",
+                "0 min",
+                "60 min gepland"
               ],
               [
-                "42 · 12–18 okt",
+                "W42 · 12–18 okt",
                 "Herstart",
                 "30 / 56 / 25 / 34 / 95",
-                "240",
-                "24",
-                "0",
-                "240"
+                "240 min",
+                "24 min",
+                "—"
               ],
               [
-                "43 · 19–25 okt",
-                "Duuropbouw",
-                "35 / 60 / 30 / 50 / 120",
-                "295",
-                "30",
-                "0",
-                "295"
+                "W43 · 19–25 okt",
+                "Two-Hour Confidence",
+                "45 / 60 / 30 / 30 / 120",
+                "285 min",
+                "30 min",
+                "—"
               ],
               [
-                "44 · 26 okt–1 nov",
-                "Specifiek zwaar",
-                "35 / 66 / 25 / 49 / 145",
-                "320",
-                "40",
-                "0",
-                "320"
+                "W44 · 26 okt–1 nov",
+                "Half Marathon+ Confidence",
+                "50 / 66 / 25 / 29 / 140",
+                "310 min",
+                "40 min",
+                "—"
               ],
               [
-                "45 · 2–8 nov",
-                "Piek + repetitie",
-                "38 / 66 / 25 / 36 / 165",
-                "330",
-                "40",
-                "0",
-                "330"
+                "W45 · 2–8 nov",
+                "Piek + dubbele confidence",
+                "50 / 55 / 25 / 30 / 160",
+                "320 min",
+                "35 min",
+                "—"
               ],
               [
-                "46 · 9–15 nov",
+                "W46 · 9–15 nov",
                 "Taper",
                 "35 / 48 / 32 / 80",
-                "195",
-                "20",
-                "0",
-                "195"
+                "195 min",
+                "20 min",
+                "—"
               ],
               [
-                "47 · 16–22 nov",
+                "W47 · 16–22 nov",
                 "Raceweek",
-                "25 / 25 / 15 / race",
-                "65 vóór race",
-                "8",
-                "0",
-                "65 vóór race"
+                "25 / 25 / 15 / marathon",
+                "65 min vóór de race",
+                "8 min",
+                "—"
               ]
             ]
           },
           {
             "type": "paragraph",
-            "text": "W41 heeft 164 min werkelijk geplande rentijd + 21 min wandelen, naast 60 min fietsen. Vanaf W42 zijn er vijf runs per week t/m W45. W46 heeft vier runs; W47 heeft vier loopcontacten inclusief de race."
-          },
-          {
-            "type": "heading",
-            "text": "Afstandsschatting, geen verplicht tempo"
-          },
-          {
-            "type": "paragraph",
-            "text": "De berekening is: rustige minuten ÷ easy-pace + MP-minuten ÷ MP-pace. Voor de ondergrens gebruiken we easy 7:30 en MP 5:30, voor de bovengrens easy 6:30 en MP 5:24. Het middenvoorbeeld gebruikt easy 7:00 en exact A-doeltempo. Ook rustigere warming-up/herstelminuten zijn in dit eenvoudige rekenmodel als easy gerekend; de echte afstand kan daardoor lager zijn."
+            "text": "Kilometerberekening, geen quota: rustige minuten gedeeld door het aangenomen easy-tempo, plus MP-minuten gedeeld door 5:27/km. Het is een vereenvoudiging: warming-up, cooling-down en herstel kunnen trager verlopen. De kolommen 6:00 en 6:30 zijn scenario's; 6:15/km is slechts het middenvoorbeeld. Je op 7 oktober waargenomen 5:51/km is een persoonlijke referentie, geen opdracht voor iedere dag."
           },
           {
             "type": "table",
             "headers": [
               "Week",
-              "Rustige min",
-              "MP-min",
-              "Km-range op aannames",
-              "Km bij easy 7:00",
-              "Lange duur, min"
+              "Rustig (min)",
+              "MP (min)",
+              "Km bij easy 6:30",
+              "Km bij easy 6:15",
+              "Km bij easy 6:00",
+              "Lange duur min"
             ],
             "rows": [
               [
-                "42",
+                "W42",
                 "216",
                 "24",
-                "33,2–37,7",
-                "35,3",
+                "37,6",
+                "39,0",
+                "40,4",
                 "95"
               ],
               [
-                "43",
-                "265",
+                "W43",
+                "255",
                 "30",
-                "40,8–46,3",
-                "43,4",
+                "44,7",
+                "46,3",
+                "48,0",
                 "120"
               ],
               [
-                "44",
-                "280",
+                "W44",
+                "270",
                 "40",
-                "44,6–50,5",
-                "47,3",
-                "145"
+                "48,9",
+                "50,5",
+                "52,3",
+                "140"
               ],
               [
-                "45",
-                "290",
-                "40",
-                "45,9–52,0",
-                "48,8",
-                "165"
+                "W45",
+                "285",
+                "35",
+                "50,3",
+                "52,0",
+                "53,9",
+                "160"
               ],
               [
-                "46",
+                "W46",
                 "175",
                 "20",
-                "27,0–30,6",
-                "28,7",
+                "30,6",
+                "31,7",
+                "32,8",
                 "80"
               ],
               [
-                "47",
+                "W47",
                 "57",
                 "8",
-                "9,1–10,3",
-                "9,6",
+                "10,2",
+                "10,6",
+                "11,0",
                 "race apart"
               ]
             ]
           },
           {
-            "type": "paragraph",
-            "text": "W45 komt bij de centrale aanname uit rond 49 km. Bij sneller praattempo kan het circa 52 km zijn; bij trager praattempo minder dan 46 km. De voorschriften zijn de minuten, niet een verplicht minimum van 50 km. De lange duur van 165 min is circa 22,0–25,4 km bij 7:30–6:30/km. Hij bewijst op zichzelf nog geen 42,195-km-belastbaarheid."
-          },
-          {
             "type": "heading",
-            "text": "Week-op-week en aandeel lange duur"
-          },
-          {
-            "type": "paragraph",
-            "text": "Loop-sessietijd: 185 → 240 → 295 → 320 → 330 min. W41→42 is +29,7% in sessietijd en +46,3% in werkelijk geplande rentijd (164→240). Inclusief het wegvallen van fietsen daalt totale beweegtijd 245→240 (−2,0%), maar fietsen en lopen zijn niet onderling uitwisselbaar: de impactbelasting neemt wel toe. De kleinere herstartweek verlaagt de gelijktijdige stap in frequentie, duur en intensiteit; zij maakt de opbouw niet automatisch veilig."
-          },
-          {
-            "type": "paragraph",
-            "text": "Daarna W42→43 +22,9%, W43→44 +8,5%, W44→45 +3,1%. Lange duur stijgt 95→120 (+26,3%), 120→145 (+20,8%), 145→165 (+13,8%). De +22,9% in W43 is hoger dan in V7 omdat W42 kleiner is gemaakt; W43 blijft 295 min. Dit is een serieuze tweede opbouwstap, geen gelijkmatige lage procentuele progressie. Dit zijn tijdsprongen; werkelijke afstandssprongen hangen van het gelopen tempo af. Er wordt geen universele ‘10%-regel’ als veiligheidsgarantie gebruikt."
-          },
-          {
-            "type": "paragraph",
-            "text": "De lange duur beslaat 39,6% / 40,7% / 45,3% / 50,0% van W42–45. Vooral W45 concentreert veel belasting in één sessie. Dat is een bewuste, ambitieuze afweging binnen de korte voorbereiding, geen ideale algemene verdeling of bewezen veilige progressie. De 21,1 km op de band ondersteunt tijd op de benen, maar heft de recente buitenproblemen niet op."
-          },
-          {
-            "type": "paragraph",
-            "text": "MP beslaat 10,0% / 10,2% / 12,5% / 12,1% van W42–45. De overige minuten blijven rustig. De laatste duur wordt volledig easy; geen MP-finish bovenop de piekweek."
-          },
-          {
-            "type": "heading",
-            "text": "Twee weken taper"
-          },
-          {
-            "type": "paragraph",
-            "text": "Laatste lange duur: zondag 8 november, veertien dagen voor de race. Vanaf maandag 9 november taper. W46: 195/330 = 59,1% van piekvolume, dus 40,9% minder. W47 vóór de race: 65/330 = 19,7%, dus 80,3% minder. Samen 260 versus 660 min in twee piekweken: 60,6% minder. Dit percentage betreft tijd vóór de race en ligt afgerond bij de bovenkant van gebruikelijke taperreducties; geen individueel bewezen optimum."
-          },
-          {
-            "type": "paragraph",
-            "text": "De MP-prikkel blijft, maar daalt van 40 naar 20 naar 8 min. W46 krijgt vier goed geplaatste runs, zonder kunstmatige vijfde training. Geen lange test in de taper. W47 inclusief een marathon van 230 min is 295 min lopen, met de 42,195 km race apart van de circa 10 km voorbereidende runs. Voorstart- en nafinishwandelen tellen niet mee in de racetimer."
-          }
-        ]
-      },
-      "5": {
-        "title": "Checkpoints: ontwikkeling van je 3:50-vorm",
-        "blocks": [
-          {
-            "type": "paragraph",
-            "text": "De checkpoints bepalen de interpretatie van actuele vorm en de uiteindelijke racepace. Het schema blijft voor A-doel 3:50 ontworpen. Er komt geen extra testtraining bij en er worden geen kansen in procenten verzonnen."
+            "text": "Verdeling over de week — piekweek W45"
           },
           {
             "type": "table",
             "headers": [
-              "Moment",
-              "Gegevens beoordelen",
-              "Functie"
+              "Dag",
+              "Training",
+              "Tijd",
+              "Illustratieve km bij easy 6:15"
             ],
             "rows": [
               [
-                "Einde W41, 11 oktober",
-                "Uitgevoerde sessies, beenzwaarte, herstel, eventuele klachten",
-                "Vaststellen wat de herstelweek werkelijk opleverde; onverklaarde aanhoudende klachten verdienen beoordeling"
+                "Maandag",
+                "Rust",
+                "—",
+                "—"
               ],
               [
-                "Na W42, 18–20 oktober",
-                "4×6 min MP en 95 min aaneengesloten duur; techniek en herstel",
-                "Eerste actuele vergelijking tussen doeltempo en buitenbelastbaarheid"
+                "Dinsdag",
+                "Easy",
+                "50 min",
+                "8,0"
               ],
               [
-                "Na W44, 1–3 november",
-                "Consistentie over drie weken; 2×20 MP; laatste deel van 120/145 min duur; voeding",
-                "Voorlopige 3:50-readiness, PR-readiness en sub-4-readiness"
+                "Woensdag",
+                "Marathonpace Confidence: 15 easy + 35 MP + 5 easy",
+                "55 min",
+                "9,6"
               ],
               [
-                "Na W45, 9–10 november",
-                "2×20 MP, 165 min duur, geen sterk verval, beproefde voeding en herstel",
-                "Belangrijkste pacingkeuze voor de marathon; geen nieuwe lange test"
+                "Donderdag",
+                "Recovery easy",
+                "25 min",
+                "4,0"
               ],
               [
-                "Vóór race, 19–21 november",
-                "Frisheid, gezondheid, weersverwachting en definitieve race-informatie",
-                "Definitief pace- en drinkplan vastleggen"
+                "Vrijdag",
+                "Rust",
+                "—",
+                "—"
+              ],
+              [
+                "Zaterdag",
+                "Easy",
+                "30 min",
+                "4,8"
+              ],
+              [
+                "Zondag",
+                "Final Distance Confidence (volledig easy)",
+                "160 min",
+                "25,6"
+              ],
+              [
+                "Totaal",
+                "5 hardloopdagen",
+                "320 min",
+                "52,0"
               ]
             ]
           },
           {
             "type": "paragraph",
-            "text": "3:50-readiness: sterker ondersteund wanneer de langere MP-blokken rond 5:27 beheerst blijven, het laatste blok technisch stabiel is, de duurtrainingen continu verlopen zonder sterk verval en herstel/voeding passen bij de belasting. Eén succesvolle MP-sessie of één easy-duur bewijst geen marathon op dat tempo."
+            "text": "Opbouw in minuten: W41→42: 170→240 min (+41,2%, maar W41 is een herstelweek en de werkelijke loopvolumes ervoor ontbreken); W42→43: 240→285 (+18,8%); W43→44: 285→310 (+8,8%); W44→45: 310→320 (+3,2%). Vijf hardloopdagen plus MP vanaf W42 betekenen wel degelijk extra loopbelasting. Vergelijk zo mogelijk met je werkelijke weken in september, niet alleen met de bewuste herstelweek."
           },
           {
             "type": "paragraph",
-            "text": "PR-readiness: wanneer A-tempo duidelijk weinig reserve laat, kan een pace rond 5:35/km beter bij de gegevens passen; op exact 42,195 km is dat 3:55:35, maar met slechts 15 seconden marge op het oude PR. Kies een uitvoering met voldoende marge voor werkelijk gelopen afstand en posten, zonder een snelle opening te forceren."
+            "text": "Duurloopprogressie: 95 → 120 (+26,3%) → 140 (+16,7%) → 160 min (+14,3%). Het tijdsaandeel van zondag is achtereenvolgens 39,6% / 42,1% / 45,2% / 50,0%; het berekende kilometeraandeel circa 39% / 41% / 44% / 49% bij easy 6:15/km. Het is een bewust ambitieus compromis, niet een standaard optimaal verdeelde marathonopbouw. We verhogen de overige kilometers niet kunstmatig richting 65–70 km/week om percentages fraaier te maken."
           },
           {
             "type": "paragraph",
-            "text": "Sub-4-readiness: is het vangnet bij minder sterke aanwijzingen voor A/B. Rond 5:40/km is theoretisch 3:59:06. Dit is een racebesluit op basis van actuele gegevens, geen nieuwe primaire trainingsdoelstelling. Bij onvoldoende vorm is ook C niet gegarandeerd."
+            "text": "Taper: laatste lange duurloop zondag 8 november, veertien dagen vóór de marathon. W46 195/320 = 60,9% van de piek, W47 vóór de race 65/320 = 20,3%; korte MP-prikkels blijven. Vergelijking tussen raceweek en piekweek inclusief zondagduur geeft een andere indruk dan vergelijking van dezelfde weekdagen: vóór zondag 155 → 65 minuten (−58,1%). Deze getallen bewijzen geen persoonlijk optimaal taperpatroon."
+          },
+          {
+            "type": "heading",
+            "text": "Wat betekent 'confidence' in V9.2?"
           },
           {
             "type": "paragraph",
-            "text": "Log na iedere training: werkelijke totale tijd, rentijd, wandeltijd, verstreken versus bewegende tijd, afstand, gemiddeld en MP-staptempo, RPE, praattest, beenzwaarte 0–10, eventuele pijnlocatie/trend, route/weer, H9-gemiddelde/maximale hartslag, voeding/water en herstel na 24–48 uur. Vergelijk hartslag bij vergelijkbare omstandigheden; drift heeft geen universele grens die een marathonprestatie bewijst. Garmin-voorspellingen en oude prestaties zijn aanvullende context."
+            "text": "Een confidence run is een trainingsprikkel met vertrouwen als neveneffect, geen verplichte afstandstest. W43: 120 min easy continu, ongeacht of het 18–20 km wordt. W44: 140 min easy met kans om voorbij de halve-marathonafstand te komen als dat ontspannen gebeurt. W45: 160 min easy; bij 6:00–6:30/km circa 24,6–26,7 km. Nooit versnellen of verlengen om een rond kilometergetal op je horloge te halen. Let op techniek, voedingsproef, herstel en reserves."
+          }
+        ]
+      },
+      "5": {
+        "title": "Evaluatiemomenten en praktische bijsturing",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Het trainingsdoel blijft 3:50. De normale planning is het uitgangspunt; gebruik de hieronder beschreven evaluaties alleen om te voorkomen dat duidelijke terugval of klachten worden genegeerd. Een enkel zwaar gevoel of tijdelijke vermoeidheid is geen reden om steeds trainingsdoelen te verlagen. Deze evaluaties zijn coachingscriteria, geen klinisch gevalideerde drempels."
+          },
+          {
+            "type": "table",
+            "headers": [
+              "Evaluatiemoment",
+              "Wat onderzoeken?",
+              "Wat betekent het voor het vervolg?"
+            ],
+            "rows": [
+              [
+                "11 oktober (na W41)",
+                "Werkelijk uitgevoerde trainingen; beengevoel en herstel; 7 oktober is wél uitgevoerd",
+                "Bevestigen of vijf loopdagen vanaf W42 passen; niet aannemen dat alle andere W41-sessies zijn voltooid"
+              ],
+              [
+                "18 oktober (na W42)",
+                "4×6 min MP, 95 min easy buiten, herstel en eventuele lokale klachten",
+                "Als dit beheerst verliep: de geplande 120 min in W43. Bij opnieuw afbreken of duidelijk lang aanhoudende klachten: herbeoordelen voordat de duur stijgt"
+              ],
+              [
+                "25 oktober (na W43)",
+                "3×10 min MP, 120 min confidence, voeding, beengevoel na 24–48 uur",
+                "Bij goed herstel: 140 min in W44. Bij onvoldoende duurherstel: houd duur ongeveer gelijk of verkort, in plaats van 140 te forceren"
+              ],
+              [
+                "1 november (na W44)",
+                "2×20 min MP, 140 min confidence, techniek, voeding, herstel",
+                "Besluit of 160 min op 8 november past. Aanpassingen niet inhalen met extra kilometers"
+              ],
+              [
+                "8–10 november (na W45)",
+                "35 min MP continu én 160 min final confidence, materiaal, maag en herstel",
+                "Belangrijkste, maar geen sluitend, onderbouwing van het definitieve wedstrijdtempo; daarna taper"
+              ],
+              [
+                "19–21 november",
+                "Frisheid, gezondheid, weersverwachting en officiële wedstrijdinformatie",
+                "Definitief A/B/C-startplan, gelmomenten en waterpunten vastleggen"
+              ]
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "Praktische prioriteit bij duidelijke ongewone vermoeidheid: eerst de niet-essentiële rustige donderdagtraining verkorten of overslaan; als nodig daarna zaterdag inkorten. Houd woensdag-MP en zondagduur als belangrijkste doeltrainingen, maar niet ten koste van pijn of herstel. Wordt een belangrijke training onderbroken of mislukt, dan moet juist die belasting opnieuw worden afgewogen. Geen gemiste trainingen dubbelen of in de taper inhalen. Nieuwe of oplopende lokale pijn, manken, ziekte of ongewone ernstige klachten vallen onder de stopregels van §2."
+          },
+          {
+            "type": "paragraph",
+            "text": "Wat ondersteunen de gegevens voor 3:50? MP rond 5:27/km blijft beheerst; lange buitenruns verlopen aaneengesloten zonder fors verval, de volgende trainingen gaan normaal en het voedingsplan blijkt verdraagbaar. Een ontspannen 10 km op 5:51/km of 35 minuten MP alleen kan de laatste marathonkilometers niet voorspellen."
+          },
+          {
+            "type": "paragraph",
+            "text": "PR-alternatief: als de totale trainingsserie het A-tempo onvoldoende ondersteunt, kan circa 5:35/km een alternatief zijn, maar 5:35/km over 42,195 km is ongeveer 3:55:35: slechts 15 seconden marge op 3:55:50. Sub-4 alternatief: circa 5:40/km geeft ongeveer 3:59:06. Geen van deze tijden is gegarandeerd."
+          },
+          {
+            "type": "paragraph",
+            "text": "Log per training: werkelijke duur/afstand, hartslag met H9 indien aangesloten, rondepace, RPE, praattest, beenzwaarte, wandelminuten, pijnlocatie, voeding, drinken, terrein/weer en herstel over 24–48 uur. Hartslagdrift alleen vergelijken als tempo/omstandigheden vergelijkbaar zijn. Geen willekeurige 145-bpm-grens op basis van één sessie."
           }
         ]
       },
@@ -15901,116 +15959,106 @@ window.MARATHON_PLAN = {
         "blocks": [
           {
             "type": "paragraph",
-            "text": "Racedoel: een geoefende 75–90 g koolhydraten per uur, met ongeveer 80 g/u als praktische centrale oefenrichting. Dit is geen verplichting om tolerantie over te slaan. Hogere inname moet in de langere trainingen werkelijk goed gaan; minder verdragen betekent een aangepast voedingsplan, niet proberen maagklachten weg te lopen."
+            "text": "Trainingsdoel: van een aantoonbaar verdraagbare instap doorgroeien naar ongeveer 75–80 gram koolhydraten per uur in de langste duurtraining. Racedoel: circa 75–85 g/u, alleen als de praktijkproeven die inname ondersteunen. Een hogere theoretische optimale inname is geen reden om maagklachten te negeren. Bij een lagere bewezen tolerantie passen we het wedstrijdplan aan."
           },
           {
             "type": "paragraph",
-            "text": "Gebruik je vertrouwde SiS Beta Fuel Neutral. We rekenen met 40 g koolhydraten per gel, overeenkomstig de officiële Beta Fuel-productinformatie; controleer jouw eigen verpakking. Koolhydraten uit sportdrank tellen volledig mee. Bulk Electrolytes volgens je eigen etiket en beproefde plan; samenstelling/dosering van jouw verpakking is hier niet vastgesteld."
+            "text": "Gebruik bij voorkeur je vertrouwde SiS Beta Fuel Neutral; reken met 40 g koolhydraten per gel als dat met jouw etiket overeenkomt. Koolhydraten uit sportdrank tellen mee; water en elektrolyten niet. Je Bulk-elektrolyten doseren volgens de verpakking en eerdere ervaring, niet volgens een gegokte natriumbehoefte."
           },
           {
             "type": "heading",
-            "text": "Oefenopbouw in de lange duur"
+            "text": "Oefenopbouw in de lange duur — lage instap is de standaard"
           },
           {
             "type": "table",
             "headers": [
-              "Week / duur",
-              "Centrale oefening als reeds verdragen",
-              "Lagere instap als 75–80 g/u nog niet bewezen is"
+              "Training",
+              "Voorgesteld praktisch oefenpatroon",
+              "Rekenkundige inname",
+              "Alleen als dit eerder goed ging"
             ],
             "rows": [
               [
                 "W41 · herstel",
-                "Geen hoge inname nodig; hoogstens bekend voedingsmoment",
-                "Normaal eten en drinken"
+                "Geen extra gels nodig bij normaal gevoede korte easy runs",
+                "—",
+                "Vertrouwd product oefenen mag, niet nodig"
               ],
               [
                 "W42 · 95 min",
-                "3×40 g = 120 g = 75,8 g/u",
-                "2 gels op 25/65 min = 80 g = 50,5 g/u"
+                "2 gels à 40 g rond minuut 25 en 65",
+                "50,5 g/u",
+                "Meer alleen bij bewezen tolerantie"
               ],
               [
                 "W43 · 120 min",
-                "4×40 g = 160 g = 80,0 g/u",
-                "3 gels op 20/60/100 min = 120 g = 60,0 g/u"
+                "3 gels à 40 g rond minuut 20, 60 en 100",
+                "60,0 g/u",
+                "Waterpunt en maagreactie evalueren"
               ],
               [
-                "W44 · 145 min",
-                "5×40 g = 200 g = 82,8 g/u",
-                "4 gels op 15/50/85/120 min = 160 g = 66,2 g/u"
+                "W44 · 140 min",
+                "4 gels à 40 g rond minuut 15, 50, 85 en 120",
+                "68,6 g/u",
+                "Circa 70 g/u is trainingsdoel"
               ],
               [
-                "W45 · 165 min",
-                "5×40 g + 20 g sportdrank = 220 g = 80,0 g/u",
-                "5 gels, 200 g = 72,7 g/u, als dit je best bewezen niveau is"
+                "W45 · 160 min",
+                "5 gels à 40 g rond minuut 15, 45, 75, 105 en 135",
+                "75,0 g/u",
+                "+ circa 10 g uit beproefde sportdrank = 78,8 g/u"
               ],
               [
                 "W46 · 80 min",
-                "2 gels = 80 g = 60,0 g/u",
-                "Vertrouwde lagere inname; geen nieuwe tolerantieproef"
+                "Normaal eten; eventueel 1–2 vertrouwde gels",
+                "Niet afdwingen",
+                "Geen nieuwe darmtolerantietest in taper"
               ]
             ]
           },
           {
             "type": "paragraph",
-            "text": "De lagere kolom verandert de looptraining niet; zij voorkomt dat een voedingsdoel als bewezen absorptievermogen wordt behandeld. Herhaalde hoge oefeninname kan de racepraktijk verbeteren, maar individuele tolerantie blijft bepalend. De extra 20 g in W45 kan bijvoorbeeld in je eigen 250 ml zitten als die concentratie eerder is getest; anders via bekende sportdrank langs de route. Daarmee zijn waterpunten nog steeds noodzakelijk."
-          },
-          {
-            "type": "paragraph",
-            "text": "Easy tot circa 60 min: normaal gevoed starten, gels niet verplicht. Voor de langere MP-sessies is een gewone koolhydraatrijke maaltijd voldoende als basis; desgewenst een bekend gelmoment oefenen, zonder de sessie tot voedingswedstrijd te maken."
+            "text": "Timing is een uitvoerbaar voorbeeld, geen metabole klok. Verleg gelmomenten zo nodig naar beschikbare waterpunten. Gebruik vertrouwde hoeveelheden water naar behoefte en volgens productinstructie; vermijd zowel geen water bij dorst als geforceerd veel drinken. Eén of meer keren vóór W45 ook een vertrouwde gel tijdens of vlak rond een MP-workout oefenen (bijvoorbeeld vóór of tussen de blokken), zonder die workout langer te maken. Als 50–60 g/u al slecht valt, ga dan niet op goed geluk naar 80 g/u."
           },
           {
             "type": "heading",
-            "text": "Marathonvoorraad voor 3:50 = 3,8333 uur"
-          },
-          {
-            "type": "table",
-            "headers": [
-              "Gemiddelde tijdens race",
-              "Benodigd totaal bij 230 min",
-              "Praktische gelvoorraad bij 40 g/gel"
-            ],
-            "rows": [
-              [
-                "75 g/u",
-                "287,5 g",
-                "7 gels = 280 g plus 7,5 g uit drank; of 8 gels voor 83,5 g/u"
-              ],
-              [
-                "80 g/u",
-                "306,7 g",
-                "7 gels plus 26,7 g uit drank; of 8 gels voor 83,5 g/u"
-              ],
-              [
-                "90 g/u",
-                "345,0 g",
-                "8 gels plus 25 g uit drank; uitsluitend na bewezen tolerantie"
-              ]
-            ]
+            "text": "Marathonvoorraad en eerder gelijkmatige gelmomenten"
           },
           {
             "type": "paragraph",
-            "text": "Praktisch centraal racepatroon: 8 gels van 40 g op 15, 45, 75, 105, 135, 165, 195 en 220 minuten = 320 g / 3,8333 uur = 83,5 g/u. De laatste gel is bewust iets vroeger dan een volledig 30-minutenritme, zodat hij voor de verwachte finish valt. Extra koolhydraten uit drank verhogen dit gemiddelde: voor een geoefende 90 g/u past maximaal circa 25 g drankkoolhydraten boven deze acht gels. Water bevat geen koolhydraten."
+            "text": "3:50 = 230 minuten = 3,833 uur. Bij dat tempo komt 75 g/u uit op 287,5 g; 80 g/u op 306,7 g; 85 g/u op 325,8 g. Acht gels à 40 g = 320 g = 83,5 g/u. Zeven gels geven 280 g = 73,0 g/u zonder aanvullende koolhydraten. Met zeven gels en circa 27 g koolhydraten uit reeds beproefde drank kom je bij ongeveer 80 g/u."
           },
           {
             "type": "paragraph",
-            "text": "Gel vóór de start hoort bij de voorstartvoeding en telt niet als één van de acht tijdens-racegels. Neem een reservegel mee wanneer praktisch; niet automatisch extra consumeren. Bij 4 uur leveren acht gels 80 g/u; de timing blijft beoordeeld op werkelijke raceduur en tolerantie. Bij een langere race moet bevoorrading langer beschikbaar zijn."
+            "text": "Voorlopig patroon als acht gels bewezen worden verdragen: minuten sinds start 10, 38, 66, 94, 122, 150, 178, 206. Zo valt de laatste gel niet pas tien minuten vóór de geplande finish. Dit zijn richtmomenten: verschuif ze indien nodig naar echte waterpunten en neem niet méér dan je eerder hebt getest. Deze race-inname ligt iets hoger dan de basisproef van 75 g/u in W45; probeer dus niet pas op racedag voor het eerst acht gels in dat ritme te nemen. Een gel vóór de start valt buiten dit racepatroon en hoort bij de normale voorstartvoeding."
+          },
+          {
+            "type": "paragraph",
+            "text": "De inname van 75–85 g/u is een geoefende richting, geen gegarandeerde prestatieverhoging. Neem waar praktisch een reservegel mee; niet automatisch extra opeten. Bij een langzamere eindtijd moet ook de voorraad langer kunnen meegaan. Afstemming op definitieve wedstrijdposten blijft noodzakelijk."
           },
           {
             "type": "heading",
-            "text": "Water, ontbijt en voorbereiding"
+            "text": "Drinkwater, ontbijt, koolhydraatrijke voorbereiding en materiaal"
           },
           {
-            "type": "paragraph",
-            "text": "Maximaal 250 ml eigen vloeistof is een draagvoorkeur, geen totale vochtbehoefte voor een marathon. Plan vooraf water langs trainingsroute en race. Drink volgens dorst, geoefende behoefte en weer; geen geforceerd universeel literschema. Stem gelmomenten af op bereikbare waterpunten en jouw verpakking/tolerantie. Elektrolyten vervangen geen water of koolhydraten. Er wordt geen persoonlijke natriumdosering afgeleid uit alleen lichaamsgewicht."
+            "type": "item",
+            "text": "Waterroute: je draagt hoogstens 250 ml eigen drank uit voorkeur, niet als maximale totale vochtinname. Inventariseer drinkmogelijkheden voor W43–45 en in de officiële race-informatie; bij geen betrouwbare waterpunten onderweg organiseer een lus langs een kraan/voorraad. Drink naar dorst, omstandigheden en beproefde behoefte. Een geconcentreerde gel kan prettig zijn met water; volg etiket en eigen maagervaring. Geen universele liter- of natriumwaarde uit alleen lichaamsgewicht afleiden."
           },
           {
-            "type": "paragraph",
-            "text": "Oefen in W44 en vooral W45 het vertrouwde koolhydraatrijke ontbijt circa 2–3 uur voor vertrek, of jouw reeds bewezen interval. Gebruik dezelfde producten en porties op racedag. De laatste dagen eet je koolhydraatrijk met vertrouwde voeding; vermijd ongeteste enorme porties of plots veel vezels. Geen bewust energietekort tijdens opbouw. Na training een gewone maaltijd met koolhydraten en eiwit en voldoende slaap."
+            "type": "item",
+            "text": "Ontbijt: test in W44 en vooral W45 een vertrouwd, koolhydraatrijk ontbijt op ongeveer hetzelfde tijdstip vóór de training als op de wedstrijddag. Gangbare wedstrijdrichtlijnen lopen uiteen; als 2–3 g/kg bij 73 kg (ongeveer 146–219 g koolhydraten) voor jou vertrouwd en verdraagbaar is, kan dat passen, maar kleinere geoefende porties zijn beter dan een ongeteste enorme maaltijd."
           },
           {
-            "type": "paragraph",
-            "text": "Controleer uiterlijk in W45: raceschoenen, kleding, gelopslag, schuurplekken, H9-batterij/verbinding, GPS en horlogebatterij. Geen nieuw schoenmodel, geltype of cafeïneplan op racedag. De exacte posten, aangeboden producten, starttijd, netto/brutoregels en eventuele tijdslimiet zijn nog niet in dit bestand bevestigd; raadpleeg de definitieve deelnemersinformatie. De opgegeven 22 november is de plandatum, niet een hier geverifieerde organisatormededeling."
+            "type": "item",
+            "text": "Laden: de laatste circa 36–48 uur kunnen goed getrainde lopers baat hebben bij een duidelijk hogere koolhydraatinname, vaak rond 8–10 g/kg/dag (bij 73 kg circa 584–730 g per dag) als de hoeveelheid verdragen wordt. Dat is een *richtsnoer*, geen verplicht persoonlijk minimum. Gebruik bekende koolhydraatbronnen, beperk extreem vezelrijke of vette maaltijden als je daar last van krijgt en test eerder hoe je maag hierop reageert. Geen energiebeperking in de opbouw."
+          },
+          {
+            "type": "item",
+            "text": "Materiaal: raceschoenen en sokken uiterlijk tijdens de W43- of W44-confidence run testen (niet voor het eerst W45), evenals shirt/broek, bescherming tegen schuren, gels meenemen, je horloge en H9. Laatste confidence run W45 oefent dezelfde praktische routine. Geen nieuwe schoenen, gelproducten of cafeïnestrategie op racedag."
+          },
+          {
+            "type": "item",
+            "text": "Wedstrijdinformatie: exacte officiële posten, beschikbare drank, starttijd, netto/brutotijd en tijdlimiet zijn niet in dit bestand geverifieerd. Controleer die informatie vóór het definitieve gel- en waterplan. De racedatum 22 november is de plandatum in dit schema."
           }
         ]
       },
@@ -16244,7 +16292,7 @@ window.MARATHON_PLAN = {
         "blocks": [
           {
             "type": "paragraph",
-            "text": "Bronnen geraadpleegd voor V8 op 5 oktober 2026. De exacte sessieduren en progressie zijn individuele planningskeuzes; onderzoek valideert dit persoonlijke schema of een kans op 3:50 niet."
+            "text": "V9.2 behoudt de bronverwijzingen uit de eerdere versies; twee onafhankelijke analyses zijn besproken, maar de persoonlijke weekindeling is een coachingskeuze, geen rechtstreeks wetenschappelijk bewezen optimum. De exacte sessieduren en progressie zijn individuele planningskeuzes; onderzoek valideert dit persoonlijke schema of een kans op 3:50 niet. De vernieuwde weekverdeling en het praktische voedingsplan zijn op 8 oktober 2026 vastgelegd."
           },
           {
             "type": "paragraph",
@@ -16252,7 +16300,7 @@ window.MARATHON_PLAN = {
           },
           {
             "type": "paragraph",
-            "text": "2. Taper: Wang e.a. (2023), meta-analyse: volumevermindering met behoud van intensiteitsprikkels kan duurprestaties verbeteren. De exacte optimale taper verschilt per sport en persoon. Twee weken met korte MP en minder volume is de praktische vertaling in V8. [PLOS ONE](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0282838)."
+            "text": "2. Taper: Wang e.a. (2023), meta-analyse: volumevermindering met behoud van intensiteitsprikkels kan duurprestaties verbeteren. De exacte optimale taper verschilt per sport en persoon. Twee weken met korte MP en minder volume is de praktische vertaling in V9.2. [PLOS ONE](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0282838)."
           },
           {
             "type": "paragraph",
@@ -16264,7 +16312,7 @@ window.MARATHON_PLAN = {
           },
           {
             "type": "paragraph",
-            "text": "5. Productinhoud: officiële SiS Beta Fuel Energy Gel-informatie vermeldt 40 g koolhydraten per gel. V8 gebruikt dat voor de voorraadberekeningen, zonder marketingclaims over noodzakelijke hoge doseringen over te nemen. [Science in Sport](https://www.scienceinsport.com/eu/shop-sis/all-products/beta-fuel-gels-sis)."
+            "text": "5. Productinhoud: officiële SiS Beta Fuel Energy Gel-informatie vermeldt 40 g koolhydraten per gel. V9.2 gebruikt dat voor de voorraadberekeningen, zonder marketingclaims over noodzakelijke hoge doseringen over te nemen. [Science in Sport](https://www.scienceinsport.com/eu/shop-sis/all-products/beta-fuel-gels-sis)."
           },
           {
             "type": "paragraph",
@@ -16273,84 +16321,76 @@ window.MARATHON_PLAN = {
         ]
       },
       "9": {
-        "title": "Kwaliteitscontrole V8",
+        "title": "Kwaliteitscontrole V9.2",
         "blocks": [
           {
             "type": "table",
             "headers": [
               "Controle",
-              "Gecontroleerde uitkomst"
+              "Uitkomst"
             ],
             "rows": [
               [
-                "Doel en pace",
-                "A 3:50; 5:27,05/km; alle trainings-MP 5:24–5:30/km"
+                "Doel",
+                "A: 3:50:00 op 22 november 2026; PR en sub-4 blijven alternatieven; MP 5:24–5:30/km"
               ],
               [
-                "Kalender",
-                "ISO-weken 41–47; race zondag 22 november 2026"
+                "Feitelijke Garmin-training",
+                "7 oktober: 10,09 km in 58:56, 5:51/km, gemiddeld 129 bpm met Polar H9; alleen die sessie als uitgevoerd aangeduid"
               ],
               [
-                "Frequentie",
-                "W41 vier runs + fiets; W42–45 vijf runs; W46 vier runs; W47 drie korte runs + race"
+                "Voorkeursdagen",
+                "W42–45 di easy, wo MP, do easy, vr rust, za easy, zo lang, ma rust"
               ],
               [
-                "Fietsen",
-                "Alleen de behouden W41-rit; geen geplande fietsritten W42–47"
+                "Sessieminuten",
+                "W41 170 (+ 60 fiets gepland); W42 240; W43 285; W44 310; W45 320; W46 195; W47 65 vóór de race"
               ],
               [
-                "Loop-sessietotalen",
-                "185 / 240 / 295 / 320 / 330 / 195 / 65 min vóór race"
-              ],
-              [
-                "Werkelijk geplande rentijd W41",
-                "164 min + 21 min wandelen; fiets 60 min apart"
-              ],
-              [
-                "MP-totalen",
-                "0 / 24 / 30 / 40 / 40 / 20 / 8 min vóór race"
-              ],
-              [
-                "Repeats en herstel",
-                "Herstel inbegrepen na laatste repeat; alle individuele duurcontroles sluiten"
+                "MP-minuten",
+                "W42–45 24 / 30 / 40 / 35; W46 20; W47 8; W45 35 min continu"
               ],
               [
                 "Lange duur",
-                "95 / 120 / 145 / 165 min; alle easy, aaneengesloten; taperduur 80 min"
+                "W42–45 95 / 120 / 140 / 160 min, volledig easy; W46 80 min; geen fast finish"
               ],
               [
-                "Spreiding",
-                "W42–45 MP woensdag, recovery donderdag, vrijdag en maandag rust, duur zondag; zeven dagen tussen lange duurlopen"
+                "Week-kilometers",
+                "Rekenvoorbeeld bij easy 6:15/km en MP 5:27/km: 39,0 / 46,3 / 50,5 / 52,0 km in W42–45"
               ],
               [
-                "Belasting",
-                "Grote herstartstap en hoog lange-duuraandeel expliciet; afstandsrange geen quota"
+                "Inspanningsdoel",
+                "Gemeten 5:51/km referentie; easy/recovery op gevoel (Geen doel / Vrij), geen arbitrair 145-bpm-plafond"
               ],
               [
-                "Taper",
-                "Vanaf 9 november; geen late piek of test; korte MP behouden"
+                "Confidence",
+                "Two-Hour 120 min W43; Half Marathon+ 140 min W44; Final Distance 160 min W45; MP-confidence 35 min continu W45"
+              ],
+              [
+                "Garmin",
+                "Nieuwe V9_2-IDs; stappen en bloktotalen conform de individuele workouttabellen; loopbandalternatieven behouden"
               ],
               [
                 "Voeding",
-                "230-minutenbasis; 75–90 g/u = 287,5–345 g; acht 40-g-gels = 83,5 g/u"
+                "Lage instap als standaard: ca. 50,5 / 60 / 68,6 / 75–78,8 g/u; 8-gel-raceschema alleen na bewezen tolerantie"
               ],
               [
-                "Race",
-                "Constante en beheerste-start-tussentijden afzonderlijk berekend; officiële finish leidend"
+                "Taper",
+                "W46 195 en W47 65 min vóór de race, MP-prikkel behouden"
               ],
               [
-                "Geschiedenis",
-                "Alleen gerapporteerde resultaten; 3 oktober inclusief ongeclassificeerde 1:02 behouden"
+                "Onzekerheden",
+                "Werkelijke septemberweekvolumes niet bevestigd; 3:50 nog geen bewezen vorm; raceposten en eigen voedingstolerantie onbekend"
               ],
               [
                 "Versiebehoud",
-                "Nieuw V8-bestand; V6 en V7 zijn niet overschreven"
+                "Nieuw V9.2-bestand; V8, V9 en V9.1 blijven ongewijzigd"
               ]
             ]
           },
           {
             "type": "paragraph",
-            "text": "Actief trainingsdoel: 3:50. De praktische evaluatie onderweg beoordeelt hoe goed de werkelijke uitvoering dat doel ondersteunt en welk raceplan uiteindelijk bij je vorm past."
+            "text": "Actief trainingsdoel: 3:50. Dit schema is een ambitieus uitvoeringsplan, geen wetenschappelijk gevalideerde individuele prestatievoorspelling. Vertrouwen volgt uit het daadwerkelijk verwerken van trainingsweken en de lange runs — niet uit één hartslagwaarde."
           }
         ]
       }
@@ -16364,7 +16404,9 @@ window.MARATHON_PLAN = {
       "Laatste langere duur uiterlijk 8 november; taper vanaf 9 november. Race op 22 november."
     ],
     "painRules": [
-      "Rustige tempo's zijn geen opdrachten. Voor afstandsschattingen gebruiken we 6:30–7:30/km, met 7:00 als rekenvoorbeeld. Rustiger lopen mag wanneer dat het juiste praattempo is. Je hoeft niet binnen deze range te blijven. De Polar H9 registreert hartslag als observatie; geen verplichte zone 2, geen universele hartslagcap. Een borstband kalibreert hartslagzones niet automatisch.",
+      "Persoonlijke pace-referentie: 5:51/km uit de succesvolle Garmin/Polar-training van 7 oktober (10,09 km, 129 bpm gemiddeld, nog veel reserve volgens je eigen gevoel). Dat is jouw recent gemeten normale ontspannen hardlooppace voor circa een uur; niet een gegarandeerd hersteltempo en ook niet de snelheid waarop je 165 minuten moet hardlopen.",
+      "Bij easy, recovery en long runs blijft Garmin-target = Geen doel / Vrij. Loop zó dat je gemakkelijk hele zinnen kunt spreken en je het gecontroleerd volhoudt (meestal RPE 2–3/10); recovery en warming-up mogen nadrukkelijk trager. Om te plannen tonen we 6:15/km als middenvoorbeeld, plus de scenario's 6:00 en 6:30/km voor de rustige minuten. Deze rekentempo's zijn geen pace-opdrachten. De werkelijke gemiddelde afstand kan lager liggen, vooral wanneer in- en uitlopen trager gaat of bij zwaardere benen, warmte of hoogteverschil. De H9 registreert de hartslag; er is geen verplichte hartslagzone en de band kalibreert je persoonlijke zones niet automatisch.",
+      "Start van lange duurlopen: de eerste 10–20 minuten bewust extra ontspannen; versnel niet om een kilometerdoel te halen. Houd de inspanning en praatbaarheid leidend. Er is geen evidence-based individuele hartslagcap van 145 bpm vastgesteld uit één Polar-training.",
       "MP 5:24–5:30/km is een trainingsrange. Een marathon volledig op 5:30/km duurt 3:52:04; voor 3:50 moet het werkelijke gemiddelde dichter bij 5:27 liggen. Bij wind of heuvels blijf je gecontroleerd lopen; jaag niet op kortstondige GPS-fluctuaties. Normale lichte vermoeidheid hoort bij de opbouw.",
       "Deze plaatsing geeft circa 96 uur van woensdag-MP tot zondag-duur en circa 72 uur van zondag-duur tot de volgende MP-sessie, bij vergelijkbare starttijden. Maandag is een volledige rustdag na de duurloop. Duurlopen staan zeven dagen uiteen. Donderdag is een korte easy-run na de MP-sessie; vrijdag is volledige rust. De zaterdagrun blijft easy, zonder fast finish.",
       "Vrije dagkeuze blijft mogelijk: schuif sessies met minimaal 48 uur tussen MP en lange duur in beide richtingen, bij voorkeur 72 uur of meer, en een volledige rustdag na lange duur. Houd lange duurlopen ongeveer 6–8 dagen uiteen. Geen dubbele sessies om vijf loopdagen administratief te halen.",
@@ -16375,7 +16417,7 @@ window.MARATHON_PLAN = {
     "philosophy": [
       "A-doel 3:50:00, B-doel een PR onder 3:55:50, C-doel sub 4:00. Ambitie is geen voorspelling of veiligheidsgarantie.",
       "Herstelweek, daarna vijf loopdagen in W42–45. MP 5:24–5:30/km, gericht op 5:27; alle lange duur volledig easy.",
-      "W45 piekt met 165 min generale repetitie; vanaf 9 november taper. Geen krachttraining, extra tests of gemiste kilometers inhalen."
+      "W45 piekt met 320 min, 35 min MP continu en 160 min Final Distance Confidence; vanaf 9 november taper. Geen krachttraining, extra tests of gemiste kilometers inhalen."
     ],
     "paces": [
       {
@@ -16389,12 +16431,6 @@ window.MARATHON_PLAN = {
         "speed": "5:24–5:30/km · band 11,0 km/u",
         "incline": "0%",
         "rpe": "gecontroleerd"
-      },
-      {
-        "type": "Wandelen W41",
-        "speed": "Vrij buiten · band 4–5,5 km/u",
-        "incline": "0%",
-        "rpe": "ontspannen"
       }
     ],
     "surfaceStrategy": {

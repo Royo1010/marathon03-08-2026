@@ -1,1 +1,1 @@
-import "./generate-marathon-plan-v8.mjs";
+import "./generate-marathon-plan-v9-2.mjs";

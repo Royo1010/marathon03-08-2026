@@ -1,14 +1,14 @@
 # Marathon 2026 · 3:50
 
 Statische trainingsplanner voor Roy, geoptimaliseerd voor iPhone en GitHub Pages.
-Actieve build: **2026.10.05-4**.
+Actieve build: **2026.10.08-1**.
 
 ## Inhoudelijke Bron
 
-`marathonschema_Roy_FINAL_V8_350_GARMIN_OUTDOOR_2026-10-05.md` is de enige actieve schemabron.
+`marathonschema_Roy_FINAL_V9_2_350_GARMIN_OUTDOOR_2026-10-08.md` is de enige actieve schemabron.
 Oudere schema's en hun generators blijven historische documenten, niet actieve databronnen.
 
-V8 omvat W41–47, 33 genummerde sessies: 31 gewone runs, een fietsrit en de marathon.
+V9.2 omvat W41–47, 33 genummerde sessies: 31 gewone runs, een fietsrit en de marathon.
 A-doel 3:50:00; B-doel PR onder 3:55:50; C-doel sub 4:00 op 22 november 2026.
 Doeltempo 5:27/km, Garmin MP 5:24–5:30/km.
 W41 vier runs en een fietsrit; W42–45 vijf runs; W46 vier; W47 drie korte runs plus race.
@@ -28,15 +28,19 @@ van indicatieve loopbandstartbereiken.
 
 | Week | Loopsessie | Rentijd | Wandelen | Fiets | MP |
 |---|---:|---:|---:|---:|---:|
-| 41 | 185 | 164 | 21 | 60 | 0 |
+| 41 | 170 | 170 | 0 | 60 | 0 |
 | 42 | 240 | 240 | 0 | 0 | 24 |
-| 43 | 295 | 295 | 0 | 0 | 30 |
-| 44 | 320 | 320 | 0 | 0 | 40 |
-| 45 | 330 | 330 | 0 | 0 | 40 |
+| 43 | 285 | 285 | 0 | 0 | 30 |
+| 44 | 310 | 310 | 0 | 0 | 40 |
+| 45 | 320 | 320 | 0 | 0 | 35 |
 | 46 | 195 | 195 | 0 | 0 | 20 |
 | 47 vóór race | 65 | 65 | 0 | 0 | 8 |
 
-Alle waarden in minuten; marathonbelasting telt apart.
+Alle waarden in minuten; marathonbelasting telt apart. W43/W44/W45 lange duur:
+120/140/160 minuten. W45 Training 2 heeft 35 minuten onafgebroken MP binnen 55 minuten.
+De run van 7 oktober is een door Roy aangeleverd werkelijk resultaat: 58:56,
+10,09 km, 5:51/km, 129 bpm, circa 176 spm en Polar H9. De geplande 60 minuten
+en de planstappen worden niet als werkelijk uitgevoerde stappen gepresenteerd.
 
 ## Navigatie En Uitvoering
 
@@ -45,9 +49,12 @@ Alle waarden in minuten; marathonbelasting telt apart.
 - Iedere gewone run heeft directe Garmin- en Loopbandacties en een eigen detailscherm.
 - Garmin easy: Geen doel. MP: Tempo 5:24–5:30/km, richtpunt 5:27.
 - Repeats bevatten ook herstel na de laatste herhaling; geen losse eerste repeat.
-- Loopband: dezelfde minuten/repeats en 0% starthelling. Vanaf W42 easy op praattempo/RPE zonder vaste snelheid; MP 11,0 km/u. Alleen W41 behoudt de bronranges.
+- Loopband: dezelfde minuten/repeats en 0% starthelling. Easy op praattempo/RPE zonder vaste snelheid; MP 11,0 km/u.
 - Voorkeursdatums staan bij iedere training; vrije dagkeuze en spreidingsregels blijven behouden.
-- Afstandsschattingen gebruiken easy 6:30–7:30/km en MP 5:24–5:30/km, nooit als kilometerquotum. Marathon apart.
+- Afstandsschattingen gebruiken easy 6:00–6:30/km, midden 6:15/km en MP 5:27/km; nooit als kilometerquotum. De recente 5:51/km is een persoonlijke referentie, geen easy-target. Marathon apart.
+- W44 lange duur: gecorrigeerde schatting 21,5–23,3 km, midden 22,4 km. De bekende bronfout wordt alleen in afgeleide apptekst gecorrigeerd; de bron blijft bytegetrouw bewaard.
+- Confidence runs hebben een herkenbare badge, doel, voeding en uitvoering. Checkpoints staan in het marathonoverzicht en Informatie.
+- Voeding bouwt op via 2/3/4/5 gels van 40 g in W42–45. Voorlopige racetijden: 10, 38, 66, 94, 122, 150, 178 en 206 minuten, alleen volgens geteste tolerantie en waterposten.
 - Fietsen: timer/tijdalerts op FR165; geen onbevestigde Connect-workoutsync.
 - Race: gewone Hardlopen-activiteit tot officiële finish. Geen GPS-afstand als stopopdracht.
 - Statistieken, grafieken en invoer na afloop zijn verwijderd; Garmin registreert activiteiten.
@@ -56,13 +63,17 @@ Alle waarden in minuten; marathonbelasting telt apart.
 
 ## Opslag En Backups
 
-Vaste hoofdkey: `marathon330TrainingAppData_v1`, dataversie **13**.
-V8 heeft eigen protocol-IDs. Migratie archiveert oudere activiteiten, completion,
-notities, testresultaten, voeding en oude plankeuzes in `legacyData.finalV8History`.
-Ze markeren geen inhoudelijk andere V8-training voltooid. Alleen de onafhankelijk
-geverifieerde, identieke W41-protocollen nemen hun vinkje mee, als "Al uitgevoerd (V6)".
-De originele uitvoering wordt niet als V8-log gekopieerd. Persoonlijke instellingen,
+Vaste hoofdkey: `marathon330TrainingAppData_v1`, dataversie **14**.
+V9.2 heeft eigen protocol-IDs. Migratie archiveert oudere activiteiten, completion,
+notities, testresultaten, voeding en oude plankeuzes in `legacyData.finalV9_2History`.
+Ze markeren geen inhoudelijk andere V9.2-training voltooid. Alleen onafhankelijk
+geverifieerde, identieke Garmin-protocollen nemen hun vinkje mee met hun oorspronkelijke versie.
+De originele uitvoering wordt niet als V9.2-log gekopieerd. Persoonlijke instellingen,
 pushregistratie en eerdere archieven blijven behouden; migratie is idempotent.
+De expliciet gerapporteerde activiteit van 7 oktober krijgt een stabiel activityId,
+een eigen werkelijk resultaat en een voltooid-status. Herladen dupliceert deze niet.
+De run wordt niet automatisch uit Garmin opgehaald. Toekomstige trainingen afvinken
+vraagt bevestiging van daadwerkelijke uitvoering; de gerapporteerde activiteit kan niet worden teruggezet naar nog te doen.
 
 Data & app werkt onafhankelijk van trainingsberekeningen. Het biedt opslagstatus,
 JSON-export, kopieerfallback, bestand/plakimport met validatie en bevestiging,
@@ -80,8 +91,8 @@ Publiceer `index.html`, `app.js`, `training-data.js`, `style.css`,
 Geen nieuw framework of backend nodig. De reeds bestaande optionele pushserver
 en zijn configuratie blijven intact; zie `PUSH-DEPLOYMENT.md`.
 Publiceer ook de gewijzigde bestaande pushserver als je Lock Screen-meldingen
-gebruikt: de validator en meldingstekst ondersteunen nu ook zelfgestuurd easy-tempo
-naast numerieke MP-targets. Zonder die serverupdate werken nieuwe V8-pushwissels niet.
+gebruikt en die server nog niet met V8 is bijgewerkt: de validator en meldingstekst
+ondersteunen zelfgestuurd easy-tempo naast numerieke MP-targets. V9.2 gebruikt dezelfde ondersteuning.
 
 Het nieuwe kalender/hardloperlogo staat in `icon.svg`, `apple-touch-icon.png`,
 `app-icon-192.png` en `app-icon-512.png`. Alle iconverwijzingen zijn versioned.
@@ -99,6 +110,7 @@ node --test push-server/tests/*.test.mjs
 
 Tests controleren bronreproductie, alle tabelrijen, exacte duren, repeats,
 weekvolume/MP, wandelen/fietsen, datumgrenzen, Garmin-targets, loopbandtijdlijnen,
-detailnavigatie, V5-historiebehoud, completion/autosave, import/validatie,
+detailnavigatie, V5/V6/V8-historiebehoud, idempotente werkelijke resultaten,
+completion/autosave, import/validatie,
 corruptiefallback, countdown, PWA-paden, pushmodel en kleurcontrast.
 Er is geen automatische medische of marathon-eindtijdvoorspelling.
