@@ -1,7 +1,7 @@
 # Marathon 2026 · 3:50
 
 Statische trainingsplanner voor Roy, geoptimaliseerd voor iPhone en GitHub Pages.
-Actieve build: **2026.10.08-1**.
+Actieve build: **2026.10.08-2**.
 
 ## Inhoudelijke Bron
 
@@ -45,7 +45,7 @@ en de planstappen worden niet als werkelijk uitgevoerde stappen gepresenteerd.
 ## Navigatie En Uitvoering
 
 - Vandaag / Week / Schema / Meer.
-- Meer bevat Fases, Voeding & herstel, Informatie, marathonoverzicht en Data & app.
+- Meer bevat Fases, Voeding & herstel, Garmin Reviews, Informatie, marathonoverzicht en Data & app.
 - Iedere gewone run heeft directe Garmin- en Loopbandacties en een eigen detailscherm.
 - Garmin easy: Geen doel. MP: Tempo 5:24–5:30/km, richtpunt 5:27.
 - Repeats bevatten ook herstel na de laatste herhaling; geen losse eerste repeat.
@@ -57,13 +57,41 @@ en de planstappen worden niet als werkelijk uitgevoerde stappen gepresenteerd.
 - Voeding bouwt op via 2/3/4/5 gels van 40 g in W42–45. Voorlopige racetijden: 10, 38, 66, 94, 122, 150, 178 en 206 minuten, alleen volgens geteste tolerantie en waterposten.
 - Fietsen: timer/tijdalerts op FR165; geen onbevestigde Connect-workoutsync.
 - Race: gewone Hardlopen-activiteit tot officiële finish. Geen GPS-afstand als stopopdracht.
-- Statistieken, grafieken en invoer na afloop zijn verwijderd; Garmin registreert activiteiten.
+- Statistieken, grafieken en algemene invoer na afloop zijn verwijderd; Garmin registreert activiteiten. Een Garmin Review kan wel optionele ervaringen bevatten.
 - Eenvoudig afvinken blijft voor de volgende training en programmavoortgang; geen automatische herstelbeoordeling.
 - De timer, Wake Lock, inklapbare meldingen en bestaande pushintegratie blijven behouden.
 
+## Garmin Reviews
+
+W42–45 hebben ieder twee aanbevolen reviews: de woensdagse MP-training en de
+zondagse lange duur/confidence run. W46 heeft twee optionele taperreviews zonder
+achterstallige herinneringen; W47 heeft alleen een Marathon Race Review.
+Alle 11 reviews zijn gekoppeld aan bestaande workout-IDs, zonder dubbele trainingen.
+
+De weekpagina toont reviewvoortgang boven de trainingen. De betreffende kaarten
+en details hebben directe reviewacties. Meer → Garmin Reviews groepeert komende,
+openstaande, gedeelde en overgeslagen reviews. Alleen gedeelde reviews tellen mee
+in de voortgang; een training afronden deelt nooit automatisch een review.
+
+Gedeeld/overgeslagen registreren een tijdstip en geschiedenis. Terugzetten naar
+openstaand behoudt optionele ervaringen en geschiedenis. RPE, beengevoel,
+bijzonderheden, herstel en bij lange trainingen voeding/vocht worden direct lokaal
+bewaard en opgenomen in de kopieerbare reviewtekst. Zonder klembordondersteuning
+verschijnt een tekstvak om de tekst zelf te kopieren.
+
+Herinneringen worden vanaf maandag na weekeinde samengevoegd op Vandaag, ook als
+de app pas meerdere weken later opent. De kalendergrens gebruikt Europe/Amsterdam,
+inclusief wintertijd. De bestaande `?date=`-preview volgt dezelfde kalenderregels.
+Afhandelen gebeurt alleen door handmatig delen of bewust overslaan.
+Dit zijn **in-app-herinneringen**, geen wekelijkse push of achtergrondtaak.
+De bestaande loopbandpush blijft apart en ongewijzigd. De app uploadt of analyseert
+geen FIT-bestanden: export uit Garmin Connect en upload naar ChatGPT doe je zelf.
+
 ## Opslag En Backups
 
-Vaste hoofdkey: `marathon330TrainingAppData_v1`, dataversie **14**.
+Vaste hoofdkey: `marathon330TrainingAppData_v1`, dataversie **15**.
+De toevoeging `garminReviews` is aanvullend: een bestaande V9.2-dataset krijgt
+geen nieuwe schemamigratie. Reviews en ervaringen worden meegenomen in backups.
 V9.2 heeft eigen protocol-IDs. Migratie archiveert oudere activiteiten, completion,
 notities, testresultaten, voeding en oude plankeuzes in `legacyData.finalV9_2History`.
 Ze markeren geen inhoudelijk andere V9.2-training voltooid. Alleen onafhankelijk
@@ -86,7 +114,7 @@ met defaults; gebruik geen `localStorage.clear()` bij updates.
 ## PWA En Publiceren
 
 Publiceer `index.html`, `app.js`, `training-data.js`, `style.css`,
-`notification-model.js`, `push-config.js`, `service-worker.js`, `manifest.json`,
+`notification-model.js`, `review-model.js`, `push-config.js`, `service-worker.js`, `manifest.json`,
 `icon.svg`, PNG-appiconen en `icons/`. Alle paden zijn relatief voor GitHub Pages.
 Geen nieuw framework of backend nodig. De reeds bestaande optionele pushserver
 en zijn configuratie blijven intact; zie `PUSH-DEPLOYMENT.md`.
@@ -108,9 +136,21 @@ node --test tests/*.test.mjs
 node --test push-server/tests/*.test.mjs
 ```
 
+Als het V9.2-bronbestand buiten de werkmap staat, geef het pad mee:
+
+```sh
+MARATHON_SCHEMA_SOURCE=/pad/naar/marathonschema_Roy_FINAL_V9_2_350_GARMIN_OUTDOOR_2026-10-08.md node --test tests/*.test.mjs push-server/tests/*.test.mjs
+```
+
+De twee historische V6/V8-bronreproductietests worden expliciet overgeslagen
+wanneer die oudere bronbestanden niet meer aanwezig zijn. De actieve V9.2-bron,
+opslagmigratietests en reviewtests blijven apart gecontroleerd.
+
 Tests controleren bronreproductie, alle tabelrijen, exacte duren, repeats,
 weekvolume/MP, wandelen/fietsen, datumgrenzen, Garmin-targets, loopbandtijdlijnen,
 detailnavigatie, V5/V6/V8-historiebehoud, idempotente werkelijke resultaten,
 completion/autosave, import/validatie,
-corruptiefallback, countdown, PWA-paden, pushmodel en kleurcontrast.
+corruptiefallback, countdown, PWA-paden, pushmodel, kleurcontrast, reviewkoppelingen,
+statusopslag/undo, onafhankelijke completion, backupherstel, weekvoortgang,
+maandaggrenzen in zomer/wintertijd en meerdere weken achterstallige reviews.
 Er is geen automatische medische of marathon-eindtijdvoorspelling.

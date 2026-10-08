@@ -3564,6 +3564,7 @@ body.treadmill-focus-active .content {
 .icon-circle-check { --icon: url("./icons/circle-check.svg"); }
 .icon-circle { --icon: url("./icons/circle.svg"); }
 .icon-bike { --icon: url("./icons/bike.svg"); }
+.icon-file-up { --icon: url("./icons/file-up.svg"); }
 
 .topbar {
   justify-content: flex-start;
@@ -3828,6 +3829,60 @@ body.treadmill-focus-active .content {
 .data-dialog h2 { margin-bottom: 16px; }
 .data-dialog .text-action { display: flex; width: 100%; justify-content: center; }
 .data-dialog textarea, .info-accordion textarea { display: block; width: 100%; margin-top: 8px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--panel-soft); color: var(--text); font: 16px/1.5 monospace; resize: vertical; }
+
+/* Reviews are distinct from workout completion; only interactive actions use blue. */
+.garmin-review-panel { padding: 16px 0; border-top: 1px solid var(--border); }
+.training-card .garmin-review-panel { margin: 0 16px 12px; }
+.review-heading { display: flex; align-items: flex-start; gap: 10px; }
+.review-heading > .icon { color: var(--accent); flex-shrink: 0; margin-top: 3px; }
+.review-heading > div { flex: 1; min-width: 0; }
+.review-heading > div > span { display: block; color: var(--accent); font-size: 11px; font-weight: 650; }
+.review-heading strong { display: block; margin-top: 4px; font-size: 15px; line-height: 1.35; }
+.review-status { max-width: 105px; text-align: right; color: var(--muted); font-size: 12px; line-height: 1.45; }
+.review-status.is-shared { color: var(--success); }
+.garmin-review-panel p { margin: 10px 0 0; font-size: 13px; line-height: 1.55; }
+.garmin-review-panel small, .review-reminder small { color: var(--muted); line-height: 1.5; }
+.review-purpose, .review-training-state { color: var(--muted); }
+.review-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 16px; margin-top: 8px; }
+.review-actions button { max-width: 100%; line-height: 1.4; text-align: left; }
+.review-actions .text-action { padding: 8px 0; }
+.review-share { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 12px; border: 1px solid var(--accent); border-radius: var(--radius); background: var(--accent); color: var(--on-accent); font-size: 13px; cursor: pointer; }
+.review-actions .review-skip { color: var(--muted); }
+.week-reviews { margin: 0 0 20px; padding: 16px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.review-section-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.review-section-heading h2, .review-reminder h2 { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 16px; line-height: 1.4; }
+.review-section-heading h2 .icon, .review-reminder h2 .icon { color: var(--accent); flex-shrink: 0; }
+.review-section-heading > strong { color: var(--muted); font-size: 13px; font-weight: 500; }
+.review-summary-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; min-height: 64px; padding: 14px 0; border: 0; border-bottom: 1px solid var(--border); background: transparent; text-align: left; cursor: pointer; }
+.review-summary-row:last-child { border-bottom: 0; }
+.review-summary-row > span:first-child { min-width: 0; flex: 1; }
+.review-summary-row strong, .review-summary-row small { display: block; }
+.review-summary-row strong { margin: 4px 0; font-size: 14px; line-height: 1.4; }
+.review-summary-row small { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.review-summary-row > span:last-child { display: flex; align-items: center; gap: 6px; flex: 0 0 100px; justify-content: flex-end; color: var(--muted); font-size: 12px; line-height: 1.45; text-align: right; }
+.review-summary-row .icon { flex-shrink: 0; color: var(--accent); }
+.review-reminder { margin: 0 0 20px; padding: 16px; background: var(--accent-soft); border-left: 3px solid var(--accent); }
+.review-reminder p { font-size: 14px; line-height: 1.5; }
+.review-reminder-item { padding: 12px 0; border-top: 1px solid var(--border-strong); }
+.review-reminder-item > strong, .review-reminder-item > small { display: block; font-size: 13px; line-height: 1.5; }
+.review-overview-group { margin-top: 24px; }
+.review-overview-group h2 { font-size: 16px; }
+.review-overview-group h2 small { margin-left: 6px; color: var(--muted); font-size: 13px; font-weight: 400; }
+.review-capability, .review-empty, .review-feedback { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.review-feedback { padding: 12px 0; color: var(--accent); }
+.review-fields { display: grid; gap: 14px; }
+.review-fields label, .review-copy-fallback { display: block; font-size: 13px; line-height: 1.5; }
+.review-fields select, .review-fields textarea, .review-copy-fallback textarea { width: 100%; min-height: 44px; margin-top: 6px; padding: 10px; border: 1px solid var(--border-strong); border-radius: var(--radius); background: var(--panel); color: var(--text); font-family: inherit; font-size: 16px; line-height: 1.5; }
+.review-fields textarea, .review-copy-fallback textarea { font-family: inherit; font-size: 16px; resize: vertical; }
+.review-copy-fallback textarea { min-height: 220px; }
+.review-detail .garmin-review-panel { border: 0; padding-top: 0; }
+.review-instructions ol { padding-left: 22px; font-size: 14px; line-height: 1.6; }
+.review-instructions li { margin-bottom: 8px; }
+@media (max-width: 390px) {
+  .review-summary-row { gap: 10px; }
+  .review-summary-row > span:last-child { flex-basis: 90px; }
+  .review-status { max-width: 85px; }
+}
 .data-message { color: var(--muted); font-size: 14px; }
 .training-detail-page .garmin-setup-metrics { grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); }
 /* Ranges are start ranges, not a single prescribed treadmill speed. */

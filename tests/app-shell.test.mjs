@@ -5,6 +5,7 @@ import vm from "node:vm";
 
 const trainingDataCode = fs.readFileSync(new URL("../training-data.js", import.meta.url), "utf8");
 const notificationModelCode = fs.readFileSync(new URL("../notification-model.js", import.meta.url), "utf8");
+const reviewModelCode = fs.readFileSync(new URL("../review-model.js", import.meta.url), "utf8");
 const pushConfigCode = fs.readFileSync(new URL("../push-config.js", import.meta.url), "utf8");
 const appCode = fs.readFileSync(new URL("../app.js", import.meta.url), "utf8");
 const STORAGE_KEY = "marathon330TrainingAppData_v1";
@@ -52,6 +53,7 @@ function createHarness(storageValues = new Map(), search = "?date=2026-10-05", c
   const context = vm.createContext({ console, Date: HarnessDate, Intl, URL, URLSearchParams, Blob, window, document, localStorage, navigator: window.navigator, structuredClone });
   vm.runInContext(trainingDataCode, context, { filename: "training-data.js" });
   vm.runInContext(notificationModelCode, context, { filename: "notification-model.js" });
+  vm.runInContext(reviewModelCode, context, { filename: "review-model.js" });
   vm.runInContext(pushConfigCode, context, { filename: "push-config.js" });
   vm.runInContext(appCode, context, { filename: "app.js" });
 
@@ -71,6 +73,152 @@ function createHarness(storageValues = new Map(), search = "?date=2026-10-05", c
 const saved = (harness) => JSON.parse(harness.localStorage.getItem(STORAGE_KEY));
 const navigate = (harness, view) => harness.click({ "[data-view]": { dataset: { view } } });
 const openWorkout = (harness, id) => harness.click({ "[data-open-workout]": { dataset: { openWorkout: id } } });
+
+test("reviewstatus, ervaringen, undo en overslaan blijven na refresh los van trainingsdata",()=>{
+  const storage=new Map();
+  let harness=createHarness(storage,"?date=2026-10-19");
+  const api=harness.context.window.MarathonApp;
+  const id="garmin-review:V9_2-W42-T2";
+  const original=saved(harness);
+  api.saveReviewField(id,"rpe","5");
+  api.saveReviewField(id,"notes","behouden ervaring");
+  api.setReviewStatus(id,"shared");
+  assert.equal(saved(harness).garminReviews[id].status,"shared");
+  assert.ok(saved(harness).garminReviews[id].sharedAt);
+  assert.deepEqual(saved(harness).completedSessions,original.completedSessions);
+  assert.deepEqual(saved(harness).workoutLogs,original.workoutLogs);
+  assert.deepEqual(saved(harness).nutritionLogs,original.nutritionLogs);
+  harness=createHarness(storage,"?date=2026-10-19");
+  assert.equal(saved(harness).garminReviews[id].notes,"behouden ervaring");
+  assert.equal(harness.context.window.MarathonApp.resolvedReviews().filter(r=>r.overdue).length,1);
+  harness.context.window.MarathonApp.setReviewStatus(id,"pending");
+  assert.equal(harness.context.window.MarathonApp.resolvedReviews().filter(r=>r.overdue).length,2);
+  harness.context.window.MarathonApp.setReviewStatus(id,"skipped");
+  assert.ok(saved(harness).garminReviews[id].skippedAt);
+  assert.equal(saved(harness).garminReviews[id].sharedAt,null);
+  assert.equal(saved(harness).garminReviews[id].history.length,3);
+  navigate(harness,"reviews");
+  assert.match(harness.app.innerHTML,/Overgeslagen reviews/);
+  assert.match(harness.app.innerHTML,/0 van 9 aanbevolen reviews gedeeld/);
+  assert.equal(JSON.parse(harness.context.window.MarathonApp.exportAppData()).garminReviews[id].notes,"behouden ervaring");
+});
+
+test("een training afronden deelt geen review; reminders zijn samengevoegd en persistent",()=>{
+  const storage=new Map();
+  let harness=createHarness(storage,"?date=2026-10-26");
+  harness.context.window.MarathonApp.isCompleted("V9_2-W42-T2");
+  harness.click({"[data-toggle-complete]":{dataset:{toggleComplete:"V9_2-W42-T2"}}});
+  assert.equal(saved(harness).garminReviews["garmin-review:V9_2-W42-T2"],undefined);
+  assert.equal((harness.app.innerHTML.match(/class="review-reminder"/g)||[]).length,1);
+  assert.match(harness.app.innerHTML,/nog 4 Garmin Reviews openstaan/);
+  harness=createHarness(storage,"?date=2026-11-16");
+  assert.equal((harness.app.innerHTML.match(/class="review-reminder"/g)||[]).length,1);
+  assert.match(harness.app.innerHTML,/nog 8 Garmin Reviews openstaan/);
+  navigate(harness,"week");
+  harness.change({"[data-week-select]":true,value:"1"});
+  assert.match(harness.app.innerHTML,/0 van 2 gedeeld/);
+  assert.match(harness.app.innerHTML,/Je Garmin-review staat nog open/);
+});
+
+test("data-upgrade van v14 voegt uitsluitend reviewopslag toe en behoudt alles",()=>{
+  const initial=createHarness();
+  const old=saved(initial);
+  old.appDataVersion=14;
+  old.workoutLogs["V9_2-W42-T2"]={completed:true,note:"eigen notitie",updatedAt:"2026-10-14T12:00:00Z",workoutId:"V9_2-W42-T2",planId:old.activePlanId,completedDate:"2026-10-14"};
+  old.completedSessions["V9_2-W42-T2"]={completedAt:"2026-10-14"};
+  old.testResults.keep={value:1};
+  old.nutritionLogs.keep={value:2};
+  old.legacyData.old={note:"archief"};
+  delete old.garminReviews;
+  const harness=createHarness(new Map([[STORAGE_KEY,JSON.stringify(old)]]));
+  const data=saved(harness);
+  assert.equal(data.appDataVersion,15);
+  for (const [id, log] of Object.entries(old.workoutLogs)) {
+    for (const [field, value] of Object.entries(log)) assert.deepEqual(data.workoutLogs[id][field],value,`${id}.${field}`);
+  }
+  for (const field of ["completedSessions","testResults","nutritionLogs","legacyData","userSettings","reportedActivities"]) assert.deepEqual(data[field],old[field],field);
+  assert.deepEqual(data.garminReviews,{});
+});
+
+test("gedeeld bevestigen kan worden geannuleerd zonder opslagwijziging",()=>{
+  const harness=createHarness();
+  harness.context.window.confirm=()=>false;
+  const before=harness.localStorage.getItem(STORAGE_KEY);
+  harness.context.window.MarathonApp.setReviewStatus("garmin-review:V9_2-W42-T2","shared");
+  assert.equal(harness.localStorage.getItem(STORAGE_KEY),before);
+});
+
+test("klembordfallback toont kopieerbare tekst en wijzigt geen reviewstatus",async()=>{
+  const harness=createHarness();
+  const before=harness.localStorage.getItem(STORAGE_KEY);
+  await harness.click({"[data-copy-review]":{dataset:{copyReview:"garmin-review:V9_2-W45-T2"}}});
+  assert.match(harness.app.innerHTML,/MP: 35 minuten/);
+  assert.match(harness.app.innerHTML,/readonly/);
+  assert.match(harness.app.innerHTML,/Automatisch kopieren lukt hier niet/);
+  assert.equal(harness.localStorage.getItem(STORAGE_KEY),before);
+});
+
+test("reviewvelden weigeren ongeldige invoer en bewaren onbekende oudere reviewdata",()=>{
+  const initial=createHarness();
+  const old=saved(initial);
+  old.garminReviews=[{notes:"oud formaat bewaren"}];
+  const harness=createHarness(new Map([[STORAGE_KEY,JSON.stringify(old)]]));
+  assert.deepEqual(saved(harness).legacyData.previousGarminReviews,old.garminReviews);
+  assert.deepEqual(saved(harness).garminReviews,{});
+  const api=harness.context.window.MarathonApp;
+  const before=harness.localStorage.getItem(STORAGE_KEY);
+  for (const value of ["0","11","1.5","NaN"]) api.saveReviewField("garmin-review:V9_2-W42-T2","rpe",value);
+  api.saveReviewField("garmin-review:V9_2-W42-T2","legs","onbekend");
+  api.saveReviewField("onbekend","notes","geen nieuw record");
+  assert.equal(harness.localStorage.getItem(STORAGE_KEY),before);
+});
+
+test("alle reviewdetails en hun trainingslinks werken; weekvoortgang telt uitsluitend gedeeld",()=>{
+  const harness=createHarness(new Map(),"?date=2026-10-19");
+  const api=harness.context.window.MarathonApp;
+  navigate(harness,"more");
+  assert.match(harness.app.innerHTML,/data-view="reviews"/);
+  navigate(harness,"reviews");
+  assert.match(harness.app.innerHTML,/Komende reviews/);
+  for (const review of api.resolvedReviews()) {
+    harness.click({"[data-open-review]":{dataset:{openReview:review.reviewId}}});
+    const workout=api.plan.allWorkouts.find(w=>w.workoutId===review.trainingId);
+    assert.ok(harness.app.innerHTML.includes(workout.title));
+    assert.ok(harness.app.innerHTML.includes(`data-open-workout="${workout.workoutId}"`));
+    assert.match(harness.app.innerHTML,/Export Original/);
+    assert.match(harness.app.innerHTML,/Mijn ervaring/);
+    assert.match(harness.app.innerHTML,/Reviewstatus is onafhankelijk/);
+    openWorkout(harness,workout.workoutId);
+    assert.match(harness.app.innerHTML,/Garmin Review/);
+  }
+  api.setReviewStatus("garmin-review:V9_2-W42-T2","shared");
+  navigate(harness,"week");
+  harness.change({"[data-week-select]":true,value:"1"});
+  assert.match(harness.app.innerHTML,/1 van 2 gedeeld/);
+  api.setReviewStatus("garmin-review:V9_2-W42-T5","shared");
+  assert.match(harness.app.innerHTML,/2 van 2 gedeeld/);
+  navigate(harness,"today");
+  assert.doesNotMatch(harness.app.innerHTML,/class="review-reminder"/);
+});
+
+test("backup en terugzetten bewaren reviewgeschiedenis en optionele ervaringen",()=>{
+  const source=createHarness();
+  const id="garmin-review:V9_2-W44-T5";
+  const api=source.context.window.MarathonApp;
+  for (const [field,value] of Object.entries({rpe:"4",legs:"goed",notes:"soepel",fueling:"4 gels",fluids:"water",recovery:"normaal"})) api.saveReviewField(id,field,value);
+  api.setReviewStatus(id,"shared");
+  api.setReviewStatus(id,"pending");
+  const backup=api.exportAppData();
+  const destination=createHarness();
+  const destinationApi=destination.context.window.MarathonApp;
+  destinationApi.prepareImport(backup);
+  destinationApi.confirmImport();
+  assert.deepEqual(saved(destination).garminReviews,saved(source).garminReviews);
+  assert.deepEqual(saved(destination).nutritionLogs,saved(source).nutritionLogs);
+  const refreshed=createHarness(destination.localStorage.values);
+  assert.deepEqual(saved(refreshed).garminReviews,saved(source).garminReviews);
+  assert.match(refreshed.context.window.MarathonApp.reviewPrompt(refreshed.context.window.MarathonApp.resolvedReviews().find(r=>r.reviewId===id)),/Voeding: 4 gels/);
+});
 
 test("V8 naar V9.2 behoudt historie en neemt uitsluitend identieke protocollen mee", () => {
   const original = { appDataVersion:13, meta:{schemaVersion:"marathon-final-v8-350-2026.10.05-4"}, completedSessions:{"V8-W42-T2":{completedAt:"2026-10-14"},"V8-W45-T2":{completedAt:"2026-11-04"}}, workoutLogs:{"V8-W42-T2":{completed:true,note:"bestaande notitie"},"V8-W45-T2":{completed:true,actualDurationMinutes:66}}, testResults:{"V8-W45-T2":{note:"test behouden"}},nutritionLogs:{"V8-W45-T2":{gels:2}}, userSettings:{pushClient:{installId:"original"},notificationSettings:{"V8-W42-T2":{enabled:false}}},legacyData:{finalV8History:[{note:"eerder archief"}]}};
@@ -152,7 +300,7 @@ test("lege opslag opent V9.2 geldig zonder grafieken, statistieken of logformuli
   assert.match(harness.app.innerHTML, /Vandaag/);
   assert.match(harness.app.innerHTML, /data-open-garmin="V9_2-W41-T1"/);
   assert.match(harness.app.innerHTML, /data-open-treadmill="V9_2-W41-T1"/);
-  assert.equal(saved(harness).appDataVersion,14);
+  assert.equal(saved(harness).appDataVersion,15);
   assert.equal(saved(harness).activePlanId,"marathon-final-v9-2-350-2026");
   assert.equal(Object.keys(saved(harness).workoutLogs).length,1);
   assert.equal(saved(harness).workoutLogs["V9_2-W41-T2"].actualDurationSeconds,3536);

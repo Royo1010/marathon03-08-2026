@@ -1,18 +1,20 @@
 (function () {
   "use strict";
 
-  const APP_VERSION = "2026.10.08-1";
+  const APP_VERSION = "2026.10.08-2";
   // Keep this key stable. Preserve existing logs; migrate additions and protocol changes.
   const STORAGE_KEY = "marathon330TrainingAppData_v1";
-  const APP_DATA_VERSION = 14;
+  const APP_DATA_VERSION = 15;
   const plan = window.MARATHON_PLAN;
   const model = window.MARATHON_MODEL;
   const notifications = window.MARATHON_NOTIFICATIONS;
+  const reviewModel = window.MARATHON_REVIEWS;
   const pushConfig = window.MARATHON_PUSH_CONFIG || {};
   const PUSH_API_BASE_URL = String(pushConfig.backendUrl || "").replace(/\/$/, "");
   const PUSH_VAPID_PUBLIC_KEY = String(pushConfig.vapidPublicKey || "");
 
-  if (!plan || !model || !notifications) throw new Error("De trainingsdata kon niet volledig worden geladen.");
+  if (!plan || !model || !notifications || !reviewModel) throw new Error("De trainingsdata kon niet volledig worden geladen.");
+  const reviewDefinitions = reviewModel.definitions(plan);
 
   let weeks = plan.weeks || [];
   let workouts = weeks.flatMap((week) => week.workouts || []);
@@ -20,7 +22,7 @@
   const brandHome = document.getElementById("brand-home");
   const navButtons = Array.from(document.querySelectorAll("[data-view]"));
 
-  const VIEWS = { TODAY: "today", WEEK: "week", PLAN: "plan", PHASES: "phases", MORE: "more", DATA: "data", DETAIL: "detail", NUTRITION: "nutrition", INFO: "info", MARATHON: "marathon", TREADMILL: "treadmill" };
+  const VIEWS = { TODAY: "today", WEEK: "week", PLAN: "plan", PHASES: "phases", MORE: "more", DATA: "data", DETAIL: "detail", NUTRITION: "nutrition", INFO: "info", MARATHON: "marathon", TREADMILL: "treadmill", REVIEWS: "reviews" };
   const requestedTreadmillWorkoutId = new URLSearchParams(window.location.search).get("treadmill");
   const initialTreadmillWorkoutId = plan.workoutAliases?.[requestedTreadmillWorkoutId] || requestedTreadmillWorkoutId;
   let storageWriteBlocked = false;
@@ -51,6 +53,10 @@
     focusQueueUserBrowsing: false,
     focusCompletedExpanded: false,
     focusLastActiveIndex: -1,
+    reviewId: null,
+    reviewInstructionsOpen: false,
+    reviewMessage: "",
+    reviewCopyFallback: false,
   };
 
   let treadmillTimer = createIdleTimer();
@@ -148,6 +154,7 @@
       testResults: {},
       nutritionLogs: {},
       reportedActivities: {},
+      garminReviews: {},
       userSettings: {
         notificationDefaults: { ...notifications.DEFAULT_SETTINGS },
         notificationSettings: {},
@@ -244,7 +251,7 @@
     const empty = createEmptyAppData();
     if (!isObject(raw)) throw new Error("Opgeslagen data is geen app-object.");
     raw = JSON.parse(JSON.stringify(raw));
-    if (Number(raw.appDataVersion || 0) < APP_DATA_VERSION || raw.meta?.schemaVersion !== plan.config.schemaVersion) migrateFinalV9_2(raw);
+    if (raw.meta?.schemaVersion !== plan.config.schemaVersion) migrateFinalV9_2(raw);
     const data = {
       ...empty,
       ...raw,
@@ -255,9 +262,12 @@
       testResults: isObject(raw.testResults) ? raw.testResults : {},
       nutritionLogs: isObject(raw.nutritionLogs) ? raw.nutritionLogs : {},
       reportedActivities: isObject(raw.reportedActivities) ? raw.reportedActivities : {},
+      garminReviews: isObject(raw.garminReviews) ? raw.garminReviews : {},
       legacyData: isObject(raw.legacyData) ? raw.legacyData : {},
       meta: { ...empty.meta, ...(isObject(raw.meta) ? raw.meta : {}), schemaVersion: plan.config.schemaVersion },
     };
+
+    if (raw.garminReviews != null && !isObject(raw.garminReviews)) data.legacyData.previousGarminReviews = raw.garminReviews;
 
     const validIds = new Set((plan.allWorkouts || workouts).map((workout) => workout.workoutId));
     const currentLogs = {};
@@ -848,6 +858,150 @@
     </details>`;
   }
 
+  function reviewToday() {
+    const preview = new URLSearchParams(window.location.search).get("date");
+    return /^\d{4}-\d{2}-\d{2}$/.test(preview || "") ? preview : reviewModel.amsterdamDate();
+  }
+
+  function resolvedReviews() {
+    return reviewDefinitions.map(definition => reviewModel.resolve(definition, appData.garminReviews, appData.completedSessions, reviewToday()));
+  }
+
+  function reviewById(id) {
+    return resolvedReviews().find(review => review.reviewId === id);
+  }
+
+  function openReview(id, instructions = false) {
+    if (!reviewById(id)) return;
+    state.reviewId = id;
+    state.reviewInstructionsOpen = instructions;
+    state.reviewMessage = "";
+    state.reviewCopyFallback = false;
+    setView(VIEWS.REVIEWS);
+  }
+
+  function setReviewStatus(id, status) {
+    const review = reviewById(id);
+    if (!review || !["shared", "skipped", "pending"].includes(status) || storageWriteBlocked) return;
+    if (status === "shared" && !window.confirm("Bevestig: heb je het FIT- of ZIP-bestand daadwerkelijk gedeeld met ChatGPT? Dit verandert de trainingsstatus niet.")) return;
+    if (status === "skipped" && !window.confirm("Deze review bewust overslaan? Dit telt niet als gedeeld. De keuze blijft in de reviewgeschiedenis staan.")) return;
+    const timestamp = nowIso();
+    const previous = appData.garminReviews[id];
+    appData.garminReviews[id] = { ...review.record, reviewId:id, trainingId:review.trainingId, reviewType:review.reviewType, plannedDate:review.plannedDate, required:review.required, optional:review.optional, status,
+      sharedAt:status === "shared" ? timestamp : null, skippedAt:status === "skipped" ? timestamp : null, updatedAt:timestamp,
+      history:[...(Array.isArray(review.record.history) ? review.record.history : []), { status, at:timestamp }] };
+    if (!saveAppData()) {
+      if (previous === undefined) delete appData.garminReviews[id]; else appData.garminReviews[id] = previous;
+      state.reviewMessage = "Opslaan lukt niet; de reviewstatus is niet gewijzigd.";
+    } else state.reviewMessage = status === "shared" ? "Review gemarkeerd als gedeeld met ChatGPT." : status === "skipped" ? "Review bewust overgeslagen en bewaard in de geschiedenis." : "Review teruggezet naar openstaand.";
+    render();
+  }
+
+  function saveReviewField(id, field, value) {
+    const review = reviewById(id);
+    if (!review || storageWriteBlocked || !["rpe", "legs", "notes", "fueling", "fluids", "recovery"].includes(field)) return;
+    if (field === "rpe" && value !== "" && (!Number.isInteger(Number(value)) || Number(value) < 1 || Number(value) > 10)) return;
+    if (field === "legs" && !["", "goed", "normaal vermoeid", "zwaar"].includes(value)) return;
+    appData.garminReviews[id] = { ...review.record, reviewId:id, trainingId:review.trainingId, reviewType:review.reviewType, plannedDate:review.plannedDate, required:review.required, optional:review.optional, status:review.record.status || "pending", [field]:String(value), updatedAt:nowIso() };
+    saveAppData();
+  }
+
+  function reviewPrompt(review) {
+    return reviewModel.reviewText(review, workoutById(review.trainingId), plan, review.record);
+  }
+
+  async function copyReview(id) {
+    const review = reviewById(id);
+    if (!review) return;
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error("Klembord niet beschikbaar");
+      await navigator.clipboard.writeText(reviewPrompt(review));
+      state.reviewMessage = "Reviewtekst gekopieerd. Voeg zelf het FIT-bestand toe in ChatGPT.";
+      render();
+    } catch (_) {
+      openReview(id);
+      state.reviewCopyFallback = true;
+      state.reviewMessage = "Automatisch kopieren lukt hier niet. Selecteer en kopieer de reviewtekst hieronder.";
+      render();
+    }
+  }
+
+  function reviewActions(review, compact = false) {
+    const id = escapeAttr(review.reviewId);
+    return `<div class="review-actions">
+      ${compact ? `<button class="text-action" type="button" data-open-review="${id}" data-review-instructions>Bekijk uploadinstructies ${icon("chevron-right")}</button>` : ""}
+      <button class="text-action" type="button" data-copy-review="${id}">${icon("file-up")} Kopieer reviewtekst</button>
+      ${review.shared || review.skipped ? `<button class="text-action" type="button" data-review-status="pending" data-review-id="${id}">Terugzetten naar openstaand</button>` : `<button class="review-share" type="button" data-review-status="shared" data-review-id="${id}">${icon("circle-check")} Markeer als gedeeld${compact ? "" : " met ChatGPT"}</button><button class="text-action review-skip" type="button" data-review-status="skipped" data-review-id="${id}">Overslaan</button>`}
+    </div>`;
+  }
+
+  function renderReviewInstructions() {
+    return `<details class="info-accordion review-instructions" ${state.reviewInstructionsOpen ? "open" : ""}><summary><span>Hoe exporteer ik mijn FIT-bestand uit Garmin Connect?</span>${icon("chevron-down")}</summary><div><ol>
+      <li>Open <a href="https://connect.garmin.com/" target="_blank" rel="noopener noreferrer">Garmin Connect</a> in je browser.</li>
+      <li>Ga naar Activiteiten → Alle activiteiten.</li><li>Open de betreffende hardlooptraining.</li>
+      <li>Kies het tandwiel / instellingen rechtsboven.</li><li>Kies Exporteer bestand / Export Original.</li>
+      <li>Upload het gedownloade FIT- of ZIP-bestand zelf in je ChatGPT-gesprek, samen met de reviewtekst.</li><li>Markeer de review daarna hier als gedeeld.</li>
+      </ol><p>Gebruik de webversie; zoek op je iPhone zo nodig de desktopweergave of gebruik een computer.</p><a class="text-action" href="https://support.garmin.com/en-US/?faq=W1TvTPW8JZ6LfJSfK512Q8" target="_blank" rel="noopener noreferrer">Officiele Garmin-exportinstructies ${icon("chevron-right")}</a></div></details>`;
+  }
+
+  function renderReviewExperience(review) {
+    const long = ["endurance", "confidence", "race"].includes(review.reviewType);
+    const field = (name, label) => `<label>${label}<textarea rows="2" data-review-field="${name}" data-review-id="${escapeAttr(review.reviewId)}">${escapeHtml(review.record[name] || "")}</textarea></label>`;
+    return `<details class="info-accordion"><summary><span>Mijn ervaring <small>optioneel</small></span>${icon("chevron-down")}</summary><div class="review-fields">
+      <label>RPE · inspanning<select data-review-field="rpe" data-review-id="${escapeAttr(review.reviewId)}"><option value="">Niet ingevuld</option>${Array.from({length:10},(_,i)=>`<option value="${i+1}" ${Number(review.record.rpe) === i+1 ? "selected" : ""}>${i+1} / 10</option>`).join("")}</select></label>
+      <label>Beengevoel<select data-review-field="legs" data-review-id="${escapeAttr(review.reviewId)}"><option value="">Niet ingevuld</option>${["goed", "normaal vermoeid", "zwaar"].map(value=>`<option value="${value}" ${review.record.legs === value ? "selected" : ""}>${capitalize(value)}</option>`).join("")}</select></label>
+      ${field("notes", "Bijzonderheden")}${long ? field("fueling", "Voeding") + field("fluids", "Vochtinname") : ""}${field("recovery", "Herstel de volgende dag")}
+      <small>Wordt direct lokaal bewaard en meegenomen in de reviewtekst.</small></div></details>`;
+  }
+
+  function renderReviewPanel(workout, compact = true) {
+    const review = resolvedReviews().find(r => r.trainingId === workout.workoutId);
+    if (!review) return "";
+    return `<section class="garmin-review-panel ${compact ? "is-compact" : ""}" aria-label="${escapeAttr(review.label)}">
+      <div class="review-heading">${icon("file-up")}<div><span>Garmin Review${review.optional ? " · optioneel" : " · aanbevolen"}</span><strong>${escapeHtml(review.label)}</strong></div><span class="review-status ${review.shared ? "is-shared" : ""}">${escapeHtml(review.statusLabel)}</span></div>
+      <p>${review.shared ? "Handmatig bevestigd als gedeeld met ChatGPT." : review.skipped ? "Bewust overgeslagen; telt niet als gedeeld." : "Upload na deze training je FIT-bestand naar ChatGPT."}</p>
+      ${!review.shared && !review.skipped ? `<p class="review-purpose">Waarom? Hartslag, tempo, cadans en gecontroleerde uitvoering vergelijken.</p>` : ""}
+      ${review.record.sharedAt || review.record.skippedAt ? `<small>${review.shared ? "Gedeeld" : "Overgeslagen"}: ${escapeHtml(new Date(review.record.sharedAt || review.record.skippedAt).toLocaleString("nl-NL", {timeZone:"Europe/Amsterdam"}))}</small>` : ""}
+      ${reviewActions(review, compact)}
+      ${compact ? "" : `<p class="review-training-state">Training: ${review.performed ? "als uitgevoerd geregistreerd" : "uitvoering nog niet bevestigd"}. Reviewstatus is onafhankelijk; deze app ontvangt of analyseert geen FIT-bestanden.</p>${renderReviewExperience(review)}${renderReviewInstructions()}`}
+    </section>`;
+  }
+
+  function renderWeekReviews(week) {
+    const reviews = resolvedReviews().filter(r => r.weekNumber === week.weekNumber);
+    if (!reviews.length) return "";
+    const progress = reviewModel.progress(reviews);
+    return `<section class="week-reviews ${progress.shared === progress.total ? "is-shared" : ""}" aria-label="Garmin Reviews week ${week.weekNumber}"><div class="review-section-heading"><h2>${icon("file-up")} Garmin Reviews · Week ${week.weekNumber}</h2><strong>${progress.shared} van ${progress.total} gedeeld</strong></div>
+      <div class="progress-track" role="progressbar" aria-label="Reviewvoortgang" aria-valuemin="0" aria-valuemax="${progress.total}" aria-valuenow="${progress.shared}"><span style="width:${progress.shared/progress.total*100}%"></span></div>
+      ${reviews.map(review=>`<button class="review-summary-row" type="button" data-open-review="${escapeAttr(review.reviewId)}"><span><small>${escapeHtml(formatDate(review.plannedDate,{weekday:"long",day:"numeric",month:"long"}))}${review.optional ? " · optioneel" : ""}</small><strong>${escapeHtml(review.label)}</strong>${review.performed && !review.shared && !review.skipped ? `<small>Je Garmin-review staat nog open.</small>` : ""}</span><span>${escapeHtml(review.statusLabel)}${icon("chevron-right")}</span></button>`).join("")}
+      ${progress.skipped ? `<small>${progress.skipped} overgeslagen; niet meegeteld als gedeeld.</small>` : ""}</section>`;
+  }
+
+  function renderReviewReminder() {
+    const overdue = resolvedReviews().filter(r=>r.overdue);
+    if (!overdue.length) return "";
+    const weekNumbers = [...new Set(overdue.map(r=>r.weekNumber))];
+    return `<section class="review-reminder" aria-label="Openstaande Garmin Reviews"><h2>${icon("file-up")} Garmin Reviews staan nog open</h2><p>Je hebt nog ${overdue.length} ${overdue.length === 1 ? "Garmin Review" : "Garmin Reviews"} openstaan uit ${weekNumbers.length === 1 ? `week ${weekNumbers[0]}` : `weken ${weekNumbers.join(", ")}`}.</p>
+      ${overdue.slice(0,3).map(review=>`<div class="review-reminder-item"><strong>Week ${review.weekNumber} · ${escapeHtml(review.label)}</strong><small>${escapeHtml(formatDate(review.plannedDate))}${review.performed ? " · training uitgevoerd" : " · uitvoering niet bevestigd"}</small><div class="review-actions"><button class="text-action" type="button" data-open-review="${escapeAttr(review.reviewId)}">Bekijk review ${icon("chevron-right")}</button><button class="text-action" type="button" data-review-status="shared" data-review-id="${escapeAttr(review.reviewId)}">Markeer als gedeeld</button><button class="text-action" type="button" data-review-status="skipped" data-review-id="${escapeAttr(review.reviewId)}">Overslaan</button></div></div>`).join("")}
+      <button class="text-action" type="button" data-view="reviews">Alle Garmin Reviews ${icon("chevron-right")}</button></section>`;
+  }
+
+  function renderReviews() {
+    const selected = reviewById(state.reviewId);
+    if (selected) {
+      const workout = workoutById(selected.trainingId);
+      app.innerHTML = `<button class="text-action" type="button" data-view="reviews">${icon("chevron-left")} Alle reviews</button><header class="page-header"><span>Week ${selected.weekNumber} · ${escapeHtml(formatDate(selected.plannedDate,{day:"numeric",month:"long"}))}</span><h1>${escapeHtml(selected.label)}</h1><p>${escapeHtml(workout.title)} · ${escapeHtml(workout.totalPlannedLabel)}</p></header>
+        <div class="review-detail">${renderReviewPanel(workout,false)}</div><button class="text-action" type="button" data-open-workout="${escapeAttr(workout.workoutId)}">Bekijk de training ${icon("chevron-right")}</button>
+        ${state.reviewCopyFallback ? `<label class="review-copy-fallback">Reviewtekst<textarea rows="12" readonly aria-label="Reviewtekst om te kopieren">${escapeHtml(reviewPrompt(selected))}</textarea></label>` : ""}`;
+      return;
+    }
+    const reviews = resolvedReviews();
+    const groups = [["Openstaande reviews",reviews.filter(r=>!r.shared&&!r.skipped&&!r.upcoming)],["Komende reviews",reviews.filter(r=>!r.shared&&!r.skipped&&r.upcoming)],["Gedeelde reviews",reviews.filter(r=>r.shared)],["Overgeslagen reviews",reviews.filter(r=>r.skipped)]];
+    const recommended = reviewModel.progress(reviews.filter(r=>r.required));
+    app.innerHTML = `<header class="page-header"><span>Marathon 3:50 · handmatig delen</span><h1>Garmin Reviews</h1><p>${recommended.shared} van ${recommended.total} aanbevolen reviews gedeeld. Training voltooid en review gedeeld blijven apart.</p></header><p class="review-capability">Herinneringen verschijnen hier en op Vandaag zodra je de app opent. Geen wekelijkse browser- of pushmelding buiten de app.</p>
+      ${groups.map(([label,items])=>`<section class="review-overview-group"><h2>${label} <small>${items.length}</small></h2>${items.length ? items.map(review=>{const workout=workoutById(review.trainingId);return `<button class="review-summary-row" type="button" data-open-review="${escapeAttr(review.reviewId)}"><span><small>Week ${review.weekNumber} · ${escapeHtml(formatDate(review.plannedDate))}${review.optional ? " · optioneel" : ""}</small><strong>${escapeHtml(review.label)}</strong><small>${escapeHtml(workout.title)} · ${escapeHtml(workout.totalPlannedLabel)}</small></span><span>${escapeHtml(review.overdue ? "Nog open" : review.statusLabel)}${icon("chevron-right")}</span></button>`;}).join("") : `<p class="review-empty">Geen reviews in deze categorie.</p>`}</section>`).join("")}`;
+  }
+
 
   function renderToday() {
     const date = appDateIso();
@@ -865,7 +1019,7 @@
       const following = orderedWorkouts(week).filter((item) => !isCompleted(item.workoutId))[1];
       content = workout ? `<div class="today-focus">${renderTrainingCard(workout)}</div><div class="today-week-progress"><span>Deze week</span><strong>${completed}/${week.workouts.length} voltooid</strong><div class="progress-track" role="progressbar" aria-label="Weekvoortgang" aria-valuemin="0" aria-valuemax="${week.workouts.length}" aria-valuenow="${completed}"><span style="width:${completed / week.workouts.length * 100}%"></span></div></div>${following ? `<section class="today-up-next"><span>Daarna in deze week</span><button type="button" data-open-week="${currentPlanWeekIndex()}"><span><strong>${escapeHtml(workoutSequenceLabel(following))}</strong><small>${escapeHtml(following.title)}</small></span><span>${escapeHtml(following.totalPlannedLabel)} ${icon("chevron-right")}</span></button></section>` : ""}<p class="today-planning-note">Jij kiest wanneer je traint en rust neemt.</p>` : `<section class="today-state">${icon("circle-check")}<strong>Week voltooid</strong><p>Alle trainingen van week ${week.weekNumber} zijn afgerond. Tijd voor herstel en normale dagelijkse beweging.</p><button class="text-action" type="button" data-open-week="${currentPlanWeekIndex()}">Bekijk de week ${icon("chevron-right")}</button></section>`;
     }
-    app.innerHTML = `<header class="page-header today-header"><div><span>${escapeHtml(formatDate(date, { day: "numeric", month: "long" }))}</span><h1>Vandaag</h1></div><button class="today-week-link" type="button" data-open-week="${currentPlanWeekIndex()}">Week ${week.weekNumber} ${icon("chevron-right")}</button></header><p class="today-phase">${escapeHtml(week.weekType)}</p>${content}`;
+    app.innerHTML = `<header class="page-header today-header"><div><span>${escapeHtml(formatDate(date, { day: "numeric", month: "long" }))}</span><h1>Vandaag</h1></div><button class="today-week-link" type="button" data-open-week="${currentPlanWeekIndex()}">Week ${week.weekNumber} ${icon("chevron-right")}</button></header><p class="today-phase">${escapeHtml(week.weekType)}</p>${renderReviewReminder()}${content}`;
   }
 
   function renderWeek() {
@@ -890,6 +1044,7 @@
         <p class="week-goal">${week.distanceEstimate ? `${escapeHtml(distanceEstimateLabel(week))}<br>` : ""}Rust: ${escapeHtml(week.restDays.join(" en "))}</p>
         <div class="week-completion"><div class="progress-track" role="progressbar" aria-label="Weekvoortgang" aria-valuemin="0" aria-valuemax="${week.workouts.length}" aria-valuenow="${completed}"><span style="width:${week.workouts.length ? completed / week.workouts.length * 100 : 0}%"></span></div><span>${completed}/${week.workouts.length} voltooid</span></div>
       </section>
+      ${renderWeekReviews(week)}
       <section class="training-list" aria-label="Trainingen in week ${week.weekNumber}">${week.workouts.map((workout) => renderTrainingCard(workout)).join("")}</section>
       <details class="info-accordion week-context"><summary><span>Planning en herstel</span>${icon("chevron-down")}</summary><div><p>${escapeHtml(week.periodLabel)}</p><p>${escapeHtml(getWeekPlannedLabel(week))}</p>${week.distanceEstimate ? `<p>${escapeHtml(distanceEstimateLabel(week))}. Rekenaanname easy 6:00–6:30/km (middenvoorbeeld 6:15) en MP 5:24–5:30/km; rustiger lopen mag.</p>` : ""}<ul>${plan.guidance.scheduling.map((rule) => `<li>${escapeHtml(rule)}</li>`).join("")}</ul><p>De nummers identificeren trainingen, geen verplichte weekdagen. Alleen W41 bevat een fietsrit, bij voorkeur op donderdag.</p></div></details>
       ${renderWeekPhilosophy(week)}
@@ -1061,6 +1216,7 @@
           ${renderRecordedResult(workout, true)}
           ${workout.labels.includes("OPTIONEEL") ? '<span class="semantic-badge">Optioneel</span>' : ""}
         </button>
+        ${renderReviewPanel(workout)}
         <div class="training-start-actions">
           <button class="text-action" type="button" data-open-garmin="${workout.workoutId}">${icon(workout.activityType === "bike" ? "bike" : "route")}${workout.activityType === "bike" ? "Fietsopbouw" : workout.activityType === "race" ? "Garmin-raceplan" : "Garmin"}</button>
           ${workout.treadmillAvailable ? `<button class="text-action" type="button" data-open-treadmill="${workout.workoutId}">${icon("play")} Loopband</button>` : ""}
@@ -1087,6 +1243,7 @@
       ${workout.distanceEstimate ? `<p class="detail-context">${escapeHtml(distanceEstimateLabel(workout))}. Aanname: easy 6:00–6:30/km (middenvoorbeeld 6:15), MP 5:24–5:30/km; geen tempovoorschrift voor easy.</p>` : ""}
       ${workout.preferredDate ? `<p class="detail-context">${workout.activityType === "race" ? "Racedatum" : "Voorkeursdatum"}: ${escapeHtml(formatDate(workout.preferredDate, { weekday: "long", day: "numeric", month: "long" }))}${workout.activityType === "race" ? "" : " · verschuiven kan met de spreidingsregels"}</p>` : ""}
       ${renderRecordedResult(workout)}
+      ${renderReviewPanel(workout)}
       ${appData.completedSessions[workout.workoutId]?.carriedFromWorkoutId ? `<p class="garmin-reference-note">Deze ongewijzigde sessie is al uitgevoerd onder ${escapeHtml(appData.completedSessions[workout.workoutId].carriedFromWorkoutId)}. De oorspronkelijke registratie blijft in Data → Behouden geschiedenis; dit is geen nieuwe V9.2-uitvoering.</p>` : ""}
       ${renderExecutionModeSwitch(workout, mode)}
       ${workout.garmin ? (mode === "garmin" ? renderGarminSetup(workout) : renderTreadmillDetails(workout)) : workout.outdoorSimpleMode ? renderOutdoorSimpleOverview(workout) : `<div class="detail-section"><h3>Exacte opbouw</h3><div class="segment-groups">${(workout.groups || []).map(renderSegmentGroup).join("")}</div></div>`}
@@ -1743,7 +1900,7 @@
   }
 
   function renderMore() {
-    const links = [[VIEWS.MARATHON, "Marathonoverzicht", "Countdown, voortgang en volgende training", "route"], [VIEWS.PHASES, "Fases", "Herstel, opbouw en taper", "layers"], [VIEWS.NUTRITION, "Voeding & herstel", "Long runs, racevoorraad en vertrouwde routine", "info"], [VIEWS.INFO, "Informatie", "Garmin, checkpoints en raceplan", "info"], [VIEWS.DATA, "Data & app", "Backup, diagnose en app bijwerken", "layers"]];
+    const links = [[VIEWS.MARATHON, "Marathonoverzicht", "Countdown, voortgang en volgende training", "route"], [VIEWS.REVIEWS, "Garmin Reviews", "Delen, ervaringen en openstaande reviews", "file-up"], [VIEWS.PHASES, "Fases", "Herstel, opbouw en taper", "layers"], [VIEWS.NUTRITION, "Voeding & herstel", "Long runs, racevoorraad en vertrouwde routine", "info"], [VIEWS.INFO, "Informatie", "Garmin, checkpoints en raceplan", "info"], [VIEWS.DATA, "Data & app", "Backup, diagnose en app bijwerken", "layers"]];
     app.innerHTML = `<header class="page-header"><span>Marathon 3:50</span><h1>Meer</h1></header><section class="more-list">${links.map(([view, label, detail, symbol]) => `<button type="button" data-view="${view}">${icon(symbol)}<span><strong>${label}</strong><small>${detail}</small></span>${icon("chevron-right")}</button>`).join("")}</section><footer class="app-version">Versie ${APP_VERSION} · FINAL V9.2</footer>`;
   }
 
@@ -1909,7 +2066,7 @@
     state.view = Object.values(VIEWS).includes(view) ? view : VIEWS.TODAY;
     state.expandedWorkoutIds.clear();
     navButtons.forEach((button) => {
-      const active = button.dataset.view === state.view || (button.dataset.view === VIEWS.MORE && [VIEWS.PHASES, VIEWS.INFO, VIEWS.DATA, VIEWS.NUTRITION, VIEWS.MARATHON].includes(state.view));
+      const active = button.dataset.view === state.view || (button.dataset.view === VIEWS.MORE && [VIEWS.PHASES, VIEWS.INFO, VIEWS.DATA, VIEWS.NUTRITION, VIEWS.MARATHON, VIEWS.REVIEWS].includes(state.view));
       button.classList.toggle("is-active", active);
       if (active) button.setAttribute("aria-current", "page");
       else button.removeAttribute("aria-current");
@@ -1930,13 +2087,26 @@
     else if (state.view === VIEWS.DETAIL) renderWorkoutDetail();
     else if (state.view === VIEWS.NUTRITION) renderNutrition();
     else if (state.view === VIEWS.INFO) renderInfo();
+    else if (state.view === VIEWS.REVIEWS) renderReviews();
     else if (state.view === VIEWS.WEEK) renderWeek();
     else renderToday();
+    if (state.reviewMessage && state.view !== VIEWS.TREADMILL) app.innerHTML += `<p class="review-feedback" role="status">${escapeHtml(state.reviewMessage)}</p>`;
   }
 
   document.addEventListener("click", (event) => {
     const viewButton = event.target.closest("[data-view]");
-    if (viewButton) return setView(viewButton.dataset.view);
+    if (viewButton) {
+      state.reviewMessage = "";
+      if (viewButton.dataset.view === VIEWS.REVIEWS) { state.reviewId = null; state.reviewCopyFallback = false; }
+      return setView(viewButton.dataset.view);
+    }
+
+    const openReviewButton = event.target.closest("[data-open-review]");
+    if (openReviewButton) return openReview(openReviewButton.dataset.openReview, openReviewButton.hasAttribute?.("data-review-instructions"));
+    const reviewStatus = event.target.closest("[data-review-status][data-review-id]");
+    if (reviewStatus) return setReviewStatus(reviewStatus.dataset.reviewId,reviewStatus.dataset.reviewStatus);
+    const reviewCopy = event.target.closest("[data-copy-review]");
+    if (reviewCopy) return copyReview(reviewCopy.dataset.copyReview);
 
     const open = event.target.closest("[data-open-workout]");
     if (open) return openWorkout(open.dataset.openWorkout);
@@ -2098,6 +2268,10 @@
   });
 
   document.addEventListener("change", async (event) => {
+    if (event.target.matches("[data-review-field][data-review-id]")) {
+      saveReviewField(event.target.dataset.reviewId,event.target.dataset.reviewField,event.target.value);
+      return;
+    }
     if (event.target.matches("[data-import-backup]")) {
       const file = event.target.files?.[0];
       if (!file) return;
@@ -2114,6 +2288,10 @@
       state.viewedWeekIndex = Number(event.target.value);
       renderWeek();
     }
+  });
+
+  document.addEventListener("input", (event) => {
+    if (event.target.matches("textarea[data-review-field][data-review-id]")) saveReviewField(event.target.dataset.reviewId,event.target.dataset.reviewField,event.target.value);
   });
 
   document.addEventListener("keydown", (event) => {
@@ -2140,7 +2318,7 @@
     } else if (state.view === VIEWS.TREADMILL && treadmillTimer.status === "running") {
       requestScreenWakeLock();
       updateTreadmillTimerUi();
-    }
+    } else if ([VIEWS.TODAY,VIEWS.WEEK,VIEWS.REVIEWS].includes(state.view)) render();
   });
   window.addEventListener("pagehide", () => {
     saveAppData();
@@ -2220,5 +2398,9 @@
     exportAppData,
     prepareImport,
     confirmImport,
+    resolvedReviews,
+    setReviewStatus,
+    saveReviewField,
+    reviewPrompt,
   };
 })();
